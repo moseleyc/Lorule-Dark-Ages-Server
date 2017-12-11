@@ -1,0 +1,11 @@
+{
+  "$type": "Darkages.Area, Darkages.Server",
+  "Music": 2,
+  "ScriptKey": "Mileth",
+  "Rows": 100,
+  "Cols": 100,
+  "Number": 500,
+  "ID": 500,
+  "Name": "Mileth",
+  "Flags": 2
+}

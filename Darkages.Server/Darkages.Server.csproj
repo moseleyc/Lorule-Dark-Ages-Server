@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12BAB501-FFC0-45D7-BF79-C9E52488F7D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Darkages</RootNamespace>
+    <AssemblyName>Darkages.Server</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Staging\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Staging\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>include\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>include\zlib.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\Generator.cs" />
+    <Compile Include="Common\Predicate.cs" />
+    <Compile Include="Common\TSList.cs" />
+    <Compile Include="Compression\CompressableObject.cs" />
+    <Compile Include="Compression\CompressionProvider.cs" />
+    <Compile Include="IO\BufferReader.cs" />
+    <Compile Include="IO\BufferWriter.cs" />
+    <Compile Include="IO\CRC16.cs" />
+    <Compile Include="IO\Crc16Provider.cs" />
+    <Compile Include="IO\Crc32Provider.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat00.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat02.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat03.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat04.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat05.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat06.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat07.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat08.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat0B.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat0E.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat0F.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat10.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat11.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat13.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat18.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat1C.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat1D.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat24.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat26.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat2D.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat2E.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat30.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat38.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat39.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat3A.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat3E.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat43.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat44.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat45.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat47.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat4B.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat4D.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat4E.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat4F.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat57.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat68.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat75.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat7B.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat89.cs" />
+    <Compile Include="Network\ClientFormats\Undefined.cs" />
+    <Compile Include="Network\Game\Components\DaytimeComponent.cs" />
+    <Compile Include="Network\Game\Components\MessageComponent.cs" />
+    <Compile Include="Network\Game\Components\MonolithComponent.cs" />
+    <Compile Include="Network\Game\Components\MundaneComponent.cs" />
+    <Compile Include="Network\Game\Components\ObjectComponent.cs" />
+    <Compile Include="Network\Game\Components\PingComponent.cs" />
+    <Compile Include="Network\Game\GameClient.cs" />
+    <Compile Include="Network\Game\GameServer.cs" />
+    <Compile Include="Network\Game\GameServerComponent.cs" />
+    <Compile Include="Network\Game\GameServerHandlers.cs" />
+    <Compile Include="Network\Game\GameServerTimer.cs" />
+    <Compile Include="Network\Game\ServerConstants.cs" />
+    <Compile Include="Network\IFormattable.cs" />
+    <Compile Include="Network\IPAttribute.cs" />
+    <Compile Include="Network\Login\LoginClient.cs" />
+    <Compile Include="Network\Login\LoginServer.cs" />
+    <Compile Include="Network\NetworkClient.cs" />
+    <Compile Include="Network\NetworkFormat.cs" />
+    <Compile Include="Network\NetworkFormatManager.cs" />
+    <Compile Include="Network\NetworkPacket.cs" />
+    <Compile Include="Network\NetworkPacketReader.cs" />
+    <Compile Include="Network\NetworkPacketWriter.cs" />
+    <Compile Include="Network\NetworkServer.cs" />
+    <Compile Include="Network\NetworkSocket.cs" />
+    <Compile Include="Network\Object\ObjectEvent.cs" />
+    <Compile Include="Network\Object\ObjectManager.cs" />
+    <Compile Include="Network\Object\ObjectService.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat00.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat02.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat03.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat04.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat05.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat07.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat08.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0A.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0B.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0C.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0D.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0E.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat0F.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat10.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat11.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat13.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat15.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat17.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat18.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat19.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat1A.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat20.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat29.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat2C.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat2D.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat2E.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat2F.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat30.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat32.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat33.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat34.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat36.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat37.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat38.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat39.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat3A.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat3B.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat3C.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat3F.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat48.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat49.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat4C.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat56.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat60.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat66.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat67.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat6F.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat73.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat7E.cs" />
+    <Compile Include="Network\ServerFormats\Undefined.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\GlobalScript.cs" />
+    <Compile Include="Scripting\ItemScript.cs" />
+    <Compile Include="Scripting\MapScript.cs" />
+    <Compile Include="Scripting\MonsterScript.cs" />
+    <Compile Include="Scripting\MundaneScript.cs" />
+    <Compile Include="Scripting\SpellScript.cs" />
+    <Compile Include="Storage\AislingStorage.cs" />
+    <Compile Include="Storage\AreaStorage.cs" />
+    <Compile Include="Storage\IStorage.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_ardcradh.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_beagcradh.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_cradh.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_cursed.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_frozen.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_morcradh.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_sleep.cs" />
+    <Compile Include="Storage\locales\Scripts\Areas\Barrens.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Areas\Mileth.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Areas\Arena.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Global\GrimReaper.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\darkbonenecklace.cs" />
+    <Compile Include="Storage\locales\Scripts\Items\dirk.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\holydiana.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\milethscroll.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\shirt.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\woodenshield.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Monsters\CommonMagicalMonster.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Monsters\CommonMonster.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\ArenaMaster.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\BarrenLord.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\buffgiver.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\ClassChooser.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\GrandMaster01.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\TestMundane.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\shop1.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Charge.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Crasher.cs" />
+    <Compile Include="Storage\locales\Scripts\Skills\Destroyer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Ambush.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\KelberothStrike.cs" />
+    <Compile Include="Storage\locales\Scripts\Skills\wff.cs" />
+    <Compile Include="Storage\locales\Scripts\Skills\WindBlade.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\DoublePunch.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Assail.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Sneak.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\ard_cradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\beagiocfein.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\buffs\buff_dion.cs" />
+    <Compile Include="Storage\locales\Scripts\Spells\cradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\beag_cradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\dion.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\mor_cradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\pramh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\StorageManager.cs" />
+    <Compile Include="Storage\TemplateStorage.cs" />
+    <Compile Include="Types\ActivityStatus.cs" />
+    <Compile Include="Types\AislingFlags.cs" />
+    <Compile Include="Types\BarColors.cs" />
+    <Compile Include="Types\BodySprite.cs" />
+    <Compile Include="Types\Buff.cs" />
+    <Compile Include="Types\CastInfo.cs" />
+    <Compile Include="Types\Class.cs" />
+    <Compile Include="Types\ClassStage.cs" />
+    <Compile Include="Types\Debuff.cs" />
+    <Compile Include="Types\Direction.cs" />
+    <Compile Include="Types\ElementManager.cs" />
+    <Compile Include="Types\ElementQualifer.cs" />
+    <Compile Include="Types\EquipmentManager.cs" />
+    <Compile Include="Types\EquipmentSlot.cs" />
+    <Compile Include="Types\Gender.cs" />
+    <Compile Include="Types\GroupStatus.cs" />
+    <Compile Include="Types\Inventory.cs" />
+    <Compile Include="Types\Item.cs" />
+    <Compile Include="Types\ItemFlags.cs" />
+    <Compile Include="Types\Legend.cs" />
+    <Compile Include="Types\LegendColor.cs" />
+    <Compile Include="Types\LegendIcon.cs" />
+    <Compile Include="Types\LootQualifer.cs" />
+    <Compile Include="Types\MapFlags.cs" />
+    <Compile Include="Types\MapKeyPair.cs" />
+    <Compile Include="Types\MetafileNode.cs" />
+    <Compile Include="Types\Money.cs" />
+    <Compile Include="Types\MoneySprites.cs" />
+    <Compile Include="Types\MoodQualifer.cs" />
+    <Compile Include="Types\MServer.cs" />
+    <Compile Include="Types\Mundane.cs" />
+    <Compile Include="Types\MundaneTemplate.cs" />
+    <Compile Include="Types\NormalPopup.cs" />
+    <Compile Include="Types\Pane.cs" />
+    <Compile Include="Types\Party.cs" />
+    <Compile Include="Types\PartyMember.cs" />
+    <Compile Include="Types\PathQualifer.cs" />
+    <Compile Include="Types\Popup.cs" />
+    <Compile Include="Types\PostQualifer.cs" />
+    <Compile Include="Types\PreQualifer.cs" />
+    <Compile Include="Types\RewardTemplate.cs" />
+    <Compile Include="Scripting\ScriptManager.cs" />
+    <Compile Include="Scripting\SkillScript.cs" />
+    <Compile Include="Security\SecurityParameters.cs" />
+    <Compile Include="Security\SecurityProvider.cs" />
+    <Compile Include="ServerContext.cs" />
+    <Compile Include="Types\Aisling.cs" />
+    <Compile Include="Types\Area.cs" />
+    <Compile Include="Types\ItemSlots.cs" />
+    <Compile Include="Types\ItemTemplate.cs" />
+    <Compile Include="Types\Metafile.cs" />
+    <Compile Include="Types\MetafileCollection.cs" />
+    <Compile Include="Types\MetafileManager.cs" />
+    <Compile Include="Types\Monster.cs" />
+    <Compile Include="Types\MonsterTemplate.cs" />
+    <Compile Include="Types\MServerTable.cs" />
+    <Compile Include="Types\Notification.cs" />
+    <Compile Include="Types\Position.cs" />
+    <Compile Include="Types\Redirect.cs" />
+    <Compile Include="Types\Scope.cs" />
+    <Compile Include="Types\Skill.cs" />
+    <Compile Include="Types\SkillBook.cs" />
+    <Compile Include="Types\SkillModifiers.cs" />
+    <Compile Include="Types\SkillPane.cs" />
+    <Compile Include="Types\SkillScope.cs" />
+    <Compile Include="Types\SkillTemplate.cs" />
+    <Compile Include="Types\SKillTier.cs" />
+    <Compile Include="Types\SpawnQualifer.cs" />
+    <Compile Include="Types\Spell.cs" />
+    <Compile Include="Types\SpellBook.cs" />
+    <Compile Include="Types\SpellOperator.cs" />
+    <Compile Include="Types\SpellTemplate.cs" />
+    <Compile Include="Types\Sprite.cs" />
+    <Compile Include="Types\Stat.cs" />
+    <Compile Include="Types\StatusFlags.cs" />
+    <Compile Include="Types\StatusOperator.cs" />
+    <Compile Include="Types\Step.cs" />
+    <Compile Include="Types\TargetQualifiers.cs" />
+    <Compile Include="Types\Template.cs" />
+    <Compile Include="Types\TileContent.cs" />
+    <Compile Include="Types\WarpTemplate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="include\Newtonsoft.Json.dll" />
+    <Content Include="include\Newtonsoft.Json.xml" />
+    <Content Include="include\zlib.net.dll" />
+    <None Include="include\ZTn.Json.JsonTreeView.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MServerTable.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Notification.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo5">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo6">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\ItemInfo7">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\Light">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\NationDesc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\NPCIllust">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SClass1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SClass2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SClass3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SClass4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SClass5">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent5">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent6">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Storage\locales\metafile\SEvent7">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="server.tbl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="sotp.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

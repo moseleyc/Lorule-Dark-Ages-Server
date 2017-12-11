@@ -1,0 +1,14 @@
+{
+  "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
+  "Icon": 83,
+  "MaxLevel": 100,
+  "ScriptKey": "mor cradh",
+  "MinLines": 0,
+  "MaxLines": 9,
+  "ManaCost": 160,
+  "Text": "\u0000",
+  "TargetType": 2,
+  "BaseLines": 3,
+  "ImproveRate": 0.6,
+  "Name": "mor cradh"
+}

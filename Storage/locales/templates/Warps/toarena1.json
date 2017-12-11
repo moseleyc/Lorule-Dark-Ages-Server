@@ -1,0 +1,28 @@
+{
+  "$type": "Darkages.Types.WarpTemplate, Darkages.Server",
+  "Destination": {
+    "$type": "Darkages.Area, Darkages.Server",
+    "Music": 7,
+    "ScriptKey": "Lorule Arena",
+    "Rows": 55,
+    "Cols": 55,
+    "Number": 509,
+    "ID": 509,
+    "Name": "Lorule Arena",
+    "Flags": 16384
+  },
+  "LevelRequired": 3,
+  "Location": {
+    "$type": "Darkages.Types.Position, Darkages.Server",
+    "X": 50,
+    "Y": 50
+  },
+  "DestinationPosition": {
+    "$type": "Darkages.Types.Position, Darkages.Server",
+    "X": 26,
+    "Y": 26
+  },
+  "WarpRadius": 0,
+  "AreaID": 500,
+  "Name": "ToArena1"
+}

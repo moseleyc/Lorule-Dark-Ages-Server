@@ -1,0 +1,33 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 1,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 1,
+  "DisplayImage": 32860,
+  "ScriptName": "wooden shield",
+  "Gender": 255,
+  "AcModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 10
+  },
+  "MrModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 30
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Weight": 0,
+  "Flags": 77,
+  "MaxDurability": 0,
+  "Value": 500,
+  "EquipmentSlot": 3,
+  "NpcKey": "shop1",
+  "Class": 0,
+  "LevelRequired": 1,
+  "DmgMin": 0,
+  "DmgMax": 0,
+  "Name": "Wooden Shield"
+}

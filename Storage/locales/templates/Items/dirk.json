@@ -1,0 +1,38 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 1,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 1,
+  "DisplayImage": 32859,
+  "ScriptName": "Dirk",
+  "Gender": 255,
+  "HealthModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 150
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 5
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 5
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Weight": 0,
+  "Flags": 77,
+  "MaxDurability": 0,
+  "Value": 500,
+  "EquipmentSlot": 1,
+  "NpcKey": "shop1",
+  "Class": 0,
+  "LevelRequired": 1,
+  "DmgMin": 11,
+  "DmgMax": 16,
+  "Name": "Dirk"
+}

@@ -1,0 +1,1 @@
+{"$type":"Darkages.Types.SpellTemplate, Darkages.Server","Icon":90,"MaxLevel":100,"ScriptKey":"pramh","BaseLines":3,"MinLines":1,"MaxLines":9,"ManaCost":20,"Scope":2,"TargetType":2,"Family":0,"Text":"","Name":"pramh"}

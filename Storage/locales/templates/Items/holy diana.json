@@ -1,0 +1,31 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 1,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 185,
+  "DisplayImage": 32953,
+  "ScriptName": "Holy Diana",
+  "Gender": 255,
+  "SpellOperator": {
+    "$type": "Darkages.Types.SpellOperator, Darkages.Server",
+    "Scope": 3,
+    "Option": 2,
+    "Value": 3,
+    "MinValue": 0,
+    "MaxValue": 9
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Weight": 0,
+  "Flags": 93,
+  "MaxDurability": 0,
+  "Value": 10,
+  "EquipmentSlot": 1,
+  "NpcKey": "shop1",
+  "Class": 4,
+  "LevelRequired": 6,
+  "DmgMin": 0,
+  "DmgMax": 0,
+  "Name": "Holy Diana"
+}

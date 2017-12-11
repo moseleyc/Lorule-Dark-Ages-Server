@@ -1,0 +1,43 @@
+{
+  "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
+  "ID": 0,
+  "Image": 0x4095,
+  "ScriptName": "Common Monster",
+  "DefinedX": 28,
+  "DefinedY": 28,
+  "Exponent": 0.0,
+  "Coponent": 0.0,
+  "Factor": 0.0,
+  "LootType": 1,
+  "MoodTyle": 3,
+  "SpawnType": 2,
+  "ElementType": 1,
+  "PathQualifer": 1,
+  "Level": 2,
+  "MaximumHP": 200,
+  "MaximumMP": 200,
+  "SpawnerID": 0,
+  "AreaID": 509,
+  "RegenSpeed": 0,
+  "MovementSpeed": 1050,
+  "CastSpeed": 3000,
+  "ArmorClass": 0,
+  "MagicResist": 20,
+  "SpawnMax": 64,
+  "SpawnRate": 1,
+  "SpawnSize": 64,
+  "AttackSpeed": 1750,
+  "ImageVarience": 0,
+  "SpawnOnlyOnActiveMaps": false,
+  "UpdateMapWide": false,
+  "Grow": false,
+  "SpellScripts": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "beag cradh",
+      "beag ioc fein",
+      "dion"
+    ]
+  },
+  "Name": "Rat"
+}

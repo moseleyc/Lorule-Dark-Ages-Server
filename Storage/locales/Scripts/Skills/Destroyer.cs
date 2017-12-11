@@ -1,0 +1,78 @@
+﻿using Darkages.Network.Game;
+using Darkages.Network.ServerFormats;
+using Darkages.Types;
+using System.Linq;
+
+namespace Darkages.Scripting.Scripts.Skills
+{
+    [Script("Destroyer", "Dean")]
+    public class Destroyer : SkillScript
+    {
+        public Skill _skill;
+        public Sprite Target;
+
+        public Destroyer(Skill skill) : base(skill)
+        {
+            _skill = skill;
+        }
+
+        public override void OnFailed(Sprite sprite)
+        {
+            if (sprite is Aisling)
+            {
+                var client = (sprite as Aisling).Client;
+                if (Target != null)
+                {
+                    client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29(Skill.Template.MissAnimation, (ushort)Target.X, (ushort)Target.Y)));
+                }
+            }
+        }
+
+        public override void OnSuccess(Sprite sprite)
+        {
+            
+        }
+
+        public override void OnUse(Sprite sprite)
+        {
+            if (sprite is Aisling)
+            {
+                var client = (sprite as Aisling).Client;
+                if (client.Aisling != null)
+                {
+                    DestroyAll(client);
+                }
+            }
+        }
+
+        public void DestroyAll(GameClient client)
+        {
+            var objects = GetObjects(i => i.CurrentMapId == client.Aisling.CurrentMapId, Get.Monsters);
+
+            var action = new ServerFormat1A
+            {
+                Serial = client.Aisling.Serial,
+                Number = 0x02,
+                Speed = 40
+            };
+
+            client.Aisling.Show(Scope.NearbyAislings, action);
+
+            foreach (var obj in objects)
+            {
+                (obj as Monster).Target = client.Aisling;
+                (obj as Monster).GiveExperienceTo(client.Aisling);
+
+                var hpbar = new ServerFormat13
+                {
+                    Serial = obj.Serial,
+                    Health = 0,
+                    Sound = 45
+                };
+
+                client.Aisling.Show(Scope.NearbyAislings, hpbar);
+                DelObjects<Monster>(objects.Cast<Monster>().ToArray());
+            }
+        }
+    }
+}
