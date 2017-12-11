@@ -8,10 +8,7 @@ out-of-the-box Sand box Server For Dark Ages Client 7.18
 
 
 ## About This Project:
-This project actually started around 8 years ago.
-It was called Project Jet, a Legends of Darkness Private Server.
-It was written by Adam Becker and Myself. Shortly after this, Myself and Adam ended up cancelling the project development.
-I've recently decided to complete this project. so here we go!
+A Darkages Server Project - For client 7.18 Only. (Customized Client will be available soon! (Major Changes!))
 
 
 ## Project Design Overview.
