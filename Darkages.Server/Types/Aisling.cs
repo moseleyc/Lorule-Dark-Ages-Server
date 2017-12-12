@@ -106,6 +106,13 @@ namespace Darkages
         public byte Nation { get; set; }
         public string Clan { get; set; }
 
+        public List<Quest<ItemTemplate>> CurrentHandInQuests
+            = new List<Quest<ItemTemplate>>();
+
+        public List<Quest<MonsterTemplate>> CurrentKillQuests
+            = new List<Quest<MonsterTemplate>>();
+
+
         public Aisling()
         {
             OffenseElement = ElementManager.Element.None;

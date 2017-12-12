@@ -1,17 +1,20 @@
-﻿using Darkages.Types;
+﻿using Darkages.Network.Game;
+using Darkages.Types;
 
 namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat30 : NetworkFormat
     {
+        private GameClient _client;
         public override bool Secured => true;
         public override byte Command => 0x30;
 
-        private Step Step { get; set; }
+        public Dialog Sequence { get; set; }
 
-        public ServerFormat30(Step step)
+        public ServerFormat30(GameClient gameClient, Dialog sequenceMenu)
         {
-            this.Step = step;
+            _client = gameClient;
+            Sequence = sequenceMenu;
         }
 
         public override void Serialize(NetworkPacketReader reader)
@@ -23,21 +26,21 @@ namespace Darkages.Network.ServerFormats
         {
             writer.Write((byte)0x00); // type!
             writer.Write((byte)0x01); // ??
-            writer.Write((uint)Step.Serial);
+            writer.Write((uint)_client.DlgSession.Serial);
             writer.Write((byte)0x00); // ??
-            writer.Write((ushort)Step.Image);
+            writer.Write((ushort)Sequence.DisplayImage);
             writer.Write((byte)0x00); // ??
             writer.Write((byte)0x01); // ??
-            writer.Write((ushort)Step.ScriptId);
+            writer.Write(ushort.MinValue);
             writer.Write((byte)0x00);
             writer.Write(ushort.MinValue);
-            writer.Write((byte)Step.StepId);
-            writer.Write((byte)Step.StepId);
-            writer.Write((byte)Step.StepId);
-            writer.Write((bool)Step.HasNext); 
-            writer.Write((bool)Step.HasBack); 
-            writer.WriteStringA(Step.Title);
-            writer.WriteStringB(Step.Body);
+            writer.Write((byte)0);
+            writer.Write((byte)0);
+            writer.Write((bool)Sequence.CanMoveBack);
+            writer.Write((bool)Sequence.CanMoveNext);
+            writer.Write((byte)0);
+            writer.WriteStringA(Sequence.Current.Title);
+            writer.WriteStringB(Sequence.Current.DisplayText);
         }
     }
 }

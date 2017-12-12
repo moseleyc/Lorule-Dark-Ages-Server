@@ -3,6 +3,7 @@ using Darkages.Scripting;
 using Darkages.Storage.locales.debuffs;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 
 namespace Darkages.Types
 {
@@ -16,7 +17,19 @@ namespace Darkages.Types
 
         public byte Slot { get; set; }
         public byte Icon { get; set; }
-        public string Name { get; set; }
+
+        [JsonIgnore]
+        [Browsable(false)]
+        public string Name
+        {
+            get
+            {
+                return string.Format("{0} Lev {1}/{2}",
+                    Template.Name,
+                    Level, Template.MaxLevel);
+            }
+        }
+
         public int Level { get; set; }
         public int ID { get; set; }
 
@@ -25,6 +38,7 @@ namespace Darkages.Types
         public bool Ready => DateTime.UtcNow > NextAvailableUse;
 
         public bool InUse { get; internal set; }
+        public int Uses { get; set; }
 
         public bool CanUse() => Ready;
 
@@ -35,21 +49,22 @@ namespace Darkages.Types
             obj.Level = 0;
             lock (Generator.Random)
             {
-              obj.ID = Generator.GenerateNumber();
+                obj.ID = Generator.GenerateNumber();
             }
             obj.Slot = (byte)slot;
-            obj.Icon = skillTemplate.Icon;            
-            obj.Name = string.Format("{0} Lev {1}/{2}",
-                obj.Template.Name,
-                obj.Level,
-                obj.Template.MaxLevel);
+            obj.Icon = skillTemplate.Icon;
 
+            AssignDebuffs(obj);
+
+            return obj;
+        }
+
+        private static void AssignDebuffs(Skill obj)
+        {
             if (obj.Template.Name == "Wolf Fang Fist")
             {
                 obj.Template.Debuff = new debuff_frozen();
             }
-
-            return obj;
         }
     }    
 }

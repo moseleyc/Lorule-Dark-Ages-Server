@@ -21,7 +21,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             client.SendOptionsDialog(base.Mundane, "What the fuck do you want?",
                 new OptionsDataItem(0x0001, "I seek wisdom, Grand Master."));
         }
-        public override void OnResponse(GameServer server, GameClient client, short responseID, string args)
+        public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             switch (responseID)
             {

@@ -23,7 +23,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             client.SendOptionsDialog(base.Mundane, "You seek redemption?", options.ToArray());
 
         }
-        public override void OnResponse(GameServer server, GameClient client, short responseID, string args)
+        public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             if (responseID == 0x0001)
             {

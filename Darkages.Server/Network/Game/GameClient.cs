@@ -338,7 +338,6 @@ namespace Darkages.Network.Game
                 var skill = skills_Available[i];
                 skill.InUse = false;
                 skill.NextAvailableUse = DateTime.UtcNow;
-                skill.Name = string.Format("{0} Lev {1}/{2}", skill.Template.Name, skill.Level, skill.Template.MaxLevel);
                 Send(new ServerFormat2C((byte)skill.Slot,
                     skill.Icon,
                     skill.Name));
@@ -429,6 +428,9 @@ namespace Darkages.Network.Game
 
         public void Insert()
         {
+            if (Aisling.Map.Tile == null)
+                return;
+
             if (GetObject<Aisling>(i => i.Serial == Aisling.Serial) == null)
                 AddObject<Aisling>(Aisling);
 
@@ -581,6 +583,9 @@ namespace Darkages.Network.Game
             }
         }
 
+
+        public DialogSession DlgSession { get; set; }
+
         public void SendItemShopDialog(Mundane mundane, string text, ushort step, IEnumerable<ItemTemplate> items)
         {
             this.Send(new ServerFormat2F(mundane, text, new ItemShopData(step, items)));
@@ -626,7 +631,7 @@ namespace Darkages.Network.Game
 
         public void TrainSpell(Spell spell)
         {
-            if (spell.Level < 100)
+            if (spell.Level < spell.Template.MaxLevel)
             {
                 var toImprove = 100 * spell.Level * spell.Template.ImproveRate;
                 if (spell.Casts++ >= toImprove)
@@ -635,6 +640,21 @@ namespace Darkages.Network.Game
                     spell.Casts = 0;
                     Send(new ServerFormat17(spell));
                     SendMessage(0x02, string.Format("{0} has improved!", spell.Template.Name));
+                }
+            }
+        }
+
+        public void TrainSkill(Skill skill)
+        {
+            if (skill.Level < skill.Template.MaxLevel)
+            {
+                var toImprove = 100 * skill.Level * skill.Template.ImproveRate;
+                if (skill.Uses++ >= toImprove)
+                {
+                    skill.Level++;
+                    skill.Uses = 0;
+                    Send(new ServerFormat2C(skill.Slot, skill.Icon, skill.Name));
+                    SendMessage(0x02, string.Format("{0} has improved!", skill.Template.Name));
                 }
             }
         }

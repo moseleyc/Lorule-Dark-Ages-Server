@@ -77,6 +77,11 @@ namespace Darkages
 
             if (obj is Aisling)
             {
+                if (((Aisling) obj).Flags.HasFlag(AislingFlags.GM))
+                {
+                    return false;
+                }
+
                 SetWarps();
 
                 if (Tile[x, y] == TileContent.Warp)

@@ -40,8 +40,6 @@ namespace Darkages.Types
             {
                 if (checkWeight)
                 {
-                    (sprite as Aisling).CurrentWeight += Template.Weight;
-
                     if (!((sprite as Aisling).CurrentWeight + Template.Weight < (sprite as Aisling).MaximumWeight))
                     {
                         (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You are to weak to even lift it.");
@@ -71,6 +69,9 @@ namespace Darkages.Types
                         return false;
                     }
                 }
+
+                (sprite as Aisling).CurrentWeight += Template.Weight;
+
 
                 if ((sprite as Aisling).CurrentWeight > (sprite as Aisling).MaximumWeight)
                     (sprite as Aisling).CurrentWeight = (sprite as Aisling).MaximumWeight;

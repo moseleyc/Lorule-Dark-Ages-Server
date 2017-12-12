@@ -26,11 +26,10 @@ namespace Darkages.Scripting.Scripts.Skills
             {
                 var client = (sprite as Aisling).Client;
 
-                if (Target != null)
-                {
-                    client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29(Skill.Template.MissAnimation, (ushort)Target.X, (ushort)Target.Y)));
-                }
+                client.SendMessage(0x02,
+                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
+
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -95,10 +94,11 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
 
                 if (Skill.Ready)
                 {
-                    if (client.Aisling.Invisible)
+                    if (client.Aisling.Invisible && Skill.Template.PostQualifers.HasFlag(PostQualifer.BreakInvisible))
                     {
                         client.Aisling.Flags = AislingFlags.Normal;
                         client.Refresh();
@@ -106,7 +106,10 @@ namespace Darkages.Scripting.Scripts.Skills
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
 
-                    OnSuccess(sprite);
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                        OnFailed(sprite);
                 }
             }
         }

@@ -40,6 +40,9 @@ namespace Darkages
             Console.WriteLine("\n----- Loading Skills -----");
             StorageManager.SKillBucket.CacheFromStorage();
             Console.WriteLine(" ... Skill Templates Loaded: {0}", GlobalSkillTemplateCache.Count);
+
+            GlobalSkillTemplateCache["Assail"].MaxLevel = 70;
+            GlobalSkillTemplateCache["Assail"].ImproveRate = 0.15;
         }
 
         public static void LoadSpellTemplates()

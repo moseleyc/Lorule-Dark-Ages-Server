@@ -1,4 +1,5 @@
-﻿using Darkages.Common;
+﻿using System;
+using Darkages.Common;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
@@ -21,6 +22,9 @@ namespace Darkages.Storage.locales.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+
+                client.SendMessage(0x02,
+                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
         }
 
@@ -29,6 +33,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
+
                 var targets = client.Aisling.GetInfront(3).ToList();
                 Position prev = client.Aisling.Position;
                 Position targetPosition = null;
@@ -94,6 +100,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
             }
         }
 
+        public Random rand = new Random();
         public override void OnUse(Sprite sprite)
         {
             if (sprite is Aisling)
@@ -102,7 +109,13 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 if (client.Aisling != null && !client.Aisling.Dead)
                 {
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
-                    OnSuccess(sprite);
+
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                    {
+                        OnFailed(sprite);
+                    }
                 }
             }
         }

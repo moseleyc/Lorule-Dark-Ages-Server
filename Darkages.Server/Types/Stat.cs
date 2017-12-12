@@ -1,5 +1,8 @@
-﻿namespace Darkages.Types
+﻿using System;
+
+namespace Darkages.Types
 {
+    [Flags]
     public enum Stat
     {
         Str = 0x01,

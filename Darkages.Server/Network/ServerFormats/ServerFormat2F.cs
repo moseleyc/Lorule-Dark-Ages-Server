@@ -198,7 +198,9 @@ namespace Darkages.Network.ServerFormats
             writer.Write(this.Step);
             writer.Write(
                 (short)this.Items.Count());
-            writer.Write(this.Items.ToArray());
+
+            foreach (var item in Items)
+                writer.Write((byte)item);
         }
     }
     public class SpellAcquireData : IDialogData

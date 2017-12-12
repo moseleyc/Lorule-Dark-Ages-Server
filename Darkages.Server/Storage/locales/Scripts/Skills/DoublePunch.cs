@@ -36,6 +36,8 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
+
                 var action = new ServerFormat1A
                 {
                     Serial = client.Aisling.Serial,
@@ -101,8 +103,12 @@ namespace Darkages.Scripting.Scripts.Skills
                     }
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
-
-                    OnSuccess(sprite);
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                    {
+                        OnFailed(sprite);
+                    }
                 }
             }
         }

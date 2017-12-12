@@ -50,5 +50,7 @@ namespace Darkages.Types
 
         [Browsable(false)]
         public int MaximumMp { get; set; }
+
+        public string QuestKey { get; set; }
     }
 }

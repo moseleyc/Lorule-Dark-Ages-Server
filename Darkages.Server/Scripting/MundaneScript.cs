@@ -16,6 +16,6 @@ namespace Darkages.Scripting
         }
 
         public abstract void OnClick(GameServer server, GameClient client);
-        public abstract void OnResponse(GameServer server, GameClient client, short responseID, string args);
+        public abstract void OnResponse(GameServer server, GameClient client, ushort responseID, string args);
     }
 }

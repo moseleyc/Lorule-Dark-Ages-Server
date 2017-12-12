@@ -12,6 +12,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
     {
         public Skill _skill;
         public Sprite Target;
+        public Random rand = new Random();
 
         public KelberothStrike(Skill skill) : base(skill)
         {
@@ -20,6 +21,13 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
         public override void OnFailed(Sprite sprite)
         {
+            if (sprite is Aisling)
+            {
+                var client = (sprite as Aisling).Client;
+
+                client.SendMessage(0x02,
+                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+            }
 
         }
 
@@ -28,6 +36,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
 
                 var action = new ServerFormat1A
                 {
@@ -112,7 +121,12 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
 
-                    OnSuccess(sprite);
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                    {
+                        OnFailed(sprite);
+                    }
                 }
             }
         }

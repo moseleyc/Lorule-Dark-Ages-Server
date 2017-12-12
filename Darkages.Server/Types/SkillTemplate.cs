@@ -38,6 +38,7 @@
 
         public Debuff Debuff { get; set; }
         public Buff Buff { get; set; }
+        public double ImproveRate { get; set; }
 
         public SkillTemplate()
         {

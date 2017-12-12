@@ -59,8 +59,13 @@ namespace Darkages.Types
             obj.Slot = (byte)slot;
             obj.Lines = obj.Template.BaseLines;
 
+            AssignDebuffsAndBuffs(obj);
 
+            return obj;
+        }
 
+        private static void AssignDebuffsAndBuffs(Spell obj)
+        {
             if (obj.Template.Name == "dion")
                 obj.Template.Buff = new buff_dion();
 
@@ -78,8 +83,6 @@ namespace Darkages.Types
 
             if (obj.Template.Name == "ard cradh")
                 obj.Template.Debuff = new debuff_ardcradh();
-
-            return obj;
         }
     }
 }

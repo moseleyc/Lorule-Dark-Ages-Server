@@ -3,6 +3,7 @@ using Darkages.Scripting;
 using Darkages.Types;
 using System.Collections.Generic;
 using System.Linq;
+using Darkages.Network.ServerFormats;
 using Darkages.Storage.locales.Scripts.Spells;
 
 namespace Darkages.Storage.locales.Scripts.Mundanes
@@ -17,39 +18,66 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
         public override void OnClick(GameServer server, GameClient client)
         {
-            client.SendItemShopDialog(Mundane, "What you looking for?", 1, 
-                ServerContext.GlobalItemTemplateCache.Values.Where(i => i.NpcKey == "shop1" ));
+            var opts = new List<OptionsDataItem>();
+            opts.Add(new OptionsDataItem(0x0001, "Buy"));
+            opts.Add(new OptionsDataItem(0x0002, "Sell"));
+            opts.Add(new OptionsDataItem(0x0003, "Repair Items"));
+
+            client.SendOptionsDialog(Mundane, "What you looking for?", opts.ToArray());
         }
 
-        public override void OnResponse(GameServer server, GameClient client, short responseID, string args)
+        public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
-            if (string.IsNullOrEmpty(args))
-                return;
 
-            if (!ServerContext.GlobalItemTemplateCache.ContainsKey(args))
-                return;
 
-            var template = ServerContext.GlobalItemTemplateCache[args];
-            if (template != null)
+            switch (responseID)
             {
-                if (client.Aisling.GoldPoints >= template.Value)
-                {
-                    //Create Item:
-                    var item = Item.Create(client.Aisling, template);
-                    item.GiveTo(client.Aisling);
+                case 0x0001:
+                    client.SendItemShopDialog(Mundane, "Have a browse!", 0x0004,
+                        ServerContext.GlobalItemTemplateCache.Values.ToList());
+                    break;
+                case 0x0002:
+                    client.SendItemSellDialog(Mundane, "What do you want to pawn?", 0x0005,
+                        client.Aisling.Inventory.Items.Values.Where(i => i != null && i.Template != null)
+                            .Select(i => i.Slot).ToList());
 
-                    client.Aisling.GoldPoints -= (int) template.Value;
-                    if (client.Aisling.GoldPoints < 0)
-                        client.Aisling.GoldPoints = 0;
-
-                    client.SendStats(StatusFlags.All);
-                }
-                else
+                    break;
+                #region Buy
+                case 0x0004:
                 {
-                    var script = ScriptManager.Load<SpellScript>("beag cradh", Spell.Create(1, ServerContext.GlobalSpellTemplateCache["beag cradh"]));
-                    script.OnUse(base.Mundane, client.Aisling);
-                    client.SendOptionsDialog(base.Mundane, "You trying to rip me off?! go away.");
-                }
+                    if (string.IsNullOrEmpty(args))
+                        return;
+
+                    if (!ServerContext.GlobalItemTemplateCache.ContainsKey(args))
+                        return;
+
+                    var template = ServerContext.GlobalItemTemplateCache[args];
+                    if (template != null)
+                    {
+                        if (client.Aisling.GoldPoints >= template.Value)
+                        {
+                            //Create Item:
+                            var item = Item.Create(client.Aisling, template);
+                            item.GiveTo(client.Aisling);
+
+                            client.Aisling.GoldPoints -= (int) template.Value;
+                            if (client.Aisling.GoldPoints < 0)
+                                client.Aisling.GoldPoints = 0;
+
+                            client.SendStats(StatusFlags.All);
+                            client.SendOptionsDialog(base.Mundane, string.Format("You have a brand new {0}", args));
+                            break;
+                        }
+                        else
+                        {
+                            var script = ScriptManager.Load<SpellScript>("beag cradh",
+                                Spell.Create(1, ServerContext.GlobalSpellTemplateCache["beag cradh"]));
+                            script.OnUse(base.Mundane, client.Aisling);
+                            client.SendOptionsDialog(base.Mundane, "You trying to rip me off?! go away.");
+                        }
+                    }
+                } break;
+                    #endregion
             }
         }
     }

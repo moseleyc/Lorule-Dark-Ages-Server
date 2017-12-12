@@ -264,6 +264,8 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\ClassChooser.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Types\Dialog.cs" />
+    <Compile Include="Types\DialogSequence.cs" />
     <Compile Include="Storage\locales\Scripts\Mundanes\GrandMaster01.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -330,6 +332,7 @@
     <Compile Include="Types\Class.cs" />
     <Compile Include="Types\ClassStage.cs" />
     <Compile Include="Types\Debuff.cs" />
+    <Compile Include="Types\DialogSession.cs" />
     <Compile Include="Types\Direction.cs" />
     <Compile Include="Types\ElementManager.cs" />
     <Compile Include="Types\ElementQualifer.cs" />
@@ -353,7 +356,6 @@
     <Compile Include="Types\MServer.cs" />
     <Compile Include="Types\Mundane.cs" />
     <Compile Include="Types\MundaneTemplate.cs" />
-    <Compile Include="Types\NormalPopup.cs" />
     <Compile Include="Types\Pane.cs" />
     <Compile Include="Types\Party.cs" />
     <Compile Include="Types\PartyMember.cs" />
@@ -361,6 +363,7 @@
     <Compile Include="Types\Popup.cs" />
     <Compile Include="Types\PostQualifer.cs" />
     <Compile Include="Types\PreQualifer.cs" />
+    <Compile Include="Types\Quest.cs" />
     <Compile Include="Types\RewardTemplate.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\SkillScript.cs" />
@@ -397,7 +400,6 @@
     <Compile Include="Types\Stat.cs" />
     <Compile Include="Types\StatusFlags.cs" />
     <Compile Include="Types\StatusOperator.cs" />
-    <Compile Include="Types\Step.cs" />
     <Compile Include="Types\TargetQualifiers.cs" />
     <Compile Include="Types\Template.cs" />
     <Compile Include="Types\TileContent.cs" />

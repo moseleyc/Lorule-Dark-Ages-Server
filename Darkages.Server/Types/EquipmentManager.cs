@@ -202,10 +202,17 @@ namespace Darkages.Types
             Client.Send(new ServerFormat37(item, displayslot));
         }
 
-        public void RemoveFromInventory(Item item)
+        public void RemoveFromInventory(Item item, bool handleWeight = false)
         {
             Client.Aisling.Inventory.Remove(item.Slot);
             Client.Send(new ServerFormat10(item.Slot));
+
+            if (handleWeight)
+            {
+                Client.Aisling.CurrentWeight -= item.Template.Weight;
+                if (Client.Aisling.CurrentWeight < 0)
+                    Client.Aisling.CurrentWeight = 0;
+            }
         }
         #endregion
 

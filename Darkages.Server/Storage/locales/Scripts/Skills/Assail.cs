@@ -98,7 +98,9 @@ namespace Darkages.Scripting.Scripts.Skills
         {
             if (sprite is Aisling)
             {
+              
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
                 if (Skill.Ready)
                 {
                     if (client.Aisling.Invisible)

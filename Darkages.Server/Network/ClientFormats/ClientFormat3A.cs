@@ -12,7 +12,7 @@
         }
 
         public ushort ScriptId { get; set; }
-        public byte Step { get; set; }
+        public ushort Step { get; set; }
         public uint Serial { get; set; }
 
 
@@ -21,7 +21,8 @@
             var type = reader.ReadByte();
             var id = reader.ReadUInt32();
             var scriptid = reader.ReadUInt16();
-            var step = reader.ReadByte();
+            var step = reader.ReadUInt16();
+
 
             ScriptId = scriptid;
             Step = step;

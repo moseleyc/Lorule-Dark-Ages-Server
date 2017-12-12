@@ -39,8 +39,17 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (client.Aisling.Dead)
                 return;
 
-            Monster.Attacked = true;
-            Monster.Target = client.Aisling;
+            if (client.Aisling.Invisible)
+                return;
+
+            if (client.Aisling.Flags.HasFlag(AislingFlags.GM))
+                return;
+
+            if (Monster.Aggressive)
+            {
+                Monster.Attacked = true;
+                Monster.Target = client.Aisling;
+            }
         }
 
         public override void OnAttacked(GameClient client)
@@ -48,8 +57,11 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (client.Aisling.Dead)
                 return;
 
-            Monster.Attacked = true;
-            Monster.Target = client.Aisling;
+            if (!Monster.Friendly)
+            {
+                Monster.Attacked = true;
+                Monster.Target = client.Aisling;
+            }
         }
 
         public override void OnCast(GameClient client)
@@ -94,6 +106,11 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
             if (Monster.Target != null)
             {
+                if (Monster.Target is Aisling)
+                {
+                    if ((Monster.Target as Aisling).Invisible)
+                        ClearTarget();
+                }
                 if (Monster.Target.CurrentHp == 0)
                 {
                     ClearTarget();

@@ -893,6 +893,12 @@ namespace Darkages.Types
             var savedY = Y;
             var savedDir = Direction;
 
+            if (this is Aisling)
+            {
+                
+            }
+
+
             if (Direction == 0)
             {
                 if (Map.IsWall(this, X, Y - 1))
