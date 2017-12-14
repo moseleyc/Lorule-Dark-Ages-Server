@@ -26,13 +26,14 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monsters, Items, Npcs
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spells/Skills
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Equipment
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs, Pursuits
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Maps, Zones
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Death Handling, you can die, revive. ect
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elements, Fire, Water, Earth, Wind, Dark, Light
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Regen
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working with a NPC for reviving.
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
 
 
 
@@ -41,7 +42,12 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database is not implemented yet.
 - ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Scriptables need to be refractored to be more maintainable.
 - ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping, Exchanging, User List Order - Yet to be completed!
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) 0x30 Dialogs are abit buggy, but shops, options, skills and spell learning dialogs are working correctly.
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements, Damage formulas need to be defined.
+
+## In Progress
+- Quests - Going to redo these into Quest Scripts, So that they can be modified, instead of having them hard-coded into mundane scripts.
+Then things like mundanes, will just have a set of quest keys for available quests, I will then Create a better handler for them.
+
 
 ## Using this Server:
 
