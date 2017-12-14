@@ -66,5 +66,6 @@ namespace Darkages.Types
 
         public int DmgMax { get; set; }
 
+        public double DropRate { get; set; }
     }
 }

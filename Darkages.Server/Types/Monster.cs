@@ -70,7 +70,9 @@ namespace Darkages.Types
         {
             if (!GivenExp)
             {
-                Money.Create(this, rnd.Next(100, 2000), new Position(X, Y));
+                if ((Template.LootType & LootQualifer.Gold) == LootQualifer.Gold)
+                    Money.Create(this, rnd.Next(100, 2000), new Position(X, Y));
+
                 GivenExp = true;
 
                 if (player == null)

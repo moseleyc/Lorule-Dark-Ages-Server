@@ -76,5 +76,6 @@
   "DoesNotFitMessage": "That does not fit you.",
   "CantEquipThatMessage": "You can't use that.",
   "MonsterSkillSuccessRate": 3,
-  "MonsterSpellSuccessRate": 10
+  "MonsterSpellSuccessRate": 10,
+  "CantUseThat": "You can't use that."
 }

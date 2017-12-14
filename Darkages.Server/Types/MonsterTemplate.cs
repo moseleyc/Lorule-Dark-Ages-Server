@@ -98,5 +98,12 @@ namespace Darkages.Types
         [JsonProperty]
         [Description("What Spells will this monster cast?")]
         public Collection<string> SpellScripts { get; set; }
+
+        [JsonProperty]
+        [Description("What Skills will this monster use?")]
+        public Collection<string> SkillScripts { get; set; }
+
+        [JsonProperty] [Description("What Drops?")]
+        public Collection<string> Drops = new Collection<string>();
     }
 }

@@ -2,7 +2,7 @@
   "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
   "Image": 16563,
   "Level": 99,
-  "ScriptKey": "buff",
+  "ScriptKey": "gos",
   "EnableWalking": false,
   "EnableTurning": false,
   "EnableAttacking": false,

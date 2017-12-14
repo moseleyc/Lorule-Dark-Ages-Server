@@ -348,31 +348,39 @@ namespace Darkages.Network.Game
                         item.Script = ScriptManager.Load<ItemScript>(item.Template.ScriptName, item);
 
 
-                item.Script?.OnUse(client.Aisling, slot);
-                if (item.Template.Flags.HasFlag(ItemFlags.Stackable))
+                if (item.Script == null)
                 {
-                    //should we consume it?
-                    if (item.Template.Flags.HasFlag(ItemFlags.Consumable))
+                    client.SendMessage(0x02, ServerContext.Config.CantUseThat);
+                }
+                else
+                {
+                    item.Script.OnUse(client.Aisling, slot);
+
+                    if (item.Template.Flags.HasFlag(ItemFlags.Stackable))
                     {
-                        var stack = item.Stacks - 1;
-
-                        if (stack > 0)
+                        //should we consume it?
+                        if (item.Template.Flags.HasFlag(ItemFlags.Consumable))
                         {
-                            //consume 1 unit, update stack and refresh item in inventory.
-                            item.Stacks -= 1;
-                            client.Aisling.Inventory.Set(item, false);
+                            var stack = item.Stacks - 1;
 
-                            //send remove packet.
-                            client.Send(new ServerFormat10(item.Slot));
+                            if (stack > 0)
+                            {
+                                //consume 1 unit, update stack and refresh item in inventory.
+                                item.Stacks -= 1;
+                                client.Aisling.Inventory.Set(item, false);
 
-                            //add it again with updated information.
-                            client.Send(new ServerFormat0F(item));
-                        }
-                        else
-                        {
-                            //remove from inventory
-                            client.Aisling.Inventory.Remove(item.Slot);
-                            client.Send(new ServerFormat10(item.Slot));
+                                //send remove packet.
+                                client.Send(new ServerFormat10(item.Slot));
+
+                                //add it again with updated information.
+                                client.Send(new ServerFormat0F(item));
+                            }
+                            else
+                            {
+                                //remove from inventory
+                                client.Aisling.Inventory.Remove(item.Slot);
+                                client.Send(new ServerFormat10(item.Slot));
+                            }
                         }
                     }
                 }

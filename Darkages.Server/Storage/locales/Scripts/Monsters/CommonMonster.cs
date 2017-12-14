@@ -86,6 +86,20 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                     Monster.GiveExperienceTo(Monster.Target as Aisling);
             }
 
+            if (Monster.Template.Drops.Count > 0)
+            {
+                var idx = random.Next(Monster.Template.Drops.Count);
+                var rndSelector = Monster.Template.Drops[idx];
+
+                if (ServerContext.GlobalItemTemplateCache.ContainsKey(rndSelector))
+                {
+                    var item = Item.Create(Monster, ServerContext.GlobalItemTemplateCache[rndSelector], true);
+                    if (random.NextDouble() <= item.Template.DropRate)
+                        item.Release(Monster, Monster.Position);
+                }
+
+            }
+
             if (GetObject<Monster>(i => i.Serial == Monster.Serial) != null)
                 DelObject<Monster>(Monster);
 

@@ -1,0 +1,22 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 2,
+  "CanStack": true,
+  "MaxStack": 100,
+  "Image": 338,
+  "DisplayImage": 33106,
+  "Gender": 255,
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Weight": 0,
+  "Flags": 128,
+  "MaxDurability": 0,
+  "Value": 500,
+  "EquipmentSlot": 0,
+  "Class": 0,
+  "LevelRequired": 0,
+  "DmgMin": 0,
+  "DmgMax": 0,
+  "Name": "rat shit",
+  "DropRate" : 0.40
+}

@@ -1,5 +1,8 @@
 ﻿using Darkages.Common;
 using System.Collections.Generic;
+using Darkages.Network.Game;
+using Darkages.Network.ServerFormats;
+using System;
 
 namespace Darkages.Types
 {
@@ -14,12 +17,30 @@ namespace Darkages.Types
         public bool CanMoveBack => SequenceIndex - 1 >= 0;
         public ushort DisplayImage { get; set; }
 
+
         public Dialog()
         {
             lock (Generator.Random)
             {
                 Serial = Generator.GenerateNumber();
             }
+        }
+
+        public DialogSequence Invoke(GameClient client)
+        {
+            client.Send(new ServerFormat30(client, this));
+            {
+                Current?.Callback?.Invoke(client.Aisling, Current);
+                return Current;
+            }
+        }
+
+        public void MoveNext(GameClient client)
+        {
+            if (CanMoveNext)
+                SequenceIndex++;
+
+            client.DlgSession.Sequence = (ushort)SequenceIndex;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Darkages.Types
+﻿using System;
+
+namespace Darkages.Types
 {
     public class DialogSequence
     {
@@ -7,8 +9,6 @@
         public bool HasOptions { get; set; }
         public bool StartsQuest { get; set; }
 
-        public void OnClose()
-        {
-        }
+        public Action<Aisling, DialogSequence> Callback = null;
     }
 }

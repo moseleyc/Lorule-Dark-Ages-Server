@@ -39,5 +39,11 @@
       "dion"
     ]
   },
-  "Name": "Rat"
+  "Name": "Rat",
+ "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "rat shit"
+    ]
+  },
 }

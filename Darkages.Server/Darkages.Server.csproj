@@ -258,7 +258,7 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\BarrenLord.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Mundanes\buffgiver.cs">
+    <Compile Include="Storage\locales\Scripts\Mundanes\Gos.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Mundanes\ClassChooser.cs">

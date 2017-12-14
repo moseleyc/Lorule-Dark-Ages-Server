@@ -1,10 +1,10 @@
 {
   "$type": "Darkages.Aisling, Darkages.Server",
-  "CurrentHandInQuests": {
-    "$type": "System.Collections.Generic.List`1[[Darkages.Types.Quest`1[[Darkages.Types.ItemTemplate, Darkages.Server]], Darkages.Server]], mscorlib",
+  "Quests": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.Quest, Darkages.Server]], mscorlib",
     "$values": [
       {
-        "$type": "Darkages.Types.Quest`1[[Darkages.Types.ItemTemplate, Darkages.Server]], Darkages.Server",
+        "$type": "Darkages.Types.Quest, Darkages.Server",
         "ItemRewards": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemTemplate, Darkages.Server]], mscorlib",
           "$values": []
@@ -25,24 +25,25 @@
               "Icon": 7,
               "Color": 88,
               "Category": "Quest",
-              "Value": "Helped Gos find his shit."
+              "Value": "Helped Gos kill some rats."
             }
           ]
         },
         "Name": "gos_quest",
         "Started": true,
-        "Completed": true,
-        "TimeStarted": "2017-12-12T15:34:46.9812275Z",
-        "TimeCompleted": "2017-12-13T01:34:57.9279273+10:00",
+        "Completed": false,
+        "TimeStarted": "2017-12-14T15:27:31.5816044Z",
+        "TimeCompleted": "0001-01-01T00:00:00",
         "ExpReward": 0,
         "GoldReward": 0,
-        "StageIndex": 0
+        "StageIndex": 0,
+        "Rewarded": false,
+        "ItemsToHandIn": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Item, Darkages.Server]], mscorlib",
+          "$values": []
+        }
       }
     ]
-  },
-  "CurrentKillQuests": {
-    "$type": "System.Collections.Generic.List`1[[Darkages.Types.Quest`1[[Darkages.Types.MonsterTemplate, Darkages.Server]], Darkages.Server]], mscorlib",
-    "$values": []
   },
   "rnd": {
     "$type": "System.Random, mscorlib"
@@ -50,25 +51,25 @@
   "AbpLimit": 0,
   "ExpLimit": 0,
   "CurrentWeight": 0,
-  "MaximumWeight": 17,
-  "Created": "2017-12-12T15:34:14.626109Z",
-  "LastLogged": "2017-12-12T15:34:19.1877306Z",
+  "MaximumWeight": 10,
+  "Created": "2017-12-14T15:26:53.6905479Z",
+  "LastLogged": "2017-12-14T15:26:58.0912274Z",
   "Username": "lol",
   "Password": "lol",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
-  "ExpLevel": 2,
-  "ExpTotal": 622,
-  "ExpNext": 0,
+  "ExpLevel": 7,
+  "ExpTotal": 7533,
+  "ExpNext": 1050,
   "Gender": 2,
   "Title": 0,
   "Flags": 2,
   "AreaID": 509,
   "ClassID": 0,
   "GamePoints": 0,
-  "GoldPoints": 800,
-  "StatPoints": 0,
+  "GoldPoints": 1000,
+  "StatPoints": 12,
   "Medal": 0,
   "LIcon": 0,
   "RIcon": 0,
@@ -77,7 +78,7 @@
   "FaceColor": 0,
   "FaceStyle": 0,
   "HairColor": 0,
-  "HairStyle": 17,
+  "HairStyle": 8,
   "Boots": 0,
   "Helmet": 0,
   "Shield": 0,
@@ -128,12 +129,12 @@
         },
         "Slot": 1,
         "Icon": 1,
-        "Level": 1,
-        "ID": 1815623233,
-        "NextAvailableUse": "2017-12-12T15:34:26.2760412Z",
+        "Level": 2,
+        "ID": 1892311627,
+        "NextAvailableUse": "2017-12-14T15:27:24.379738Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 5
+        "Uses": 4
       },
       "2": null,
       "3": null,
@@ -218,7 +219,71 @@
     "$type": "Darkages.Types.Inventory, Darkages.Server",
     "Items": {
       "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Darkages.Types.Item, Darkages.Server]], mscorlib",
-      "1": null,
+      "1": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 2,
+          "CanStack": true,
+          "MaxStack": 100,
+          "Image": 338,
+          "DisplayImage": 33106,
+          "Gender": 255,
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Weight": 0,
+          "Flags": 128,
+          "MaxDurability": 0,
+          "Value": 500,
+          "EquipmentSlot": 0,
+          "Class": 0,
+          "LevelRequired": 0,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.4,
+          "Name": "rat shit"
+        },
+        "Cursed": true,
+        "Owner": 1829430279,
+        "Image": 338,
+        "DisplayImage": 33106,
+        "DisplayName": "rat shit",
+        "Value": 0,
+        "Stacks": 13,
+        "Slot": 1,
+        "Durability": 0,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1051645641,
+        "X": 28,
+        "Y": 28,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
       "2": null,
       "3": null,
       "4": null,
@@ -319,14 +384,7 @@
           "Icon": 7,
           "Color": 128,
           "Category": "Event",
-          "Value": "Lorule: VIP 12/12/2017"
-        },
-        {
-          "$type": "Darkages.Types.Legend+LegendItem, Darkages.Server",
-          "Icon": 7,
-          "Color": 88,
-          "Category": "Quest Reward",
-          "Value": "Helped Gos find his shit."
+          "Value": "Lorule: VIP 14/12/2017"
         }
       ]
     }
@@ -347,18 +405,18 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 1617420830,
-  "X": 21,
-  "Y": 38,
+  "Serial": 1321213552,
+  "X": 22,
+  "Y": 32,
   "Direction": 3,
   "CurrentMapId": 509,
   "OffenseElement": 0,
   "DefenseElement": 0,
-  "CurrentHp": 157,
-  "CurrentMp": 63,
-  "_MaximumHp": 157,
-  "_MaximumMp": 63,
-  "_Str": 5,
+  "CurrentHp": 168,
+  "CurrentMp": 68,
+  "_MaximumHp": 642,
+  "_MaximumMp": 228,
+  "_Str": 3,
   "_Int": 3,
   "_Wis": 3,
   "_Con": 3,

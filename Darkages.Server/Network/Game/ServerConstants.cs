@@ -384,5 +384,8 @@ namespace Darkages.Network.Game
 
         [JsonProperty]
         public int MonsterSpellSuccessRate = 10;
+
+        [JsonProperty]
+        public string CantUseThat = "You can't use that.";
     }
 }
