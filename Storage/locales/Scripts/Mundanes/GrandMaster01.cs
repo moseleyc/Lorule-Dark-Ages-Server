@@ -21,7 +21,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             client.SendOptionsDialog(base.Mundane, "What the fuck do you want?",
                 new OptionsDataItem(0x0001, "I seek wisdom, Grand Master."));
         }
-        public override void OnResponse(GameServer server, GameClient client, short responseID, string args)
+        public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             switch (responseID)
             {
@@ -47,11 +47,6 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                         }
                     }
 
-                    if (template.Name == "dion")
-                        template.Buff = new buff_dion();
-
-                    if (template.Name == "pramh")
-                        template.Debuff = new debuff_sleep();
 
 
                     var spell = Spell.Create(slot, template);

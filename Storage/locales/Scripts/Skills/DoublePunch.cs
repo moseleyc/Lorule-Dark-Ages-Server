@@ -1,12 +1,11 @@
-﻿using Darkages.Network.Game;
-using Darkages.Network.ServerFormats;
+﻿using Darkages.Network.ServerFormats;
 using Darkages.Types;
 using System;
 using System.Linq;
 
 namespace Darkages.Scripting.Scripts.Skills
 {
-    [Script("DoublePunch", "Dean")]
+    [Script("Double Punch", "Dean")]
     public class DoublePunch : SkillScript
     {
         public Skill _skill;
@@ -37,6 +36,8 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
+
                 var action = new ServerFormat1A
                 {
                     Serial = client.Aisling.Serial,
@@ -64,30 +65,12 @@ namespace Darkages.Scripting.Scripts.Skills
                         Target = i;
 
                         var dmg = (int)(Skill.Level + 1 * 100 / 60) * (client.Aisling.Str + client.Aisling.Dex) * 2;
-                        i.ApplyDamage(sprite, dmg);
-
-                        var hpbar = new ServerFormat13
-                        {
-                            Serial = i.Serial,
-                            Health = (ushort)((double)100 * i.CurrentHp / (double)i.MaximumHp),
-                            Sound = Skill.Template.Sound
-                        };
-
-                        //send hpbar to client
-                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
+                        i.ApplyDamage(sprite, dmg, false, Skill.Template.Sound);
 
                         if (i is Monster)
                         {
                             (i as Monster).Target = client.Aisling;
                             (i as Monster).Attacked = true;
-
-                            //Monster Dead!
-                            if (i.CurrentHp == 0)
-                            {
-                                var obj = GetObject<Monster>(o => o.Serial == i.Serial);
-                                if (obj != null && obj is Monster)
-                                    obj.Remove<Monster>();
-                            }
                         }
 
                         if (i is Aisling)
@@ -120,8 +103,12 @@ namespace Darkages.Scripting.Scripts.Skills
                     }
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
-
-                    OnSuccess(sprite);
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                    {
+                        OnFailed(sprite);
+                    }
                 }
             }
         }

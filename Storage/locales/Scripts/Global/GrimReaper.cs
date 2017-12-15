@@ -37,6 +37,9 @@ namespace Darkages.Storage.locales.Scripts.Global
                     client.HpRegenTimer.Disabled = true;
                     client.MpRegenTimer.Disabled = true;
 
+                    client.Aisling.RemoveAllBuffs();
+                    client.Aisling.RemoveAllDebuffs();
+
                     client.Send(new ServerFormat08(client.Aisling,
                         Darkages.Types.StatusFlags.All));
 
@@ -62,21 +65,26 @@ namespace Darkages.Storage.locales.Scripts.Global
                         return;
                     }
 
-                    client.Aisling.Show(Scope.NearbyAislings,
-                        (new ServerFormat29((uint)client.Aisling.Serial,
-                        (uint)client.Aisling.Serial, 0x81, 0x81, 100)));
-
-                    client.LeaveArea(true, true);
-                    client.Aisling.X = 13;
-                    client.Aisling.Y = 11;
-                    client.Aisling.Direction = 0;
-                    client.Aisling.CurrentMapId = 88888;
-                    client.Aisling.Map = ServerContext.GlobalMapCache[88888];
-                    client.Save();
-                    client.ShouldUpdateMap = true;
-                    client.EnterArea();
+                    SendToHell(client);
                 }
             }
+        }
+
+        private static void SendToHell(GameClient client)
+        {
+            client.Aisling.Show(Scope.NearbyAislings,
+                (new ServerFormat29((uint)client.Aisling.Serial,
+                (uint)client.Aisling.Serial, 0x81, 0x81, 100)));
+
+            client.LeaveArea(true, true);
+            client.Aisling.X = 13;
+            client.Aisling.Y = 11;
+            client.Aisling.Direction = 0;
+            client.Aisling.CurrentMapId = 88888;
+            client.Aisling.Map = ServerContext.GlobalMapCache[88888];
+            client.Save();
+            client.ShouldUpdateMap = true;
+            client.EnterArea();
         }
 
         public override void Update(TimeSpan elapsedTime)
@@ -99,21 +107,26 @@ namespace Darkages.Storage.locales.Scripts.Global
                 {
                     if (Client.Aisling.Dead)
                     {
-                        Client.HpRegenTimer.Disabled = false;
-                        Client.MpRegenTimer.Disabled = false;
-                        Client.Aisling.CurrentHp = Client.Aisling.MaximumHp;
-                        Client.Aisling.Flags = AislingFlags.Normal;
-                        Client.Send(new ServerFormat08(Client.Aisling, 
-                            Darkages.Types.StatusFlags.All));
-                        Client.UpdateDisplay();
-                        Client.Aisling.Show(Scope.NearbyAislings,
-                            (new ServerFormat29((uint)Client.Aisling.Serial,
-                            (uint)Client.Aisling.Serial, 0x22, 0x24, 100)));
-                        Client.Aisling.Flags = AislingFlags.Normal;
-                        Client.Save();
+                        Revive();
                     }
                 }
             }            
+        }
+
+        private void Revive()
+        {
+            Client.HpRegenTimer.Disabled = false;
+            Client.MpRegenTimer.Disabled = false;
+            Client.Aisling.CurrentHp = Client.Aisling.MaximumHp;
+            Client.Aisling.Flags = AislingFlags.Normal;
+            Client.Send(new ServerFormat08(Client.Aisling,
+                Darkages.Types.StatusFlags.All));
+            Client.UpdateDisplay();
+            Client.Aisling.Show(Scope.NearbyAislings,
+                (new ServerFormat29((uint)Client.Aisling.Serial,
+                (uint)Client.Aisling.Serial, 160, 160, 100)));
+            Client.Aisling.Flags = AislingFlags.Normal;
+            Client.Save();
         }
     }
 }

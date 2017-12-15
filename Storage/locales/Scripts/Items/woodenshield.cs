@@ -1,23 +1,14 @@
-﻿using System;
-using Darkages.Scripting;
+﻿using Darkages.Scripting;
 using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {
-    [Script("Holy Diana", "Dean")]
-    public class holydiana : ItemScript
+    [Script("wooden shield", "Dean")]
+    public class woodenshield : ItemScript
     {
-        public holydiana(Item item) : base(item)
+        public woodenshield(Item item) : base(item)
         {
-        }
 
-        public override void Equipped(Sprite sprite, byte displayslot)
-        {
-            if ((sprite is Aisling))
-            {
-                (sprite as Aisling).Weapon = 26;
-                Item.ApplyModifers((sprite as Aisling).Client);
-            }
         }
 
         public override void OnUse(Sprite sprite, byte slot)
@@ -47,12 +38,34 @@ namespace Darkages.Storage.locales.Scripts.Items
             }
         }
 
+
+        public override void Equipped(Sprite sprite, byte displayslot)
+        {
+            if (sprite is Aisling)
+            {
+                var client = (sprite as Aisling).Client;
+
+                if (Item.Template == null)
+                    return;
+
+                Item.ApplyModifers(client);
+
+                client.Aisling.Shield = 1;
+            }
+        }
+
         public override void UnEquipped(Sprite sprite, byte displayslot)
         {
-            if ((sprite is Aisling))
+            if (sprite is Aisling)
             {
-                Item.RemoveModifiers((sprite as Aisling).Client);
-                (sprite as Aisling).Weapon = ushort.MinValue;
+                var client = (sprite as Aisling).Client;
+
+                if (Item.Template == null)
+                    return;
+
+                client.Aisling.Shield = byte.MinValue;
+
+                Item.RemoveModifiers(client);
             }
         }
     }

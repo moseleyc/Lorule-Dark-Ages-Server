@@ -15,7 +15,7 @@ namespace Darkages.Scripting.Scripts
         public Barrens(Area area)
             : base(area)
         {
-            this.Timer = new GameServerTimer(TimeSpan.FromMilliseconds(2000));
+            this.Timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MapUpdateInterval));
         }
 
         public override void OnClick(GameClient client, int x, int y)

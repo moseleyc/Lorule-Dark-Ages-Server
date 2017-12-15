@@ -62,16 +62,9 @@ namespace Darkages.Scripting.Scripts.Skills
             {
                 (obj as Monster).Target = client.Aisling;
                 (obj as Monster).GiveExperienceTo(client.Aisling);
+                client.SendAnimation(301, obj, client.Aisling);
 
-                var hpbar = new ServerFormat13
-                {
-                    Serial = obj.Serial,
-                    Health = 0,
-                    Sound = 45
-                };
-
-                client.Aisling.Show(Scope.NearbyAislings, hpbar);
-                DelObjects<Monster>(objects.Cast<Monster>().ToArray());
+                obj.ApplyDamage(client.Aisling, 999999, false, 40);
             }
         }
     }

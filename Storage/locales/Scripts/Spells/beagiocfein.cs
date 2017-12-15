@@ -1,6 +1,8 @@
-﻿using Darkages.Network.Game;
+﻿using System.Linq;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
+using Darkages.Storage.locales.debuffs;
 using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Spells
@@ -10,6 +12,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
     {
         public beagiocfein(Spell spell) : base(spell)
         {
+
         }
 
         public override void OnFailed(Sprite sprite, Sprite target)
@@ -29,6 +32,8 @@ namespace Darkages.Storage.locales.Scripts.Spells
                 var client = (sprite as Aisling).Client;
                 if (client.Aisling.CurrentMp >= Spell.Template.ManaCost)
                 {
+                    client.TrainSpell(Spell);
+
                     var action = new ServerFormat1A
                     {
                         Serial = client.Aisling.Serial,
@@ -52,7 +57,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                         var hpbar = new ServerFormat13
                         {
                             Serial = client.Serial,
-                            Health = (ushort)(100 * client.Aisling.CurrentHp / client.Aisling.MaximumHp),
+                            Health = (ushort) (100 * client.Aisling.CurrentHp / client.Aisling.MaximumHp),
                             Sound = 8
                         };
                         client.Aisling.Show(Scope.NearbyAislings, hpbar);
@@ -63,6 +68,24 @@ namespace Darkages.Storage.locales.Scripts.Spells
                     client.SendMessage(0x02, "you cast " + Spell.Template.Name + ".");
                     client.SendStats(StatusFlags.All);
                 }
+            }
+            else
+            {
+                if (!(target is Aisling))
+                    return;
+
+                var client = (target as Aisling).Client;
+                sprite.CurrentHp = sprite.MaximumHp;
+
+                var hpbar = new ServerFormat13
+                {
+                    Serial = sprite.Serial,
+                    Health = (ushort) (100 * sprite.CurrentHp / sprite.MaximumHp),
+                    Sound = 8
+                };
+
+                client.SendAnimation(0x04, sprite, sprite);
+                client.Aisling.Show(Scope.NearbyAislings, hpbar);
             }
         }
     }

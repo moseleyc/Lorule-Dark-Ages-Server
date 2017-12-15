@@ -6,13 +6,13 @@ using System;
 namespace Darkages.Scripting.Scripts
 {
 
-    [Script("Mileth", "Dean")]
-    public class Mileth : MapScript
+    [Script("Lorule Arena", "Dean")]
+    public class Arena : MapScript
     {
         public GameServerTimer Timer { get; set; }
         public static Random Rand = new Random();
 
-        public Mileth(Area area)
+        public Arena(Area area)
             : base(area)
         {
             this.Timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MapUpdateInterval));
@@ -61,8 +61,8 @@ namespace Darkages.Scripting.Scripts
                     foreach (var obj in objects)
                     {
                         if (obj != null)
-                            if (obj.WithinRangeOf(50, 50))
-                                obj.Client.Send(new ServerFormat29(animation, (ushort)50, (ushort)50));
+                            if (obj.WithinRangeOf(25, 25))
+                                obj.Client.Send(new ServerFormat29(animation, (ushort)25, (ushort)25));
                     }
                 }
 

@@ -24,9 +24,21 @@ namespace Darkages.Storage.locales.Scripts.Items
             {
                 var client = (sprite as Aisling).Client;
 
-                client.Aisling.EquipmentManager.Add(Item.Template.EquipmentSlot, Item);
+
+                if (Item.Template.Flags.HasFlag(ItemFlags.Equipable))
+                {
+                    if (!client.CheckReqs(client, Item))
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    client.Aisling.EquipmentManager.Add(Item.Template.EquipmentSlot, Item);
+                }
             }
         }
+
 
         public override void Equipped(Sprite sprite, byte displayslot)
         {
@@ -40,7 +52,7 @@ namespace Darkages.Storage.locales.Scripts.Items
                 Item.ApplyModifers(client);
 
                 client.Aisling.Pants = 1;
-                client.Aisling.Armor = this.Item.Image;         
+                client.Aisling.Armor = (ushort)Item.Image;
             }
         }
 

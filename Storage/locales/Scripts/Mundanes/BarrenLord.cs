@@ -23,7 +23,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             client.SendOptionsDialog(base.Mundane, "You seek redemption?", options.ToArray());
 
         }
-        public override void OnResponse(GameServer server, GameClient client, short responseID, string args)
+        public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             if (responseID == 0x0001)
             {
@@ -34,10 +34,10 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
             if (responseID == 0x0005)
             {
-                client.Aisling.MaximumHp -= ServerContext.Config.DeathHPPenalty;
+                client.Aisling._MaximumHp -= ServerContext.Config.DeathHPPenalty;
 
                 if (client.Aisling.MaximumHp <= 0)
-                    client.Aisling.MaximumHp = ServerContext.Config.MinimumHp;
+                    client.Aisling._MaximumHp = ServerContext.Config.MinimumHp;
 
                 client.Aisling.CurrentHp = client.Aisling.MaximumHp;
 

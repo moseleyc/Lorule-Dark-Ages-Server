@@ -1,6 +1,4 @@
-﻿using Darkages.Network.Game;
-using Darkages.Types;
-using System;
+﻿using Darkages.Types;
 
 namespace Darkages.Storage.locales.Buffs
 {
@@ -14,34 +12,41 @@ namespace Darkages.Storage.locales.Buffs
             get => "dion";
         }
 
-        public buff_dion(GameClient client) : base(client)
-        {
-            StatusBarItem = new StatusItem<Buff>(client, 6, 53, this.Name, (this as Buff));
-        }
+        public override int  Length => 6;
+        public override byte Icon   => 19;
 
-        public override void OnApplied(Buff buff, StatusItem<Buff> item)
-        {
-            if (Client == null || Client.Aisling == null)
-                return;
-
-            if (!Client.Aisling.LoggedIn)
-                return;
-
-            Client.Aisling.Status |= Status.dion;
-
-            Client.SendMessage(0x02, "Your skin turns to stone.");
-        }
-
-        public override void OnDurationUpdate(Buff buff, StatusItem<Buff> item)
+        public buff_dion()
         {
 
         }
 
-        public override void OnEnded(Buff buff, StatusItem<Buff> item)
+        public override void OnApplied(Sprite Affected, Buff buff)
         {
-            Client.Aisling.Status ^= Status.dion;
+            if (Affected is Aisling)
+            {
+                (Affected as Aisling)
+                    .Client
+                    .SendMessage(0x02, "Your skin turns to stone.");
+            }
 
-            Client.SendMessage(0x02, "Your skin turns back to flesh.");
+            base.OnApplied(Affected, buff);
+        }
+
+        public override void OnDurationUpdate(Sprite Affected, Buff buff)
+        {
+            base.OnDurationUpdate(Affected, buff);
+        }
+
+        public override void OnEnded(Sprite Affected, Buff buff)
+        {
+            if (Affected is Aisling)
+            {
+                (Affected as Aisling)
+                    .Client
+                    .SendMessage(0x02, "Your skin turns back to flesh.");
+            }
+
+            base.OnEnded(Affected, buff);
         }
     }
 }

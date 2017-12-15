@@ -211,13 +211,27 @@
     <Compile Include="Storage\AislingStorage.cs" />
     <Compile Include="Storage\AreaStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_ardcradh.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_beagcradh.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_cradh.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_cursed.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_frozen.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_morcradh.cs" />
-    <Compile Include="Storage\locales\debuffs\debuff_sleep.cs" />
+    <Compile Include="Storage\locales\debuffs\debuff_ardcradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_beagcradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_cradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_cursed.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_frozen.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_morcradh.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\debuffs\debuff_sleep.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\Scripts\Areas\Barrens.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -303,9 +317,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Spells\beagiocfein.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\buffs\buff_dion.cs" />
+    <Compile Include="Storage\locales\buffs\buff_dion.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\Scripts\Spells\cradh.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

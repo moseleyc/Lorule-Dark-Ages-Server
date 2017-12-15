@@ -32,6 +32,8 @@ namespace Darkages.Storage.locales.Scripts.Spells
                 var client = (sprite as Aisling).Client;
                 var buff   = Clone<Buff>(Spell.Template.Buff);
 
+                client.TrainSpell(Spell);
+
                 if (sprite.Buffs.FirstOrDefault(i => i.Name == buff.Name) == null)
                 {
                     buff.OnApplied(sprite, buff);
@@ -80,6 +82,20 @@ namespace Darkages.Storage.locales.Scripts.Spells
                     client.SendMessage(0x02, "your will is to weak.");
                 }
                 client.SendStats(StatusFlags.StructB);
+            }
+            else
+            {
+                if (!(target is Aisling))
+                    return;
+
+                var client = (target as Aisling).Client;
+                var buff = Clone<Buff>(Spell.Template.Buff);
+
+                if (sprite.Buffs.FirstOrDefault(i => i.Name == buff.Name) == null)
+                {
+                    buff.OnApplied(sprite, buff);
+                    client.SendAnimation(244, sprite, sprite);
+                }
             }
         }
     }

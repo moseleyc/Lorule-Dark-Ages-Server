@@ -46,7 +46,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 };
 
                 //test
-                var enemy = client.Aisling.GetInfront(client.Aisling);
+                var enemy = client.Aisling.GetInfront();
 
                 if (enemy != null)
                 {
@@ -62,40 +62,19 @@ namespace Darkages.Scripting.Scripts.Skills
                         if (i is Money)
                             continue;
 
+                        if (!i.Attackable)
+                            continue;
+                        ;
+
                         Target = i;
-
-
-                        //= INT(F4 * ($D$5 * $D$7 + $D$6 * $D$6) * ($D$7 + 1 * F4))
 
                         var dmg = (int)(Skill.Level + 1 * (client.Aisling.Str + 64 + client.Aisling.Dex + 64) + 64 + 1.0 * Skill.Level + 1);
                         i.ApplyDamage(sprite, dmg);
-
-
-                        //probably should calculate the percent after we do some damage. not before.
-                        //response to send hpbar to client.
-                        var hpbar = new ServerFormat13
-                        {
-                            Serial = i.Serial,
-                            Health = (ushort)((double)100 * i.CurrentHp / (double)i.MaximumHp),
-                            Sound = Skill.Template.Sound                            
-                        };
-
-
-                        //send hpbar to client
-                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
 
                         if (i is Monster)
                         {
                             (i as Monster).Target = client.Aisling;
                             (i as Monster).Attacked = true;
-
-                            //Monster Dead!
-                            if (i.CurrentHp == 0)
-                            {
-                                var obj = GetObject<Monster>(o => o.Serial == i.Serial);
-                                if (obj != null && obj is Monster)
-                                    obj.Remove<Monster>();
-                            }
                         }
 
                         if (i is Aisling)
@@ -119,7 +98,9 @@ namespace Darkages.Scripting.Scripts.Skills
         {
             if (sprite is Aisling)
             {
+              
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
                 if (Skill.Ready)
                 {
                     if (client.Aisling.Invisible)

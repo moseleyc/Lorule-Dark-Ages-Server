@@ -1,18 +1,18 @@
 ﻿using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
+using Darkages.Storage.locales.debuffs;
 using Darkages.Types;
 using System;
 using System.Linq;
-using Darkages.Storage.locales.debuffs;
 
 namespace Darkages.Storage.locales.Scripts.Spells
 {
-    [Script("pramh", "Dean")]
-    public class pramh : SpellScript
+    [Script("mor cradh", "Dean")]
+    public class mor_cradh : SpellScript
     {
         Random rand = new Random();
 
-        public pramh(Spell spell) : base(spell)
+        public mor_cradh(Spell spell) : base(spell)
         {
         }
 
@@ -27,15 +27,6 @@ namespace Darkages.Storage.locales.Scripts.Spells
                     .Client
                     .SendAnimation(33, target, sprite);
             }
-            else
-            {
-                if (sprite is Monster)
-                {
-                    (sprite.Target as Aisling)?
-                        .Client
-                        .SendAnimation(33, sprite, target);
-                }
-            }
         }
 
         public override void OnSuccess(Sprite sprite, Sprite target)
@@ -47,44 +38,48 @@ namespace Darkages.Storage.locales.Scripts.Spells
                 client.TrainSpell(Spell);
 
                 var debuff = Clone<Debuff>(Spell.Template.Debuff);
+                var curses = target.Debuffs.OfType<debuff_cursed>().ToList();
 
-                target.RemoveDebuff("frozen");
-
-                if (target.Debuffs.FirstOrDefault(i => i.Name == debuff.Name) == null)
+                if (curses.Count == 0)
                 {
-                    debuff.OnApplied(target, debuff);
-
-                    if (target is Aisling)
+                    if (target.Debuffs.FirstOrDefault(i => i.Name == debuff.Name) == null)
                     {
-                        (target as Aisling).Client
-                            .SendMessage(0x02,
-                                string.Format("{0} Attacks you with {1}.", client.Aisling.Username,
-                                    Spell.Template.Name));
+                        debuff.OnApplied(target, debuff);
+
+                        if (target is Aisling)
+                        {
+                            (target as Aisling).Client
+                                .SendMessage(0x02,
+                                    string.Format("{0} Attacks you with {1}.", client.Aisling.Username,
+                                        Spell.Template.Name));
+                        }
+
+                        client.SendMessage(0x02, string.Format("you cast {0}", Spell.Template.Name));
+                        client.SendAnimation(243, target, sprite);
+
+                        var action = new ServerFormat1A
+                        {
+                            Serial = client.Aisling.Serial,
+                            Number = 0x80,
+                            Speed = 30
+                        };
+
+                        var hpbar = new ServerFormat13
+                        {
+                            Serial = sprite.Serial,
+                            Health = 255,
+                            Sound = 27
+                        };
+
+                        client.Aisling.Show(Scope.NearbyAislings, action);
+                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
                     }
-
-                    client.SendMessage(0x02, string.Format("you cast {0}", Spell.Template.Name));
-                    client.SendAnimation(32, target, sprite);
-
-                    var action = new ServerFormat1A
-                    {
-                        Serial = sprite.Serial,
-                        Number = 0x80,
-                        Speed = 30
-                    };
-
-                    var hpbar = new ServerFormat13
-                    {
-                        Serial = client.Aisling.Serial,
-                        Health = 255,
-                        Sound = 8
-                    };
-
-                    client.Aisling.Show(Scope.NearbyAislings, action);
-                    client.Aisling.Show(Scope.NearbyAislings, hpbar);
                 }
                 else
                 {
-                    client.SendMessage(0x02, string.Format("They are sleeping already."));
+                    var c = curses.FirstOrDefault();
+                    if (c != null)
+                        client.SendMessage(0x02, string.Format("Another curse is afflicted [{0}].", c.Name));
                 }
             }
             else
@@ -94,7 +89,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                 var client = (target as Aisling).Client;
                 var debuff = Clone<Debuff>(Spell.Template.Debuff);
-                var curses = target.Debuffs.OfType<debuff_sleep>().ToList();
+                var curses = target.Debuffs.OfType<debuff_cursed>().ToList();
 
                 if (curses.Count == 0)
                 {
@@ -108,7 +103,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                                     (sprite is Monster ? (sprite as Monster).Template.Name : (sprite as Mundane).Template.Name) ?? "Monster",
                                     Spell.Template.Name));
 
-                        client.SendAnimation(32, target, sprite);
+                        client.SendAnimation(243, target, sprite);
 
                         var action = new ServerFormat1A
                         {
@@ -119,9 +114,9 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                         var hpbar = new ServerFormat13
                         {
-                            Serial = target.Serial,
+                            Serial = client.Aisling.Serial,
                             Health = 255,
-                            Sound = 27
+                            Sound = 8
                         };
 
                         client.Aisling.Show(Scope.NearbyAislings, action);

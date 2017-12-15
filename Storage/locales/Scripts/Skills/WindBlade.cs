@@ -26,11 +26,10 @@ namespace Darkages.Scripting.Scripts.Skills
             {
                 var client = (sprite as Aisling).Client;
 
-                if (Target != null)
-                {
-                    client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29(Skill.Template.MissAnimation, (ushort)Target.X, (ushort)Target.Y)));
-                }
+                client.SendMessage(0x02,
+                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
+
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -66,33 +65,12 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         var dmg = client.Aisling.Invisible ? 2 : 1 * (client.Aisling.Str * (20 * Skill.Level));
                         i.Target = client.Aisling;
-                        i.ApplyDamage(sprite, dmg);
-
-                        //probably should calculate the percent after we do some damage. not before.
-                        //response to send hpbar to client.
-                        var hpbar = new ServerFormat13
-                        {
-                            Serial = i.Serial,
-                            Health = (ushort)((double)100 * i.CurrentHp / (double)i.MaximumHp),
-                            Sound = Skill.Template.Sound
-                        };
-
-
-                        //send hpbar to client
-                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
+                        i.ApplyDamage(sprite, dmg, false, Skill.Template.Sound);
 
                         if (i is Monster)
                         {
                             (i as Monster).Target = client.Aisling;
                             (i as Monster).Attacked = true;
-
-                            //Monster Dead!
-                            if (i.CurrentHp == 0)
-                            {
-                                var obj = GetObject<Monster>(o => o.Serial == i.Serial);
-                                if (obj != null && obj is Monster)
-                                    obj.Remove<Monster>();
-                            }
                         }
                         if (i is Aisling)
                         {
@@ -116,10 +94,11 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+                client.TrainSkill(Skill);
 
                 if (Skill.Ready)
                 {
-                    if (client.Aisling.Invisible)
+                    if (client.Aisling.Invisible && Skill.Template.PostQualifers.HasFlag(PostQualifer.BreakInvisible))
                     {
                         client.Aisling.Flags = AislingFlags.Normal;
                         client.Refresh();
@@ -127,7 +106,10 @@ namespace Darkages.Scripting.Scripts.Skills
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
 
-                    OnSuccess(sprite);
+                    if (rand.Next(1, 101) < Skill.Level)
+                        OnSuccess(sprite);
+                    else
+                        OnFailed(sprite);
                 }
             }
         }
