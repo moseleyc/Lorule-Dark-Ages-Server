@@ -10,7 +10,7 @@ namespace Darkages.Types
 
         static MetafileManager()
         {
-            var files = Directory.GetFiles($"{Environment.CurrentDirectory}/Storage/locales/metafile/");
+            var files = Directory.GetFiles($"{ServerContext.STORAGE_PATH}/metafile/");
             metafiles = new MetafileCollection(files.Length);
 
             foreach (var file in files)
