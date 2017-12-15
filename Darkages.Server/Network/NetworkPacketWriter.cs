@@ -11,6 +11,7 @@ namespace Darkages.Network
         private byte[] buffer = new byte[ServerContext.Config.BufferSize];
 
         public int Position { get; set; }
+        public bool CanWrite => this.Position + 1 < this.buffer.Length;
 
         public void Write(bool value)
         {

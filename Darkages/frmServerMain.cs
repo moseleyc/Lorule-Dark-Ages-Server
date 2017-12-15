@@ -344,5 +344,15 @@ namespace Darkages
 
             public bool IsRunning => Running;
         }
+
+        private void loadTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new jsonEditor().ShowDialog();
+        }
     }
 }

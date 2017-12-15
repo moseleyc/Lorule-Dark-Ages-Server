@@ -41,5 +41,17 @@ namespace Darkages.Types
             Skills[movingFrom] = null;
             return copy;
         }
+
+        public int FindEmpty()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                if (Skills[i + 1] == null)
+                {
+                    return (i + 1);
+                }
+            }
+            return -1;
+        }
     }
 }

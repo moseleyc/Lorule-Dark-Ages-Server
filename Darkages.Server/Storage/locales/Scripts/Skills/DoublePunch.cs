@@ -36,7 +36,6 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
-                client.TrainSkill(Skill);
 
                 var action = new ServerFormat1A
                 {
@@ -96,6 +95,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 var client = (sprite as Aisling).Client;
                 if (Skill.Ready)
                 {
+                    client.TrainSkill(Skill);
                     if (client.Aisling.Invisible)
                     {
                         client.Aisling.Flags = AislingFlags.Normal;

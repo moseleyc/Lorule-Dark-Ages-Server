@@ -23,7 +23,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    !String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
 
         }
@@ -82,7 +82,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
         private Random rand = new Random();
         public override void OnUse(Sprite sprite)
         {
-            if (sprite is Aisling)
+            if (sprite is Aisling && Skill.Ready)
             {
                 var client = (sprite as Aisling).Client;
                 client.TrainSkill(Skill);

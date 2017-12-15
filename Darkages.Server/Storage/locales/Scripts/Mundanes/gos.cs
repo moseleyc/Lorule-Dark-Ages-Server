@@ -108,13 +108,16 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             }
 
             quest.QuestStages = new List<QuestStep<Template>>();
+
             var q1 = new QuestStep<Template> { Type = QuestType.Accept };
             var q2 = new QuestStep<Template> { Type = QuestType.ItemHandIn };
 
-            q1.RequirementsToProgress.Add(i => true); // no reqs to start quest.
-            q2.RequirementsToProgress.Add(i => true); // no reqs 
-            q2.RequirementsToProgress.Add(i => 
-                client.Aisling.Inventory.Get(o => o.Template.Name == "rat shit").FirstOrDefault()?.Stacks >= 10); // to finish, also reqs two shirts.
+            q2.Prerequisites.Add(new QuestRequirement()
+            {
+                Type = QuestType.ItemHandIn,
+                Amount = 10,
+                TemplateContext = ServerContext.GlobalItemTemplateCache["rat shit"]                
+            });
 
             quest.QuestStages.Add(q1);
             quest.QuestStages.Add(q2);
@@ -126,7 +129,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             else if (quest.Started && !quest.Completed && !quest.Rewarded)
             {
                 client.SendOptionsDialog(Mundane, "Where is the rat shit i need?");
-                quest.HandleQuest(SequenceMenu, Mundane, client);
+                quest.HandleQuest(client, SequenceMenu);
             }
             else if (quest.Completed)
             {

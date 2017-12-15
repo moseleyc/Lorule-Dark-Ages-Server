@@ -72,16 +72,7 @@ namespace Darkages.Types
         public static bool GiveTo(GameClient client, string args)
         {
             var skillTemplate = ServerContext.GlobalSkillTemplateCache[args];
-            var slot = 0;
-
-            for (int i = 0; i < client.Aisling.SkillBook.Length; i++)
-            {
-                if (client.Aisling.SkillBook.Skills[i + 1] == null)
-                {
-                    slot = (i + 1);
-                    break;
-                }
-            }
+            var slot = client.Aisling.SkillBook.FindEmpty();
 
             if (slot <= 0)
                 return false;
@@ -91,6 +82,21 @@ namespace Darkages.Types
             client.Aisling.SkillBook.Assign(skill);
             client.Aisling.SkillBook.Set(skill, false);
             client.Send(new ServerFormat2C(skill.Slot, skill.Icon, skill.Name));
+
+            return true;
+        }
+
+        public static bool GiveTo(Aisling aisling, string args)
+        {
+            var skillTemplate = ServerContext.GlobalSkillTemplateCache[args];
+            var slot = aisling.SkillBook.FindEmpty();
+
+            if (slot <= 0)
+                return false;
+
+            var skill = Skill.Create(slot, skillTemplate);
+            skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
+            aisling.SkillBook.Assign(skill);
 
             return true;
         }

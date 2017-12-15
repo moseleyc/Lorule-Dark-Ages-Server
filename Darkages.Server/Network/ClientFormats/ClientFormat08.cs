@@ -18,7 +18,11 @@
             X = reader.ReadInt16();
             Y = reader.ReadInt16();
             ItemAmount = reader.ReadInt32();
-            Unknown = reader.ReadInt16();
+
+            if (reader.CanRead)
+            {
+                Unknown = reader.ReadInt16();
+            }
         }
         public override void Serialize(NetworkPacketWriter writer)
         {

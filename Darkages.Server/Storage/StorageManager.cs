@@ -28,6 +28,22 @@ namespace Darkages.Storage
         public static TemplateStorage<MundaneTemplate> MundaneBucket = new TemplateStorage<MundaneTemplate>();
         public static TemplateStorage<WarpTemplate> WarpBucket = new TemplateStorage<WarpTemplate>();
 
+        public static T LoadFrom<T>(string path) where T : Template
+        {
+            if (!File.Exists(path))
+                return null;
+
+            using (var s = File.OpenRead(path))
+            using (var f = new StreamReader(s))
+                return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), StorageManager.Settings);
+        }
+
+        public static void SaveTo<T>(T obj, string path) where T: Template
+        {
+            var objString = JsonConvert.SerializeObject(obj, StorageManager.Settings);
+            File.WriteAllText(path, objString);
+        }
+
         public static T Load<T>() where T: class, new()
         {
             try

@@ -125,7 +125,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                     if ((Monster.Target as Aisling).Invisible)
                         ClearTarget();
                 }
-                if (Monster.Target.CurrentHp == 0)
+                if (Monster.Target?.CurrentHp == 0)
                 {
                     ClearTarget();
                 }

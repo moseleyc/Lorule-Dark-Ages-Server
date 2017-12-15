@@ -86,6 +86,12 @@
     <Compile Include="frmServerMain.Designer.cs">
       <DependentUpon>frmServerMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="jsonEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="jsonEditor.Designer.cs">
+      <DependentUpon>jsonEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectCreation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmServerMain.resx">
       <DependentUpon>frmServerMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="jsonEditor.resx">
+      <DependentUpon>jsonEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectCreation.resx">
       <DependentUpon>ObjectCreation.cs</DependentUpon>

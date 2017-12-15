@@ -275,6 +275,12 @@ namespace Darkages
                 EquipmentManager = new EquipmentManager(null),
             };
 
+            foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+                Skill.GiveTo(result, skill);
+
+            foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
+                Spell.GiveTo(result, spell);
+
             result.LegendBook.AddLegend(new Legend.LegendItem()
             {
                 Category = "Event",
@@ -287,10 +293,6 @@ namespace Darkages
             {
                 result.Map = ServerContext.GlobalMapCache[509];
             }
-            
-            //default starting skill, (Assail, slot 1)
-            var skill1 = Skill.Create(1, ServerContext.GlobalSkillTemplateCache["Assail"]);
-            result.SkillBook.Assign(skill1);
 
             return result;
         }

@@ -21,8 +21,12 @@ namespace Darkages.Network.ClientFormats
         public override void Serialize(NetworkPacketReader reader)
         {
             Index = reader.ReadByte();
-            Serial = reader.ReadUInt32();
-            Point = reader.ReadPosition();
+
+            if (reader.CanRead)
+                Serial = reader.ReadUInt32();
+
+            if (reader.CanRead)
+                Point = reader.ReadPosition();
         }
 
         public override void Serialize(NetworkPacketWriter writer)

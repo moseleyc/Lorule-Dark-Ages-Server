@@ -76,6 +76,7 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Generator.cs" />
     <Compile Include="Common\Predicate.cs" />
+    <Compile Include="Common\Reflection.cs" />
     <Compile Include="Common\TSList.cs" />
     <Compile Include="Compression\CompressableObject.cs" />
     <Compile Include="Compression\CompressionProvider.cs" />

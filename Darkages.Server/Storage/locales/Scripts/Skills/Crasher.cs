@@ -25,7 +25,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    !String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
 
         }
@@ -35,7 +35,7 @@ namespace Darkages.Scripting.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
-                client.TrainSkill(Skill);
+
 
                 var action = new ServerFormat1A
                 {
@@ -93,6 +93,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 var client = (sprite as Aisling).Client;
                 if (Skill.Ready)
                 {
+                    client.TrainSkill(Skill);
                     if (client.Aisling.Invisible && Skill.Template.PostQualifers == PostQualifer.BreakInvisible)
                     {
                         client.Aisling.Flags = AislingFlags.Normal;

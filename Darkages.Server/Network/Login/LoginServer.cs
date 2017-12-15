@@ -77,6 +77,8 @@ namespace Darkages.Network.Login
             template.HairColor = format.HairColor;
             template.HairStyle = format.HairStyle;
 
+
+
             StorageManager.AislingBucket.Save(template);
             client.SendMessageBox(0x00, "\0");
         }

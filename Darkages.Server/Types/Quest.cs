@@ -39,21 +39,28 @@ namespace Darkages.Types
 
         public bool Rewarded { get; set; }
 
-        public List<Item> ItemsToHandIn { get; set; }
-
-        public Quest()
-        {
-            ItemsToHandIn = new List<Item>();
-        }
 
         public void OnCompleted(Aisling user)
         {
-            foreach (var item in ItemsToHandIn)
+            var completeStages = QuestStages.Where(i => i.StepComplete).SelectMany(i => i.Prerequisites);
+
+            foreach (var step in completeStages)
             {
-                if (item == null)
-                    continue;
-                user.EquipmentManager.RemoveFromInventory(item, true);
+                if (step.Type == QuestType.ItemHandIn)
+                {
+                    var obj = user.Inventory.Get(o => o.Template.Name == step.TemplateContext.Name)
+                        .FirstOrDefault();
+
+                    if (obj.Template.Flags.HasFlag(ItemFlags.QuestRelated))
+                    {
+                        if (obj != null && step.IsMet(user, b => b(obj.Template)))
+                        {
+                            user.Inventory.RemoveRange(user.Client, obj, step.Amount);
+                        }
+                    }
+                }
             }
+
 
             Completed = true;
             TimeCompleted = DateTime.Now;
@@ -93,40 +100,19 @@ namespace Darkages.Types
             }
         }
 
-        public bool MeetsCritera(Aisling user, List<Item> items, Quest quest)
+
+        public void HandleQuest(GameClient client, Dialog menu)
         {
-            var complete = 0;
-            if (quest != null)
-                foreach (var reqs in quest.QuestStages)
-                {
-                    var req = reqs.RequirementsToProgress;
-
-                    foreach (var r in req)
-                    {
-                        var obj = items.Find(i => r(i.Template));
-
-                        if (obj != null)
-                        {
-                            if (quest.ItemsToHandIn.Find(i => i != null && i.Template.Name == obj.Template.Name) ==
-                                null)
-                                quest.ItemsToHandIn.Add(obj);
-
-                            complete++;
-                        }
-                    }
-                }
-
-            return complete > 0;
-        }
-
-        public void HandleQuest(Dialog menu, Mundane mundane, GameClient client)
-        {
-            var items = client.Aisling.Inventory.Items.Where(i => i.Value != null).Select(i => i.Value).ToList();
-            var quest = client.Aisling.Quests.FirstOrDefault(i => i.Name == mundane.Template.QuestKey);
             var valid = false;
 
-            if (quest != null)
-                valid = quest.MeetsCritera(client.Aisling, items, quest);
+            foreach (var stage in this.QuestStages)
+            {
+                foreach (var reqs in stage.Prerequisites)
+                {
+                    valid = reqs.IsMet(client.Aisling, i => i(reqs.TemplateContext));
+                    stage.StepComplete = valid;
+                }
+            }
 
             if (valid)
             {
@@ -139,12 +125,32 @@ namespace Darkages.Types
         }
     }
 
+
+    public class QuestRequirement
+    {
+        public int Amount { get; set; }
+        public Template TemplateContext { get; set; }
+        public QuestType Type { get; set; }
+
+        public bool IsMet(Aisling user, Func<Predicate<Template>, bool> predicate)
+        {
+            if (Type == QuestType.ItemHandIn)
+            {
+                return predicate(i => user.Inventory.Has(TemplateContext) >= Amount);
+            }
+
+            return false;
+        }
+    }
+
     public class QuestStep<T>
     {
         public QuestType Type { get; set; }
 
+        public bool StepComplete { get; set; }
+
         [JsonIgnore]
-        public List<Predicate<T>> RequirementsToProgress
-            = new List<Predicate<T>>();
+        public List<QuestRequirement> Prerequisites
+            = new List<QuestRequirement>();
     }
 }

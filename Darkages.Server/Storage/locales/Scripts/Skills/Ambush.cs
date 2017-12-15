@@ -33,7 +33,6 @@ namespace Darkages.Storage.locales.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
-                client.TrainSkill(Skill);
 
                 var targets = client.Aisling.GetInfront(3).ToList();
                 Position prev = client.Aisling.Position;
@@ -106,10 +105,10 @@ namespace Darkages.Storage.locales.Scripts.Skills
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
-                if (client.Aisling != null && !client.Aisling.Dead)
+                if (client.Aisling != null && !client.Aisling.Dead && Skill.Ready)
                 {
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
-
+                    client.TrainSkill(Skill);
                     if (rand.Next(1, 101) < Skill.Level)
                         OnSuccess(sprite);
                     else

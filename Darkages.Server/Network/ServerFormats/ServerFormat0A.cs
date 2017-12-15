@@ -44,7 +44,11 @@
         public override void Serialize(NetworkPacketWriter writer)
         {
             writer.Write(Type);
-            writer.WriteStringB(Text);
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                writer.WriteStringB(Text);
+            }
         }
     }
 }
