@@ -16,7 +16,7 @@
   "CantDropItemMsg": "You can't drop that.",
   "CantDoThat": "You can't do that.",
   "HandShakeMessage": "CAN WE ALL GET ALONG\n",
-  "BufferSize": 8192,
+  "BufferSize": 16534,
   "LogSentPackets": false,
   "LogRecvPackets": false,
   "QueuePackets": true,

@@ -93,7 +93,7 @@ namespace Darkages.Network.Game
         /// Buffer Size - this can be changed, but the minimum recommended value
         /// should be between 2048 and 16384, by default we use 16384
         /// </summary>
-        public  int BufferSize = 8192;
+        public  int BufferSize = 0x4096;
 
         [JsonProperty]
         /// <summary>

@@ -20,16 +20,11 @@
         {
             this.Type = reader.ReadByte();
             this.Serial = reader.ReadInt32();
-            reader.ReadByte();
-            this.Step = reader.ReadByte();
+            this.Step = reader.ReadUInt16();
 
-            try
+            if (reader.CanRead)
             {
                 this.Args = reader.ReadStringA();
-            }
-            catch
-            {
-
             }
         }
         public override void Serialize(NetworkPacketWriter writer)
