@@ -74,13 +74,21 @@ To host your server online, you must use the Client Launcher for your users to c
 Your IPAddress also needs to reflect the server.tbl file located in your Server's running directory.
 
 Lorule Client Launcher Download:
-    -> https://drive.google.com/file/d/16Uff3R23Qdg3qRiaMbCG2q1szgfCj4LG/view?usp=sharing
-    -> Copy the Darkages_Client folder and the config to your documents directory.
     
-    Wehn adding a server to the launcher config file, the settings you will be looking for clint 7.18 are:
-    PatchTable: 212257
-    HookTable: 213435
-    The rest of the information you can set yourself, IP, port, Ect.
+    -> https://drive.google.com/file/d/16Uff3R23Qdg3qRiaMbCG2q1szgfCj4LG/view?usp=sharing
+ 
+    (optional) - Copy the Darkages_Client folder and the config to your documents directory (optional step)
+    
+    When adding a server to the launcher config file, the settings you will be looking for clint 7.18 are:
+
+    - PatchTable  : 212257
+    - HookTable   : 213435
+    
+    The rest of the information can be set yourself, IP, port, Ect.
+    
+
+
+One more thing, run launcher as administrator if it fails, darkages will also need to run as administrator.
 
 
 Enjoy.
