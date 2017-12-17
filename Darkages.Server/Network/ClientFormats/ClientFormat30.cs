@@ -13,17 +13,16 @@ namespace Darkages.Network.ClientFormats
 
         public override void Serialize(NetworkPacketReader reader)
         {
-            PaneType   = (Pane)reader.ReadByte();
+            PaneType = (Pane) reader.ReadByte();
             MovingFrom = reader.ReadByte();
-            MovingTo   = reader.ReadByte();
+            MovingTo = reader.ReadByte();
 
             if (MovingFrom < 1 || MovingTo < 1)
-                return;            
+                return;
         }
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-
         }
     }
 }

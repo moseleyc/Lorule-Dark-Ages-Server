@@ -4,14 +4,9 @@ namespace Darkages.Network.ClientFormats
 {
     public class ClientFormat07 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return true; }
-        }
-        public override byte Command
-        {
-            get { return 0x07; }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x07;
 
 
         public Position Position { get; set; }
@@ -22,6 +17,7 @@ namespace Darkages.Network.ClientFormats
             PickupType = reader.ReadByte();
             Position = reader.ReadPosition();
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

@@ -8,7 +8,6 @@ namespace Darkages.Storage.locales.Scripts.Items
     {
         public Shirt(Item item) : base(item)
         {
-
         }
 
         public override void OnUse(Sprite sprite, byte slot)
@@ -29,7 +28,6 @@ namespace Darkages.Storage.locales.Scripts.Items
                 {
                     if (!client.CheckReqs(client, Item))
                     {
-                        
                     }
                 }
                 else
@@ -52,7 +50,7 @@ namespace Darkages.Storage.locales.Scripts.Items
                 Item.ApplyModifers(client);
 
                 client.Aisling.Pants = 1;
-                client.Aisling.Armor = (ushort)Item.Image;
+                client.Aisling.Armor = Item.Image;
             }
         }
 

@@ -4,20 +4,9 @@ namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat3B : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x3B;
-            }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x3B;
 
 
         public DateTime Ping { get; set; }

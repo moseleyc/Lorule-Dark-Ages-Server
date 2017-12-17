@@ -11,14 +11,23 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
         public TestMundane(GameServer server, Mundane mundane)
             : base(server, mundane)
         {
-
         }
+
+        public override void OnGossip(GameServer server, GameClient client, string message)
+        {
+        }
+
+        public override void TargetAcquired(Sprite Target)
+        {
+        }
+
 
         public override void OnClick(GameServer server, GameClient client)
         {
-            client.SendOptionsDialog(base.Mundane, "How may I assist you?",
+            client.SendOptionsDialog(Mundane, "How may I assist you?",
                 new OptionsDataItem(0x0001, "Learn Skill"));
         }
+
         public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             switch (responseID)
@@ -26,11 +35,11 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 // Skill Learn
                 case 0x0001:
                     var skills = ServerContext.GlobalSkillTemplateCache.Values;
-                    client.SendSkillLearnDialog(base.Mundane, "Which skill would you like to learn?", 0x0003, skills);
+                    client.SendSkillLearnDialog(Mundane, "Which skill would you like to learn?", 0x0003, skills);
                     break;
                 // Skill Confirmation
                 case 0x0003:
-                    client.SendOptionsDialog(base.Mundane, "Are you sure you want to learn " + args + "?", args,
+                    client.SendOptionsDialog(Mundane, "Are you sure you want to learn " + args + "?", args,
                         new OptionsDataItem(0x0005, "Yes"),
                         new OptionsDataItem(0x0001, "No"));
                     break;
@@ -38,9 +47,9 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 case 0x0005:
                     Skill.GiveTo(client, args);
 
-                    client.SendOptionsDialog(base.Mundane, "Use this new skill wisely.");
-                    client.Aisling.Show(Scope.NearbyAislings, 
-                        new ServerFormat29((uint)client.Aisling.Serial, (uint)Mundane.Serial, 0, 124, 64));
+                    client.SendOptionsDialog(Mundane, "Use this new skill wisely.");
+                    client.Aisling.Show(Scope.NearbyAislings,
+                        new ServerFormat29((uint) client.Aisling.Serial, (uint) Mundane.Serial, 0, 124, 64));
 
                     break;
             }

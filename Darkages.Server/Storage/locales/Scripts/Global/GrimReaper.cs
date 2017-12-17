@@ -1,16 +1,16 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
 
 namespace Darkages.Storage.locales.Scripts.Global
 {
     [Script("Grim Reaper", "Dean")]
     public class GrimReaper : GlobalScript
     {
-        GameClient Client;
-        GameServerTimer GrimTimer;
+        private readonly GameClient Client;
+        private readonly GameServerTimer GrimTimer;
 
         public GrimReaper(GameClient client) : base(client)
         {
@@ -24,7 +24,6 @@ namespace Darkages.Storage.locales.Scripts.Global
                 return;
 
             if (!client.Aisling.Dead)
-            {
                 lock (client.Aisling)
                 {
                     if (client.Aisling.CurrentHp > 0)
@@ -41,7 +40,7 @@ namespace Darkages.Storage.locales.Scripts.Global
                     client.Aisling.RemoveAllDebuffs();
 
                     client.Send(new ServerFormat08(client.Aisling,
-                        Darkages.Types.StatusFlags.All));
+                        StatusFlags.All));
 
                     Client.LeaveArea(true, false);
                     client.EnterArea();
@@ -53,13 +52,13 @@ namespace Darkages.Storage.locales.Scripts.Global
                         if (target != null)
                         {
                             if (target is Aisling)
-                            {
-                                client.SendMessage(Scope.NearbyAislings, 0x02, client.Aisling.Username + " has been killed by " + (target as Aisling).Username);
-                            }
+                                client.SendMessage(Scope.NearbyAislings, 0x02,
+                                    client.Aisling.Username + " has been killed by " + (target as Aisling).Username);
                         }
                         else
                         {
-                            client.SendMessage(Scope.NearbyAislings, 0x02, client.Aisling.Username + " has been killed.");
+                            client.SendMessage(Scope.NearbyAislings, 0x02,
+                                client.Aisling.Username + " has been killed.");
                         }
 
                         return;
@@ -67,14 +66,13 @@ namespace Darkages.Storage.locales.Scripts.Global
 
                     SendToHell(client);
                 }
-            }
         }
 
         private static void SendToHell(GameClient client)
         {
             client.Aisling.Show(Scope.NearbyAislings,
-                (new ServerFormat29((uint)client.Aisling.Serial,
-                (uint)client.Aisling.Serial, 0x81, 0x81, 100)));
+                new ServerFormat29((uint) client.Aisling.Serial,
+                    (uint) client.Aisling.Serial, 0x81, 0x81, 100));
 
             client.LeaveArea(true, true);
             client.Aisling.X = 13;
@@ -90,7 +88,6 @@ namespace Darkages.Storage.locales.Scripts.Global
         public override void Update(TimeSpan elapsedTime)
         {
             if (Client != null)
-            {
                 if (Client.Aisling.CurrentHp <= 0)
                 {
                     Client.Aisling.CurrentHp = 0;
@@ -106,11 +103,8 @@ namespace Darkages.Storage.locales.Scripts.Global
                 else
                 {
                     if (Client.Aisling.Dead)
-                    {
                         Revive();
-                    }
                 }
-            }            
         }
 
         private void Revive()
@@ -120,11 +114,11 @@ namespace Darkages.Storage.locales.Scripts.Global
             Client.Aisling.CurrentHp = Client.Aisling.MaximumHp;
             Client.Aisling.Flags = AislingFlags.Normal;
             Client.Send(new ServerFormat08(Client.Aisling,
-                Darkages.Types.StatusFlags.All));
+                StatusFlags.All));
             Client.UpdateDisplay();
             Client.Aisling.Show(Scope.NearbyAislings,
-                (new ServerFormat29((uint)Client.Aisling.Serial,
-                (uint)Client.Aisling.Serial, 160, 160, 100)));
+                new ServerFormat29((uint) Client.Aisling.Serial,
+                    (uint) Client.Aisling.Serial, 160, 160, 100));
             Client.Aisling.Flags = AislingFlags.Normal;
             Client.Save();
         }

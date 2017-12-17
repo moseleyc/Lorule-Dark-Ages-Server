@@ -12,6 +12,7 @@
         {
             Slot = reader.ReadByte();
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

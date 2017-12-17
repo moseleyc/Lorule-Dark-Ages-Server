@@ -53,7 +53,7 @@ namespace Darkages.Types
         public Buff Buff { get; set; }
         public SpellUseType TargetType { get; set; }
         public int BaseLines { get; set; }
-        public double ImproveRate { get; set; }
+        public double LevelRate { get; set; }
 
         public SpellTemplate()
         {

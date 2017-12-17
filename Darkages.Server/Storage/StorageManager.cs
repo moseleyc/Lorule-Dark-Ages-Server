@@ -1,8 +1,8 @@
-﻿using Darkages.Network.Game;
+﻿using System.IO;
+using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Types;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace Darkages.Storage
 {
@@ -35,16 +35,18 @@ namespace Darkages.Storage
 
             using (var s = File.OpenRead(path))
             using (var f = new StreamReader(s))
-                return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), StorageManager.Settings);
+            {
+                return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), Settings);
+            }
         }
 
-        public static void SaveTo<T>(T obj, string path) where T: Template
+        public static void SaveTo<T>(T obj, string path) where T : Template
         {
-            var objString = JsonConvert.SerializeObject(obj, StorageManager.Settings);
+            var objString = JsonConvert.SerializeObject(obj, Settings);
             File.WriteAllText(path, objString);
         }
 
-        public static T Load<T>() where T: class, new()
+        public static T Load<T>() where T : class, new()
         {
             try
             {
@@ -60,7 +62,9 @@ namespace Darkages.Storage
 
                     using (var s = File.OpenRead(path))
                     using (var f = new StreamReader(s))
-                        return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), StorageManager.Settings);
+                    {
+                        return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), Settings);
+                    }
                 }
 
                 if (obj is ObjectService)
@@ -73,7 +77,9 @@ namespace Darkages.Storage
 
                     using (var s = File.OpenRead(path))
                     using (var f = new StreamReader(s))
-                        return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), StorageManager.Settings);
+                    {
+                        return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), Settings);
+                    }
                 }
 
                 return null;
@@ -96,7 +102,7 @@ namespace Darkages.Storage
                         Directory.CreateDirectory(StoragePath);
 
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "global"));
-                    var objString = JsonConvert.SerializeObject(obj, StorageManager.Settings);
+                    var objString = JsonConvert.SerializeObject(obj, Settings);
 
                     File.WriteAllText(path, objString);
                     return objString;
@@ -110,7 +116,7 @@ namespace Darkages.Storage
                         Directory.CreateDirectory(StoragePath);
 
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "state_objcache"));
-                    var objString = JsonConvert.SerializeObject(obj, StorageManager.Settings);
+                    var objString = JsonConvert.SerializeObject(obj, Settings);
 
                     File.WriteAllText(path, objString);
                     return objString;

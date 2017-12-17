@@ -4,20 +4,9 @@ namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat00 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x00;
-            }
-        }
+        public override bool Secured => false;
+
+        public override byte Command => 0x00;
 
         public SecurityParameters Parameters { get; set; }
         public byte Type { get; set; }
@@ -26,6 +15,7 @@ namespace Darkages.Network.ServerFormats
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
             writer.Write(Type);

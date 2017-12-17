@@ -29,7 +29,7 @@
   "AttackSpeed": 2000,
   "ImageVarience": 0,
   "SpawnOnlyOnActiveMaps": false,
-  "UpdateMapWide": true,
+  "UpdateMapWide": false,
   "Grow": false,
   "SpellScripts": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",

@@ -1,9 +1,8 @@
 ﻿using System;
-using Darkages.Network.Game;
+using System.Linq;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using Darkages.Network.ServerFormats;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Skills
 {
@@ -11,8 +10,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
     public class KelberothStrike : SkillScript
     {
         public Skill _skill;
-        public Sprite Target;
         public Random rand = new Random();
+        public Sprite Target;
 
         public KelberothStrike(Skill skill) : base(skill)
         {
@@ -26,9 +25,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    !String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    !string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
-
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -65,9 +63,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         var dmg = Convert.ToInt32(client.Aisling.CurrentHp / 3);
                         i.ApplyDamage(sprite, dmg, true);
 
-                        sprite.CurrentHp -= (dmg * 2);
+                        sprite.CurrentHp -= dmg * 2;
                         ((Aisling) sprite).Client.SendStats(StatusFlags.StructB);
-                        
 
 
                         //probably should calculate the percent after we do some damage. not before.
@@ -91,13 +88,15 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
                         if (i is Aisling)
                         {
-                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, byte.MinValue, Skill.Template.TargetAnimation, 100)));
+                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial, byte.MinValue,
+                                    Skill.Template.TargetAnimation, 100));
                             (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                         }
                         if (i is Monster || i is Mundane || i is Aisling)
-                        {
-                            client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, Skill.Template.TargetAnimation, 0, 100)));
-                        }
+                            client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
+                                    Skill.Template.TargetAnimation, 0, 100));
                     }
                     client.Aisling.Show(Scope.NearbyAislings, action);
                 }
@@ -124,9 +123,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     if (rand.Next(1, 101) < Skill.Level)
                         OnSuccess(sprite);
                     else
-                    {
                         OnFailed(sprite);
-                    }
                 }
             }
         }

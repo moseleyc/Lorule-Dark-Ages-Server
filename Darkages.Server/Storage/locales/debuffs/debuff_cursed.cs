@@ -4,23 +4,21 @@ namespace Darkages.Storage.locales.debuffs
 {
     public class debuff_cursed : Debuff
     {
-        public virtual StatusOperator AcModifer { get; set; }
-
         public debuff_cursed(string name, int length, byte icon)
         {
-            this.Name = name;
-            this.Length = length;
-            this.Icon = icon;
+            Name = name;
+            Length = length;
+            Icon = icon;
         }
+
+        public virtual StatusOperator AcModifer { get; set; }
 
         public override void OnApplied(Sprite Affected, Debuff debuff)
         {
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
                     .SendStats(StatusFlags.StructD);
-            }
 
             base.OnApplied(Affected, debuff);
         }
@@ -32,16 +30,14 @@ namespace Darkages.Storage.locales.debuffs
 
         public override void OnEnded(Sprite Affected, Debuff debuff)
         {
-            if (this.Name == "beag cradh")
-            {
+            if (Name == "beag cradh")
                 Affected.BonusAc -= 20;
-            }
 
             if (Affected is Aisling)
             {
                 (Affected as Aisling)
                     .Client
-                    .SendMessage(0x02, string.Format("{0} has ended.", this.Name));
+                    .SendMessage(0x02, string.Format("{0} has ended.", Name));
                 (Affected as Aisling)
                     .Client
                     .SendStats(StatusFlags.StructD);

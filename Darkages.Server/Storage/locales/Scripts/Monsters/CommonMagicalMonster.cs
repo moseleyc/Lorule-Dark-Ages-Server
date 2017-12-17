@@ -1,14 +1,13 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using Darkages.Network.Game;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
 
 namespace Darkages.Storage.locales.Scripts.Monsters
 {
     [Script("Common Magical Monster", "Dean")]
     public class CommonMagicalMonster : MonsterScript
     {
-
         public CommonMagicalMonster(Monster monster, Area map)
             : base(monster, map)
         {
@@ -23,19 +22,15 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             }
 
             if (Monster.Target == null && Monster.WithinRangeOf(client.Aisling) && !client.Aisling.Invisible)
-            {
                 Monster.Target = client.Aisling;
-            }
         }
 
         public override void OnAttacked(GameClient client)
         {
-
         }
 
         public override void OnCast(GameClient client)
         {
-
         }
 
         public override void OnClick(GameClient client)
@@ -43,20 +38,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             Monster.Attacked = true;
             Monster.Target = client.Aisling;
 
-            client.SendMessage(0x02, Monster.Template.Name + $"(Lv {Monster.Template.Level}, HP: {Monster.CurrentHp}/{Monster.MaximumHp}, AC: {Monster.Ac})");
+            client.SendMessage(0x02,
+                Monster.Template.Name +
+                $"(Lv {Monster.Template.Level}, HP: {Monster.CurrentHp}/{Monster.MaximumHp}, AC: {Monster.Ac})");
         }
 
         public override void OnDeath(GameClient client)
         {
             if (Monster.Target != null)
-            {
                 if (Monster.Target is Aisling)
                     Monster.GiveExperienceTo(Monster.Target as Aisling);
-            }
 
             if (GetObject<Monster>(i => i.Serial == Monster.Serial) != null)
-                DelObject<Monster>(Monster);
-
+                DelObject(Monster);
         }
 
         public override void OnLeave(GameClient client)
@@ -72,18 +66,13 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 Monster.BashTimer.Update(elapsedTime);
 
                 if (Monster.Target != null)
-                {
                     if (Monster.Target is Aisling)
-                    {
                         if ((Monster.Target as Aisling).Invisible)
                             Monster.Target = null;
-                    }
-                }
 
                 if (Monster.BashTimer.Elapsed)
                 {
                     if (Monster.BashEnabled)
-                    {
                         if (Monster.Target == null)
                         {
                             Monster.BashEnabled = false;
@@ -92,20 +81,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                         {
                             int direction;
 
-                            if (this.Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
+                            if (Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
                             {
                                 Monster.Attack();
                             }
                             else
                             {
-                                if (!this.Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
+                                if (!Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
                                 {
-                                    this.Monster.Direction = (byte)direction;
-                                    this.Monster.Turn();
+                                    Monster.Direction = (byte) direction;
+                                    Monster.Turn();
                                 }
                             }
                         }
-                    }
 
                     Monster.BashTimer.Reset();
                 }
@@ -119,46 +107,42 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                     else
                     {
                         if (Monster.Target != null)
-                        {
-                            if (this.Monster.NextTo(Monster.Target.X, Monster.Target.Y))
+                            if (Monster.NextTo(Monster.Target.X, Monster.Target.Y))
                             {
                                 int direction;
 
-                                if (this.Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
+                                if (Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
                                 {
-                                    this.Monster.BashEnabled = true;
-                                    this.Monster.CastEnabled = true;
+                                    Monster.BashEnabled = true;
+                                    Monster.CastEnabled = true;
                                 }
                                 else
                                 {
-                                    this.Monster.BashEnabled = false;
-                                    this.Monster.CastEnabled = true;
-                                    this.Monster.Direction = (byte)direction;
-                                    this.Monster.Turn();
+                                    Monster.BashEnabled = false;
+                                    Monster.CastEnabled = true;
+                                    Monster.Direction = (byte) direction;
+                                    Monster.Turn();
                                 }
                             }
                             else
                             {
                                 int direction;
 
-                                if (!this.Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
+                                if (!Monster.Facing(Monster.Target.X, Monster.Target.Y, out direction))
                                 {
-                                    this.Monster.Direction = (byte)direction;
-                                    this.Monster.Turn();
+                                    Monster.Direction = (byte) direction;
+                                    Monster.Turn();
                                 }
 
-                                this.Monster.BashEnabled = false;
-                                this.Monster.CastEnabled = false;
+                                Monster.BashEnabled = false;
+                                Monster.CastEnabled = false;
 
-                                this.Monster.WalkTo(Monster.Target.X, Monster.Target.Y);
+                                Monster.WalkTo(Monster.Target.X, Monster.Target.Y);
                             }
-                        }
                     }
                     Monster.WalkTimer.Reset();
-
                 }
             }
         }
     }
 }
-

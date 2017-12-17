@@ -1,1 +1,1 @@
-{"$type":"Darkages.Types.SpellTemplate, Darkages.Server","Icon":21,"MaxLevel":100,"ScriptKey":"beag ioc fein","Lines":0,"MinLines":0,"MaxLines":9,"ManaCost":6,"Scope":1,"TargetType":5,"Family":1,"Text":"","Name":"beag ioc fein"}
+{"$type":"Darkages.Types.SpellTemplate, Darkages.Server","Icon":21,"MaxLevel":100,"ScriptKey":"beag ioc fein","LevelRate":0.6, "BaseLines":0,"MinLines":0,"MaxLines":9,"ManaCost":6,"Scope":1,"TargetType":5,"Family":1,"Text":"","Name":"beag ioc fein"}

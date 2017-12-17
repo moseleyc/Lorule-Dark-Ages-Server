@@ -1,6 +1,4 @@
 ﻿using Darkages.Network.Object;
-using Darkages.Types;
-using System.Collections.Generic;
 
 namespace Darkages.Network
 {

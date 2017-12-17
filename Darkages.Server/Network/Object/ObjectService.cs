@@ -1,32 +1,35 @@
-﻿using Darkages.Storage;
-using Darkages.Types;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Darkages.Common;
+using Darkages.Storage;
+using Darkages.Types;
+using Newtonsoft.Json;
 
 namespace Darkages.Network.Object
 {
     public sealed class ObjectService : IDisposable
     {
-        public event ObjectEvent<Sprite> ObjectAdded = null;
-        public event ObjectEvent<Sprite> ObjectChanged = null;
-        public event ObjectEvent<Sprite> ObjectRemoved = null;
+        [JsonIgnore] private static readonly object syncLock = new object();
+
+        [JsonIgnore] private static ObjectService context;
 
 
+        [JsonIgnore] private readonly HashSet<Sprite> _aislings = new HashSet<Sprite>();
 
-        [JsonIgnore]
-        private static object syncLock = new object();
-        [JsonIgnore]
-        private static ObjectService context = null;
+        [JsonProperty] private HashSet<Sprite> _items = new HashSet<Sprite>();
+
+        [JsonProperty] private HashSet<Sprite> _money = new HashSet<Sprite>();
+
+        [JsonIgnore] private readonly HashSet<Sprite> _monsters = new HashSet<Sprite>();
+
+        [JsonIgnore] private readonly HashSet<Sprite> _mundanes = new HashSet<Sprite>();
+
+        private bool disposedValue; // To detect redundant calls
 
         [JsonIgnore]
         private static bool CacheLoaded { get; set; }
 
-
-        [JsonIgnore]
-        private HashSet<Sprite> _aislings = new HashSet<Sprite>();
         [JsonIgnore]
         private HashSet<Sprite> Aislings
         {
@@ -40,8 +43,6 @@ namespace Darkages.Network.Object
         }
 
         [JsonIgnore]
-        private HashSet<Sprite> _monsters = new HashSet<Sprite>();
-        [JsonIgnore]
         private HashSet<Sprite> Monsters
         {
             get
@@ -54,8 +55,6 @@ namespace Darkages.Network.Object
         }
 
         [JsonIgnore]
-        private HashSet<Sprite> _mundanes = new HashSet<Sprite>();
-        [JsonIgnore]
         private HashSet<Sprite> Mundanes
         {
             get
@@ -67,8 +66,6 @@ namespace Darkages.Network.Object
             }
         }
 
-        [JsonProperty]
-        private HashSet<Sprite> _money = new HashSet<Sprite>();
         [JsonIgnore]
         private HashSet<Sprite> Money
         {
@@ -81,8 +78,6 @@ namespace Darkages.Network.Object
             }
         }
 
-        [JsonProperty]
-        private HashSet<Sprite> _items = new HashSet<Sprite>();
         [JsonIgnore]
         private HashSet<Sprite> Items
         {
@@ -95,10 +90,32 @@ namespace Darkages.Network.Object
             }
         }
 
+        [JsonIgnore]
+        public static ObjectService Context
+        {
+            get
+            {
+                if (context == null)
+                    context = new ObjectService();
+
+                return context;
+            }
+        }
+
+        public void Dispose()
+        {
+            disposedValue = !disposedValue;
+            Dispose(true);
+        }
+
+        public event ObjectEvent<Sprite> ObjectAdded;
+        public event ObjectEvent<Sprite> ObjectChanged;
+        public event ObjectEvent<Sprite> ObjectRemoved;
+
 
         public T Query<T>(Predicate<T> predicate) where T : Sprite, new()
         {
-            T obj = new T();
+            var obj = new T();
 
 
             if (obj is Aisling)
@@ -147,7 +164,7 @@ namespace Darkages.Network.Object
 
         public T[] QueryAll<T>(Predicate<T> predicate) where T : Sprite, new()
         {
-            T obj = new T();
+            var obj = new T();
 
             if (obj is Aisling)
             {
@@ -198,8 +215,8 @@ namespace Darkages.Network.Object
             if (reference == null)
                 return;
 
-            var obj = Query<T>(predicate);
-            obj = (T)reference;
+            var obj = Query(predicate);
+            obj = reference;
 
             ObjectChanged?.Invoke(obj);
         }
@@ -217,29 +234,19 @@ namespace Darkages.Network.Object
             lock (syncLock)
             {
                 if (obj is Aisling)
-                {
                     _aislings.Add(obj);
-                }
 
                 if (obj is Monster)
-                {
                     _monsters.Add(obj);
-                }
 
                 if (obj is Mundane)
-                {
                     _mundanes.Add(obj);
-                }
 
                 if (obj is Money)
-                {
                     _money.Add(obj);
-                }
 
                 if (obj is Item)
-                {
                     _items.Add(obj);
-                }
 
                 ObjectAdded?.Invoke(obj);
             }
@@ -251,7 +258,7 @@ namespace Darkages.Network.Object
                 return;
 
             for (uint i = 0; i < objects.Length; i++)
-                Remove<T>(objects[i]);
+                Remove(objects[i]);
         }
 
 
@@ -263,54 +270,30 @@ namespace Darkages.Network.Object
             lock (syncLock)
             {
                 if (obj is Aisling)
-                {
                     _aislings.Remove(obj);
-                }
 
                 if (obj is Monster)
-                {
                     _monsters.Remove(obj);
-                }
 
                 if (obj is Mundane)
-                {
                     _mundanes.Remove(obj);
-                }
 
                 if (obj is Money)
-                {
                     _money.Remove(obj);
-                }
 
                 if (obj is Item)
-                {
                     _items.Remove(obj);
-                }
 
                 ObjectRemoved?.Invoke(obj);
             }
         }
 
-        [JsonIgnore]
-        public static ObjectService Context
-        {
-            get
-            {
-                if (ObjectService.context == null)
-                    ObjectService.context = new ObjectService();
-
-                return ObjectService.context;
-            }
-        }
-
-        private bool disposedValue = false; // To detect redundant calls
-
         public void Cache()
         {
-            StorageManager.Save<ObjectService>(this);
+            StorageManager.Save(this);
         }
 
-        void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -330,12 +313,6 @@ namespace Darkages.Network.Object
                 }
                 disposedValue = true;
             }
-        }
-
-        public void Dispose()
-        {
-            disposedValue = !disposedValue;
-            Dispose(true);
         }
 
         internal static void Set(ObjectService cache_)

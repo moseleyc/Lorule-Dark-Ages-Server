@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System;
 
 namespace Darkages.Types
 {
@@ -102,6 +103,9 @@ namespace Darkages.Types
         [JsonProperty]
         [Description("What Skills will this monster use?")]
         public Collection<string> SkillScripts { get; set; }
+    
+        [JsonIgnore]
+        public DateTime LastUpdate { get; set; }
 
         [JsonProperty] [Description("What Drops?")]
         public Collection<string> Drops = new Collection<string>();

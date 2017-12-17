@@ -2,33 +2,18 @@
 {
     public class ServerFormat20 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x20;
-            }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x20;
 
         public byte Shade { get; set; }
-        public byte Unknown
-        {
-            get
-            {
-                return 0x01;
-            }
-        }
+
+        public byte Unknown => 0x01;
 
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
             writer.Write(Shade);

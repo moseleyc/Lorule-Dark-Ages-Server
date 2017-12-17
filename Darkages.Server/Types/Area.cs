@@ -16,9 +16,11 @@ namespace Darkages
     {
         [JsonIgnore] private static readonly byte[] sotp = File.ReadAllBytes("sotp.dat");
 
-        [Browsable(false)] [JsonIgnore] public byte[] Data;
+        [Browsable(false)]
+        public byte[] Data { get; set; }
 
-        [Browsable(false)] [JsonIgnore] public ushort Hash;
+        [Browsable(false)]
+        public ushort Hash;
 
         [JsonIgnore]
         [Browsable(false)]
@@ -89,7 +91,7 @@ namespace Darkages
 
                 var isobj = Tile[x, y];
 
-                if (isobj == TileContent.Monster && GetObject(i => i != null && i.X == x && i.Y == y,
+                if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
                         Get.Aislings | Get.Monsters | Get.Mundanes) == null)
                 {
                     Tile[x, y] = isobj == TileContent.Wall
@@ -320,6 +322,27 @@ namespace Darkages
                 foreach (var warp in warps)
                     Tile[warp.Location.X, warp.Location.Y] = TileContent.Warp;
             }
+        }
+
+        public Position FindNearestEmpty(Position aislingPosition)
+        {
+            var positions = new List<Position>();
+
+            for (var y = 0; y < Rows; y++)
+            {
+                for (var x = 0; x < Cols; x++)
+                {
+                    if (Tile[x, y] == TileContent.None
+                        || Tile[x, y] == TileContent.Money
+                        || Tile[x, y] == TileContent.Item)
+                    {
+                        positions.Add(new Position(x, y));
+                    }
+                }
+            }
+
+            return positions.OrderBy(i => i.DistanceFrom(aislingPosition))
+                .FirstOrDefault();
         }
     }
 }

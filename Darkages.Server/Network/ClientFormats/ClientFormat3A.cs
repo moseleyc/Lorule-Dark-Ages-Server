@@ -2,14 +2,9 @@
 {
     public class ClientFormat3A : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return true; }
-        }
-        public override byte Command
-        {
-            get { return 0x3A; }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x3A;
 
         public ushort ScriptId { get; set; }
         public ushort Step { get; set; }

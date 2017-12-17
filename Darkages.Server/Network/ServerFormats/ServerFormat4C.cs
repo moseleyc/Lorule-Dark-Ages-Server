@@ -2,32 +2,16 @@
 {
     public class ServerFormat4C : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x4C;
-            }
-        }
+        public override bool Secured => true;
 
-        public byte Data
-        {
-            get
-            {
-                return 0x01;
-            }
-        }
+        public override byte Command => 0x4C;
+
+        public byte Data => 0x01;
 
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
             writer.Write(Data);

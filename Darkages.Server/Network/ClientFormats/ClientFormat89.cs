@@ -2,14 +2,9 @@
 {
     public class ClientFormat89 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return false; }
-        }
-        public override byte Command
-        {
-            get { return 0x00; }
-        }
+        public override bool Secured => false;
+
+        public override byte Command => 0x00;
 
         public ushort DisplayMask { get; set; }
 
@@ -20,7 +15,6 @@
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-
         }
     }
 }

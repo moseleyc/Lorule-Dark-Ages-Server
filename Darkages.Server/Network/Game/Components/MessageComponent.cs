@@ -4,34 +4,28 @@ namespace Darkages.Network.Game.Components
 {
     public class MessageComponent : GameServerComponent
     {
-        public GameServerTimer Timer { get; set; }
-
         public MessageComponent(GameServer server)
             : base(server)
         {
-            this.Timer = new GameServerTimer(
+            Timer = new GameServerTimer(
                 TimeSpan.FromSeconds(ServerContext.Config.MessageClearInterval));
         }
 
+        public GameServerTimer Timer { get; set; }
+
         public override void Update(TimeSpan elapsedTime)
         {
-            this.Timer.Update(elapsedTime);
+            Timer.Update(elapsedTime);
 
-            if (this.Timer.Elapsed)
+            if (Timer.Elapsed)
             {
-                this.Timer.Reset();
+                Timer.Reset();
 
-                foreach (GameClient client in base.Server.Clients)
-                {
+                foreach (var client in Server.Clients)
                     if (client != null &&
                         client.Aisling != null)
-                    {
                         if ((DateTime.UtcNow - client.LastMessageSent).TotalSeconds > 5)
-                        {
                             client.SendMessage(0x01, "\0");
-                        }
-                    }
-                }
             }
         }
     }

@@ -11,7 +11,7 @@
     "Name": "Mileth",
     "Flags": 2
   },
-  "LevelRequired": 30,
+  "LevelRequired": 6,
   "Location": {
     "$type": "Darkages.Types.Position, Darkages.Server",
     "X": 25,

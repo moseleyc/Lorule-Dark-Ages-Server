@@ -7,12 +7,11 @@
 
         public override void Serialize(NetworkPacketReader reader)
         {
-
         }
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-
+            writer.Write(byte.MinValue);
         }
     }
 }

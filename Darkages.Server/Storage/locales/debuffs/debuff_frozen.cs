@@ -9,11 +9,6 @@ namespace Darkages.Storage.locales.debuffs
         public override byte Icon => 50;
         public override int Length => 4;
 
-        public debuff_frozen()
-        {
-
-        }
-
         public override void OnApplied(Sprite Affected, Debuff debuff)
         {
             base.OnApplied(Affected, debuff);
@@ -35,17 +30,13 @@ namespace Darkages.Storage.locales.debuffs
                 };
 
                 (Affected as Aisling).Show(Scope.Self, hpbar);
-
-                return;
             }
             else
             {
                 var nearby = Affected.GetObjects<Aisling>(i => i.WithinRangeOf(Affected));
 
                 foreach (var near in nearby)
-                {
                     near.Client.SendAnimation(40, Affected, Affected);
-                }
             }
         }
 
@@ -98,11 +89,9 @@ namespace Darkages.Storage.locales.debuffs
         public override void OnEnded(Sprite Affected, Debuff debuff)
         {
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
                     .SendMessage(0x02, "Your body thaws out.");
-            }
             base.OnEnded(Affected, debuff);
         }
     }

@@ -1,30 +1,27 @@
-﻿using Darkages.Types;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Darkages.Types;
 
 namespace Darkages.Network.Game.Components
 {
     public class MonolithComponent : GameServerComponent
     {
-        private GameServerTimer timer;
-        private DateTime LastUpdate = DateTime.UtcNow;
-        private GameServerTimer UpdateEventScheduler = null;
-
-
+        private readonly GameServerTimer _timer;
 
         public MonolithComponent(GameServer server)
             : base(server)
         {
-            UpdateEventScheduler = new GameServerTimer(TimeSpan.FromSeconds(10));
-            timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
+            _timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
         }
+
+        public DateTime LastUpdate { get; set; }
 
         public override void Update(TimeSpan elapsedTime)
         {
-            timer.Update(elapsedTime);
+            _timer.Update(elapsedTime);
 
-            if (timer.Elapsed)
+            if (_timer.Elapsed)
             {
                 var templates = ServerContext.GlobalMonsterTemplateCache.Values;
                 if (templates.Count == 0)
@@ -37,27 +34,25 @@ namespace Darkages.Network.Game.Components
 
                     var temps = templates.Where(i => i.AreaID == map.ID);
                     foreach (var template in temps)
-                    {
                         if (template != null)
                         {
                             if (template.Timer == null)
                                 template.Timer = new GameServerTimer(TimeSpan.FromSeconds(template.SpawnRate));
 
-                            template.Timer.Update(DateTime.UtcNow - LastUpdate);
+                            template.Timer.Update(DateTime.UtcNow - template.LastUpdate);
                             if (template.Timer.Elapsed)
                             {
                                 if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
                                     continue;
 
                                 SpawnOn(template, map);
+                                template.LastUpdate = DateTime.UtcNow;
                                 template.Timer.Reset();
-                                LastUpdate = DateTime.UtcNow;
                             }
                         }
-                    }
                 }
 
-                timer.Reset();
+                _timer.Reset();
             }
         }
 
@@ -69,13 +64,12 @@ namespace Darkages.Network.Game.Components
             {
                 if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
                 {
-                    for (int i = 0; i < template.SpawnSize; i++)
+                    var needed = Math.Abs(count - template.SpawnSize);
+                    for (var i = needed - 1; i >= 0; i--)
                         CreateFromTemplate<Monster>(template, map);
                 }
                 if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
-                {
                     CreateFromTemplate<Monster>(template, map);
-                }
             }
         }
 
@@ -84,16 +78,13 @@ namespace Darkages.Network.Game.Components
             var obj = new T();
 
             if (obj is Monster)
-            {
-                new TaskFactory().StartNew(() => {
+                new TaskFactory().StartNew(() =>
+                {
                     var newObj = Monster.Create(template as MonsterTemplate, map);
 
                     if (GetObject<Monster>(i => i.Serial == newObj.Serial) == null)
-                    {                        
-                        AddObject<Monster>(newObj);
-                    }
+                        AddObject(newObj);
                 });
-            }
         }
     }
 }

@@ -40,9 +40,6 @@ namespace Darkages
             Console.WriteLine("\n----- Loading Skills -----");
             StorageManager.SKillBucket.CacheFromStorage();
             Console.WriteLine(" ... Skill Templates Loaded: {0}", GlobalSkillTemplateCache.Count);
-
-            GlobalSkillTemplateCache["Assail"].MaxLevel = 70;
-            GlobalSkillTemplateCache["Assail"].ImproveRate = 0.15;
         }
 
         public static void LoadSpellTemplates()
@@ -50,16 +47,6 @@ namespace Darkages
             Console.WriteLine("\n----- Loading Spells -----");
             StorageManager.SpellBucket.CacheFromStorage();
             Console.WriteLine(" ... Spell Templates Loaded: {0}", GlobalSpellTemplateCache.Count);
-
-            GlobalSpellTemplateCache["pramh"].BaseLines = 3;
-            GlobalSpellTemplateCache["pramh"].ImproveRate = 0.03;
-
-            GlobalSpellTemplateCache["dion"].BaseLines   = 1;
-            GlobalSpellTemplateCache["dion"].ImproveRate = 0.02;
-
-            GlobalSpellTemplateCache["beag ioc fein"].BaseLines = 0;
-            GlobalSpellTemplateCache["beag ioc fein"].ImproveRate = 0.05;
-
         }
 
         public static void LoadItemTemplates()

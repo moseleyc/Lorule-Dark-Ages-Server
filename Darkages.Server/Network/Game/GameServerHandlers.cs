@@ -1,30 +1,31 @@
-﻿using Darkages.Common;
+﻿using System;
+using System.Linq;
+using System.Net;
+using Darkages.Common;
 using Darkages.Network.ClientFormats;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Security;
 using Darkages.Storage;
 using Darkages.Types;
-using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Darkages.Network.Game
 {
     public partial class GameServer : NetworkServer<GameClient>
     {
         /// <summary>
-        /// Activate Assails
+        ///     Activate Assails
         /// </summary>
         private static void ActivateAssails(GameClient client)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -32,6 +33,9 @@ namespace Darkages.Network.Game
                 client.Interupt();
                 return;
             }
+
+            if (ServerContext.Config.AssailsCancelSpells)
+                CancelIfCasting(client);
 
             if (!client.Aisling.HasSkill<SkillTemplate>(SkillScope.Assail)) return;
             foreach (var skill in client.Aisling.GetAssails(SkillScope.Assail))
@@ -43,15 +47,18 @@ namespace Darkages.Network.Game
                 if (skill.InUse) continue;
                 skill.InUse = true;
                 skill.Script.OnUse(client.Aisling);
+
                 if (skill.Template.Cooldown > 0)
                     skill.NextAvailableUse = DateTime.UtcNow.AddSeconds(skill.Template.Cooldown);
-                skill.NextAvailableUse = DateTime.UtcNow.AddMilliseconds(1000);
+                else
+                    skill.NextAvailableUse = DateTime.UtcNow.AddMilliseconds(ServerContext.Config.GlobalBaseSkillDelay);
+
                 skill.InUse = false;
             }
         }
 
         /// <summary>
-        /// CancelIfCasting - Use this Method to check and or abort if casting.
+        ///     CancelIfCasting - Use this Method to check and or abort if casting.
         /// </summary>
         public static void CancelIfCasting(GameClient client)
         {
@@ -69,7 +76,7 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Enter Game
+        ///     Enter Game
         /// </summary>
         private void EnterGame(GameClient client, ClientFormat10 format)
         {
@@ -80,18 +87,12 @@ namespace Darkages.Network.Game
                 return;
             }
 
+            ServerContext.GlobalRedirects.Remove(redirect);
+
             var aisling = Clone(StorageManager.AislingBucket.Load(redirect.Name));
 
-            if (aisling.Username.Equals("lol", StringComparison.InvariantCultureIgnoreCase))
-            {
-                aisling.Flags |= AislingFlags.GM;
-            }
-
-
             if (aisling != null)
-            {
                 client.Aisling = aisling;
-            }
 
             if (client.Aisling == null)
             {
@@ -99,31 +100,52 @@ namespace Darkages.Network.Game
                 return;
             }
 
-            Console.WriteLine("[{0}] Connection Established to Game Server", client.Aisling.Username);
+            if (ServerContext.Config.DebugMode)
+                Console.WriteLine("[{0}] Connection Established to Game Server", client.Aisling.Username);
 
             client.Encryption.Parameters = new SecurityParameters(redirect.Seed, redirect.Salt);
             client.Server = this;
+
             lock (Generator.Random)
             {
                 client.Aisling.Serial = Generator.GenerateNumber();
             }
+
             client.Aisling.Client = client;
             client.Aisling.LoggedIn = false;
             client.Aisling.LastLogged = new DateTime();
+            client.Aisling.Map = ServerContext.GlobalMapCache[client.Aisling.AreaID];
+            client.Aisling.CurrentMapId = client.Aisling.Map.ID;
+            client.Aisling.Client.ShouldUpdateMap = true;
+            client.Aisling.AreaID = client.Aisling.CurrentMapId;
+            client.Aisling._Ac = ServerContext.Config.BaseAC;
+            client.Aisling.EquipmentManager.Client = client;
+            client.Aisling.CurrentWeight = 0;
+            client.Aisling.MaximumWeight = (int) (client.Aisling.Str * ServerContext.Config.WeightIncreaseModifer);
 
-            client.Load();
-
-            ServerContext.GlobalRedirects.Remove(redirect);
+            if (client.Load())
+            {
+                client.Aisling.LastLogged = DateTime.UtcNow;
+                client.Aisling.LoggedIn = true;
+                client.SendStats(StatusFlags.All);
+                client.EnterArea();
+            }
+            else
+            {
+                ClientDisconnected(client);
+            }
         }
 
         /// <summary>
-        /// Leave Game
+        ///     Leave Game
         /// </summary>
         private void LeaveGame(GameClient client, ClientFormat0B format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
+
             #endregion
 
             if (format.Type == 0)
@@ -156,7 +178,8 @@ namespace Darkages.Network.Game
             if (format.Type == 1)
             {
                 client.Send(new ServerFormat4C());
-            } else if (format.Type == 3)
+            }
+            else if (format.Type == 3)
             {
                 client.LastSave = DateTime.UtcNow;
                 client.Aisling.Remove();
@@ -164,7 +187,7 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Request Map
+        ///     Request Map
         /// </summary>
         protected override void Format05Handler(GameClient client, ClientFormat05 format)
         {
@@ -175,12 +198,7 @@ namespace Darkages.Network.Game
             if (client?.Aisling?.Map == null) return;
 
             if (client.ShouldUpdateMap)
-            {
-                new TaskFactory().StartNew(() =>
-                {
-                    SendMapData(client);
-                });
-            }
+                SendMapData(client);
         }
 
         private static void SendMapData(GameClient client)
@@ -189,7 +207,7 @@ namespace Darkages.Network.Game
             {
                 var response = new ServerFormat3C
                 {
-                    Line = (ushort)i,
+                    Line = (ushort) i,
                     Data = client.Aisling.Map.GetRowData(i)
                 };
                 client.Send(response);
@@ -200,11 +218,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Sprite Walk
+        ///     Sprite Walk
         /// </summary>
         protected override void Format06Handler(GameClient client, ClientFormat06 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -243,11 +262,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Pickup Item / Gold (User Pressed B)
+        ///     Pickup Item / Gold (User Pressed B)
         /// </summary>
         protected override void Format07Handler(GameClient client, ClientFormat07 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -256,6 +276,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (format.PickupType == 1 && format.Position.IsNextTo(client.Aisling.Position))
@@ -269,17 +290,11 @@ namespace Darkages.Network.Game
                         continue;
 
                     if (obj is Money)
-                    {
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
-                    }
 
                     if (obj is Item)
-                    {
                         if ((obj as Item).GiveTo(client.Aisling))
-                        {
                             obj.Remove<Item>();
-                        }
-                    }
                 }
             }
             else
@@ -297,31 +312,24 @@ namespace Darkages.Network.Game
                         continue;
 
                     if (obj is Money)
-                    {
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
-                    }
 
                     if (obj is Item)
-                    {
                         if ((obj as Item).GiveTo(client.Aisling))
-                        {
                             obj.Remove<Item>();
-                        }
-                    }
                 }
             }
         }
 
         /// <summary>
-        /// Use Item
+        ///     Use Item
         /// </summary>
         protected override void Format1CHandler(GameClient client, ClientFormat1C format)
         {
             #region Sanity Checks (alot can go wrong if you remove this)
+
             if (client == null || client.Aisling == null)
-            {
                 return;
-            }
 
             if (client.Aisling.Map == null || !client.Aisling.Map.Ready)
                 return;
@@ -331,6 +339,7 @@ namespace Darkages.Network.Game
 
             if (client.Aisling.Dead)
                 return;
+
             #endregion
 
             var slot = format.Index;
@@ -357,8 +366,6 @@ namespace Darkages.Network.Game
                     item.Script.OnUse(client.Aisling, slot);
 
                     if (item.Template.Flags.HasFlag(ItemFlags.Stackable))
-                    {
-                        //should we consume it?
                         if (item.Template.Flags.HasFlag(ItemFlags.Consumable))
                         {
                             var stack = item.Stacks - 1;
@@ -382,21 +389,19 @@ namespace Darkages.Network.Game
                                 client.Send(new ServerFormat10(item.Slot));
                             }
                         }
-                    }
                 }
             }
         }
 
         /// <summary>
-        /// Drop Item
+        ///     Drop Item
         /// </summary>
         protected override void Format08Handler(GameClient client, ClientFormat08 format)
         {
             #region Sanity Checks (alot can go wrong if you remove this)
+
             if (client == null || client.Aisling == null)
-            {
                 return;
-            }
 
             if (!client.Aisling.LoggedIn)
                 return;
@@ -409,9 +414,7 @@ namespace Darkages.Network.Game
             //do we have an item in this slot?
             var item = client.Aisling.Inventory.Get(i => i != null && i.Slot == format.ItemSlot).FirstOrDefault();
             if (item == null)
-            {
                 return;
-            }
 
             //check if it's also a valid item?
             if (item.Template == null)
@@ -435,13 +438,11 @@ namespace Darkages.Network.Game
 
             //check position is available to drop.
             if (client.Aisling.Map.IsWall(client.Aisling, format.X, format.Y))
-            {
                 if (client.Aisling.X != format.X || client.Aisling.Y != format.Y)
                 {
                     client.SendMessage(Scope.Self, 0x02, ServerContext.Config.CantDoThat);
                     return;
                 }
-            }
 
             //if this item a stackable item?
             if ((item.Template.Flags & ItemFlags.Stackable) == ItemFlags.Stackable)
@@ -468,11 +469,11 @@ namespace Darkages.Network.Game
                 else // some remain, update inventory item.
                 {
                     //clone and release item
-                    var nitem = Clone<Item>(item);
-                    nitem.Stacks = (byte)format.ItemAmount;
+                    var nitem = Clone(item);
+                    nitem.Stacks = (byte) format.ItemAmount;
                     nitem.Release(client.Aisling, new Position(format.X, format.Y));
 
-                    item.Stacks = (byte)remaining;
+                    item.Stacks = (byte) remaining;
                     client.Aisling.Inventory.Set(item, false);
 
                     //send remove packet.
@@ -501,7 +502,7 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Log Out
+        ///     Log Out
         /// </summary>
         protected override void Format0BHandler(GameClient client, ClientFormat0B format)
         {
@@ -509,18 +510,19 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="client"></param>
         /// <param name="format"></param>
         protected override void Format0EHandler(GameClient client, ClientFormat0E format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             if (!client.Aisling.LoggedIn)
                 return;
+
             #endregion
 
             var response = new ServerFormat0D
@@ -551,15 +553,21 @@ namespace Darkages.Network.Game
                     return;
             }
 
+            var nearbyMundanes = client.Aisling.MundanesNearby();
+
+            foreach (var npc in nearbyMundanes)
+                npc?.Script?.OnGossip(this, client, format.Text);
+
             client.Aisling.Show(Scope.DefinedAislings, response, audience);
         }
 
         /// <summary>
-        /// Use Spell
+        ///     Use Spell
         /// </summary>
         protected override void Format0FHandler(GameClient client, ClientFormat0F format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -568,6 +576,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
 
@@ -584,7 +593,8 @@ namespace Darkages.Network.Game
                 client.Aisling.ActiveSpellInfo.Position = format.Point;
 
                 var spell = client.Aisling.SpellBook.Get(i => i != null &&
-                                                              i.Slot == client.Aisling.ActiveSpellInfo.Slot).FirstOrDefault();
+                                                              i.Slot == client.Aisling.ActiveSpellInfo.Slot)
+                    .FirstOrDefault();
 
                 if (spell?.Script != null)
                 {
@@ -612,24 +622,27 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Enter Game
+        ///     Enter Game
         /// </summary>
         protected override void Format10Handler(GameClient client, ClientFormat10 format)
         {
             #region Sanity Checks
+
             if (client == null)
                 return;
+
             #endregion
 
             EnterGame(client, format);
         }
 
         /// <summary>
-        /// Sprite Turn
+        ///     Sprite Turn
         /// </summary>
         protected override void Format11Handler(GameClient client, ClientFormat11 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -638,6 +651,7 @@ namespace Darkages.Network.Game
 
             if (client.IsRefreshing && ServerContext.Config.DontTurnDuringRefresh)
                 return;
+
             #endregion
 
 
@@ -651,11 +665,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// SpaceBar
+        ///     SpaceBar
         /// </summary>
         protected override void Format13Handler(GameClient client, ClientFormat13 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -664,6 +679,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -676,11 +692,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// User List
+        ///     User List
         /// </summary>
         protected override void Format18Handler(GameClient client, ClientFormat18 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -691,17 +708,19 @@ namespace Darkages.Network.Game
                 return;
 
             CancelIfCasting(client);
+
             #endregion
 
             client.Aisling.Show(Scope.Self, new ServerFormat36(client));
         }
 
         /// <summary>
-        /// Emotions
+        ///     Emotions
         /// </summary>
         protected override void Format1DHandler(GameClient client, ClientFormat1D format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -715,6 +734,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             var id = format.Number;
@@ -723,11 +743,11 @@ namespace Darkages.Network.Game
                 return;
 
             client.Aisling.Show(Scope.NearbyAislings,
-                new ServerFormat1A(client.Aisling.Serial, (byte)(id + 9), 64));
+                new ServerFormat1A(client.Aisling.Serial, (byte) (id + 9), 64));
         }
 
         /// <summary>
-        /// Drop Gold
+        ///     Drop Gold
         /// </summary>
         protected override void Format24Handler(GameClient client, ClientFormat24 format)
         {
@@ -744,7 +764,8 @@ namespace Darkages.Network.Game
                     client.Aisling.GoldPoints = 0;
 
                 client.SendMessage(Scope.Self, 0x02, ServerContext.Config.YouDroppedGoldMsg);
-                client.SendMessage(Scope.NearbyAislingsExludingSelf, 0x02, ServerContext.Config.UserDroppedGoldMsg.Replace("noname", client.Aisling.Username));
+                client.SendMessage(Scope.NearbyAislingsExludingSelf, 0x02,
+                    ServerContext.Config.UserDroppedGoldMsg.Replace("noname", client.Aisling.Username));
                 Money.Create(client.Aisling, format.GoldAmount, new Position(format.X, format.Y));
                 client.SendStats(StatusFlags.StructC);
             }
@@ -755,27 +776,30 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Get Profile
+        ///     Get Profile
         /// </summary>
         protected override void Format2DHandler(GameClient client, ClientFormat2D format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             if (!client.Aisling.LoggedIn)
                 return;
+
             #endregion
 
             client.Send(new ServerFormat39(client.Aisling));
         }
 
         /// <summary>
-        /// Grouping
+        ///     Grouping
         /// </summary>
         protected override void Format2EHandler(GameClient client, ClientFormat2E format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -789,6 +813,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (format.Type != 0x02) return;
@@ -801,7 +826,8 @@ namespace Darkages.Network.Game
                 //does player have group open?
                 if (player.PartyStatus != GroupStatus.AcceptingRequests)
                 {
-                    client.SendMessage(0x02, ServerContext.Config.GroupRequestDeclinedMsg.Replace("noname", player.Username));
+                    client.SendMessage(0x02,
+                        ServerContext.Config.GroupRequestDeclinedMsg.Replace("noname", player.Username));
                     return;
                 }
 
@@ -835,10 +861,7 @@ namespace Darkages.Network.Game
 
                     //am i the leader?
                     if (leader != null && leader.Serial == client.Aisling.Serial)
-                    {
-                        //add player to group.
                         client.Aisling.GroupParty.Add(player);
-                    }
                 }
 
                 //am i already in this players group?
@@ -850,11 +873,12 @@ namespace Darkages.Network.Game
 
 
         /// <summary>
-        /// Moving Slot
+        ///     Moving Slot
         /// </summary>
         protected override void Format30Handler(GameClient client, ClientFormat30 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -868,6 +892,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen || client.Aisling.IsCastingSpell)
@@ -878,100 +903,102 @@ namespace Darkages.Network.Game
             switch (format.PaneType)
             {
                 case Pane.Inventory:
+                {
+                    if (format.MovingTo - 1 > client.Aisling.Inventory.Length)
+                        return;
+                    if (format.MovingFrom - 1 > client.Aisling.Inventory.Length)
+                        return;
+                    if (format.MovingTo - 1 < 0)
+                        return;
+                    if (format.MovingFrom - 1 < 0)
+                        return;
+
+                    var a = client.Aisling.Inventory.Remove(format.MovingFrom);
+                    var b = client.Aisling.Inventory.Remove(format.MovingTo);
+
+                    client.Send(new ServerFormat10(format.MovingFrom));
+                    client.Send(new ServerFormat10(format.MovingTo));
+
+                    if (a != null)
                     {
-                        if (format.MovingTo - 1 > client.Aisling.Inventory.Length)
-                            return;
-                        if (format.MovingFrom - 1 > client.Aisling.Inventory.Length)
-                            return;
-                        if (format.MovingTo - 1 < 0)
-                            return;
-                        if (format.MovingFrom - 1 < 0)
-                            return;
-
-                        var a = client.Aisling.Inventory.Remove(format.MovingFrom);
-                        var b = client.Aisling.Inventory.Remove(format.MovingTo);
-
-                        client.Send(new ServerFormat10(format.MovingFrom));
-                        client.Send(new ServerFormat10(format.MovingTo));
-
-                        if (a != null)
-                        {
-                            a.Slot = format.MovingTo;
-                            client.Aisling.Inventory.Set(a, false);
-                            client.Send(new ServerFormat0F(a));
-                        }
-
-                        if (b != null)
-                        {
-                            b.Slot = format.MovingFrom;
-                            client.Aisling.Inventory.Set(b, false);
-                            client.Send(new ServerFormat0F(b));
-                        }
-                        client.Save();
-                    } break;
-                case Pane.Skills:
-                    {
-                        if (format.MovingTo - 1 > client.Aisling.SkillBook.Length)
-                            return;
-                        if (format.MovingFrom - 1 > client.Aisling.SkillBook.Length)
-                            return;
-                        if (format.MovingTo - 1 < 0)
-                            return;
-                        if (format.MovingFrom - 1 < 0)
-                            return;
-
-                        var a = client.Aisling.SkillBook.Remove(format.MovingFrom);
-                        var b = client.Aisling.SkillBook.Remove(format.MovingTo);
-                        client.Send(new ServerFormat2D(format.MovingFrom));
-                        client.Send(new ServerFormat2D(format.MovingTo));
-
-                        if (a != null)
-                        {
-                            a.Slot = format.MovingTo;
-                            client.Aisling.SkillBook.Set(a, false);
-                            client.Send(new ServerFormat2C(a.Slot, a.Icon, a.Name));
-                        }
-
-                        if (b != null)
-                        {
-                            b.Slot = format.MovingFrom;
-                            client.Aisling.SkillBook.Set(b, false);
-                            client.Send(new ServerFormat2C(b.Slot, b.Icon, b.Name));
-                        }
-                        client.Save();
+                        a.Slot = format.MovingTo;
+                        client.Aisling.Inventory.Set(a, false);
+                        client.Send(new ServerFormat0F(a));
                     }
+
+                    if (b != null)
+                    {
+                        b.Slot = format.MovingFrom;
+                        client.Aisling.Inventory.Set(b, false);
+                        client.Send(new ServerFormat0F(b));
+                    }
+                    client.Save();
+                }
+                    break;
+                case Pane.Skills:
+                {
+                    if (format.MovingTo - 1 > client.Aisling.SkillBook.Length)
+                        return;
+                    if (format.MovingFrom - 1 > client.Aisling.SkillBook.Length)
+                        return;
+                    if (format.MovingTo - 1 < 0)
+                        return;
+                    if (format.MovingFrom - 1 < 0)
+                        return;
+
+                    var a = client.Aisling.SkillBook.Remove(format.MovingFrom);
+                    var b = client.Aisling.SkillBook.Remove(format.MovingTo);
+                    client.Send(new ServerFormat2D(format.MovingFrom));
+                    client.Send(new ServerFormat2D(format.MovingTo));
+
+                    if (a != null)
+                    {
+                        a.Slot = format.MovingTo;
+                        client.Aisling.SkillBook.Set(a, false);
+                        client.Send(new ServerFormat2C(a.Slot, a.Icon, a.Name));
+                    }
+
+                    if (b != null)
+                    {
+                        b.Slot = format.MovingFrom;
+                        client.Aisling.SkillBook.Set(b, false);
+                        client.Send(new ServerFormat2C(b.Slot, b.Icon, b.Name));
+                    }
+                    client.Save();
+                }
                     break;
                 case Pane.Spells:
+                {
+                    if (format.MovingTo - 1 > client.Aisling.SpellBook.Length)
+                        return;
+                    if (format.MovingFrom - 1 > client.Aisling.SpellBook.Length)
+                        return;
+                    if (format.MovingTo - 1 < 0)
+                        return;
+                    if (format.MovingFrom - 1 < 0)
+                        return;
+
+                    var a = client.Aisling.SpellBook.Remove(format.MovingFrom);
+                    var b = client.Aisling.SpellBook.Remove(format.MovingTo);
+                    client.Send(new ServerFormat18(format.MovingFrom));
+                    client.Send(new ServerFormat18(format.MovingTo));
+
+                    if (a != null)
                     {
-                        if (format.MovingTo - 1 > client.Aisling.SpellBook.Length)
-                            return;
-                        if (format.MovingFrom - 1 > client.Aisling.SpellBook.Length)
-                            return;
-                        if (format.MovingTo - 1 < 0)
-                            return;
-                        if (format.MovingFrom - 1 < 0)
-                            return;
+                        a.Slot = format.MovingTo;
+                        client.Aisling.SpellBook.Set(a, false);
+                        client.Send(new ServerFormat17(a));
+                    }
 
-                        var a = client.Aisling.SpellBook.Remove(format.MovingFrom);
-                        var b = client.Aisling.SpellBook.Remove(format.MovingTo);
-                        client.Send(new ServerFormat18(format.MovingFrom));
-                        client.Send(new ServerFormat18(format.MovingTo));
-
-                        if (a != null)
-                        {
-                            a.Slot = format.MovingTo;
-                            client.Aisling.SpellBook.Set(a, false);
-                            client.Send(new ServerFormat17(a));
-                        }
-
-                        if (b != null)
-                        {
-                            b.Slot = format.MovingFrom;
-                            client.Aisling.SpellBook.Set(b, false);
-                            client.Send(new ServerFormat17(b));
-                        }
-                        client.Save();
-                    } break;
+                    if (b != null)
+                    {
+                        b.Slot = format.MovingFrom;
+                        client.Aisling.SpellBook.Set(b, false);
+                        client.Send(new ServerFormat17(b));
+                    }
+                    client.Save();
+                }
+                    break;
                 case Pane.Tools:
                     break;
                 default:
@@ -980,11 +1007,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Refresh
+        ///     Refresh
         /// </summary>
         protected override void Format38Handler(GameClient client, ClientFormat38 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -993,6 +1021,7 @@ namespace Darkages.Network.Game
 
             if (client.IsRefreshing)
                 return;
+
             #endregion
 
             client.Refresh();
@@ -1000,15 +1029,17 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Dialogs A
+        ///     Dialogs A
         /// </summary>
         protected override void Format39Handler(GameClient client, ClientFormat39 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             CancelIfCasting(client);
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1024,15 +1055,17 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Dialogs B
+        ///     Dialogs B
         /// </summary>
         protected override void Format3AHandler(GameClient client, ClientFormat3A format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             CancelIfCasting(client);
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1041,23 +1074,22 @@ namespace Darkages.Network.Game
                 return;
             }
 
-            if (client.DlgSession != null)
-            {
-                client.DlgSession.Callback?.Invoke(this, client, format.Step, string.Empty);
-            }
+            client.DlgSession?.Callback?.Invoke(this, client, format.Step, string.Empty);
         }
 
         /// <summary>
-        /// Use Skill
+        ///     Use Skill
         /// </summary>
         protected override void Format3EHandler(GameClient client, ClientFormat3E format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1069,11 +1101,7 @@ namespace Darkages.Network.Game
 
             var skill = client.Aisling.SkillBook.Get(i => i.Slot == format.Index).FirstOrDefault();
             if (skill?.Template == null || skill.Script == null) return;
-            if (skill.Template.Type == SkillScope.Assail)
-            {
-                ActivateAssails(client);
-                return;
-            }
+
 
             if (!skill.CanUse())
                 return;
@@ -1084,19 +1112,19 @@ namespace Darkages.Network.Game
             //define cooldown.
             if (skill.Template.Cooldown > 0)
                 skill.NextAvailableUse = DateTime.UtcNow.AddSeconds(skill.Template.Cooldown);
-
-            //no cooldown? aisling must wait atleast 450 to use it again.
-            skill.NextAvailableUse = DateTime.UtcNow.AddMilliseconds(ServerContext.Config.GlobalBaseSkillDelay);
+            else
+                skill.NextAvailableUse = DateTime.UtcNow.AddMilliseconds(ServerContext.Config.GlobalBaseSkillDelay);
 
             skill.InUse = false;
         }
 
         /// <summary>
-        /// Remove equipment
+        ///     Remove equipment
         /// </summary>
         protected override void Format44Handler(GameClient client, ClientFormat44 format)
         {
             #region Sanity Checks
+
             if (client == null || client.Aisling == null)
                 return;
 
@@ -1107,6 +1135,7 @@ namespace Darkages.Network.Game
 
             if (client.Aisling.Dead)
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1117,15 +1146,17 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Mouse Click
+        ///     Mouse Click
         /// </summary>
         protected override void Format43Handler(GameClient client, ClientFormat43 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
             CancelIfCasting(client);
+
             #endregion
 
             if (format.Type == 1) // object clicked.
@@ -1149,22 +1180,23 @@ namespace Darkages.Network.Game
                 }
             }
         }
-        
+
         /// <summary>
-        /// Keep-Alive Ping Response
+        ///     Keep-Alive Ping Response
         /// </summary>
         protected override void Format45Handler(GameClient client, ClientFormat45 format)
         {
             client.LastPingResponse = DateTime.UtcNow;
             AutoSave(client);
         }
-        
+
         /// <summary>
-        /// Add Stat Point
+        ///     Add Stat Point
         /// </summary>
         protected override void Format47Handler(GameClient client, ClientFormat47 format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -1175,12 +1207,13 @@ namespace Darkages.Network.Game
                 return;
 
             CancelIfCasting(client);
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
                 return;
 
-            var attribute = (Stat)format.Stat;
+            var attribute = (Stat) format.Stat;
 
             if (client.Aisling.StatPoints == 0)
             {
@@ -1244,16 +1277,17 @@ namespace Darkages.Network.Game
                 client.Aisling.StatPoints = 0;
 
 
-            client.Aisling.MaximumWeight = (int)(client.Aisling.Str * 3.5);
+            client.Aisling.MaximumWeight = (int) (client.Aisling.Str * ServerContext.Config.WeightIncreaseModifer);
             client.Aisling.Show(Scope.Self, new ServerFormat08(client.Aisling, StatusFlags.All));
         }
-        
+
         /// <summary>
-        /// Start Spell Cast
+        ///     Start Spell Cast
         /// </summary>
         protected override void Format4DHandler(GameClient client, ClientFormat4D format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -1262,6 +1296,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1286,11 +1321,12 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Spell/Skill Chant Information
+        ///     Spell/Skill Chant Information
         /// </summary>
         protected override void Format4EHandler(GameClient client, ClientFormat4E format)
         {
             #region Sanity Checks
+
             if (client?.Aisling == null)
                 return;
 
@@ -1299,6 +1335,7 @@ namespace Darkages.Network.Game
 
             if (client.IsDead())
                 return;
+
             #endregion
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
@@ -1308,14 +1345,15 @@ namespace Darkages.Network.Game
             }
 
 
-
             var chant = format.Message;
             var subject = chant.IndexOf(" Lev", StringComparison.Ordinal);
 
             if (subject > 0)
             {
                 var message = chant.Substring(subject, chant.Length - subject);
-                client.Say(ServerContext.Config.ChantPrefix + chant.Replace(message, string.Empty).Trim() + ServerContext.Config.ChantSuffix, 0x02);
+                client.Say(
+                    ServerContext.Config.ChantPrefix + chant.Replace(message, string.Empty).Trim() +
+                    ServerContext.Config.ChantSuffix, 0x02);
                 return;
             }
 
@@ -1323,7 +1361,7 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Profile Picture
+        ///     Profile Picture
         /// </summary>
         protected override void Format4FHandler(GameClient client, ClientFormat4F format)
         {
@@ -1332,7 +1370,7 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Save
+        ///     Save
         /// </summary>
         protected override void Format75Handler(GameClient client, ClientFormat75 format)
         {
@@ -1340,26 +1378,22 @@ namespace Darkages.Network.Game
         }
 
         /// <summary>
-        /// Meta data
+        ///     Meta data
         /// </summary>
         protected override void Format7BHandler(GameClient client, ClientFormat7B format)
         {
             if (format.Type == 0x00)
-            {
                 client.Send(new ServerFormat6F
                 {
                     Type = 0x00,
                     Name = format.Name
                 });
-            }
 
             if (format.Type == 0x01)
-            {
                 client.Send(new ServerFormat6F
                 {
                     Type = 0x01
                 });
-            }
-        }        
+        }
     }
 }

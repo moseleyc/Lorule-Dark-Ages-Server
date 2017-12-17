@@ -8,19 +8,16 @@ namespace Darkages.Storage
 {
     public class TemplateStorage<T> where T : Template, new()
     {
-        public static string StoragePath = null;
+        public static string StoragePath;
 
         static TemplateStorage()
         {
-
             if (ServerContext.STORAGE_PATH == null)
-            {
                 ServerContext.LoadConstants();
-            }
 
             StoragePath = $@"{ServerContext.STORAGE_PATH}\templates";
 
-            T tmp = new T();
+            var tmp = new T();
 
             StoragePath = Path.Combine(StoragePath, "%");
 
@@ -126,7 +123,9 @@ namespace Darkages.Storage
 
             using (var s = File.OpenRead(path))
             using (var f = new StreamReader(s))
+            {
                 return JsonConvert.DeserializeObject<T>(f.ReadToEnd(), StorageManager.Settings);
+            }
         }
 
         public void Save(T obj)

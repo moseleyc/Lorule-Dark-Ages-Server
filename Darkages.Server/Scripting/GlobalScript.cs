@@ -1,6 +1,6 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using Darkages.Network.Game;
 using Darkages.Network.Object;
-using System;
 
 namespace Darkages.Scripting
 {

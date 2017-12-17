@@ -1,17 +1,17 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using Darkages.Network.Game;
 using Darkages.Network.Object;
-using System;
 
 namespace Darkages.Scripting
 {
     public abstract class MapScript : ObjectManager
     {
-        public Area Area { get; set; }
-
         public MapScript(Area area)
         {
             Area = area;
         }
+
+        public Area Area { get; set; }
 
         public abstract void OnClick(GameClient client, int x, int y);
         public abstract void OnEnter(GameClient client);

@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using Darkages.Network.Game;
-using Darkages.Network.ServerFormats;
+﻿using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
-using Darkages.Storage.locales.debuffs;
 using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Spells
@@ -12,17 +9,14 @@ namespace Darkages.Storage.locales.Scripts.Spells
     {
         public beagiocfein(Spell spell) : base(spell)
         {
-
         }
 
         public override void OnFailed(Sprite sprite, Sprite target)
         {
-
         }
 
         public override void OnSuccess(Sprite sprite, Sprite target)
         {
-
         }
 
         public override void OnUse(Sprite sprite, Sprite target)
@@ -42,7 +36,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                     };
 
 
-                    client.Aisling.CurrentHp += (client.Aisling.MaximumHp / 10);
+                    client.Aisling.CurrentHp += client.Aisling.MaximumHp / 10;
 
                     if (client.Aisling.CurrentHp > client.Aisling.MaximumHp)
                         client.Aisling.CurrentHp = client.Aisling.MaximumHp;

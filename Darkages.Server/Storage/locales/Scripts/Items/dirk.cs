@@ -8,7 +8,6 @@ namespace Darkages.Storage.locales.Scripts.Items
     {
         public Dirk(Item item) : base(item)
         {
-
         }
 
         public override void OnUse(Sprite sprite, byte slot)
@@ -28,7 +27,6 @@ namespace Darkages.Storage.locales.Scripts.Items
                 {
                     if (!client.CheckReqs(client, Item))
                     {
-
                     }
                 }
                 else

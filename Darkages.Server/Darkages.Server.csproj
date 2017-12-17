@@ -122,6 +122,7 @@
     <Compile Include="Network\ClientFormats\ClientFormat57.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat68.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat75.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat79.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat7B.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat89.cs" />
     <Compile Include="Network\ClientFormats\Undefined.cs" />
@@ -236,6 +237,9 @@
     <Compile Include="Storage\locales\Scripts\Areas\Barrens.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Storage\locales\Scripts\Areas\tour.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\Scripts\Areas\Mileth.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -273,10 +277,19 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\BarrenLord.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\Benson.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\Scripts\Mundanes\Gos.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Mundanes\ClassChooser.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\Unstuck.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Skills\LocateMonster.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Types\Dialog.cs" />

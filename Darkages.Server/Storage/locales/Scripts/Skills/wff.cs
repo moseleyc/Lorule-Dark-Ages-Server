@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Skills
 {
@@ -10,6 +11,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
     public class Wff : SkillScript
     {
         public Skill _skill;
+
+        private readonly Random rand = new Random();
 
         public Wff(Skill skill) : base(skill)
         {
@@ -23,9 +26,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    !String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    !string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
-
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -34,7 +36,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
             {
                 var client = (sprite as Aisling).Client;
 
-                var debuff = Clone<Debuff>(Skill.Template.Debuff);
+                var debuff = Clone(Skill.Template.Debuff);
 
                 var i = sprite.GetInfront(sprite);
 
@@ -64,7 +66,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
             }
         }
 
-        private void Apply(Network.Game.GameClient client, Debuff debuff, Sprite target)
+        private void Apply(GameClient client, Debuff debuff, Sprite target)
         {
             var action = new ServerFormat1A
             {
@@ -76,10 +78,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
             target.ApplyDamage(client.Aisling, 0, false, Skill.Template.Sound);
             debuff.OnApplied(target, debuff);
-            return;
         }
 
-        private Random rand = new Random();
         public override void OnUse(Sprite sprite)
         {
             if (sprite is Aisling && Skill.Ready)
@@ -94,9 +94,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     if (rand.Next(1, 101) < Skill.Level)
                         OnSuccess(sprite);
                     else
-                    {
                         OnFailed(sprite);
-                    }
                 }
             }
             else
@@ -106,12 +104,10 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     return;
                 if (target is Aisling)
                 {
-                    var debuff = Clone<Debuff>(Skill.Template.Debuff);
+                    var debuff = Clone(Skill.Template.Debuff);
 
                     if (target.Debuffs.FirstOrDefault(n => n.Name == debuff.Name) == null)
-                    {
                         Apply((target as Aisling)?.Client, debuff, target);
-                    }
                 }
             }
         }

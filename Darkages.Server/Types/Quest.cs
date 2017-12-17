@@ -38,6 +38,7 @@ namespace Darkages.Types
         public List<QuestStep<Template>> QuestStages = new List<QuestStep<Template>>();
 
         public bool Rewarded { get; set; }
+        public QuestStep<Template> Current => QuestStages.Count > 0 ? QuestStages[StageIndex] : null;
 
 
         public void OnCompleted(Aisling user)
@@ -51,9 +52,9 @@ namespace Darkages.Types
                     var obj = user.Inventory.Get(o => o.Template.Name == step.TemplateContext.Name)
                         .FirstOrDefault();
 
-                    if (obj.Template.Flags.HasFlag(ItemFlags.QuestRelated))
+                    if (obj != null && obj.Template.Flags.HasFlag(ItemFlags.QuestRelated))
                     {
-                        if (obj != null && step.IsMet(user, b => b(obj.Template)))
+                        if (step.IsMet(user, b => b(obj.Template)))
                         {
                             user.Inventory.RemoveRange(user.Client, obj, step.Amount);
                         }
@@ -131,6 +132,7 @@ namespace Darkages.Types
         public int Amount { get; set; }
         public Template TemplateContext { get; set; }
         public QuestType Type { get; set; }
+        public string Value { get; set; }
 
         public bool IsMet(Aisling user, Func<Predicate<Template>, bool> predicate)
         {
@@ -148,6 +150,11 @@ namespace Darkages.Types
         public QuestType Type { get; set; }
 
         public bool StepComplete { get; set; }
+
+        public string AcceptedMessage { get; set; }
+
+        public string RejectedMessage { get; set; }
+
 
         [JsonIgnore]
         public List<QuestRequirement> Prerequisites

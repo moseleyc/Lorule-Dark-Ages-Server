@@ -9,14 +9,12 @@ namespace Darkages.Storage
 {
     public class AreaStorage : IStorage<Area>
     {
-        public static string StoragePath = null;
+        public static string StoragePath;
 
         static AreaStorage()
         {
             if (ServerContext.STORAGE_PATH == null)
-            {
                 ServerContext.LoadConstants();
-            }
 
             StoragePath = $@"{ServerContext.STORAGE_PATH}\areas";
 
@@ -33,7 +31,9 @@ namespace Darkages.Storage
 
             using (var s = File.OpenRead(path))
             using (var f = new StreamReader(s))
+            {
                 return JsonConvert.DeserializeObject<Area>(f.ReadToEnd(), StorageManager.Settings);
+            }
         }
 
         public void Save(Area obj)
@@ -47,31 +47,26 @@ namespace Darkages.Storage
         {
             var area_dir = StoragePath;
             if (!Directory.Exists(area_dir))
-            {
                 return;
-            }
             var area_names = Directory.GetFiles(area_dir, "*.json", SearchOption.TopDirectoryOnly);
 
             foreach (var area in area_names)
-            {
                 try
                 {
                     var mapObj = StorageManager.AreaBucket.Load(Path.GetFileNameWithoutExtension(area));
                     var mapFile = Directory.GetFiles($@"{ServerContext.STORAGE_PATH}\maps", $"lod{mapObj.Number}.map",
                         SearchOption.TopDirectoryOnly).FirstOrDefault();
 
-                    if (File.Exists(mapFile))
+                    if (mapFile != null && File.Exists(mapFile))
                     {
                         mapObj.Data = File.ReadAllBytes(mapFile);
                         mapObj.Hash = Crc16Provider.ComputeChecksum(mapObj.Data);
                         StorageManager.AreaBucket.Save(mapObj);
-                    }
 
-                    mapObj.Script = ScriptManager.Load<MapScript>(mapObj.ScriptKey, mapObj);
-                    mapObj.OnLoaded();
 
-                    if (mapObj != null)
-                    {
+                        mapObj.Script = ScriptManager.Load<MapScript>(mapObj.ScriptKey, mapObj);
+                        mapObj.OnLoaded();
+
                         ServerContext.GlobalMapCache[mapObj.Number] = mapObj;
                     }
                 }
@@ -80,9 +75,7 @@ namespace Darkages.Storage
                     Console.WriteLine("Unable to load Map {0}, Not compatible.", Path.GetFileName(area));
                     File.Delete(area);
                     Console.WriteLine("Deleted Corrupt Area Template : {0}", Path.GetFileName(area));
-                    continue;
                 }
-            }
         }
     }
 }

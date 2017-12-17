@@ -1,10 +1,12 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Mundanes
 {
@@ -12,6 +14,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
     public class Gos : MundaneScript
     {
         public Dialog SequenceMenu = new Dialog();
+
 
         public Gos(GameServer server, Mundane mundane) : base(server, mundane)
         {
@@ -41,7 +44,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             new OptionsDataItem(0x0011, "what's in it for me?"),
                             new OptionsDataItem(0x0012, "nah, I'm not killing rats for you. fuck off.")
                         );
-                },
+                }
             });
             SequenceMenu.Sequences.Add(new DialogSequence
             {
@@ -51,11 +54,75 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 Callback = (sender, args) =>
                 {
                     if (args.HasOptions)
-                        sender.Client.SendOptionsDialog(Mundane, string.Format("oye {0}, Nice job.", sender.Path.ToString()),
+                        sender.Client.SendOptionsDialog(Mundane,
+                            string.Format("oye {0}, Nice job.", sender.Path.ToString()),
                             new OptionsDataItem(0x0017, "Hand over the rat shit")
                         );
-                },
+                }
             });
+        }
+
+        public override void OnGossip(GameServer server, GameClient client, string message)
+        {
+            if (message == "benson called you a pussy")
+            {
+                var benson = GetObject<Mundane>(i => i.Template.Name == "Benson");
+
+                Mundane.Target = benson ?? client.Aisling as Sprite;
+                Mundane.Template.EnableAttacking = true;
+                Mundane.Template.EnableTurning = true;
+                Mundane.Template.EnableWalking = true;
+
+                if (Mundane.Template.EnableAttacking)
+                    Mundane.Template.AttackTimer = new GameServerTimer(TimeSpan.FromMilliseconds(750));
+
+                if (Mundane.Template.EnableWalking)
+                {
+                    Mundane.Template.EnableTurning = false;
+                    Mundane.Template.WalkTimer = new GameServerTimer(TimeSpan.FromSeconds(500));
+                }
+
+                if (Mundane.Template.EnableTurning)
+                    Mundane.Template.TurnTimer = new GameServerTimer(TimeSpan.FromSeconds(1));
+
+                new TaskFactory().StartNew(() =>
+                {
+                    Thread.Sleep(3000);
+                    Mundane.Show(Scope.NearbyAislings,
+                        new ServerFormat0D { Text = "what u say cunt!!", Type = 0x00, Serial = Mundane.Serial });
+                    Thread.Sleep(2000);
+                    Mundane.Show(Scope.NearbyAislings,
+                        new ServerFormat0D { Text = "you got a problem? there a problem!?", Type = 0x00, Serial = Mundane.Serial });
+
+                });
+
+
+                new TaskFactory().StartNew(() =>
+                {
+                    Thread.Sleep(12000);
+
+                    if (benson != null)
+                    {
+                        var quest = client.Aisling.Quests.Find(i => i.Name == "Benson_quest" && !i.Completed);
+                        quest?.OnCompleted(client.Aisling);
+                    }
+
+                    Mundane.Show(Scope.NearbyAislings,
+                        new ServerFormat0D { Text = "fuckn weak as piss.", Type = 0x00, Serial = Mundane.Serial });
+
+                    Mundane.CurrentHp = 0;
+                    Mundane.Template.TurnTimer = null;
+                    Mundane.Template.AttackTimer = null;
+                    Mundane.Template.WalkTimer = null;
+                    Mundane.Template.EnableAttacking = false;
+                    Mundane.Template.EnableWalking = false;
+                    Mundane.Template.EnableTurning = false;
+                });
+            }
+        }
+
+        public override void TargetAcquired(Sprite Target)
+        {
         }
 
         public override void OnClick(GameServer server, GameClient client)
@@ -90,7 +157,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
             if (quest == null)
             {
-                quest = new Quest{ Name = Mundane.Template.QuestKey };
+                quest = new Quest {Name = Mundane.Template.QuestKey};
                 quest.LegendRewards.Add(new Legend.LegendItem
                 {
                     Category = "Quest",
@@ -109,14 +176,14 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
             quest.QuestStages = new List<QuestStep<Template>>();
 
-            var q1 = new QuestStep<Template> { Type = QuestType.Accept };
-            var q2 = new QuestStep<Template> { Type = QuestType.ItemHandIn };
+            var q1 = new QuestStep<Template> {Type = QuestType.Accept};
+            var q2 = new QuestStep<Template> {Type = QuestType.ItemHandIn};
 
-            q2.Prerequisites.Add(new QuestRequirement()
+            q2.Prerequisites.Add(new QuestRequirement
             {
                 Type = QuestType.ItemHandIn,
                 Amount = 10,
-                TemplateContext = ServerContext.GlobalItemTemplateCache["rat shit"]                
+                TemplateContext = ServerContext.GlobalItemTemplateCache["rat shit"]
             });
 
             quest.QuestStages.Add(q1);
@@ -159,7 +226,8 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                         {
                             SequenceMenu.MoveNext(client);
                             SequenceMenu.Invoke(client);
-                        };
+                        }
+                        ;
                         break;
                     case 0x0010:
                         client.SendOptionsDialog(Mundane, "sweet, Bring me some rat shit. (10)");
@@ -206,7 +274,6 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             client.SendOptionsDialog(Mundane, "Thank you.");
                         }
                         break;
-
                 }
         }
     }

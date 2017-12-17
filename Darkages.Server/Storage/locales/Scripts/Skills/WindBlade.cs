@@ -1,8 +1,7 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Linq;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
-using System;
-using System.Linq;
 
 namespace Darkages.Scripting.Scripts.Skills
 {
@@ -11,7 +10,7 @@ namespace Darkages.Scripting.Scripts.Skills
     {
         public Skill _skill;
 
-        Random rand = new Random();
+        private readonly Random rand = new Random();
 
         public Sprite Target;
 
@@ -27,9 +26,8 @@ namespace Darkages.Scripting.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
-
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -63,7 +61,7 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         Target = i;
 
-                        var dmg = client.Aisling.Invisible ? 2 : 1 * (client.Aisling.Str * (20 * Skill.Level));
+                        var dmg = client.Aisling.Invisible ? 2 : 1 * client.Aisling.Str * 20 * Skill.Level;
                         i.Target = client.Aisling;
                         i.ApplyDamage(sprite, dmg, false, Skill.Template.Sound);
 
@@ -74,15 +72,16 @@ namespace Darkages.Scripting.Scripts.Skills
                         }
                         if (i is Aisling)
                         {
-                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, byte.MinValue, Skill.Template.TargetAnimation, 100)));
+                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial, byte.MinValue,
+                                    Skill.Template.TargetAnimation, 100));
                             (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                         }
 
                         if (i is Monster || i is Mundane || i is Aisling)
-                        {
-                            client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, Skill.Template.TargetAnimation, 0, 100)));
-                        }
-
+                            client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
+                                    Skill.Template.TargetAnimation, 0, 100));
                     }
                     client.Aisling.Show(Scope.NearbyAislings, action);
                 }

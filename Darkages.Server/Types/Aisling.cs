@@ -134,14 +134,15 @@ namespace Darkages
                 lock (ViewFrustrum)
                 {
                     _view = new List<Sprite>(ViewFrustrum);
-                }
 
-                for (int i = 0; i < _view.Count; i++)
-                {
-                    if (_view[i] != null)
+
+                    for (int i = 0; i < _view.Count; i++)
                     {
-                        if (obj.Serial == _view[i].Serial)
-                            return true;
+                        if (_view[i] != null)
+                        {
+                            if (obj.Serial == _view[i].Serial)
+                                return true;
+                        }
                     }
                 }
             }
@@ -239,7 +240,7 @@ namespace Darkages
                 Gender = 0,
                 Title = 0,
                 Flags = 0,
-                AreaID = 509,
+                AreaID = ServerContext.Config.StartingMap,
                 ClassID = 0,
                 Stage = ClassStage.Class,
                 Path = Class.Peasant,
@@ -268,7 +269,7 @@ namespace Darkages
                 FaceStyle = 0,
                 HairColor = 0,
                 HairStyle = 0,
-                CurrentMapId = 509,
+                CurrentMapId = ServerContext.Config.StartingMap,
                 SkillBook = new SkillBook(),
                 SpellBook = new SpellBook(),
                 Inventory = new Inventory(),

@@ -1,46 +1,36 @@
-﻿using Darkages.Network.Game.Components;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Darkages.Network.Game.Components;
 
 namespace Darkages.Network.Game
 {
     public partial class GameServer : NetworkServer<GameClient>
     {
+        private bool isRunning;
         private DateTime lastUpdate = DateTime.UtcNow;
         private Thread updateThread;
-        private bool isRunning;
-
-        public Collection<GameServerComponent> Components { get; private set; }
-        public TimeSpan UpdateSpan { get; private set; }
-        public TimeSpan Delta { get; set; }
-
-        private int _frames = ServerContext.Config.FRAMES;
-
-        public int Frames
-        {
-            get { return _frames; }
-            set {
-                _frames = value;
-            }
-        }
 
 
         public GameServer(int capacity)
             : base(capacity)
         {
             Components = new Collection<GameServerComponent>();
-            UpdateSpan = TimeSpan.FromSeconds(1.0 / _frames);
+            UpdateSpan = TimeSpan.FromSeconds(1.0 / Frames);
             InitializeGameServer();
         }
+
+        public Collection<GameServerComponent> Components { get; }
+        public TimeSpan UpdateSpan { get; }
+        public TimeSpan Delta { get; set; }
+
+        public int Frames { get; set; } = ServerContext.Config.FRAMES;
 
         private void AutoSave(GameClient client)
         {
             if ((DateTime.UtcNow - client.LastSave).TotalSeconds > ServerContext.Config.SaveRate)
-            {
                 client.Save();
-            }
         }
 
         private void DoUpdate()
@@ -51,7 +41,7 @@ namespace Darkages.Network.Game
             while (isRunning)
             {
                 var delta =
-                    (DateTime.UtcNow - lastUpdate);
+                    DateTime.UtcNow - lastUpdate;
 
                 Update(delta);
 
@@ -95,14 +85,12 @@ namespace Darkages.Network.Game
         private void UpdateComponents(TimeSpan elapsedTime)
         {
             for (var i = 0; i < Components.Count; i++)
-            {
                 Components[i].Update(elapsedTime);
-            }            
         }
 
         private static void UpdateAreas(TimeSpan elapsedTime)
         {
-            foreach (Area area in ServerContext.GlobalMapCache.Values)
+            foreach (var area in ServerContext.GlobalMapCache.Values)
             {
                 area?.Update(elapsedTime);
 
@@ -116,37 +104,26 @@ namespace Darkages.Network.Game
 
             if (objects != null)
                 foreach (var obj in objects)
-                {
                     if (obj != null)
-                    {
                         if (obj.AislingsNearby().Length > 0)
                             obj.CreationDate = DateTime.UtcNow;
-                    }
-                }
         }
 
         private void UpdateClients(TimeSpan elapsedTime)
         {
             foreach (var client in Clients)
-            {
                 if (client != null && client.Aisling != null)
-                {
                     client.Update(elapsedTime);
-                }
-            }
         }
 
         public override void ClientConnected(GameClient client)
         {
-
         }
 
         public override void ClientDisconnected(GameClient client)
         {
             if (client == null || client.Aisling == null)
-            {
                 return;
-            }
 
             client.Aisling.LoggedIn = false;
 
@@ -175,9 +152,7 @@ namespace Darkages.Network.Game
             base.Start(port);
 
             if (isRunning)
-            {
                 return;
-            }
 
 
             new TaskFactory().StartNew(DoUpdate);

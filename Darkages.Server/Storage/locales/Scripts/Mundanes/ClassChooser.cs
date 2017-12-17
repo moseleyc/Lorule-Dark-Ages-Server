@@ -1,9 +1,9 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Collections.Generic;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
-using System.Collections.Generic;
 
 namespace Darkages.Storage.locales.Scripts.Mundanes
 {
@@ -14,6 +14,15 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             : base(server, mundane)
         {
         }
+
+        public override void OnGossip(GameServer server, GameClient client, string message)
+        {
+        }
+
+        public override void TargetAcquired(Sprite Target)
+        {
+        }
+
 
         public override void OnClick(GameServer server, GameClient client)
         {
@@ -26,13 +35,14 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 options.Add(new OptionsDataItem(0x04, "Priest"));
                 options.Add(new OptionsDataItem(0x05, "Monk"));
 
-                client.SendOptionsDialog(base.Mundane, "What path will you walk?", options.ToArray());
+                client.SendOptionsDialog(Mundane, "What path will you walk?", options.ToArray());
             }
             else
             {
-                client.SendOptionsDialog(base.Mundane, "You have already chosen your path.");
+                client.SendOptionsDialog(Mundane, "You have already chosen your path.");
             }
         }
+
         public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
             if (responseID < 0x0001 ||
@@ -40,17 +50,18 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 return;
 
             client.Aisling.ClassID = responseID;
-            client.Aisling.Path = (Class)responseID;
+            client.Aisling.Path = (Class) responseID;
 
-            client.SendOptionsDialog(base.Mundane, string.Format("You are now a {0}",
+            client.SendOptionsDialog(Mundane, string.Format("You are now a {0}",
                 Convert.ToString(client.Aisling.Path)));
 
-            client.Aisling.LegendBook.AddLegend(new Darkages.Types.Legend.LegendItem()
+            client.Aisling.LegendBook.AddLegend(new Legend.LegendItem
             {
                 Category = "Class",
                 Color = 0x03,
                 Icon = 0x01,
-                Value = string.Format("Walks the path of the {0} - {1}", Convert.ToString(client.Aisling.Path), DateTime.UtcNow.ToShortDateString())
+                Value = string.Format("Walks the path of the {0} - {1}", Convert.ToString(client.Aisling.Path),
+                    DateTime.UtcNow.ToShortDateString())
             });
         }
     }

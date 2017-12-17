@@ -14,10 +14,8 @@ namespace Darkages.Storage.locales.Scripts.Items
         public override void Equipped(Sprite sprite, byte displayslot)
         {
             if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
-            {
                 if (Item.OffenseElement != Element.None)
                     sprite.OffenseElement = Element.Fire;
-            }
 
             (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
         }
@@ -40,7 +38,6 @@ namespace Darkages.Storage.locales.Scripts.Items
                 {
                     if (!client.CheckReqs(client, Item))
                     {
-
                     }
                 }
                 else
@@ -49,12 +46,11 @@ namespace Darkages.Storage.locales.Scripts.Items
                 }
             }
         }
+
         public override void UnEquipped(Sprite sprite, byte displayslot)
         {
             if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
-            {
                 sprite.OffenseElement = Element.None;
-            }
 
             (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
         }

@@ -1,7 +1,4 @@
-﻿using Darkages.Types;
-using System.Collections.Generic;
-
-namespace Darkages.Network.ClientFormats
+﻿namespace Darkages.Network.ClientFormats
 {
     public class ClientFormat4D : NetworkFormat
     {
@@ -18,7 +15,6 @@ namespace Darkages.Network.ClientFormats
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-
         }
     }
 }

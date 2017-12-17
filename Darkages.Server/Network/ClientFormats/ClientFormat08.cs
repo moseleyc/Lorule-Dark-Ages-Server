@@ -20,10 +20,9 @@
             ItemAmount = reader.ReadInt32();
 
             if (reader.CanRead)
-            {
                 Unknown = reader.ReadInt16();
-            }
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

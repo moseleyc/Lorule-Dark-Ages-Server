@@ -22,7 +22,9 @@ namespace Darkages.Storage
 
             using (var s = File.OpenRead(path))
             using (var f = new StreamReader(s))
+            {
                 return JsonConvert.DeserializeObject<Aisling>(f.ReadToEnd(), StorageManager.Settings);
+            }
         }
 
         public void Save(Aisling obj)

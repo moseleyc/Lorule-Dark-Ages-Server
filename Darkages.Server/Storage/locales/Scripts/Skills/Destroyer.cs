@@ -1,7 +1,6 @@
 ﻿using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
-using System.Linq;
 
 namespace Darkages.Scripting.Scripts.Skills
 {
@@ -22,15 +21,13 @@ namespace Darkages.Scripting.Scripts.Skills
             {
                 var client = (sprite as Aisling).Client;
                 if (Target != null)
-                {
-                    client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29(Skill.Template.MissAnimation, (ushort)Target.X, (ushort)Target.Y)));
-                }
+                    client.Aisling.Show(Scope.NearbyAislings,
+                        new ServerFormat29(Skill.Template.MissAnimation, (ushort) Target.X, (ushort) Target.Y));
             }
         }
 
         public override void OnSuccess(Sprite sprite)
         {
-            
         }
 
         public override void OnUse(Sprite sprite)
@@ -39,9 +36,7 @@ namespace Darkages.Scripting.Scripts.Skills
             {
                 var client = (sprite as Aisling).Client;
                 if (client.Aisling != null)
-                {
                     DestroyAll(client);
-                }
             }
         }
 

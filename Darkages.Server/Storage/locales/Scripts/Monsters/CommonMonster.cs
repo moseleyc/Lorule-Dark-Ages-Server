@@ -1,31 +1,29 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Collections.Generic;
+using Darkages.Network.Game;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
-using System.Collections.Generic;
 
 namespace Darkages.Storage.locales.Scripts.Monsters
 {
     [Script("Common Monster", "Dean")]
     public class CommonMonster : MonsterScript
     {
-        public List<SpellScript> SpellScripts = new List<SpellScript>();
-        public List<SkillScript> SkillScripts = new List<SkillScript>();
-
         private readonly Random random = new Random();
-
-        public Sprite Target => Monster.Target;
+        public List<SkillScript> SkillScripts = new List<SkillScript>();
+        public List<SpellScript> SpellScripts = new List<SpellScript>();
 
         public CommonMonster(Monster monster, Area map)
             : base(monster, map)
         {
-            foreach (var spellscriptstr in Monster.Template.SpellScripts)
-            {
-                var script = ScriptManager.Load<SpellScript>(spellscriptstr,
-                    Spell.Create(1, ServerContext.GlobalSpellTemplateCache[spellscriptstr]));
+            if (Monster.Template.SpellScripts != null)
+                foreach (var spellscriptstr in Monster.Template.SpellScripts)
+                {
+                    var script = ScriptManager.Load<SpellScript>(spellscriptstr,
+                        Spell.Create(1, ServerContext.GlobalSpellTemplateCache[spellscriptstr]));
 
-                SpellScripts.Add(script);
-            }
+                    SpellScripts.Add(script);
+                }
 
 
             var wff = ScriptManager.Load<SkillScript>("wff",
@@ -33,6 +31,8 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
             SkillScripts.Add(wff);
         }
+
+        public Sprite Target => Monster.Target;
 
         public override void OnApproach(GameClient client)
         {
@@ -74,17 +74,17 @@ namespace Darkages.Storage.locales.Scripts.Monsters
         }
 
         public override void OnClick(GameClient client)
-        {            
-            client.SendMessage(0x02, Monster.Template.Name + $"(Lv {Monster.Template.Level}, HP: {Monster.CurrentHp}/{Monster.MaximumHp}, AC: {Monster.Ac}, O: {Monster.OffenseElement}, D: {Monster.DefenseElement})");
+        {
+            client.SendMessage(0x02,
+                Monster.Template.Name +
+                $"(Lv {Monster.Template.Level}, HP: {Monster.CurrentHp}/{Monster.MaximumHp}, AC: {Monster.Ac}, O: {Monster.OffenseElement}, D: {Monster.DefenseElement})");
         }
 
         public override void OnDeath(GameClient client)
         {
             if (Monster.Target != null)
-            {
                 if (Monster.Target is Aisling)
                     Monster.GiveExperienceTo(Monster.Target as Aisling);
-            }
 
             if (Monster.Template.Drops.Count > 0)
             {
@@ -97,12 +97,10 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                     if (random.NextDouble() <= item.Template.DropRate)
                         item.Release(Monster, Monster.Position);
                 }
-
             }
 
             if (GetObject<Monster>(i => i.Serial == Monster.Serial) != null)
-                DelObject<Monster>(Monster);
-
+                DelObject(Monster);
         }
 
         public override void OnLeave(GameClient client)
@@ -113,108 +111,92 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         public override void Update(TimeSpan elapsedTime)
         {
-            if (!this.Monster.isAlive)
-            {
+            if (!Monster.isAlive)
                 return;
-            }
 
             if (Monster.Target != null)
             {
                 if (Monster.Target is Aisling)
-                {
                     if ((Monster.Target as Aisling).Invisible)
                         ClearTarget();
-                }
                 if (Monster.Target?.CurrentHp == 0)
-                {
                     ClearTarget();
-                }
             }
 
-            this.Monster.BashTimer.Update(elapsedTime);
-            this.Monster.CastTimer.Update(elapsedTime);
-            this.Monster.WalkTimer.Update(elapsedTime);
+            Monster.BashTimer.Update(elapsedTime);
+            Monster.CastTimer.Update(elapsedTime);
+            Monster.WalkTimer.Update(elapsedTime);
 
 
-            if (this.Monster.BashTimer.Elapsed)
+            if (Monster.BashTimer.Elapsed)
             {
-                this.Monster.BashTimer.Reset();
+                Monster.BashTimer.Reset();
 
-                if (this.Monster.BashEnabled)
-                {
-                    this.Bash();
-                }
+                if (Monster.BashEnabled)
+                    Bash();
             }
 
-            if (this.Monster.CastTimer.Elapsed)
+            if (Monster.CastTimer.Elapsed)
             {
-                this.Monster.CastTimer.Reset();
+                Monster.CastTimer.Reset();
 
-                if (this.Monster.CastEnabled)
-                {
-                    this.CastSpell();
-                }
+                if (Monster.CastEnabled)
+                    CastSpell();
             }
 
-            if (this.Monster.WalkTimer.Elapsed)
+            if (Monster.WalkTimer.Elapsed)
             {
-                this.Monster.WalkTimer.Reset();
+                Monster.WalkTimer.Reset();
 
-                if (this.Monster.WalkEnabled)
-                {
-                    this.Walk();
-                }
+                if (Monster.WalkEnabled)
+                    Walk();
             }
         }
 
         private void CastSpell()
         {
             if (Monster != null && Monster.Target != null)
-            {
                 if (random.Next(1, 101) < ServerContext.Config.MonsterSpellSuccessRate)
                 {
                     var spellidx = random.Next(SpellScripts.Count);
                     SpellScripts[spellidx].OnUse(Monster, Target);
                 }
-            }
         }
 
         private void Walk()
         {
-            if (this.Monster.Attacked)
+            if (Monster.Attacked)
             {
-                if (this.Target != null)
-                {
-                    if (this.Monster.NextTo(Target.X, Target.Y))
+                if (Target != null)
+                    if (Monster.NextTo(Target.X, Target.Y))
                     {
                         int direction;
 
-                        if (this.Monster.Facing(Target.X, Target.Y, out direction))
+                        if (Monster.Facing(Target.X, Target.Y, out direction))
                         {
-                            this.Monster.BashEnabled = true;
-                            this.Monster.CastEnabled = true;
+                            Monster.BashEnabled = true;
+                            Monster.CastEnabled = true;
                         }
                         else
                         {
-                            this.Monster.BashEnabled = false;
-                            this.Monster.CastEnabled = true;
-                            this.Monster.Direction = (byte)direction;
-                            this.Monster.Turn();
+                            Monster.BashEnabled = false;
+                            Monster.CastEnabled = true;
+                            Monster.Direction = (byte) direction;
+                            Monster.Turn();
                         }
                     }
                     else
                     {
-                        this.Monster.BashEnabled = false;
-                        this.Monster.CastEnabled = true;
-                        this.Monster.WalkTo(Target.X, Target.Y);
+                        Monster.BashEnabled = false;
+                        Monster.CastEnabled = true;
+                        Monster.WalkTo(Target.X, Target.Y);
                     }
-                }
             }
             else
             {
-                this.Monster.BashEnabled = false;
-                this.Monster.CastEnabled = false;
-                this.Monster.Wander();
+                Monster.BashEnabled = false;
+                Monster.CastEnabled = false;
+                Monster.Wander();
             }
         }
 
@@ -225,25 +207,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (obj == null)
                 return;
 
-            if (obj.Count == 0 || obj.Find(o => o != null && 
-                o.Serial == Monster?.Target?.Serial) == null)
-            {
+            if (obj.Count == 0 || obj.Find(o => o != null &&
+                                                o.Serial == Monster?.Target?.Serial) == null)
                 ClearTarget();
-            }
 
             if (Target != null)
-            {
                 if (Monster != null && Monster.Target != null)
                 {
                     var idx = random.Next(SkillScripts.Count);
 
                     if (random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
-                    {
                         SkillScripts[idx].OnUse(Monster);
-                    }
                     Monster.Attack(Target);
                 }
-            }
         }
 
         private void ClearTarget()
@@ -256,4 +232,3 @@ namespace Darkages.Storage.locales.Scripts.Monsters
         }
     }
 }
-

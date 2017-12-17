@@ -2,19 +2,6 @@
 {
     public class ServerFormat3A : NetworkFormat
     {
-        public override bool Secured => true;
-        public override byte Command => 0x3A;
-
-        private enum IconStatus : ushort
-        {
-            Active = 0,
-            Available = 266,
-            Unavailable = 532
-        }
-
-        public ushort Icon { get; set; }
-        public byte Length { get; set; }
-        
         public ServerFormat3A()
         {
             Icon = (ushort) IconStatus.Available;
@@ -31,6 +18,12 @@
 //            Icon = IconStatus.status + icon;
         }
 
+        public override bool Secured => true;
+        public override byte Command => 0x3A;
+
+        public ushort Icon { get; set; }
+        public byte Length { get; set; }
+
         public override void Serialize(NetworkPacketReader reader)
         {
         }
@@ -39,6 +32,13 @@
         {
             writer.Write(Icon);
             writer.Write(Length);
+        }
+
+        private enum IconStatus : ushort
+        {
+            Active = 0,
+            Available = 266,
+            Unavailable = 532
         }
     }
 }

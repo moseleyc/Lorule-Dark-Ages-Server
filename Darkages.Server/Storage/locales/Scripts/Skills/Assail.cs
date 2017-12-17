@@ -1,8 +1,7 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Linq;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
-using System;
-using System.Linq;
 
 namespace Darkages.Scripting.Scripts.Skills
 {
@@ -11,7 +10,7 @@ namespace Darkages.Scripting.Scripts.Skills
     {
         public Skill _skill;
 
-        Random rand = new Random();
+        private Random rand = new Random();
 
         public Sprite Target;
 
@@ -23,13 +22,12 @@ namespace Darkages.Scripting.Scripts.Skills
         public override void OnFailed(Sprite sprite)
         {
             if (Target != null)
-            {
                 if (sprite is Aisling)
                 {
                     var client = (sprite as Aisling).Client;
-                    client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29(Skill.Template.MissAnimation, (ushort)Target.X, (ushort)Target.Y)));
+                    client.Aisling.Show(Scope.NearbyAislings,
+                        new ServerFormat29(Skill.Template.MissAnimation, (ushort) Target.X, (ushort) Target.Y));
                 }
-            }
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -45,7 +43,7 @@ namespace Darkages.Scripting.Scripts.Skills
                     Speed = 20
                 };
 
-                //test
+
                 var enemy = client.Aisling.GetInfront();
 
                 if (enemy != null)
@@ -68,7 +66,15 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         Target = i;
 
-                        var dmg = (int)(Skill.Level + 1 * (client.Aisling.Str + 64 + client.Aisling.Dex + 64) + 64 + 1.0 * Skill.Level + 1);
+                        //=INT(F5 * ($D$5 * $D$7 + $D$6 * $D$6) * ($D$7 + 1*F5))
+
+                        var percent = 0;
+
+                        if (Target is Monster)
+                            percent = Math.Abs((Target as Monster).Template.Level - client.Aisling.ExpLevel) * 99 / 100;
+
+                        var dmg = Skill.Level + client.Aisling.Str * Skill.Level * percent;
+
                         i.ApplyDamage(sprite, dmg);
 
                         if (i is Monster)
@@ -79,15 +85,16 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         if (i is Aisling)
                         {
-                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, byte.MinValue, Skill.Template.TargetAnimation, 100)));
+                            (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial, byte.MinValue,
+                                    Skill.Template.TargetAnimation, 100));
                             (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                         }
 
                         if (i is Monster || i is Mundane || i is Aisling)
-                        {
-                            client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, Skill.Template.TargetAnimation, 0, 100)));
-                        }
-
+                            client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
+                                    Skill.Template.TargetAnimation, 0, 100));
                     }
                 }
                 client.Aisling.Show(Scope.NearbyAislings, action);
@@ -98,7 +105,6 @@ namespace Darkages.Scripting.Scripts.Skills
         {
             if (sprite is Aisling)
             {
-              
                 var client = (sprite as Aisling).Client;
                 client.TrainSkill(Skill);
                 if (Skill.Ready)
@@ -109,7 +115,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         client.Refresh();
                     }
 
-                    client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte) SkillPane.Default, Skill.Slot, Skill.Template.Cooldown));
 
                     OnSuccess(sprite);
                 }

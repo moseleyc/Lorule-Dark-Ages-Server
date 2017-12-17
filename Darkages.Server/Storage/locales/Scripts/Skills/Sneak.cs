@@ -1,5 +1,4 @@
 ﻿using System;
-using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
@@ -10,6 +9,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
     public class Sneak : SkillScript
     {
         public Skill _skill;
+
+        public Random rand = new Random();
 
         public Sneak(Skill skill) : base(skill)
         {
@@ -23,9 +24,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
-
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -44,8 +44,6 @@ namespace Darkages.Storage.locales.Scripts.Skills
             }
         }
 
-        public Random rand = new Random();
-
         public override void OnUse(Sprite sprite)
         {
             if (sprite is Aisling)
@@ -56,10 +54,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 if (rand.Next(1, 101) < Skill.Level)
                     OnSuccess(sprite);
                 else
-                {
                     OnFailed(sprite);
-                }
-
             }
         }
     }

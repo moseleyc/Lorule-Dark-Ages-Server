@@ -2,21 +2,17 @@
 {
     public class ClientFormat47 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return true; }
-        }
-        public override byte Command
-        {
-            get { return 0x47; }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x47;
 
         public byte Stat { get; set; }
 
         public override void Serialize(NetworkPacketReader reader)
         {
-            this.Stat = reader.ReadByte();
+            Stat = reader.ReadByte();
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

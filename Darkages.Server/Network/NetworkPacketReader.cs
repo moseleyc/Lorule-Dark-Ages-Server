@@ -1,11 +1,11 @@
-using Darkages.Types;
 using System.Text;
+using Darkages.Types;
 
 namespace Darkages.Network
 {
     public class NetworkPacketReader
     {
-        private Encoding encoding = Encoding.GetEncoding(949);
+        private readonly Encoding encoding = Encoding.GetEncoding(949);
 
         public NetworkPacket Packet { get; set; }
         public int Position { get; set; }
@@ -14,7 +14,7 @@ namespace Darkages.Network
         public T ReadObject<T>()
             where T : IFormattable, new()
         {
-            T result = new T();
+            var result = new T();
 
             result.Serialize(this);
 
@@ -23,15 +23,15 @@ namespace Darkages.Network
 
         public bool ReadBool()
         {
-            return (this.ReadByte() != 0);
+            return ReadByte() != 0;
         }
 
         public Position ReadPosition()
         {
-            var pos = new Position()
+            var pos = new Position
             {
-                X = this.ReadUInt16(),
-                Y = this.ReadUInt16()
+                X = ReadUInt16(),
+                Y = ReadUInt16()
             };
             return pos;
         }
@@ -41,69 +41,67 @@ namespace Darkages.Network
             byte b;
 
             if (Position == -1)
-            {
                 b = Packet.Ordinal;
-            }
             else
-            {
                 b = Packet.Data[Position];
-            }
 
             Position++;
 
             return b;
         }
+
         public byte[] ReadBytes(int count)
         {
-            byte[] array = new byte[count];
+            var array = new byte[count];
 
-            for (int i = 0; i < count; i++)
-            {
+            for (var i = 0; i < count; i++)
                 array[i] = ReadByte();
-            }
 
             return array;
         }
 
         public string ReadStringA()
         {
-            var length = this.ReadByte();
-            var result = this.encoding.GetString(this.Packet.Data, this.Position, length);
+            var length = ReadByte();
+            var result = encoding.GetString(Packet.Data, Position, length);
 
-            this.Position += length;
+            Position += length;
 
             return result;
         }
+
         public string ReadStringB()
         {
-            var length = this.ReadUInt16();
-            var result = this.encoding.GetString(this.Packet.Data, this.Position, length);
+            var length = ReadUInt16();
+            var result = encoding.GetString(Packet.Data, Position, length);
 
-            this.Position += length;
+            Position += length;
 
             return result;
         }
 
         public short ReadInt16()
         {
-            return (short)this.ReadUInt16();
+            return (short) ReadUInt16();
         }
+
         public ushort ReadUInt16()
         {
-            return (ushort)((
-                this.ReadByte() << 8) |
-                this.ReadByte());
+            return (ushort) ((
+                                 ReadByte() << 8) |
+                             ReadByte());
         }
 
         public int ReadInt32()
         {
-            return (int)this.ReadUInt32();
+            return (int) ReadUInt32();
         }
+
         public uint ReadUInt32()
         {
-            return (uint)((
-                this.ReadUInt16() << 0x10) +
-                this.ReadUInt16());
+            return (uint) ((
+                               ReadUInt16() << 0x10) +
+                           ReadUInt16());
         }
     }
 }

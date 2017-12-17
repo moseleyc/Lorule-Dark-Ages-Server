@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
 
@@ -9,8 +7,9 @@ namespace Darkages.Scripting.Scripts.Skills
     [Script("Crasher", "Huy")]
     public class Crasher : SkillScript
     {
-        private Skill _skill;
         private Random _rand = new Random();
+        private Skill _skill;
+        public Random rand = new Random();
         public Sprite Target;
 
         public Crasher(Skill skill) : base(skill)
@@ -25,9 +24,8 @@ namespace Darkages.Scripting.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    !String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    !string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
-
         }
 
         public override void OnSuccess(Sprite sprite)
@@ -58,7 +56,7 @@ namespace Darkages.Scripting.Scripts.Skills
 
                     Target = i;
 
-                    var dmg = (client.Aisling.CurrentHp * 300) / 100 + (99 * Skill.Level);
+                    var dmg = client.Aisling.CurrentHp * 300 / 100 + 99 * Skill.Level;
                     i.Target = client.Aisling;
                     i.ApplyDamage(sprite, dmg, false, 44);
 
@@ -70,22 +68,23 @@ namespace Darkages.Scripting.Scripts.Skills
 
                     if (i is Aisling)
                     {
-                        (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, byte.MinValue, Skill.Template.TargetAnimation, 100)));
+                        (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                            new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial, byte.MinValue,
+                                Skill.Template.TargetAnimation, 100));
                         (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                     }
 
                     if (i is Monster || i is Mundane || i is Aisling)
-                    {
-                        client.Aisling.Show(Scope.NearbyAislings, (new ServerFormat29((uint)client.Aisling.Serial, (uint)i.Serial, Skill.Template.TargetAnimation, 0, 100)));
-                    }
-
+                        client.Aisling.Show(Scope.NearbyAislings,
+                            new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
+                                Skill.Template.TargetAnimation, 0, 100));
                 }
                 client.Aisling.CurrentHp = 1;
                 client.SendStats(StatusFlags.All);
                 client.Aisling.Show(Scope.NearbyAislings, action);
             }
         }
-        public Random rand = new Random();
+
         public override void OnUse(Sprite sprite)
         {
             if (sprite is Aisling)
@@ -104,9 +103,7 @@ namespace Darkages.Scripting.Scripts.Skills
                     if (rand.Next(1, 101) < Skill.Level)
                         OnSuccess(sprite);
                     else
-                    {
                         OnFailed(sprite);
-                    }
                 }
             }
         }

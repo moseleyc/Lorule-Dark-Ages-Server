@@ -1,5 +1,4 @@
-﻿using System;
-using Darkages.Scripting;
+﻿using Darkages.Scripting;
 using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Items
@@ -13,7 +12,7 @@ namespace Darkages.Storage.locales.Scripts.Items
 
         public override void Equipped(Sprite sprite, byte displayslot)
         {
-            if ((sprite is Aisling))
+            if (sprite is Aisling)
             {
                 (sprite as Aisling).Weapon = 26;
                 Item.ApplyModifers((sprite as Aisling).Client);
@@ -37,7 +36,6 @@ namespace Darkages.Storage.locales.Scripts.Items
                 {
                     if (!client.CheckReqs(client, Item))
                     {
-
                     }
                 }
                 else
@@ -49,7 +47,7 @@ namespace Darkages.Storage.locales.Scripts.Items
 
         public override void UnEquipped(Sprite sprite, byte displayslot)
         {
-            if ((sprite is Aisling))
+            if (sprite is Aisling)
             {
                 Item.RemoveModifiers((sprite as Aisling).Client);
                 (sprite as Aisling).Weapon = ushort.MinValue;

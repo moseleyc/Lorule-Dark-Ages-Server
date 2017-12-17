@@ -1,43 +1,39 @@
-﻿using Darkages.Network.ServerFormats;
-using System;
+﻿using System;
+using Darkages.Network.ServerFormats;
 
 namespace Darkages.Network.Game.Components
 {
     public class DaytimeComponent : GameServerComponent
     {
-        private GameServerTimer timer;
-        private byte shade = 0;
+        private readonly GameServerTimer timer;
+        private byte shade;
 
         public DaytimeComponent(GameServer server)
             : base(server)
         {
-            this.timer = new GameServerTimer(
+            timer = new GameServerTimer(
                 TimeSpan.FromSeconds(ServerContext.Config.DayTimeInterval));
         }
 
         public override void Update(TimeSpan elapsedTime)
         {
-            this.timer.Update(elapsedTime);
+            timer.Update(elapsedTime);
 
-            if (this.timer.Elapsed)
+            if (timer.Elapsed)
             {
-                this.timer.Reset();
+                timer.Reset();
 
-                var format20 = new ServerFormat20 { Shade = this.shade };
+                var format20 = new ServerFormat20 {Shade = shade};
 
-                lock (this.Server.Clients)
+                lock (Server.Clients)
                 {
-                    foreach (var client in this.Server.Clients)
-                    {
+                    foreach (var client in Server.Clients)
                         if (client != null)
-                        {
                             client.Send(format20);
-                        }
-                    }
                 }
 
-                this.shade += 1;
-                this.shade %= 18;
+                shade += 1;
+                shade %= 18;
             }
         }
     }

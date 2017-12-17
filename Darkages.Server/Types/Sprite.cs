@@ -232,9 +232,13 @@ namespace Darkages.Types
 
         public Random rnd = new Random();
 
-        public void ApplyDamage(Sprite Source, int dmg, bool truedamage = false, byte sound = 1, Action<int> dmgcb = null)
+        public void ApplyDamage(Sprite Source, int dmg, bool truedamage = false, byte sound = 1,
+            Action<int> dmgcb = null)
         {
             if (!Attackable)
+                return;
+
+            if (!CanBeAttackedHere(Source))
                 return;
 
 
@@ -286,8 +290,8 @@ namespace Darkages.Types
 
 
                     var amplifier = ElementManager.ElementTable[
-                        (int)Source.OffenseElement, 
-                        (int)DefenseElement];
+                        (int) Source.OffenseElement,
+                        (int) DefenseElement];
 
                     dmg = ComputeDmgFromAc(dmg);
 
@@ -298,7 +302,7 @@ namespace Darkages.Types
                     if (CurrentHp > MaximumHp)
                         CurrentHp = MaximumHp;
 
-                    var dealth = (int)(dmg / amplifier);
+                    var dealth = (int) (dmg / amplifier);
                     Console.WriteLine("dmg: {0}: {1} - d:{2}", dmg, amplifier, dealth);
 
                     CurrentHp -= dealth;
@@ -311,7 +315,7 @@ namespace Darkages.Types
                     var hpbar = new ServerFormat13
                     {
                         Serial = this.Serial,
-                        Health = (ushort)((double)100 * this.CurrentHp / (double)this.MaximumHp),
+                        Health = (ushort) ((double) 100 * this.CurrentHp / (double) this.MaximumHp),
                         Sound = sound
                     };
 
@@ -320,11 +324,28 @@ namespace Darkages.Types
                 }
             }
 
-            if (this is Aisling)
-                (this as Aisling).Client.SendStats(StatusFlags.StructB);
+            (this as Aisling)?.Client.SendStats(StatusFlags.StructB);
+            (Source as Aisling)?.Client.SendStats(StatusFlags.StructB);
+        }
 
-            if (Source is Aisling)
-                (Source as Aisling).Client.SendStats(StatusFlags.StructB);
+        /// <summary>
+        /// Checks the source of damage and if it's a player, check if the target is a player.
+        /// is true, checks weather or not damage can be applied on the map they are on both on.
+        /// </summary>
+        /// <param name="Source">Player applying damage.</param>
+        /// <returns>true : false</returns>
+        public bool CanBeAttackedHere(Sprite Source)
+        {
+            if (Source is Aisling && this is Aisling)
+            {
+                if (CurrentMapId > 0 && ServerContext.GlobalMapCache.ContainsKey(CurrentMapId))
+                {
+                    if (!ServerContext.GlobalMapCache[CurrentMapId].Flags.HasFlag(MapFlags.PlayerKill))
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -705,6 +726,7 @@ namespace Darkages.Types
 
         public Aisling[] AislingsNearby() => GetObjects<Aisling>(i => i.WithinRangeOf(this));
         public Monster[] MonstersNearby() => GetObjects<Monster>(i => i.WithinRangeOf(this));
+        public Mundane[] MundanesNearby() => GetObjects<Mundane>(i => i.WithinRangeOf(this));
 
 
         /// <summary>

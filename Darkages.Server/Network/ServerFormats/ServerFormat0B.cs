@@ -1,24 +1,10 @@
-﻿using Darkages.Types;
-using System.Collections.Generic;
-
-namespace Darkages.Network.ServerFormats
+﻿namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat0B : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x0B;
-            }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x0B;
 
         public byte Direction { get; set; }
         public ushort LastX { get; set; }
@@ -27,14 +13,15 @@ namespace Darkages.Network.ServerFormats
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
-            writer.Write((byte)Direction);
-            writer.Write((ushort)LastX);
-            writer.Write((ushort)LastY);
-            writer.Write((ushort)0x0B);
-            writer.Write((ushort)0x0B);
-            writer.Write((byte)0x01);
+            writer.Write(Direction);
+            writer.Write(LastX);
+            writer.Write(LastY);
+            writer.Write((ushort) 0x0B);
+            writer.Write((ushort) 0x0B);
+            writer.Write((byte) 0x01);
         }
     }
 }

@@ -9,6 +9,6 @@
   "Text": "\u0000",
   "TargetType": 2,
   "BaseLines": 3,
-  "ImproveRate": 0.9,
+  "LevelRate": 0.9,
   "Name": "cradh"
 }

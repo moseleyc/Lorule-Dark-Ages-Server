@@ -12,7 +12,7 @@
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-            writer.Write((byte)byte.MinValue);
+            writer.Write(byte.MinValue);
         }
     }
 }

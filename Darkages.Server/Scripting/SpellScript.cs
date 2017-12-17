@@ -5,12 +5,12 @@ namespace Darkages.Scripting
 {
     public abstract class SpellScript : ObjectManager
     {
-        public Spell Spell { get; set; }
-
         public SpellScript(Spell spell)
         {
-            this.Spell = spell;
+            Spell = spell;
         }
+
+        public Spell Spell { get; set; }
 
         public abstract void OnUse(Sprite sprite, Sprite target);
         public abstract void OnFailed(Sprite sprite, Sprite target);

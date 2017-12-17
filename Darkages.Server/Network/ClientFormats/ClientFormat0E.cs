@@ -1,16 +1,7 @@
-﻿using Darkages.Types;
-using System.Collections.Generic;
-
-namespace Darkages.Network.ClientFormats
+﻿namespace Darkages.Network.ClientFormats
 {
     public class ClientFormat0E : NetworkFormat
     {
-        public override bool Secured => true;
-        public override byte Command => 0x0E;
-
-        public byte Type { get; set; }
-        public string Text { get; set; }
-
         public enum MsgType : byte
         {
             Normal = 0,
@@ -18,12 +9,18 @@ namespace Darkages.Network.ClientFormats
             Chant = 2
         }
 
+        public override bool Secured => true;
+        public override byte Command => 0x0E;
+
+        public byte Type { get; set; }
+        public string Text { get; set; }
+
         public override void Serialize(NetworkPacketReader reader)
         {
             Type = reader.ReadByte();
             Text = reader.ReadStringA();
         }
-        
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

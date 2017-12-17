@@ -26,7 +26,7 @@ namespace Darkages.Types
         {
             get
             {
-                return string.Format("{0} Lev {1}/{2}",
+                return string.Format("{0} (Lev:{1}/{2})",
                     Template.Name,
                     Level, Template.MaxLevel);
             }

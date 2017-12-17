@@ -15,7 +15,6 @@
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-
         }
     }
 }

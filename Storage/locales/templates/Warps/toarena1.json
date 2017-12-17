@@ -11,7 +11,7 @@
     "Name": "Lorule Arena",
     "Flags": 16384
   },
-  "LevelRequired": 3,
+  "LevelRequired": 1,
   "Location": {
     "$type": "Darkages.Types.Position, Darkages.Server",
     "X": 50,

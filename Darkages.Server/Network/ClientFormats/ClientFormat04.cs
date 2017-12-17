@@ -2,14 +2,9 @@
 {
     public class ClientFormat04 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return true; }
-        }
-        public override byte Command
-        {
-            get { return 0x04; }
-        }
+        public override bool Secured => true;
+
+        public override byte Command => 0x04;
 
         public byte Gender { get; set; }
         public short HairStyle { get; set; }
@@ -17,10 +12,11 @@
 
         public override void Serialize(NetworkPacketReader reader)
         {
-            this.HairStyle = reader.ReadByte();
-            this.Gender = reader.ReadByte();
-            this.HairColor = reader.ReadInt16();
+            HairStyle = reader.ReadByte();
+            Gender = reader.ReadByte();
+            HairColor = reader.ReadInt16();
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

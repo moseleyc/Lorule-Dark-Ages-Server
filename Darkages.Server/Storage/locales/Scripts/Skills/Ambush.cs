@@ -1,9 +1,8 @@
 ﻿using System;
-using Darkages.Common;
+using System.Linq;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Skills
 {
@@ -11,6 +10,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
     public class Ambush : SkillScript
     {
         public Skill _skill;
+
+        public Random rand = new Random();
 
         public Ambush(Skill skill) : base(skill)
         {
@@ -24,7 +25,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 client.SendMessage(0x02,
-                    String.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
+                    string.IsNullOrEmpty(Skill.Template.FailMessage) ? Skill.Template.FailMessage : "failed.");
             }
         }
 
@@ -35,11 +36,10 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
 
                 var targets = client.Aisling.GetInfront(3).ToList();
-                Position prev = client.Aisling.Position;
+                var prev = client.Aisling.Position;
                 Position targetPosition = null;
 
                 if (targets != null && targets.Count > 0)
-                {
                     foreach (var target in targets)
                     {
                         if (target == null)
@@ -57,15 +57,15 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         var blocks = target.Position.SurroundingContent(client.Aisling.Map);
 
 
-
                         if (blocks.Length > 0)
                         {
-                            var selections = blocks.Where(i => i.Content == 
-                            TileContent.Item 
-                            || i.Content == TileContent.Money 
-                            || i.Content == TileContent.None).
-                            ToArray();
-                            var selection = selections.OrderByDescending(i => i.Position.DistanceFrom(client.Aisling.Position)).FirstOrDefault();
+                            var selections = blocks.Where(i => i.Content ==
+                                                               TileContent.Item
+                                                               || i.Content == TileContent.Money
+                                                               || i.Content == TileContent.None).ToArray();
+                            var selection = selections
+                                .OrderByDescending(i => i.Position.DistanceFrom(client.Aisling.Position))
+                                .FirstOrDefault();
                             if (selections.Length == 0 || selection == null)
                             {
                                 client.SendMessageBox(0x02, "you can't do that.");
@@ -85,7 +85,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                             int direction;
                             if (!client.Aisling.Facing(target.X, target.Y, out direction))
                             {
-                                client.Aisling.Direction = (byte)direction;
+                                client.Aisling.Direction = (byte) direction;
 
                                 if (client.Aisling.Position.IsNextTo(target.Position))
                                     client.Aisling.Turn();
@@ -95,11 +95,9 @@ namespace Darkages.Storage.locales.Scripts.Skills
                             return;
                         }
                     }
-                }
             }
         }
 
-        public Random rand = new Random();
         public override void OnUse(Sprite sprite)
         {
             if (sprite is Aisling)
@@ -112,9 +110,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     if (rand.Next(1, 101) < Skill.Level)
                         OnSuccess(sprite);
                     else
-                    {
                         OnFailed(sprite);
-                    }
                 }
             }
         }

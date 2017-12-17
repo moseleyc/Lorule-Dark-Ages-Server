@@ -1,18 +1,10 @@
-﻿using System;
-using Darkages.Types;
-
-namespace Darkages.Network.ClientFormats
+﻿namespace Darkages.Network.ClientFormats
 {
     public class ClientFormat00 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return false; }
-        }
-        public override byte Command
-        {
-            get { return 0x00; }
-        }
+        public override bool Secured => false;
+
+        public override byte Command => 0x00;
 
         public int Version { get; set; }
         public byte UnknownA { get; set; }
@@ -21,10 +13,11 @@ namespace Darkages.Network.ClientFormats
 
         public override void Serialize(NetworkPacketReader reader)
         {
-            this.Version = reader.ReadUInt16();
-            this.UnknownA = reader.ReadByte();
-            this.UnknownB = reader.ReadByte();
+            Version = reader.ReadUInt16();
+            UnknownA = reader.ReadByte();
+            UnknownB = reader.ReadByte();
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
         }

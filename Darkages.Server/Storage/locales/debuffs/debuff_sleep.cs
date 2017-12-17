@@ -9,11 +9,6 @@ namespace Darkages.Storage.locales.debuffs
         public override byte Icon => 90;
         public override int Length => 8;
 
-        public debuff_sleep()
-        {
-
-        }
-
         public override void OnApplied(Sprite Affected, Debuff debuff)
         {
             base.OnApplied(Affected, debuff);
@@ -26,17 +21,13 @@ namespace Darkages.Storage.locales.debuffs
                         (Affected as Aisling).Client.Aisling,
                         (Affected as Aisling).Client.Aisling.Target ??
                         (Affected as Aisling).Client.Aisling);
-
-                return;
             }
             else
             {
                 var nearby = Affected.GetObjects<Aisling>(i => i.WithinRangeOf(Affected));
 
                 foreach (var near in nearby)
-                {
                     near.Client.SendAnimation(32, Affected, Affected);
-                }
             }
         }
 
@@ -89,11 +80,9 @@ namespace Darkages.Storage.locales.debuffs
         public override void OnEnded(Sprite Affected, Debuff debuff)
         {
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
                     .SendMessage(0x02, "awake!");
-            }
 
             base.OnEnded(Affected, debuff);
         }

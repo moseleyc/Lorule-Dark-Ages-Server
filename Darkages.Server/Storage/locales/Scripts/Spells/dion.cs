@@ -1,19 +1,18 @@
-﻿using Darkages.Network.ServerFormats;
+﻿using System;
+using System.Linq;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Spells
 {
     [Script("dion", "Dean")]
     public class dion : SpellScript
     {
-        Random rand = new Random();
+        private readonly Random rand = new Random();
 
         public dion(Spell spell) : base(spell)
         {
-
         }
 
         public override void OnFailed(Sprite sprite, Sprite target)
@@ -30,7 +29,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
-                var buff   = Clone<Buff>(Spell.Template.Buff);
+                var buff = Clone(Spell.Template.Buff);
 
                 client.TrainSpell(Spell);
 
@@ -69,13 +68,9 @@ namespace Darkages.Storage.locales.Scripts.Spells
                         client.Aisling.CurrentMp = 0;
 
                     if (rand.Next(1, 101) >= 25)
-                    {
                         OnSuccess(sprite, target);
-                    }
                     else
-                    {
                         OnFailed(sprite, target);
-                    }
                 }
                 else
                 {
@@ -89,7 +84,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                     return;
 
                 var client = (target as Aisling).Client;
-                var buff = Clone<Buff>(Spell.Template.Buff);
+                var buff = Clone(Spell.Template.Buff);
 
                 if (sprite.Buffs.FirstOrDefault(i => i.Name == buff.Name) == null)
                 {

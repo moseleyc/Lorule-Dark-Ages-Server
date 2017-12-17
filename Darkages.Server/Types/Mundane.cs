@@ -67,14 +67,14 @@ namespace Darkages.Types
 
             if (npc.Template.EnableAttacking)
             {
-                npc.Template.AttackTimer = new Network.Game.GameServerTimer(TimeSpan.FromMilliseconds(2000));
+                npc.Template.AttackTimer = new Network.Game.GameServerTimer(TimeSpan.FromMilliseconds(450));
             }
 
 
             if (npc.Template.EnableWalking)
             {
                 npc.Template.EnableTurning = false;
-                npc.Template.WalkTimer = new Network.Game.GameServerTimer(TimeSpan.FromSeconds(3000));
+                npc.Template.WalkTimer = new Network.Game.GameServerTimer(TimeSpan.FromSeconds(750));
             }
 
             if (npc.Template.EnableSpeech)
@@ -106,16 +106,11 @@ namespace Darkages.Types
             {
                 new TaskFactory().StartNew(() =>
                 {
-                    var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(this));
-                    foreach (var obj in nearby)
-                    {
-                        obj.Show(Scope.Self, new ServerFormat0D() { Serial = this.Serial, Text = this.Template.Name + ": halp!!!! I'm dying.", Type = 0x00 });
-                        Thread.Sleep(1000);
-                        obj.Show(Scope.Self, new ServerFormat0D() { Serial = this.Serial, Text = this.Template.Name + ": ARRR!!!.", Type = 0x00 });
-                    }
+                    Template.WalkTimer = null;
+                    Template.AttackTimer = null;
+
                     Thread.Sleep(1000);
                     Remove<Mundane>();
-                    Template.EnableWalking = true;
                 });
             }
         }
@@ -192,9 +187,15 @@ namespace Darkages.Types
 
                     var target = Target == null ? targets.FirstOrDefault() : Target;
 
+                    if (target?.CurrentHp == 0)
+                        target = null;
+
                     if (target != null)
                     {
-                        if (!this.Position.IsNextTo(target.Position))
+
+                        Script?.TargetAcquired(target);
+
+                        if (target != null && !this.Position.IsNextTo(target.Position))
                         {
                             this.WalkTo(target.X, target.Y);
                         }

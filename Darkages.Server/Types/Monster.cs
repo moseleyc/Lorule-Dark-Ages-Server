@@ -88,14 +88,27 @@ namespace Darkages.Types
                 var exp_to_award = Math.Round(((coponent / percent) * (player.ExpLevel * 0.30)));
                 var exp_gained = Math.Round(player.ExpLevel * exp_to_award);
 
-                player.ExpTotal += (int)(exp_to_award);
-                player.ExpNext -= (int)(exp_to_award);
+                var p = (player.ExpLevel - Template.Level);
 
-                player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", exp_to_award));
+                if (p / 10 > 0)
+                    exp_gained = 1;
+                else
+                    exp_gained = Math.Abs(exp_to_award);
+
+                if (p < 0)
+                {
+                    exp_gained = exp_to_award * (Math.Abs(p) + 3);
+                }
+
+
+                player.ExpTotal += (int)(exp_gained);
+                player.ExpNext -= (int)(exp_gained);
+
+                player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)exp_gained));
 
                 if (player.ExpNext <= 0)
                 {
-                    player.ExpNext = (int)exp_gained * (int)(player.ExpLevel * 0.45) / 6;
+                    player.ExpNext = ((int)player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6);
                     player._MaximumHp += (int)((50 * player.Con) * 0.65);
                     player._MaximumMp += (int)((25 * player.Wis) * 0.45);
                     player.StatPoints += 2;

@@ -2,24 +2,6 @@
 {
     public class ServerFormat0D : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x0D;
-            }
-        }
-        public byte Type { get; set; }
-        public int Serial { get; set; }
-        public string Text { get; set; }
-
         public enum MsgType : byte
         {
             Chant = 2,
@@ -27,10 +9,13 @@
             Shout = 1
         }
 
-        public ServerFormat0D()
-        {
+        public override bool Secured => true;
 
-        }
+        public override byte Command => 0x0D;
+
+        public byte Type { get; set; }
+        public int Serial { get; set; }
+        public string Text { get; set; }
 
         public override void Serialize(NetworkPacketReader reader)
         {

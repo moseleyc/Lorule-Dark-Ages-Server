@@ -1,10 +1,9 @@
-﻿using Darkages.Network.Game;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Darkages.Network.Game;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System.Collections.Generic;
-using System.Linq;
-using Darkages.Network.ServerFormats;
-using Darkages.Storage.locales.Scripts.Spells;
 
 namespace Darkages.Storage.locales.Scripts.Mundanes
 {
@@ -13,8 +12,16 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
     {
         public shop1(GameServer server, Mundane mundane) : base(server, mundane)
         {
-
         }
+
+        public override void OnGossip(GameServer server, GameClient client, string message)
+        {
+        }
+
+        public override void TargetAcquired(Sprite Target)
+        {
+        }
+
 
         public override void OnClick(GameServer server, GameClient client)
         {
@@ -28,8 +35,6 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
         public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
-
-
             switch (responseID)
             {
                 case 0x0001:
@@ -42,7 +47,9 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             .Select(i => i.Slot).ToList());
 
                     break;
+
                 #region Buy
+
                 case 0x0004:
                 {
                     if (string.IsNullOrEmpty(args))
@@ -53,7 +60,6 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
                     var template = ServerContext.GlobalItemTemplateCache[args];
                     if (template != null)
-                    {
                         if (client.Aisling.GoldPoints >= template.Value)
                         {
                             //Create Item:
@@ -65,19 +71,19 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                                 client.Aisling.GoldPoints = 0;
 
                             client.SendStats(StatusFlags.All);
-                            client.SendOptionsDialog(base.Mundane, string.Format("You have a brand new {0}", args));
-                            break;
+                            client.SendOptionsDialog(Mundane, string.Format("You have a brand new {0}", args));
                         }
                         else
                         {
                             var script = ScriptManager.Load<SpellScript>("beag cradh",
                                 Spell.Create(1, ServerContext.GlobalSpellTemplateCache["beag cradh"]));
-                            script.OnUse(base.Mundane, client.Aisling);
-                            client.SendOptionsDialog(base.Mundane, "You trying to rip me off?! go away.");
+                            script.OnUse(Mundane, client.Aisling);
+                            client.SendOptionsDialog(Mundane, "You trying to rip me off?! go away.");
                         }
-                    }
-                } break;
-                    #endregion
+                }
+                    break;
+
+                #endregion
             }
         }
     }

@@ -1,26 +1,11 @@
-﻿using Darkages.Network.Game;
-using System;
+﻿using System;
 using System.Linq;
+using Darkages.Network.Game;
 
 namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat36 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override byte Command
-        {
-            get
-            {
-                return 0x36;
-            }
-        }
-
         public enum ClassType : byte
         {
             Guild = 7,
@@ -29,8 +14,9 @@ namespace Darkages.Network.ServerFormats
             Priest = 4,
             Rogue = 2,
             Warrior = 1,
-            Wizard = 3,
+            Wizard = 3
         }
+
         public enum ListColor : byte
         {
             Brown = 0xA7,
@@ -42,8 +28,9 @@ namespace Darkages.Network.ServerFormats
             Red = 0x04,
             Tan = 0x30,
             Teal = 0x01,
-            White = 0x90,
+            White = 0x90
         }
+
         public enum StatusIcon : byte
         {
             None,
@@ -53,42 +40,49 @@ namespace Darkages.Network.ServerFormats
             Team,
             SoloHunting,
             TeamHunting,
-            Help,
+            Help
         }
-
-        GameClient Client { get; set; }
 
         public ServerFormat36(GameClient client)
         {
             Client = client;
         }
 
+        public override bool Secured => true;
+
+        public override byte Command => 0x36;
+
+        private GameClient Client { get; }
+
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+
         public override void Serialize(NetworkPacketWriter writer)
         {
             var users = GetObjects<Aisling>(i => true).ToArray();
-            users = users.OrderByDescending(i => (i.MaximumHp + i.MaximumMp * 2)).ToArray();
+            users = users.OrderByDescending(i => i.MaximumHp + i.MaximumMp * 2).ToArray();
 
-            var count = (ushort)users.Length;
-            var total = (short)(users.Length - (users.Length / 11));
+            var count = (ushort) users.Length;
+            var total = (short) (users.Length - users.Length / 11);
 
-            writer.Write((ushort)total);
-            writer.Write((ushort)count);
+            writer.Write((ushort) total);
+            writer.Write(count);
 
             foreach (var user in users)
             {
-                writer.Write((byte)user.ClassID);
-                writer.Write((byte)(
-                    user.Serial == Client.Aisling.Serial ? ListColor.Teal : Math.Abs(Client.Aisling.ExpLevel - user.ExpLevel) < 10 
-                    ? ListColor.Orange 
-                    : ListColor.White));
-                writer.Write((byte)(user.GroupParty.Members.Count > 0 
-                    ? StatusIcon.TeamHunting 
+                writer.Write((byte) user.ClassID);
+                writer.Write((byte) (
+                    user.Serial == Client.Aisling.Serial
+                        ? ListColor.Teal
+                        : Math.Abs(Client.Aisling.ExpLevel - user.ExpLevel) < 10
+                            ? ListColor.Orange
+                            : ListColor.White));
+                writer.Write((byte) (user.GroupParty.Members.Count > 0
+                    ? StatusIcon.TeamHunting
                     : StatusIcon.SoloHunting));
-                writer.Write((byte)user.Title > 0);
-                writer.Write((byte)user.Stage > 0);
+                writer.Write((byte) user.Title > 0);
+                writer.Write((byte) user.Stage > 0);
                 writer.WriteStringA(user.Username);
             }
         }

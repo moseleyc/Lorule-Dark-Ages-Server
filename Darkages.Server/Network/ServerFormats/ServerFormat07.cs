@@ -1,25 +1,11 @@
-﻿using Darkages.Types;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Darkages.Types;
 
 namespace Darkages.Network.ServerFormats
 {
     public class ServerFormat07 : NetworkFormat
     {
-        public override bool Secured
-        {
-            get { return true; }
-        }
-        public override byte Command
-        {
-            get { return 0x07; }
-        }
-
-        public ushort Count
-        {
-            get { return 0; }
-        }
-
-        private List<Sprite> Sprites;
+        private readonly List<Sprite> Sprites;
 
         public ServerFormat07()
         {
@@ -31,14 +17,19 @@ namespace Darkages.Network.ServerFormats
             Sprites = new List<Sprite>(objectsToAdd);
         }
 
+        public override bool Secured => true;
+
+        public override byte Command => 0x07;
+
+        public ushort Count => 0;
+
         public override void Serialize(NetworkPacketReader reader)
         {
-
         }
 
         public override void Serialize(NetworkPacketWriter writer)
         {
-            writer.Write((ushort)Sprites.Count);
+            writer.Write((ushort) Sprites.Count);
 
             foreach (var sprite in Sprites)
             {
@@ -46,20 +37,20 @@ namespace Darkages.Network.ServerFormats
                 {
                     if (sprite is Money)
                     {
-                        writer.Write((ushort)sprite.X);
-                        writer.Write((ushort)sprite.Y);
-                        writer.Write((uint)sprite.Serial);
-                        writer.Write((ushort)(sprite as Money).Image);
+                        writer.Write((ushort) sprite.X);
+                        writer.Write((ushort) sprite.Y);
+                        writer.Write((uint) sprite.Serial);
+                        writer.Write((sprite as Money).Image);
                         writer.Write(byte.MinValue);
                         writer.Write(byte.MinValue);
                         writer.Write(byte.MinValue);
                     }
                     if (sprite is Item)
                     {
-                        writer.Write((ushort)sprite.X);
-                        writer.Write((ushort)sprite.Y);
-                        writer.Write((uint)sprite.Serial);
-                        writer.Write((ushort)(sprite as Item).DisplayImage);
+                        writer.Write((ushort) sprite.X);
+                        writer.Write((ushort) sprite.Y);
+                        writer.Write((uint) sprite.Serial);
+                        writer.Write((ushort) (sprite as Item).DisplayImage);
                         writer.Write(byte.MinValue);
                         writer.Write(byte.MinValue);
                         writer.Write(byte.MinValue);
@@ -68,29 +59,29 @@ namespace Darkages.Network.ServerFormats
 
                 if (sprite is Monster)
                 {
-                    writer.Write((ushort)sprite.X);
-                    writer.Write((ushort)sprite.Y);
-                    writer.Write((uint)sprite.Serial);
-                    writer.Write((ushort)(sprite as Monster).Image);
-                    writer.Write((uint)0x0); // NFI
-                    writer.Write((byte)sprite.Direction);
+                    writer.Write((ushort) sprite.X);
+                    writer.Write((ushort) sprite.Y);
+                    writer.Write((uint) sprite.Serial);
+                    writer.Write((sprite as Monster).Image);
+                    writer.Write((uint) 0x0); // NFI
+                    writer.Write(sprite.Direction);
                     writer.Write(byte.MinValue); // NFI
                     writer.Write(byte.MinValue); // Tint
                 }
 
                 if (sprite is Mundane)
                 {
-                    writer.Write((ushort)sprite.X);
-                    writer.Write((ushort)sprite.Y);
-                    writer.Write((uint)sprite.Serial);
-                    writer.Write((ushort)(sprite as Mundane).Template.Image);
+                    writer.Write((ushort) sprite.X);
+                    writer.Write((ushort) sprite.Y);
+                    writer.Write((uint) sprite.Serial);
+                    writer.Write((ushort) (sprite as Mundane).Template.Image);
                     writer.Write(uint.MinValue); // NFI
-                    writer.Write((byte)sprite.Direction);
-                    writer.Write((byte)byte.MinValue); // NFI
+                    writer.Write(sprite.Direction);
+                    writer.Write(byte.MinValue); // NFI
 
-                    writer.Write((byte)0x02); // Type
+                    writer.Write((byte) 0x02); // Type
                     writer.WriteStringA((sprite as Mundane).Template.Name);
-                }              
+                }
             }
         }
     }
