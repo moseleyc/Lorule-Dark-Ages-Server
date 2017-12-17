@@ -23,7 +23,7 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - Expect Glithes! Help by testing and reporting them!
 
 ## Working Features
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monsters, Items, Npcs
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monsters, Items, Mundanes
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spells/Skills
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Equipment
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs, Pursuits
@@ -34,20 +34,32 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working with a NPC for reviving.
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
 - ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests, Examples can be found in gos/benson templates.
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monster Drops, Example can be found in arena_insects.json
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Object Spawning
+- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Mundane combat, Mundanes respawn, attack, talk, move-around ect.
+
 
 
 
 ## What is missing?
-- Alot, but to name a few:
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database is not implemented yet.
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database
 - ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Scriptables need to be refractored to be more maintainable.
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping, Exchanging, User List Order - Yet to be completed!
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements, Damage formulas need to be defined.
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Exchanging
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) In-game Boards
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Whispering, Ignore
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Damage Formulas
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) World Map
 
-## In Progress
+## Progress Map 17/12/2017
 - Quests - Going to redo these into Quest Scripts, So that they can be modified, instead of having them hard-coded into mundane scripts.
 Then things like mundanes, will just have a set of quest keys for available quests, I will then Create a better handler for them.
-
+- Ingame boards After Quests
+- Exchanging after boards
+- Grouping after Exchanging
 
 ## Using this Server:
 
