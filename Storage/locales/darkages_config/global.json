@@ -19,7 +19,7 @@
   "ConnectionCapacity": 2048,
   "DayTimeInterval": 30.0,
   "DeathHPPenalty": 50,
-  "DebugMode": false,
+  "DebugMode": true,
   "DefaultKey": "73F2BE80DDEB1BFDC887AB1C3CA18365",
   "DexAddedMessage": "You feel more flexible.",
   "DisposeTimeout": 30,

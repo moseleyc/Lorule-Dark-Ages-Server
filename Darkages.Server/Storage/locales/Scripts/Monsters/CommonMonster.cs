@@ -155,7 +155,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         private void CastSpell()
         {
-            if (Monster != null && Monster.Target != null)
+            if (Monster != null && Monster.Target != null && SpellScripts.Count > 0)
                 if (random.Next(1, 101) < ServerContext.Config.MonsterSpellSuccessRate)
                 {
                     var spellidx = random.Next(SpellScripts.Count);
@@ -172,17 +172,20 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                     {
                         int direction;
 
-                        if (Monster.Facing(Target.X, Target.Y, out direction))
+                        lock (Monster)
                         {
-                            Monster.BashEnabled = true;
-                            Monster.CastEnabled = true;
-                        }
-                        else
-                        {
-                            Monster.BashEnabled = false;
-                            Monster.CastEnabled = true;
-                            Monster.Direction = (byte) direction;
-                            Monster.Turn();
+                            if (Monster.Facing(Target.X, Target.Y, out direction))
+                            {
+                                Monster.BashEnabled = true;
+                                Monster.CastEnabled = true;
+                            }
+                            else
+                            {
+                                Monster.BashEnabled = false;
+                                Monster.CastEnabled = true;
+                                Monster.Direction = (byte) direction;
+                                Monster.Turn();
+                            }
                         }
                     }
                     else
@@ -211,15 +214,17 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                                                 o.Serial == Monster?.Target?.Serial) == null)
                 ClearTarget();
 
-            if (Target != null)
-                if (Monster != null && Monster.Target != null)
-                {
-                    var idx = random.Next(SkillScripts.Count);
+            if (Target == null)
+                return;
 
-                    if (random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
-                        SkillScripts[idx].OnUse(Monster);
-                    Monster.Attack(Target);
-                }
+            if (Monster != null && Monster.Target != null && SkillScripts.Count > 0)
+            {
+                var idx = random.Next(SkillScripts.Count);
+
+                if (random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
+                    SkillScripts[idx].OnUse(Monster);
+            }
+            Monster?.Attack(Target);
         }
 
         private void ClearTarget()

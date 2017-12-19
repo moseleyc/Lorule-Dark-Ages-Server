@@ -10,13 +10,13 @@ namespace Darkages.Network.ClientFormats
 
         public SecurityParameters Parameters { get; set; }
         public string Name { get; set; }
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public override void Serialize(NetworkPacketReader reader)
         {
             Parameters = reader.ReadObject<SecurityParameters>();
             Name = reader.ReadStringA();
-            ID = reader.ReadInt32();
+            Id = reader.ReadInt32();
         }
 
         public override void Serialize(NetworkPacketWriter writer)

@@ -224,8 +224,6 @@ namespace Darkages.Network
 
             while (true)
             {
-                Action format;
-
                 lock (_recvBuffers)
                 {
                     if (_recvBuffers.Count == 0)
@@ -234,8 +232,10 @@ namespace Darkages.Network
                         return;
                     }
 
-                    format = _recvBuffers.Dequeue();
-                    format();
+                    var format = _recvBuffers.Dequeue();
+                    {
+                        format();
+                    }
                 }
             }
         }
@@ -270,6 +270,11 @@ namespace Darkages.Network
                             client,
                             format
                         });
+            }
+            else
+            {
+                if (ServerContext.Config.DebugMode)
+                    Console.WriteLine("Unhandled Client Format: 0x{0}", packet.Command);
             }
         }
 

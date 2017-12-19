@@ -5,7 +5,7 @@ namespace Darkages.Network
 {
     public class NetworkPacketReader
     {
-        private readonly Encoding encoding = Encoding.GetEncoding(949);
+        private readonly Encoding _encoding = Encoding.GetEncoding(0x3B5);
 
         public NetworkPacket Packet { get; set; }
         public int Position { get; set; }
@@ -63,7 +63,7 @@ namespace Darkages.Network
         public string ReadStringA()
         {
             var length = ReadByte();
-            var result = encoding.GetString(Packet.Data, Position, length);
+            var result = _encoding.GetString(Packet.Data, Position, length);
 
             Position += length;
 
@@ -73,7 +73,7 @@ namespace Darkages.Network
         public string ReadStringB()
         {
             var length = ReadUInt16();
-            var result = encoding.GetString(Packet.Data, Position, length);
+            var result = _encoding.GetString(Packet.Data, Position, length);
 
             Position += length;
 

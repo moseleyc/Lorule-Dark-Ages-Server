@@ -36,6 +36,7 @@ namespace Darkages.Network.ServerFormats
             writer.WriteStringA(Aisling.Path.ToString());
             writer.WriteStringA(string.Empty);
 
+
             writer.Write((byte) Aisling.LegendBook.LegendMarks.Count);
             foreach (var mark in Aisling.LegendBook.LegendMarks)
             {
@@ -44,6 +45,11 @@ namespace Darkages.Network.ServerFormats
                 writer.WriteStringA(mark.Category);
                 writer.WriteStringA(mark.Value);
             }
+
+            writer.Write((ushort)(Aisling.PictureData.Length + Aisling.ProfileMessage.Length + 4));
+            writer.Write((ushort)Aisling.PictureData.Length);
+            writer.Write((byte[])Aisling.PictureData ?? new byte[] { 0x00 });
+            writer.WriteStringB(Aisling.ProfileMessage ?? string.Empty);
         }
 
         private void BuildEquipment(NetworkPacketWriter writer)
@@ -250,27 +256,6 @@ namespace Darkages.Network.ServerFormats
                 writer.Write(ushort.MinValue);
                 writer.Write((byte) 0x00);
             }
-        }
-
-        private enum Slots : byte
-        {
-            Weapon = 1,
-            Armor = 2,
-            Shield = 3,
-            Head = 5,
-            Ears = 6,
-            Neck = 7,
-            Ring_A = 8,
-            Ring_B = 9,
-            Gauntlet_A = 10,
-            Gauntlet_B = 11,
-            Belt = 12,
-            Legs = 13,
-            Accessory_1 = 14,
-            Foot = 15,
-            Body_Formal = 16,
-            Accessory_2 = 17,
-            Head_Formal = 18
         }
     }
 }

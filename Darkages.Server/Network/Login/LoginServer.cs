@@ -145,7 +145,7 @@ namespace Darkages.Network.Login
         /// </summary>
         protected override void Format10Handler(LoginClient client, ClientFormat10 format)
         {
-            var redirect = ServerContext.GlobalRedirects.FirstOrDefault(o => o.Serial == format.ID);
+            var redirect = ServerContext.GlobalRedirects.FirstOrDefault(o => o.Serial == format.Id);
 
             if (redirect.Type == 2)
                 ServerContext.Game.RemoveClient(redirect.Client);

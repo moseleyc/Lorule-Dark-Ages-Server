@@ -933,6 +933,12 @@ namespace Darkages.Types
                             Y--;
                             goto step;
                         }
+                        else if (obj == null)
+                        {
+                            Y--;
+                            goto step;
+
+                        }
                     }
                     return false;
                 }
@@ -950,6 +956,12 @@ namespace Darkages.Types
                         {
                             X++;
                             goto step;
+                        }
+                        else if (obj == null)
+                        {
+                            X++;
+                            goto step;
+
                         }
                     }
                     return false;
@@ -969,6 +981,12 @@ namespace Darkages.Types
                             Y++;
                             goto step;
                         }
+                        else if (obj == null)
+                        {
+                            Y++;
+                            goto step;
+
+                        }
                     }
                     return false;
                 }
@@ -986,6 +1004,12 @@ namespace Darkages.Types
                         {
                             X--;
                             goto step;
+                        }
+                        else if (obj == null)
+                        {
+                            X--;
+                            goto step;
+
                         }
                     }
                     return false;

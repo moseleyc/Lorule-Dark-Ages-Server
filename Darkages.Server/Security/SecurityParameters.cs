@@ -1,6 +1,5 @@
 ﻿using Darkages.Common;
 using Darkages.Network;
-using Darkages.Network.Game;
 using System.Text;
 
 namespace Darkages.Security

@@ -123,9 +123,7 @@
 
     //public class ClientFormat2D { } Added
     //public class ClientFormat2E { }
-    public class ClientFormat2F
-    {
-    }
+    //public class ClientFormat2F { } // Added
 
     //public class ClientFormat30 { } //swap skill item.
     public class ClientFormat31

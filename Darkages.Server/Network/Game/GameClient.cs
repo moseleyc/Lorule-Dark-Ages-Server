@@ -621,7 +621,7 @@ namespace Darkages.Network.Game
 
         public void SendProfileUpdate()
         {
-            Send(new ServerFormat73());
+            SendPacket(new byte[] { 73, 0x00 });
         }
 
         public void TrainSpell(Spell spell)

@@ -1,8 +1,11 @@
-﻿namespace Darkages.Types
+﻿using System;
+
+namespace Darkages.Types
 {
+    [Flags]
     public enum GroupStatus
     {
-        AcceptingRequests = 0,
+        AcceptingRequests    = 0,
         NotAcceptingRequests = 1
     }
 }

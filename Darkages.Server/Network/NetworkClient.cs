@@ -2,29 +2,25 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Darkages.Security;
+using static System.Threading.Tasks.Parallel;
 
 namespace Darkages.Network
 {
     [Serializable]
     public class NetworkClient : ObjectManager
     {
-        private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
-
+        public int Errors;
+        private byte _lastFormat;
+        private int _matches;
         private bool _sending;
 
-        public int errors;
+        private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
 
-
-        private byte LastFormat;
-        private int Matches;
-
-        private readonly ManualResetEvent sendDone =
-            new ManualResetEvent(!ServerContext.Config.SendClientPacketsAsAsync);
+        private readonly ManualResetEvent _sendDone = new ManualResetEvent(!ServerContext.Config.SendClientPacketsAsAsync);
 
         public NetworkClient()
         {
@@ -41,6 +37,8 @@ namespace Darkages.Network
         public int Serial { get; set; }
         public bool Running { get; set; }
 
+        public ManualResetEvent SendDone => _sendDone;
+
         private static byte P(NetworkPacket value)
         {
             return (byte) (value.Data[1] ^ (byte) (value.Data[0] - 0x2D));
@@ -52,8 +50,8 @@ namespace Darkages.Network
             value.Data[3] ^= (byte) (((byte) (P(value) + 0x72) + 1) % 256);
             value.Data[4] ^= (byte) (P(value) + 0x28);
             value.Data[5] ^= (byte) (((byte) (P(value) + 0x28) + 1) % 256);
-            Parallel.For(0, value.Data.Length - 6,
-                i => value.Data[6 + i] ^= (byte) (((byte) (P(value) + 0x28) + i + 2) % 256));
+
+            For(0, value.Data.Length - 6, i => value.Data[6 + i] ^= (byte) (((byte) (P(value) + 0x28) + i + 2) % 256));
         }
 
 
@@ -80,16 +78,18 @@ namespace Darkages.Network
                     Reader.Position = -1;
                 }
 
-                Reader.Packet = packet;
 
                 if (ServerContext.Config.LogRecvPackets)
-                    if (this is GameClient)
-                        Console.WriteLine("{0}: {1}", (this as GameClient).Aisling?.Username, packet);
+                {
+                    Console.WriteLine("r: {0}", packet);
+                }
 
+                Reader.Packet = packet;
                 format.Serialize(Reader);
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -133,45 +133,63 @@ namespace Darkages.Network
                 }
         }
 
+        public void SendPacket(byte[] data)
+        {
+            lock (Writer)
+            {
+                Writer.Position = 0;
+                Writer.Write(data);
+
+                var packet = Writer.ToPacket();
+                Encryption.Transform(packet);
+
+                Socket.Send(packet.ToArray());
+            }
+        }
+
         private void SendFormat(NetworkFormat format)
         {
             if (format == null)
                 return;
 
-            Writer.Position = 0;
-            Writer.Write(format.Command);
-
-            if (format.Secured)
-                Writer.Write(Ordinal++);
-
-            format.Serialize(Writer);
-
-            var packet = Writer.ToPacket();
-            var SendIt = true;
-
-            if (LastFormat == format.Command)
+            lock (Writer)
             {
-                ++Matches;
-            }
-            else
-            {
-                LastFormat = format.Command;
-                Matches = 0;
-            }
+                Writer.Position = 0;
+                Writer.Write(format.Command);
 
-            SendIt = Matches < (format is ServerFormat3C
-                         ? ServerContext.Config.PacketOverflowLimit
-                         : ServerContext.Config.ServerOverflowTolerate);
+                if (format.Secured)
+                    Writer.Write(Ordinal++);
 
-            if (ServerContext.Config.LogSentPackets)
-                if (this is GameClient)
-                    Console.WriteLine("{0}: {1}", (this as GameClient).Aisling?.Username, packet);
+                format.Serialize(Writer);
 
-            if (format.Secured)
-                Encryption.Transform(packet);
+                var packet = Writer.ToPacket();
 
-            if (SendIt)
-            {
+
+                if (_lastFormat == format.Command)
+                {
+                    ++_matches;
+                }
+                else
+                {
+                    _lastFormat = format.Command;
+                    _matches = 0;
+                }
+
+                var sendIt = _matches < (format is ServerFormat3C
+                                 ? ServerContext.Config.PacketOverflowLimit
+                                 : ServerContext.Config.ServerOverflowTolerate);
+
+                if (ServerContext.Config.LogSentPackets)
+                    if (this is GameClient)
+                        Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
+
+                if (format.Secured)
+                    Encryption.Transform(packet);
+
+
+                if (!sendIt)
+                    return;
+
                 var buffer = packet.ToArray();
 
                 if (ServerContext.Config.SendClientPacketsAsAsync)
@@ -189,9 +207,9 @@ namespace Darkages.Network
             try
             {
                 var client = (Socket) ar.AsyncState;
-                var bytesSent = client.EndSend(ar);
+                client.EndSend(ar);
 
-                sendDone.Set();
+                _sendDone.Set();
             }
             catch (Exception e)
             {
@@ -211,11 +229,11 @@ namespace Darkages.Network
                 else
                     SendFormat(format);
 
-                errors = 0;
+                Errors = 0;
             }
             catch
             {
-                if (errors++ <= ServerContext.Config.ClientPacketSendErrorLimit)
+                if (Errors++ <= ServerContext.Config.ClientPacketSendErrorLimit)
                 {
                     Writer = new NetworkPacketWriter();
                     queue = !queue;

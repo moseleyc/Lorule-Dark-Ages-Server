@@ -106,6 +106,7 @@
     <Compile Include="Network\ClientFormats\ClientFormat26.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat2D.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat2E.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat2F.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat30.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat38.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat39.cs" />

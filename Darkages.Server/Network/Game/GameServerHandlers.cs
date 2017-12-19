@@ -80,7 +80,7 @@ namespace Darkages.Network.Game
         /// </summary>
         private void EnterGame(GameClient client, ClientFormat10 format)
         {
-            var redirect = ServerContext.GlobalRedirects.FirstOrDefault(o => o.Serial == format.ID);
+            var redirect = ServerContext.GlobalRedirects.FirstOrDefault(o => o.Serial == format.Id);
             if (redirect == null)
             {
                 ClientDisconnected(client);
@@ -791,6 +791,18 @@ namespace Darkages.Network.Game
             #endregion
 
             client.Send(new ServerFormat39(client.Aisling));
+        }
+
+        protected override void Format2FHandler(GameClient client, ClientFormat2F format)
+        {
+            var mode = client.Aisling.PartyStatus;
+
+            if (mode == GroupStatus.AcceptingRequests)
+                mode = GroupStatus.NotAcceptingRequests;
+            else if (mode == GroupStatus.NotAcceptingRequests)
+                mode = GroupStatus.AcceptingRequests;
+
+            client.Aisling.PartyStatus = mode;
         }
 
         /// <summary>
