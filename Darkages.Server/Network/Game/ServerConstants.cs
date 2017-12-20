@@ -338,6 +338,15 @@ namespace Darkages.Network.Game
 
         [JsonProperty] public string YouDroppedGoldMsg = "you dropped some gold.";
 
+        [JsonProperty]
+        public uint DefaultItemDurability = 1000;
+
+        [JsonProperty]
+        public uint DefaultItemValue = 500;
+
+        [JsonProperty]
+        public int DurabilityRolloverLimit = 10;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

@@ -106,6 +106,8 @@ namespace Darkages
         public byte Nation { get; set; }
         public string Clan { get; set; }
 
+        [JsonIgnore] public int DamageCounter = 0;
+
         public List<Quest> Quests = new List<Quest>();
 
 

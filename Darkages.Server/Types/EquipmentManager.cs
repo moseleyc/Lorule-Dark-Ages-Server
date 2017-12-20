@@ -1,17 +1,12 @@
-﻿using Darkages.Network.Game;
+﻿using System.Collections.Generic;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Darkages.Types
 {
     public class EquipmentManager
     {
-        [JsonIgnore]
-        public GameClient Client { get; set; }
-
-        public Dictionary<int, EquipmentSlot> Equipment { get; set; }
-
         public EquipmentManager(GameClient _client)
         {
             Client = _client;
@@ -21,105 +16,96 @@ namespace Darkages.Types
                 Equipment[i] = null;
         }
 
-        public EquipmentSlot this[byte idx]
+        [JsonIgnore]
+        public GameClient Client { get; set; }
+
+        public Dictionary<int, EquipmentSlot> Equipment { get; set; }
+
+        public EquipmentSlot this[byte idx] => Equipment.ContainsKey(idx) ? Equipment[idx] : null;
+
+        public EquipmentSlot Weapon => this[ItemSlots.Weapon];
+
+        public EquipmentSlot Armor => this[ItemSlots.Armor];
+
+        public EquipmentSlot Shield => this[ItemSlots.Shield];
+
+        public EquipmentSlot Helmet => this[ItemSlots.Helmet];
+
+        public EquipmentSlot Earring => this[ItemSlots.Earring];
+
+        public EquipmentSlot Necklace => this[ItemSlots.Necklace];
+
+        public EquipmentSlot LRing => this[ItemSlots.LHand];
+
+        public EquipmentSlot RRing => this[ItemSlots.RHand];
+
+        public EquipmentSlot LGauntlet => this[ItemSlots.LArm];
+
+        public EquipmentSlot RGauntlet => this[ItemSlots.RArm];
+
+        public EquipmentSlot Belt => this[ItemSlots.Waist];
+
+        public EquipmentSlot Greaves => this[ItemSlots.Leg];
+
+        public EquipmentSlot Boots => this[ItemSlots.Foot];
+
+        public EquipmentSlot FirstAcc => this[ItemSlots.FirstAcc];
+
+        public EquipmentSlot Overcoat => this[ItemSlots.Trousers];
+
+        public EquipmentSlot DisplayHelm => this[ItemSlots.Coat];
+
+        public EquipmentSlot SecondAcc => this[ItemSlots.SecondAcc];
+
+        public EquipmentSlot ThirdAcc => this[ItemSlots.ThirdAcc];
+
+        private void OnEquipmentRemoved(byte displayslot)
         {
-            get
+            if (Equipment[displayslot] == null)
+                return;
+
+            Equipment[displayslot].Item?.Script?.UnEquipped(Client.Aisling, displayslot);
+            Client.SendStats(StatusFlags.All);
+            Client.UpdateDisplay();
+        }
+
+        private void OnEquipmentAdded(byte displayslot, Item item)
+        {
+            Equipment[displayslot].Item?.Script?.Equipped(Client.Aisling, displayslot);
+            Client.SendStats(StatusFlags.All);
+            Client.UpdateDisplay();
+        }
+
+        public void DecreaseDurability()
+        {
+            var broken = new List<Item>();
+            foreach (var equipment in Equipment)
             {
-                return Equipment.ContainsKey(idx) ? Equipment[idx] : null;
+                var item = equipment.Value?.Item;
+
+                if (item?.Template == null)
+                    continue;
+
+                item.Durability--;
+
+                if (item.Durability <= 0 || item.Durability > item.Template.MaxDurability)
+                    broken.Add(item);
+            }
+
+            lock (Equipment)
+            {
+                foreach (var item in broken)
+                {
+                    if (item?.Template == null)
+                        continue;
+
+                    RemoveFromExisting(item.Template.EquipmentSlot);
+                }
             }
         }
 
-        public EquipmentSlot Weapon
-        {
-            get { return this[ItemSlots.Weapon]; }
-        }
-
-        public EquipmentSlot Armor
-        {
-            get { return this[ItemSlots.Armor]; }
-        }
-
-        public EquipmentSlot Shield
-        {
-            get { return this[ItemSlots.Shield]; }
-        }
-
-        public EquipmentSlot Helmet
-        {
-            get { return this[ItemSlots.Helmet]; }
-        }
-
-        public EquipmentSlot Earring
-        {
-            get { return this[ItemSlots.Earring]; }
-        }
-
-        public EquipmentSlot Necklace
-        {
-            get { return this[ItemSlots.Necklace]; }
-        }
-
-        public EquipmentSlot LRing
-        {
-            get { return this[ItemSlots.LHand]; }
-        }
-
-        public EquipmentSlot RRing
-        {
-            get { return this[ItemSlots.RHand]; }
-        }
-
-        public EquipmentSlot LGauntlet
-        {
-            get { return this[ItemSlots.LArm]; }
-        }
-
-        public EquipmentSlot RGauntlet
-        {
-            get { return this[ItemSlots.RArm]; }
-        }
-
-        public EquipmentSlot Belt
-        {
-            get { return this[ItemSlots.Waist]; }
-        }
-
-        public EquipmentSlot Greaves
-        {
-            get { return this[ItemSlots.Leg]; }
-        }
-
-        public EquipmentSlot Boots
-        {
-            get { return this[ItemSlots.Foot]; }
-        }
-
-        public EquipmentSlot FirstAcc
-        {
-            get { return this[ItemSlots.FirstAcc]; }
-        }
-
-        public EquipmentSlot Overcoat
-        {
-            get { return this[ItemSlots.Trousers]; }
-        }
-
-        public EquipmentSlot DisplayHelm
-        {
-            get { return this[ItemSlots.Coat]; }
-        }
-
-        public EquipmentSlot SecondAcc
-        {
-            get { return this[ItemSlots.SecondAcc]; }
-        }
-
-        public EquipmentSlot ThirdAcc
-        {
-            get { return this[ItemSlots.ThirdAcc]; }
-        }
-
         #region Core Methods
+
         public void Add(int displayslot, Item item)
         {
             if (Client == null)
@@ -158,31 +144,37 @@ namespace Darkages.Types
                 return false;
 
             var success = false;
+            var returntouser = true;
+            if (itemObj.Template.Flags.HasFlag(ItemFlags.Repairable))
+                if (itemObj.Durability <= 0 || itemObj.Durability > itemObj.Template.MaxDurability)
+                    returntouser = false;
 
             //give this item back to the inventory.
             if (displayslot == ItemSlots.Weapon)
-            {
                 success = itemObj.GiveTo(Client.Aisling, false, 1);
-            }
             else
-            {
                 success = itemObj.GiveTo(Client.Aisling, false);
-            }
 
-            if (success)
+            RemoveFromSlot(displayslot);
+            if (!returntouser)
             {
-                //send remove equipment packet.
-                Client.Aisling.Show(Scope.Self, new ServerFormat38((byte)displayslot));
-
-                OnEquipmentRemoved((byte)displayslot);
-
-                //make sure we remove it!
-                Equipment[displayslot] = null;
+                RemoveFromInventory(itemObj, true);
+                success = true;
             }
 
             return success;
         }
 
+        private void RemoveFromSlot(int displayslot)
+        {
+            //send remove equipment packet.
+            Client.Aisling.Show(Scope.Self, new ServerFormat38((byte) displayslot));
+
+            OnEquipmentRemoved((byte) displayslot);
+
+            //make sure we remove it!
+            Equipment[displayslot] = null;
+        }
 
         public void AddEquipment(int displayslot, Item item)
         {
@@ -191,9 +183,9 @@ namespace Darkages.Types
             //Remove it from inventory.
             RemoveFromInventory(item);
 
-            DisplayToEquipment((byte)displayslot, item);
+            DisplayToEquipment((byte) displayslot, item);
 
-            OnEquipmentAdded((byte)displayslot, item);
+            OnEquipmentAdded((byte) displayslot, item);
         }
 
         public void DisplayToEquipment(byte displayslot, Item item)
@@ -214,23 +206,7 @@ namespace Darkages.Types
                     Client.Aisling.CurrentWeight = 0;
             }
         }
+
         #endregion
-
-        private void OnEquipmentRemoved(byte displayslot)
-        {
-            if (Equipment[displayslot] == null)
-                return;
-
-            Equipment[displayslot].Item?.Script?.UnEquipped(Client.Aisling, displayslot);
-            Client.SendStats(StatusFlags.All);
-            Client.UpdateDisplay();
-        }
-
-        private void OnEquipmentAdded(byte displayslot, Item item)
-        {
-            Equipment[displayslot].Item?.Script?.Equipped(Client.Aisling, displayslot);
-            Client.SendStats(StatusFlags.All);
-            Client.UpdateDisplay();
-        }
     }
 }

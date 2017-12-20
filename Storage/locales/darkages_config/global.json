@@ -80,5 +80,8 @@
   "WeightIncreaseModifer": 3.5,
   "WisAddedMessage": "Your will increases.",
   "WithinRangeProximity": 13.0,
-  "YouDroppedGoldMsg": "you dropped some gold."
+  "YouDroppedGoldMsg": "you dropped some gold.",
+  "DefaultItemDurability": 1000,
+  "DefaultItemValue": 500,
+  "DurabilityRolloverLimit": 10
 }

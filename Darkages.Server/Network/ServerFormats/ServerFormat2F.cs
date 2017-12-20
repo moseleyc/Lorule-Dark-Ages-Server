@@ -188,12 +188,12 @@ namespace Darkages.Network.ServerFormats
 
         public void Serialize(NetworkPacketWriter writer)
         {
-            writer.Write(Step);
+            writer.Write(Type);
             writer.Write(
                 (short) Items.Count());
 
             foreach (var item in Items)
-                writer.Write(item);
+                writer.Write((byte)item);
         }
     }
 

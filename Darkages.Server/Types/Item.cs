@@ -605,6 +605,17 @@ namespace Darkages.Types
             obj.OffenseElement = itemtemplate.OffenseElement;
             obj.DefenseElement = itemtemplate.DefenseElement;
 
+            if (obj.Template.Flags.HasFlag(ItemFlags.Repairable))
+            {
+                if (obj.Template.MaxDurability == uint.MinValue)
+                {
+                    obj.Template.MaxDurability = ServerContext.Config.DefaultItemDurability;
+                    obj.Durability = ServerContext.Config.DefaultItemDurability;
+                }
+                if (obj.Template.Value == uint.MinValue)
+                    obj.Template.Value = ServerContext.Config.DefaultItemValue;
+            }
+
             lock (Generator.Random)
             {
                 obj.Serial = Generator.GenerateNumber();

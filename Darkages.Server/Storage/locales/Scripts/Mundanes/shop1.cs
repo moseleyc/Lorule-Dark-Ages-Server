@@ -50,6 +50,24 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
                 #region Buy
 
+                case 0x0003:
+
+                    //TODO: make this calculate proper repair values.
+                    var repair_sum = client.Aisling.Inventory.Items.Where(i => i.Value != null
+                        && i.Value.Template.Flags.HasFlag(ItemFlags.Repairable)).Sum(i => i.Value.Template.Value / 4);
+
+                    var opts = new List<OptionsDataItem>();
+                    opts.Add(new OptionsDataItem(0x0014, "Fair enough."));
+                    opts.Add(new OptionsDataItem(0x0015, "Fuck off!"));
+                    client.SendOptionsDialog(Mundane, "It will cost " + repair_sum + " Gold to repair everything. Do you Agree?", repair_sum.ToString(), opts.ToArray());
+
+                    break;
+                case 0x0014:
+                    client.SendOptionsDialog(Mundane, "All done, now go away.");
+                break;
+                case 0x0015:
+                    client.SendOptionsDialog(Mundane, "well then. i will see you later.");
+                    break;
                 case 0x0004:
                 {
                     if (string.IsNullOrEmpty(args))

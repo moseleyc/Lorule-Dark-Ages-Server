@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
@@ -245,13 +246,21 @@ namespace Darkages.Types
             if (Source is Aisling)
             {
                 var client = (Source as Aisling);
-
                 if (client.EquipmentManager.Weapon != null
                     && client.EquipmentManager.Weapon.Item != null && client.Weapon > 0)
                 {
                     var weapon = client.EquipmentManager.Weapon.Item;
 
-                    dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 2) * client.BonusDmg;
+                    dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 5) * client.BonusDmg;
+                }
+            }
+
+            if (this is Aisling)
+            {
+                var client = (this as Aisling);
+                if (client != null && (client.DamageCounter++ % 2) == 0 && dmg > 0)
+                {
+                    client.EquipmentManager.DecreaseDurability();
                 }
             }
 
@@ -286,9 +295,6 @@ namespace Darkages.Types
 
                     RemoveDebuff("sleep");
 
-                    var dealt = dmg;
-
-
                     var amplifier = ElementManager.ElementTable[
                         (int) Source.OffenseElement,
                         (int) DefenseElement];
@@ -303,7 +309,6 @@ namespace Darkages.Types
                         CurrentHp = MaximumHp;
 
                     var dealth = (int) (dmg / amplifier);
-                    Console.WriteLine("dmg: {0}: {1} - d:{2}", dmg, amplifier, dealth);
 
                     CurrentHp -= dealth;
 
@@ -314,7 +319,7 @@ namespace Darkages.Types
 
                     var hpbar = new ServerFormat13
                     {
-                        Serial = this.Serial,
+                        Serial = Serial,
                         Health = (ushort) ((double) 100 * this.CurrentHp / (double) this.MaximumHp),
                         Sound = sound
                     };
@@ -553,13 +558,13 @@ namespace Darkages.Types
                 {
                     var obj = this as Monster;
 
-                    _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor * obj.Template.Coponent);
-                    _Int = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor * obj.Template.Coponent);
-                    _Wis = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor * obj.Template.Coponent);
-                    _Con = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor * obj.Template.Coponent);
-                    _Dex = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor * obj.Template.Coponent);
+                    _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Int = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Wis = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Con = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Dex = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * Str + Int + Dex + Con + Wis * (int)(ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
+                    dmg = obj.Template.Level * _Str + _Int + _Dex + _Con + _Wis * (int)(ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
                     _obj.ApplyDamage(this, dmg, false, 1, (applied) => { });
                 }
                 else if (this is Mundane)
