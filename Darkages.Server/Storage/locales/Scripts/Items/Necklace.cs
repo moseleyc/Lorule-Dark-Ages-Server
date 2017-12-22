@@ -4,10 +4,10 @@ using static Darkages.Types.ElementManager;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {
-    [Script("Dark Bone Necklace", "Dean")]
-    public class darkbonenecklace : ItemScript
+    [Script("Necklace", "Dean")]
+    public class Necklace : ItemScript
     {
-        public darkbonenecklace(Item item) : base(item)
+        public Necklace(Item item) : base(item)
         {
         }
 
@@ -15,8 +15,9 @@ namespace Darkages.Storage.locales.Scripts.Items
         {
             if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
                 if (Item.OffenseElement != Element.None)
-                    sprite.OffenseElement = Element.Fire;
+                    sprite.OffenseElement = Item.Template.OffenseElement;
 
+            Item.ApplyModifers((sprite as Aisling).Client);
             (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
         }
 
@@ -52,6 +53,7 @@ namespace Darkages.Storage.locales.Scripts.Items
             if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
                 sprite.OffenseElement = Element.None;
 
+            Item.RemoveModifiers((sprite as Aisling).Client);
             (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
         }
     }

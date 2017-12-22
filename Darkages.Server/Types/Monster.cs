@@ -199,8 +199,8 @@ namespace Darkages.Types
 
             obj.BonusMr = (byte) (10 * (((template.Level / 10) * 100) / 100));
 
-            if (obj.BonusMr > 70)
-                obj.BonusMr = 70;
+            if (obj.BonusMr > ServerContext.Config.BaseMR)
+                obj.BonusMr = ServerContext.Config.BaseMR;
 
             if ((template.PathQualifer & PathQualifer.Wander) == PathQualifer.Wander)
                 obj.WalkEnabled = true;
@@ -234,17 +234,17 @@ namespace Darkages.Types
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
             {
-                var X = Generator.Random.Next(1, map.Cols);
-                var Y = Generator.Random.Next(1, map.Rows);
+                var x = Generator.Random.Next(1, map.Cols);
+                var y = Generator.Random.Next(1, map.Rows);
 
-                while (map.IsWall(obj, X, Y) || map.Tile[X, Y] != TileContent.None)
+                while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
                 {
-                    X = Generator.Random.Next(1, map.Cols);
-                    Y = Generator.Random.Next(1, map.Rows);
+                    x = Generator.Random.Next(1, map.Cols);
+                    y = Generator.Random.Next(1, map.Rows);
                 }
 
-                obj.X = X;
-                obj.Y = Y;
+                obj.X = x;
+                obj.Y = y;
             }
             else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
             {
@@ -301,6 +301,7 @@ namespace Darkages.Types
                 ? (ushort) Generator.Random.Next(template.Image, template.Image + template.ImageVarience)
                 : template.Image;
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
+
 
 
             //TODO apply formulas.

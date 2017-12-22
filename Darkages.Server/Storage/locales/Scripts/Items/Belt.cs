@@ -1,13 +1,24 @@
 ﻿using Darkages.Scripting;
 using Darkages.Types;
+using static Darkages.Types.ElementManager;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {
-    [Script("wooden shield", "Dean")]
-    public class woodenshield : ItemScript
+    [Script("Belt", "Dean")]
+    public class Belt : ItemScript
     {
-        public woodenshield(Item item) : base(item)
+        public Belt(Item item) : base(item)
         {
+        }
+
+        public override void Equipped(Sprite sprite, byte displayslot)
+        {
+            if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
+                if (Item.DefenseElement != Element.None)
+                    sprite.DefenseElement = Item.Template.DefenseElement;
+
+            Item?.ApplyModifers((sprite as Aisling).Client);
+            (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
         }
 
         public override void OnUse(Sprite sprite, byte slot)
@@ -23,6 +34,7 @@ namespace Darkages.Storage.locales.Scripts.Items
             {
                 var client = (sprite as Aisling).Client;
 
+
                 if (Item.Template.Flags.HasFlag(ItemFlags.Equipable))
                 {
                     if (!client.CheckReqs(client, Item))
@@ -36,35 +48,14 @@ namespace Darkages.Storage.locales.Scripts.Items
             }
         }
 
-
-        public override void Equipped(Sprite sprite, byte displayslot)
-        {
-            if (sprite is Aisling)
-            {
-                var client = (sprite as Aisling).Client;
-
-                if (Item.Template == null)
-                    return;
-
-                Item.ApplyModifers(client);
-
-                client.Aisling.Shield = 1;
-            }
-        }
-
         public override void UnEquipped(Sprite sprite, byte displayslot)
         {
-            if (sprite is Aisling)
-            {
-                var client = (sprite as Aisling).Client;
 
-                if (Item.Template == null)
-                    return;
+            if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
+                sprite.DefenseElement = Element.None;
 
-                client.Aisling.Shield = byte.MinValue;
-
-                Item.RemoveModifiers(client);
-            }
+            (sprite as Aisling).Client.SendStats(StatusFlags.StructD);
+            Item?.RemoveModifiers((sprite as Aisling).Client);
         }
     }
 }

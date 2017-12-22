@@ -5,7 +5,7 @@
   "MaxStack": 0,
   "Image": 1,
   "DisplayImage": 32860,
-  "ScriptName": "wooden shield",
+  "ScriptName": "Shield",
   "Gender": 255,
   "AcModifer": {
     "$type": "Darkages.Types.StatusOperator, Darkages.Server",
@@ -29,5 +29,6 @@
   "LevelRequired": 1,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "Wooden Shield"
+  "Name": "Wooden Shield",
+  "DropRate": 0.08
 }

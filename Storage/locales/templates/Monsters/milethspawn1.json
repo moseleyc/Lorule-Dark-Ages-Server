@@ -13,7 +13,7 @@
   "SpawnType": 1,
   "ElementType": 1,
   "PathQualifer": 1,
-  "Level": 3,
+  "Level": 12,
   "MaximumHP": 1,
   "MaximumMP": 2,
   "SpawnerID": 0,
@@ -23,11 +23,11 @@
   "CastSpeed": 4000,
   "ArmorClass": 0,
   "MagicResist": 30,
-  "SpawnMax": 1000,
-  "SpawnRate": 35,
-  "SpawnSize": 9,
+  "SpawnMax": 4000,
+  "SpawnRate": 5,
+  "SpawnSize": 64,
   "AttackSpeed": 2000,
-  "ImageVarience": 0,
+  "ImageVarience": 5,
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": false,
@@ -38,5 +38,12 @@
       "pramh"
     ]
   },
-  "Name": "MilethSpawn1"
+  "Name": "MilethSpawn1",
+ "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "Wooden Shield",
+      "Dark Belt"
+    ]
+  },
 }

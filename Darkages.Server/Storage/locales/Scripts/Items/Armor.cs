@@ -3,10 +3,10 @@ using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {
-    [Script("Dirk", "Dean")]
-    public class Dirk : ItemScript
+    [Script("Armor", "Dean")]
+    public class Armor : ItemScript
     {
-        public Dirk(Item item) : base(item)
+        public Armor(Item item) : base(item)
         {
         }
 
@@ -22,6 +22,7 @@ namespace Darkages.Storage.locales.Scripts.Items
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;
+
 
                 if (Item.Template.Flags.HasFlag(ItemFlags.Equipable))
                 {
@@ -48,7 +49,8 @@ namespace Darkages.Storage.locales.Scripts.Items
 
                 Item.ApplyModifers(client);
 
-                client.Aisling.Weapon = 6;
+                client.Aisling.Pants = 1;
+                client.Aisling.Armor = Item.Image;
             }
         }
 
@@ -61,7 +63,8 @@ namespace Darkages.Storage.locales.Scripts.Items
                 if (Item.Template == null)
                     return;
 
-                client.Aisling.Weapon = ushort.MinValue;
+                client.Aisling.Pants = byte.MinValue;
+                client.Aisling.Armor = ushort.MinValue;
 
                 Item.RemoveModifiers(client);
             }

@@ -57,7 +57,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                         var action = new ServerFormat1A
                         {
-                            Serial = client.Aisling.Serial,
+                            Serial = sprite.Serial,
                             Number = 0x80,
                             Speed = 30
                         };

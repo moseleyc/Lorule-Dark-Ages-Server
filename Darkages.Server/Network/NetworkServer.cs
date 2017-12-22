@@ -48,7 +48,6 @@ namespace Darkages.Network
                 if (listener == null)
                     return;
 
-                var error = SocketError.Success;
                 var client = new TClient
                 {
                     Socket = new NetworkSocket(listener.EndAccept(result))
@@ -65,7 +64,8 @@ namespace Darkages.Network
                         {
                             client.Serial = Generator.GenerateNumber();
                         }
-                        client.Socket.BeginReceiveHeader(EndReceiveHeader, out error, client);
+
+                        client.Socket.BeginReceiveHeader(EndReceiveHeader, out var error, client);
 
                         if (error != SocketError.Success)
                             ClientDisconnected(client);
@@ -80,6 +80,7 @@ namespace Darkages.Network
             }
             catch
             {
+                // ignored
             }
         }
 

@@ -3,9 +3,9 @@
   "ID": 1,
   "CanStack": false,
   "MaxStack": 0,
-  "Image": 1,
+  "Image": 6,
   "DisplayImage": 32859,
-  "ScriptName": "Dirk",
+  "ScriptName": "Weapon",
   "Gender": 255,
   "HealthModifer": {
     "$type": "Darkages.Types.StatusOperator, Darkages.Server",

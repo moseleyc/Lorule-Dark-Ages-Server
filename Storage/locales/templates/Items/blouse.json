@@ -4,8 +4,8 @@
   "CanStack": false,
   "MaxStack": 0,
   "Image": 115,
-  "DisplayImage": 32883,
-  "ScriptName": "Shirt",
+  "DisplayImage": 0x8073,
+  "ScriptName": "Armor",
   "Gender": 2,
   "AcModifer": {
     "$type": "Darkages.Types.StatusOperator, Darkages.Server",

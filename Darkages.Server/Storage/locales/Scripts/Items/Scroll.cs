@@ -4,9 +4,9 @@ using Darkages.Types;
 namespace Darkages.Storage.locales.Scripts.Items
 {
     [Script("Mileth Scroll", "Dean")]
-    public class milethscroll : ItemScript
+    public class Scroll : ItemScript
     {
-        public milethscroll(Item item) : base(item)
+        public Scroll(Item item) : base(item)
         {
         }
 

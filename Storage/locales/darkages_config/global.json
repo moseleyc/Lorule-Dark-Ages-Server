@@ -5,7 +5,7 @@
   "BaseAC": 70,
   "BaseStatAttribute": 3,
   "BufferSize": 16534,
-  "CacheObjects": false,
+  "CacheObjects": true,
   "CancelCastingWhenWalking": true,
   "CantDoThat": "You can't do that.",
   "CantDropItemMsg": "You can't drop that.",
@@ -19,7 +19,7 @@
   "ConnectionCapacity": 2048,
   "DayTimeInterval": 30.0,
   "DeathHPPenalty": 50,
-  "DebugMode": true,
+  "DebugMode": false,
   "DefaultKey": "73F2BE80DDEB1BFDC887AB1C3CA18365",
   "DexAddedMessage": "You feel more flexible.",
   "DisposeTimeout": 30,
@@ -39,8 +39,8 @@
   "LingerState": 1000.0,
   "LogDestroyedObjects": true,
   "LOGIN_PORT": 2610,
-  "LogRecvPackets": true,
-  "LogSentPackets": true,
+  "LogRecvPackets": false,
+  "LogSentPackets": false,
   "MapUpdateInterval": 750.0,
   "MaxCarryGold": 100000000,
   "MessageClearInterval": 10.0,
@@ -83,5 +83,6 @@
   "YouDroppedGoldMsg": "you dropped some gold.",
   "DefaultItemDurability": 1000,
   "DefaultItemValue": 500,
-  "DurabilityRolloverLimit": 10
+  "DurabilityRolloverLimit": 10,
+  "BaseMR": 70
 }

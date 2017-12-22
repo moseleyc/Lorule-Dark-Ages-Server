@@ -347,6 +347,9 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public int DurabilityRolloverLimit = 10;
 
+        [JsonProperty]
+        public byte BaseMR = 70;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

@@ -164,7 +164,7 @@ namespace Darkages.Network.ServerFormats
                 writer.Write((byte) 0x00);
                 writer.Write(item.Value);
                 writer.WriteStringA(item.Name);
-                writer.WriteStringA("");
+                writer.WriteStringA(item.Class.ToString());
             }
         }
     }

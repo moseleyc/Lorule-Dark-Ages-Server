@@ -5,7 +5,7 @@
   "MaxStack": 0,
   "Image": 201,
   "DisplayImage": 32969,
-  "ScriptName": "Dark Bone Necklace",
+  "ScriptName": "Necklace",
   "Gender": 255,
   "OffenseElement": 6,
   "DefenseElement": 0,
@@ -14,10 +14,10 @@
   "MaxDurability": 3000,
   "Value": 10000,
   "EquipmentSlot": 6,
-  "NpcKey": "shop1",
   "Class": 0,
-  "LevelRequired": 9,
+  "LevelRequired": 6,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "Dark Bone Necklace"
+  "Name": "Dark Bone Necklace",
+  "DropRate": 0.03
 }

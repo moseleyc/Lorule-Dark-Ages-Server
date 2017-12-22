@@ -1,4 +1,7 @@
-﻿namespace Darkages.Network.ClientFormats
+﻿using System;
+using System.Text;
+
+namespace Darkages.Network.ClientFormats
 {
     public class ClientFormat39 : NetworkFormat
     {
@@ -18,7 +21,17 @@
             Step = reader.ReadUInt16();
 
             if (reader.CanRead)
-                Args = reader.ReadStringA();
+            {
+                var length = reader.ReadByte();
+
+                if (Step == 0x0500)
+                    Args = Convert.ToString(length);
+                else
+                {
+                    var data = reader.ReadBytes(length);
+                    Args = Encoding.ASCII.GetString(data);
+                }
+            }
         }
 
         public override void Serialize(NetworkPacketWriter writer)

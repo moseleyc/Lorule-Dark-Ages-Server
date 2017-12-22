@@ -250,20 +250,18 @@
     <Compile Include="Storage\locales\Scripts\Global\GrimReaper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Items\darkbonenecklace.cs" />
-    <Compile Include="Storage\locales\Scripts\Items\dirk.cs">
+    <Compile Include="Storage\locales\Scripts\Items\Belt.cs" />
+    <Compile Include="Storage\locales\Scripts\Items\Necklace.cs" />
+    <Compile Include="Storage\locales\Scripts\Items\Weapon.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Items\holydiana.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Storage\locales\Scripts\Items\milethscroll.cs">
+    <Compile Include="Storage\locales\Scripts\Items\Scroll.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Items\shirt.cs">
+    <Compile Include="Storage\locales\Scripts\Items\Armor.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Items\woodenshield.cs">
+    <Compile Include="Storage\locales\Scripts\Items\Shield.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Monsters\CommonMagicalMonster.cs">

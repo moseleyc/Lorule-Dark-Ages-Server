@@ -31,5 +31,11 @@
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": true,
-  "Name": "Spectre"
+  "Name": "Spectre",
+  "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "Dark Bone Necklace"
+    ]
+  },
 }

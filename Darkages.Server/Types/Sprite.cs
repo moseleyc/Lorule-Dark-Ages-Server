@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
@@ -298,6 +297,8 @@ namespace Darkages.Types
                     var amplifier = ElementManager.ElementTable[
                         (int) Source.OffenseElement,
                         (int) DefenseElement];
+
+                    Console.WriteLine(amplifier);
 
                     dmg = ComputeDmgFromAc(dmg);
 
