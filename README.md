@@ -1,6 +1,7 @@
 ![#000000](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/darkages.gif?raw=true)
 
 # Lorule-Dark-Ages-Server
+## Discord- https://discord.gg/PwbFH3T
 
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
