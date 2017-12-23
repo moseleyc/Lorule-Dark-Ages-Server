@@ -8,7 +8,7 @@ out-of-the-box Sand box Server For Dark Ages Client 7.18
 
 
 ## About This Project:
-A Darkages Server Project - For client 7.18 Only. (Customized Client will be available soon! (Major Changes!))
+A Darkages Server Project - For client **7.18** Only. (Customized Client will be available soon! (Major Changes!))
 
 
 ## Project Design Overview.
@@ -66,7 +66,7 @@ Then things like mundanes, will just have a set of quest keys for available ques
 
 ## Building & Compiling
 - This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
-    - Using Microsoft's Framework 4.6.1
+    - Using Microsoft's Framework **4.6.1**
     - By default, It will compile to ..\Staging\bin\Debug\
 
 So the Staging Folder is the place to seek when making changes to templates, other settings ect.
@@ -83,7 +83,7 @@ as everything will by default point to that directory.
     
 That is all you need to run the server on your local system.
 To host your server online, you must use the Client Launcher for your users to connect to your IP Address.
-Your IPAddress also needs to reflect the server.tbl file located in your Server's running directory.
+Your IPAddress also needs to reflect the **server.tbl** file located in your Server's running directory.
 
 Lorule Client Launcher Download:    
         - https://drive.google.com/file/d/16Uff3R23Qdg3qRiaMbCG2q1szgfCj4LG/view?usp=sharing 
@@ -97,7 +97,7 @@ Lorule Client Launcher Download:
             -- The rest of the information can be set yourself, IP, port, Ect.
 
 
-One more thing, run launcher as administrator if it fails, darkages will also need to run as administrator.
+One more thing, run launcher as administrator if it fails, darkages will also need to run as **administrator**.
 
 
 Enjoy.
