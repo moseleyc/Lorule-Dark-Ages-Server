@@ -4,7 +4,7 @@
 
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
-![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule.png?raw=true "Server")
+![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule1.png?raw=true "Server")
 
 ![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule2.png?raw=true "In Game")
 
