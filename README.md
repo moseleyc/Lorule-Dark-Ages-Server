@@ -61,6 +61,14 @@ Then things like mundanes, will just have a set of quest keys for available ques
 - Exchanging after boards
 - Grouping after Exchanging
 
+##Building & Compiling
+- This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
+- Using Microsoft's Framework 4.6.1
+- By default, It will compile to ..\Staging\bin\Debug\
+So the Staging Folder is the place to seek when making changes to templates, other settings ect.
+as everything will by default point to that directory.
+
+
 ## Using this Server:
 
 1) Download and Compile the Lorule Source code, It should compile out-of-the-box
