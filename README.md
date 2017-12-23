@@ -43,25 +43,28 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 
 
 ## What is missing?
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Scriptables need to be refractored to be more maintainable.
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Exchanging
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) In-game Boards
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Whispering, Ignore
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Damage Formulas
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) World Map
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database
+- [x] ~~![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Scriptables need to be refractored to be more maintainable.~~
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Exchanging
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) In-game Boards
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Whispering, Ignore
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping
+- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements
+- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Damage Formulas
+- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) World Map
+
+[x] = In Progress
+
 
 ## Progress Map 17/12/2017
-- Quests - Going to redo these into Quest Scripts, So that they can be modified, instead of having them hard-coded into mundane scripts.
-Then things like mundanes, will just have a set of quest keys for available quests, I will then Create a better handler for them.
+- ~~Quests - Going to redo these into Quest Scripts, So that they can be modified, instead of having them hard-coded into mundane scripts.
+Then things like mundanes, will just have a set of quest keys for available quests, I will then Create a better handler for them.~~
 - Ingame boards After Quests
 - Exchanging after boards
 - Grouping after Exchanging
 
-##Building & Compiling
+## Building & Compiling
 - This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
 - Using Microsoft's Framework 4.6.1
 - By default, It will compile to ..\Staging\bin\Debug\
