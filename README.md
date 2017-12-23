@@ -23,21 +23,21 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - Expect Glithes! Help by testing and reporting them!
 
 ## Working Features
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monsters, Items, Mundanes
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spells/Skills
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Equipment
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs, Pursuits
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Maps, Zones
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Death Handling, you can die, revive. ect
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elements, Fire, Water, Earth, Wind, Dark, Light
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Regen
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working with a NPC for reviving.
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests, Examples can be found in gos/benson templates.
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monster Drops, Example can be found in arena_insects.json
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Object Spawning
-- ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Mundane combat, Mundanes respawn, attack, talk, move-around ect.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monsters, Items, Mundanes
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spells/Skills
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Equipment
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs, Pursuits
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Maps, Zones
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Death Handling, you can die, revive. ect
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elements, Fire, Water, Earth, Wind, Dark, Light
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Regen
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working with a NPC for reviving.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests, Examples can be found in gos/benson templates.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monster Drops, Example can be found in arena_insects.json
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Object Spawning
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Mundane combat, Mundanes respawn, attack, talk, move-around ect.
 
 
 
@@ -66,8 +66,9 @@ Then things like mundanes, will just have a set of quest keys for available ques
 
 ## Building & Compiling
 - This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
-- Using Microsoft's Framework 4.6.1
-- By default, It will compile to ..\Staging\bin\Debug\
+    - Using Microsoft's Framework 4.6.1
+    - By default, It will compile to ..\Staging\bin\Debug\
+
 So the Staging Folder is the place to seek when making changes to templates, other settings ect.
 as everything will by default point to that directory.
 
