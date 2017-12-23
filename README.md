@@ -77,27 +77,24 @@ as everything will by default point to that directory.
 
 1) Download and Compile the Lorule Source code, It should compile out-of-the-box
 2) Download and Install Dark Ages Client 7.18
-    -> https://drive.google.com/file/d/1EbIf7AzQLJaUrR9Kd3wmZDQWM7qT0-hR/view?usp=sharing    
+        - https://drive.google.com/file/d/1EbIf7AzQLJaUrR9Kd3wmZDQWM7qT0-hR/view?usp=sharing    
 3) Download our modified Darkages.exe executable and replace the previous one in the 7.18 Installation Directory.
-    -> https://drive.google.com/file/d/18fCo2kyL1pF6QPJ9TgO1PIGmfKn5Fm_D/view?usp=sharing
+        - https://drive.google.com/file/d/18fCo2kyL1pF6QPJ9TgO1PIGmfKn5Fm_D/view?usp=sharing
     
 That is all you need to run the server on your local system.
 To host your server online, you must use the Client Launcher for your users to connect to your IP Address.
 Your IPAddress also needs to reflect the server.tbl file located in your Server's running directory.
 
-Lorule Client Launcher Download:
+Lorule Client Launcher Download:    
+        - https://drive.google.com/file/d/16Uff3R23Qdg3qRiaMbCG2q1szgfCj4LG/view?usp=sharing 
+        - (optional) - Copy the Darkages_Client folder and the config to your documents directory (optional step)
     
-    -> https://drive.google.com/file/d/16Uff3R23Qdg3qRiaMbCG2q1szgfCj4LG/view?usp=sharing
- 
-    (optional) - Copy the Darkages_Client folder and the config to your documents directory (optional step)
+            -- When adding a server to the launcher config file, the settings you will be looking for clint 7.18 are:
+                    -- PatchTable  : 212257
+                    -- HookTable   : 213435
     
-    When adding a server to the launcher config file, the settings you will be looking for clint 7.18 are:
 
-    - PatchTable  : 212257
-    - HookTable   : 213435
-    
-    The rest of the information can be set yourself, IP, port, Ect.
-    
+            -- The rest of the information can be set yourself, IP, port, Ect.
 
 
 One more thing, run launcher as administrator if it fails, darkages will also need to run as administrator.
