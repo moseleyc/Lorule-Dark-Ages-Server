@@ -19,7 +19,7 @@ A Darkages Server Project - For client 7.18 Only. (Customized Client will be ava
 - Component driven design pattern.
 
 ## Server Development Status:
-- Server is currently about 90 percent completed until it is content ready.
+- Server is currently about ~~90~~ 92% percent completed until it is content ready.
 - Expect Glithes! Help by testing and reporting them!
 
 ## Working Features
