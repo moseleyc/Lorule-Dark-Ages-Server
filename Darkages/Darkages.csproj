@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{01AD5FEB-CCF9-409E-9005-7A959686210F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Darkages</RootNamespace>
     <AssemblyName>Darkages</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -137,6 +137,12 @@
       <Project>{12bab501-ffc0-45d7-bf79-c9e52488f7d4}</Project>
       <Name>Darkages.Server</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\darkages.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mantissketch.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

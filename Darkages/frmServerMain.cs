@@ -24,7 +24,6 @@ namespace Darkages
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 if (ServerContext.Config.DebugMode)
@@ -43,6 +42,14 @@ namespace Darkages
                 Dock = DockStyle.Fill,
                 Enabled = true
             };
+
+
+            foreach (Control c in _configtree.Controls)
+            {
+                c.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 10);
+                c.BackColor = System.Drawing.Color.Black;
+                c.ForeColor = System.Drawing.Color.Orange;
+            }
 
             _configtree.AfterSelect += _configtree_AfterSelect;
 

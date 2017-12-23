@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.ClientFormats;
@@ -19,22 +20,22 @@ namespace Darkages.Network
     {
         private readonly Queue<Action> _recvBuffers = new Queue<Action>();
         private bool _receiving;
-        private readonly MethodInfo[] handlers;
-        private Socket listener;
-        private bool listening;
+        private readonly MethodInfo[] _handlers;
+        private Socket _listener;
+        private bool _listening;
 
-        public NetworkServer(int capacity)
+        protected NetworkServer(int capacity)
         {
             var type = typeof(NetworkServer<TClient>);
 
             Address = ServerContext.IPADDRESS;
             Clients = new TClient[capacity];
 
-            handlers = new MethodInfo[256];
+            _handlers = new MethodInfo[256];
 
-            for (var i = 0; i < handlers.Length; i++)
-                handlers[i] = type.GetMethod(
-                    string.Format("Format{0:X2}Handler", i),
+            for (var i = 0; i < _handlers.Length; i++)
+                _handlers[i] = type.GetMethod(
+                    $"Format{i:X2}Handler",
                     BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
@@ -45,14 +46,18 @@ namespace Darkages.Network
         {
             try
             {
-                if (listener == null)
+                if (_listener == null || !_listening)
+                {
                     return;
+                }
+
+                var socket = _listener.EndAccept(result);
 
                 var client = new TClient
                 {
-                    Socket = new NetworkSocket(listener.EndAccept(result))
+                    Socket = new NetworkSocket(socket)
                     {
-                        LingerState = new LingerOption(true, ServerContext.Config.DisposeTimeout)
+                        LingerState = new LingerOption(false, ServerContext.Config.DisposeTimeout)
                     }
                 };
 
@@ -75,8 +80,9 @@ namespace Darkages.Network
                         ClientDisconnected(client);
                     }
 
-                if (listening)
-                    listener.BeginAccept(EndConnectClient, null);
+
+                if (_listening)
+                    _listener.BeginAccept(EndConnectClient, null);
             }
             catch
             {
@@ -135,8 +141,8 @@ namespace Darkages.Network
             if (client == null)
                 return;
 
-            if (handlers[format.Command] != null)
-                handlers[format.Command].Invoke(this, new object[]
+            if (_handlers[format.Command] != null)
+                _handlers[format.Command].Invoke(this, new object[]
                 {
                     client,
                     format
@@ -174,12 +180,12 @@ namespace Darkages.Network
 
         public virtual void Abort()
         {
-            listening = false;
+            _listening = false;
 
-            if (listener != null)
+            if (_listener != null)
             {
-                listener.Close();
-                listener = null;
+                _listener.Close();
+                _listener = null;
             }
 
             lock (Clients)
@@ -192,14 +198,14 @@ namespace Darkages.Network
 
         public virtual void Start(int port)
         {
-            if (listening)
+            if (_listening)
                 return;
 
-            listening = true;
-            listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            listener.Bind(new IPEndPoint(IPAddress.Any, port));
-            listener.Listen(ServerContext.Config.ConnectionCapacity);
-            listener.BeginAccept(EndConnectClient, null);
+            _listening = true;
+            _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _listener.Bind(new IPEndPoint(IPAddress.Any, port));
+            _listener.Listen(ServerContext.Config.ConnectionCapacity);
+            _listener.BeginAccept(EndConnectClient, null);
         }
 
         public virtual void ClientConnected(TClient client)
@@ -271,8 +277,8 @@ namespace Darkages.Network
             {
                 client.Read(packet, format);
 
-                if (handlers[format.Command] != null)
-                    handlers[format.Command].Invoke(this,
+                if (_handlers[format.Command] != null)
+                    _handlers[format.Command].Invoke(this,
                         new object[]
                         {
                             client,

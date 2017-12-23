@@ -6,8 +6,10 @@ using Darkages.Network.Game.Components;
 
 namespace Darkages.Network.Game
 {
-    public partial class GameServer : NetworkServer<GameClient>
+    public partial class GameServer
     {
+        public static object ServerSyncObj = new object();
+
         private bool isRunning;
         private DateTime lastUpdate = DateTime.UtcNow;
         private Thread updateThread;
@@ -90,11 +92,14 @@ namespace Darkages.Network.Game
 
         private static void UpdateAreas(TimeSpan elapsedTime)
         {
-            foreach (var area in ServerContext.GlobalMapCache.Values)
+            lock (ServerSyncObj)
             {
-                area?.Update(elapsedTime);
+                foreach (Area area in ServerContext.GlobalMapCache.Values)
+                {
+                    area?.Update(elapsedTime);
 
-                UpdateGroundItems(area);
+                    UpdateGroundItems(area);
+                }
             }
         }
 
