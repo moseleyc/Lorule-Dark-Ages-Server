@@ -135,19 +135,16 @@ namespace Darkages
 
                 lock (ViewFrustrum)
                 {
-                    _view = new List<Sprite>(ViewFrustrum);
+                    _view = new List<Sprite>(ViewFrustrum)
+                        .ToList();
+                }
 
-
-                    for (int i = 0; i < _view.Count; i++)
-                    {
-                        if (_view[i] != null)
-                        {
-                            if (obj.Serial == _view[i].Serial)
-                                return true;
-                        }
-                    }
+                if (_view.Where(t => t != null).Any(t => obj.Serial == t.Serial))
+                {
+                    return true;
                 }
             }
+
             catch
             {
                 obj.Remove<Monster>();
@@ -351,6 +348,11 @@ namespace Darkages
             }
 
             return null;
+        }
+
+        public void UpdateStats()
+        {
+            Client?.SendStats(StatusFlags.All);
         }
     }
 }

@@ -84,5 +84,9 @@
   "DefaultItemDurability": 1000,
   "DefaultItemValue": 500,
   "DurabilityRolloverLimit": 10,
-  "BaseMR": 70
+  "BaseMR": 70,
+  "WarpUpdateTimer": 1.5,
+  "WarpAnimationNumber": 214,
+  "MonsterDeathAnimationNumber": 232,
+  "ShowMonsterDeathAnimation": true
 }

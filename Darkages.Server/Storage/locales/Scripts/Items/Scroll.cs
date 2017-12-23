@@ -3,7 +3,7 @@ using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {
-    [Script("Mileth Scroll", "Dean")]
+    [Script("Scroll", "Dean")]
     public class Scroll : ItemScript
     {
         public Scroll(Item item) : base(item)

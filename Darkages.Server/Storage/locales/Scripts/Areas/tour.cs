@@ -39,7 +39,6 @@ namespace Darkages.Scripting.Scripts
             if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(Area.ID))
                 return;
 
-
             foreach (var warps in ServerContext.GlobalWarpTemplateCache[Area.ID])
                 if (warps.Location.DistanceFrom(position) <= warps.WarpRadius)
                     client.WarpTo(warps);
@@ -51,13 +50,6 @@ namespace Darkages.Scripting.Scripts
 
             if (Timer.Elapsed)
             {
-                //get Aislings on this map.
-                var objects = GetObjects<Aisling>(i => Area.Has(i));
-                if (objects.Length > 0)
-                    foreach (var obj in objects)
-                        if (obj != null)
-                            obj.Client.Send(new ServerFormat29(animation, (ushort) obj.X, (ushort) obj.Y));
-
                 Timer.Reset();
             }
         }

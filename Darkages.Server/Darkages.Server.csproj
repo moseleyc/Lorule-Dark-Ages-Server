@@ -264,9 +264,6 @@
     <Compile Include="Storage\locales\Scripts\Items\Shield.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Monsters\CommonMagicalMonster.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="Storage\locales\Scripts\Monsters\CommonMonster.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

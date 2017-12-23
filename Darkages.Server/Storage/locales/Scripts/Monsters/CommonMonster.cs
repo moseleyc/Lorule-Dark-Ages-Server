@@ -47,7 +47,6 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
             if (Monster.Aggressive)
             {
-                Monster.Attacked = true;
                 Monster.Target = client.Aisling;
             }
         }
@@ -57,11 +56,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (client.Aisling.Dead)
                 return;
 
-            if (!Monster.Friendly)
-            {
-                Monster.Attacked = true;
-                Monster.Target = client.Aisling;
-            }
+            Monster.Target = client.Aisling;
         }
 
         public override void OnCast(GameClient client)
@@ -69,7 +64,6 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (client.Aisling.Dead)
                 return;
 
-            Monster.Attacked = true;
             Monster.Target = client.Aisling;
         }
 
@@ -84,20 +78,8 @@ namespace Darkages.Storage.locales.Scripts.Monsters
         {
             if (Monster.Target != null)
                 if (Monster.Target is Aisling)
-                    Monster.GiveExperienceTo(Monster.Target as Aisling);
+                    Monster.GenerateRewards(Monster.Target as Aisling);
 
-            if (Monster.Template.Drops.Count > 0)
-            {
-                var idx = random.Next(Monster.Template.Drops.Count);
-                var rndSelector = Monster.Template.Drops[idx];
-
-                if (ServerContext.GlobalItemTemplateCache.ContainsKey(rndSelector))
-                {
-                    var item = Item.Create(Monster, ServerContext.GlobalItemTemplateCache[rndSelector], true);
-                    if (random.NextDouble() <= item.Template.DropRate)
-                        item.Release(Monster, Monster.Position);
-                }
-            }
 
             if (GetObject<Monster>(i => i.Serial == Monster.Serial) != null)
                 DelObject(Monster);
@@ -105,28 +87,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         public override void OnLeave(GameClient client)
         {
-            Monster.Attacked = false;
             Monster.Target = null;
         }
 
         public override void Update(TimeSpan elapsedTime)
         {
-            if (!Monster.isAlive)
+            if (!Monster.IsAlive)
                 return;
 
-            if (Monster.Target != null)
-            {
-                if (Monster.Target is Aisling)
-                    if ((Monster.Target as Aisling).Invisible)
-                        ClearTarget();
-                if (Monster.Target?.CurrentHp == 0)
-                    ClearTarget();
-            }
+            UpdateTarget();
 
             Monster.BashTimer.Update(elapsedTime);
             Monster.CastTimer.Update(elapsedTime);
             Monster.WalkTimer.Update(elapsedTime);
-
 
             if (Monster.BashTimer.Elapsed)
             {
@@ -153,6 +126,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             }
         }
 
+        private void UpdateTarget()
+        {
+            if (Monster.Target != null)
+            {
+                if (Monster.Target is Aisling)
+                    if (((Aisling) Monster.Target).Invisible)
+                        ClearTarget();
+
+                if (Monster.Target?.CurrentHp == 0)
+                    ClearTarget();
+            }
+        }
+
         private void CastSpell()
         {
             if (Monster != null && Monster.Target != null && SpellScripts.Count > 0)
@@ -170,11 +156,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 if (Target != null)
                     if (Monster.NextTo(Target.X, Target.Y))
                     {
-                        int direction;
-
                         lock (Monster)
                         {
-                            if (Monster.Facing(Target.X, Target.Y, out direction))
+                            if (Monster.Facing(Target.X, Target.Y, out var direction))
                             {
                                 Monster.BashEnabled = true;
                                 Monster.CastEnabled = true;
@@ -232,7 +216,6 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             Monster.CastEnabled = false;
             Monster.BashEnabled = false;
             Monster.WalkEnabled = true;
-            Monster.Attacked = false;
             Monster.Target = null;
         }
     }

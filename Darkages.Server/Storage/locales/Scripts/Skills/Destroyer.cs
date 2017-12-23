@@ -56,7 +56,7 @@ namespace Darkages.Scripting.Scripts.Skills
             foreach (var obj in objects)
             {
                 (obj as Monster).Target = client.Aisling;
-                (obj as Monster).GiveExperienceTo(client.Aisling);
+                (obj as Monster)?.GenerateRewards(client.Aisling);
                 client.SendAnimation(301, obj, client.Aisling);
 
                 obj.ApplyDamage(client.Aisling, 999999, false, 40);

@@ -83,7 +83,6 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         if (i is Monster)
                         {
                             (i as Monster).Target = client.Aisling;
-                            (i as Monster).Attacked = true;
                         }
 
                         if (i is Aisling)

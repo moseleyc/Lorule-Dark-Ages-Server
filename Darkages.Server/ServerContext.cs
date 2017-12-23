@@ -179,6 +179,17 @@ namespace Darkages
             Console.WriteLine("\n----- Loading Meta Database -----");
             GlobalMetaCache.AddRange(MetafileManager.GetMetafiles());
             Console.WriteLine(" -> Building Meta Cache: {0} loaded.", GlobalMetaCache.Count);
+
+
+            var meta = MetafileManager.GetMetafile("ItemInfo0");
+            foreach (var item in meta.Nodes)
+            {
+                var name = item.Name;
+
+                var wc = new WebClient();
+                var xml = wc.DownloadString("http://da-items.space/maps.xml");
+
+            }
         }
 
         public static void LoadAndCacheStorage()

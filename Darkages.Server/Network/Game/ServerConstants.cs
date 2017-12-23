@@ -350,6 +350,18 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public byte BaseMR = 70;
 
+        [JsonProperty]
+        public double WarpUpdateTimer = 1.5;
+
+        [JsonProperty]
+        public ushort WarpAnimationNumber = 214;
+
+        [JsonProperty]
+        public ushort MonsterDeathAnimationNumber = 350;
+
+        [JsonProperty]
+        public bool ShowMonsterDeathAnimation = true;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

@@ -18,8 +18,6 @@ namespace Darkages.Scripting.Scripts
 
         public GameServerTimer Timer { get; set; }
 
-        private ushort animation => 214;
-
         public override void OnClick(GameClient client, int x, int y)
         {
             client.Send(new ServerFormat29(216, (ushort) x, (ushort) y));
@@ -48,14 +46,6 @@ namespace Darkages.Scripting.Scripts
 
             if (Timer.Elapsed)
             {
-                //get Aislings on this map.
-                var objects = GetObjects<Aisling>(i => Area.Has(i));
-                if (objects.Length > 0)
-                    foreach (var obj in objects)
-                        if (obj != null)
-                            if (obj.WithinRangeOf(25, 25))
-                                obj.Client.Send(new ServerFormat29(animation, 25, 25));
-
                 Timer.Reset();
             }
         }

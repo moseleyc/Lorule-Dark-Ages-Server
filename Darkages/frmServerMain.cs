@@ -24,6 +24,14 @@ namespace Darkages
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
+
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            {
+                if (ServerContext.Config.DebugMode)
+                {
+                    Debug.WriteLine(eventArgs.Exception.ToString());
+                }
+            };
         }
 
         private void Form1_Load(object sender, EventArgs e)

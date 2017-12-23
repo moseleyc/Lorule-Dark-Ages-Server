@@ -1,11 +1,12 @@
-﻿using Darkages.Common;
-using Darkages.Network.ServerFormats;
-using Darkages.Scripting;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Darkages.Common;
+using Darkages.Network.Game;
+using Darkages.Network.ServerFormats;
+using Darkages.Scripting;
+using Newtonsoft.Json;
 
 namespace Darkages.Types
 {
@@ -15,10 +16,6 @@ namespace Darkages.Types
 
         [JsonIgnore]
         public MundaneScript Script { get; set; }
-
-        public Mundane()
-        {
-        }
 
         public static void Create(MundaneTemplate template)
         {
@@ -67,35 +64,35 @@ namespace Darkages.Types
 
             if (npc.Template.EnableAttacking)
             {
-                npc.Template.AttackTimer = new Network.Game.GameServerTimer(TimeSpan.FromMilliseconds(450));
+                npc.Template.AttackTimer = new GameServerTimer(TimeSpan.FromMilliseconds(450));
             }
 
 
             if (npc.Template.EnableWalking)
             {
                 npc.Template.EnableTurning = false;
-                npc.Template.WalkTimer = new Network.Game.GameServerTimer(TimeSpan.FromSeconds(750));
+                npc.Template.WalkTimer = new GameServerTimer(TimeSpan.FromSeconds(750));
             }
 
             if (npc.Template.EnableSpeech)
             {
-                npc.Template.ChatTimer = new Network.Game.GameServerTimer(TimeSpan.FromSeconds((int)Generator.Random.Next(10, 35)));
+                npc.Template.ChatTimer = new GameServerTimer(TimeSpan.FromSeconds(Generator.Random.Next(10, 35)));
             }
 
             if (npc.Template.EnableTurning)
             {
-                npc.Template.TurnTimer = new Network.Game.GameServerTimer(TimeSpan.FromSeconds(6));
+                npc.Template.TurnTimer = new GameServerTimer(TimeSpan.FromSeconds(6));
             }
 
 
-            npc.AddObject<Mundane>(npc);
+            npc.AddObject(npc);
         }
 
         public void OnDeath()
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(this.CurrentMapId))
+            if (ServerContext.GlobalMapCache.ContainsKey(CurrentMapId))
             {
-                ServerContext.GlobalMapCache[this.CurrentMapId].Tile[this.X, this.Y] = TileContent.None;
+                ServerContext.GlobalMapCache[CurrentMapId].Tile[X, Y] = TileContent.None;
             }
 
             Template.EnableWalking = false;
@@ -120,10 +117,10 @@ namespace Darkages.Types
             var nearbyMonsters = GetObjects<Monster>(i => WithinRangeOf(this));
             foreach (var nearby in nearbyMonsters)
             {
-                if (nearby.Target != null && nearby.Target.Serial == this.Serial)
+                if (nearby.Target != null && nearby.Target.Serial == Serial)
                 {
                     nearby.Target = null;
-                    SaveObject<Monster>(nearby);
+                    SaveObject(nearby);
                 }
             }
         }
@@ -133,7 +130,7 @@ namespace Darkages.Types
             if (Template == null)
                 return;
 
-            SaveObject<Mundane>(this);
+            SaveObject(this);
 
             if (Template.ChatTimer != null)
             {
@@ -150,7 +147,7 @@ namespace Darkages.Types
                             idx = Generator.Random.Next(Template.Speech.Count);
                         }
 
-                        obj.Show(Scope.Self, new ServerFormat0D() { Serial = this.Serial, Text = this.Template.Name + ": " + Template.Speech[idx], Type = 0x00 });
+                        obj.Show(Scope.Self, new ServerFormat0D { Serial = Serial, Text = Template.Name + ": " + Template.Speech[idx], Type = 0x00 });
                     }
 
 
@@ -165,9 +162,9 @@ namespace Darkages.Types
                 {
                     lock (Generator.Random)
                     {
-                        this.Direction = (byte)(Generator.GenerateNumber() % 4);
-                        this.Turn();
+                        Direction = (byte)(Generator.Random.Next() % 4);
                     }
+                    Turn();
 
                     Template.TurnTimer.Reset();
                 }
@@ -178,7 +175,7 @@ namespace Darkages.Types
                 Template.AttackTimer.Update(update);
                 if (Template.AttackTimer.Elapsed)
                 {
-                    var targets = GetObjects<Monster>(i => i.WithinRangeOf(this)).OrderBy(i => i.Position.DistanceFrom(this.Position));
+                    var targets = GetObjects<Monster>(i => i.WithinRangeOf(this)).OrderBy(i => i.Position.DistanceFrom(Position));
 
                     foreach (var t in targets)
                     {
@@ -195,28 +192,27 @@ namespace Darkages.Types
 
                         Script?.TargetAcquired(target);
 
-                        if (target != null && !this.Position.IsNextTo(target.Position))
+                        if (!Position.IsNextTo(target.Position))
                         {
-                            this.WalkTo(target.X, target.Y);
+                            WalkTo(target.X, target.Y);
                         }
                         else
                         {
-                            int direction;
-                            if (!this.Facing(target, out direction))
+                            if (!Facing(target, out var direction))
                             {
-                                this.Direction = (byte)direction;
-                                this.Turn();
+                                Direction = (byte)direction;
+                                Turn();
                             }
                             else
                             {
                                 target.Target = this;
-                                this.Attack(target);
+                                Attack(target);
                             }
                         }
                     }
                     else
                     {
-                        this.Wander();
+                        Wander();
                     }
 
                     Template.AttackTimer.Reset();

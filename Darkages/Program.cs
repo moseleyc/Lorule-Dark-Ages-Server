@@ -11,9 +11,6 @@ namespace Darkages
         [STAThread]
         private static void Main()
         {
-
-
-
             Application.Run(new frmServerMain());
         }
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.ClientFormats;
@@ -11,6 +10,7 @@ using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
+using static System.Threading.ThreadPool;
 
 namespace Darkages.Network
 {
@@ -86,45 +86,46 @@ namespace Darkages.Network
 
         private void EndReceiveHeader(IAsyncResult result)
         {
-            var client = result.AsyncState as TClient;
-            var error = SocketError.Success;
-            var bytes = client.Socket.EndReceiveHeader(result, out error);
-
-            if (bytes == 0 ||
-                error != SocketError.Success)
+            if (result.AsyncState is TClient client)
             {
-                ClientDisconnected(client);
-                return;
-            }
+                var bytes = client.Socket.EndReceiveHeader(result, out var error);
 
-            if (client.Socket.HeaderComplete)
-                client.Socket.BeginReceivePacket(EndReceivePacket, out error, client);
-            else
-                client.Socket.BeginReceiveHeader(EndReceiveHeader, out error, client);
+                if (bytes == 0 ||
+                    error != SocketError.Success)
+                {
+                    ClientDisconnected(client);
+                    return;
+                }
+
+                if (client.Socket.HeaderComplete)
+                    client.Socket.BeginReceivePacket(EndReceivePacket, out error, client);
+                else
+                    client.Socket.BeginReceiveHeader(EndReceiveHeader, out error, client);
+            }
         }
 
         private void EndReceivePacket(IAsyncResult result)
         {
-            var client = result.AsyncState as TClient;
-            var error = SocketError.Success;
-            var bytes = client.Socket.EndReceivePacket(result, out error);
-
-            if (bytes == 0 ||
-                error != SocketError.Success)
+            if (result.AsyncState is TClient client)
             {
-                ClientDisconnected(client);
-                return;
-            }
+                var bytes = client.Socket.EndReceivePacket(result, out var error);
 
-            if (client.Socket.PacketComplete)
-            {
-                ClientDataReceived(client, client.Socket.ToPacket());
+                if (bytes == 0 ||
+                    error != SocketError.Success)
+                {
+                    ClientDisconnected(client);
+                    return;
+                }
 
-                client.Socket.BeginReceiveHeader(EndReceiveHeader, out error, client);
-            }
-            else
-            {
-                client.Socket.BeginReceivePacket(EndReceivePacket, out error, client);
+                if (client.Socket.PacketComplete)
+                {
+                    ClientDataReceived(client, client.Socket.ToPacket());
+                    client.Socket.BeginReceiveHeader(EndReceiveHeader, out error, client);
+                }
+                else
+                {
+                    client.Socket.BeginReceivePacket(EndReceivePacket, out error, client);
+                }
             }
         }
 
@@ -146,7 +147,7 @@ namespace Darkages.Network
         {
             var index = -1;
 
-            for (var i = 0; i < Clients.Length; i++)
+            for (var i = Clients.Length - 1; i >= 0; i--)
                 if (Clients[i] == null)
                 {
                     index = i;
@@ -162,7 +163,7 @@ namespace Darkages.Network
 
         public void RemoveClient(TClient client)
         {
-            for (var i = 0; i < Clients.Length; i++)
+            for (var i = Clients.Length - 1; i >= 0; i--)
                 if (Clients[i] != null &&
                     Clients[i].Serial == client.Serial)
                 {
@@ -203,6 +204,10 @@ namespace Darkages.Network
 
         public virtual void ClientConnected(TClient client)
         {
+            if (ServerContext.Config.DebugMode)
+            {
+                Console.WriteLine("[{0}]: Client Connected.", client.Serial);
+            }
         }
 
         public void Recv(Action format)
@@ -214,14 +219,16 @@ namespace Darkages.Network
                     return;
 
                 _receiving = true;
-                ThreadPool.QueueUserWorkItem(RecvBuffers);
+                QueueUserWorkItem(RecvBuffers);
             }
         }
 
         private void RecvBuffers(object state)
         {
             if (ServerContext.Config.RecvWaitAll)
+            {
                 Task.WaitAll();
+            }
 
             while (true)
             {

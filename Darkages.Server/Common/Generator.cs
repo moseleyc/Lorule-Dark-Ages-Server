@@ -34,23 +34,7 @@ namespace Darkages.Common
 
             return id;
         }
-        public static object Generate<T>(int min, int max)
-        {
-            string name = typeof(T).Name.ToLower();
 
-            if (name == "byte")
-                return (byte)Generator.Random.Next(min, max);
-            if (name == "int")
-                return (int)GenerateNumber();
-            if (name == "uint")
-                return (uint)Generator.Random.Next(min, max);
-            if (name == "short")
-                return (short)Generator.Random.Next(min, max);
-            if (name == "ushort")
-                return (ushort)Generator.Random.Next(min, max);
-
-            return null;
-        }
         public static string CreateString(int size)
         {
             var value = new StringBuilder();

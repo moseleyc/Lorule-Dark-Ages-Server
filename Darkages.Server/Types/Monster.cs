@@ -18,8 +18,11 @@ namespace Darkages.Types
         public GameServerTimer WalkTimer { get; set; }
         public MonsterTemplate Template { get; set; }
 
-        public bool Attacked { get; set; }
-        public bool isAlive { get; set; }
+        [JsonIgnore]
+        public bool Attacked => CurrentHp < MaximumHp && IsAlive;
+
+        [JsonIgnore]
+        public bool IsAlive => CurrentHp > 0;
 
         [Browsable(false)]
         public bool BashEnabled { get; set; }
@@ -31,15 +34,9 @@ namespace Darkages.Types
         public ushort Image { get; private set; }
 
         [JsonIgnore]
-        [Browsable(false)]
-        public Sprite Target { get;  set; }
-
-        [JsonIgnore]
-        public bool GivenExp { get; set; }
+        public bool Rewarded { get; set; }
     
         public bool Aggressive { get; set; }
-        public bool Friendly { get; set; }
-        public bool Helper { get; set; }
 
         public Monster()
         {
@@ -47,14 +44,12 @@ namespace Darkages.Types
             CastEnabled = false;
             WalkEnabled = false;
 
-            isAlive = true;
-            Attacked = false;
         }
 
         public bool NextTo(int x, int y)
         {
-            int xDist = Math.Abs(x - this.X);
-            int yDist = Math.Abs(y - this.Y);
+            var xDist = Math.Abs(x - this.X);
+            var yDist = Math.Abs(y - this.Y);
 
             return (xDist + yDist) == 1;
         }
@@ -64,72 +59,106 @@ namespace Darkages.Types
         public void WalkToTarget() => WalkToTarget(Target);
         public void WalkToTarget(Sprite target) => WalkTo(target.X, target.Y);
 
-        public Random rnd = new Random();
-
-        public void GiveExperienceTo(Aisling player)
+        public void GenerateRewards(Aisling player)
         {
-            if (!GivenExp)
+            if (Rewarded)
+                return;
+
+            if (player.Equals(null))
+                return;
+
+            if (player.Client.Aisling == null)
+                return;
+
+            {
+                GenerateExperience(player);
+                GenerateGold();
+                GenerateDrops();
+            }
+
+            Rewarded = true;
+            player.UpdateStats();
+        }
+
+        private void GenerateExperience(Aisling player)
+        {
+            var percent = 0.3;
+            var poly = 9;
+            var coponent = poly + player.ExpLevel / Template.Level + 99 * 2;
+            var expToAward = Math.Round(((coponent / percent) * (player.ExpLevel * 0.30)));
+            var expGained = Math.Round(player.ExpLevel * expToAward);
+
+            var p = (player.ExpLevel - Template.Level);
+
+            if (p / 10 > 0)
+                expGained = 1;
+            else
+                expGained = Math.Abs(expToAward);
+
+            if (p < 0)
+            {
+                expGained = expToAward * (Math.Abs(p) + 3);
+            }
+
+
+            player.ExpTotal += (int)(expGained);
+            player.ExpNext -= (int)(expGained);
+
+            player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)expGained));
+
+            if (player.ExpNext <= 0)
+            {
+                player.ExpNext = ((int)player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6);
+                player._MaximumHp += (int)((50 * player.Con) * 0.65);
+                player._MaximumMp += (int)((25 * player.Wis) * 0.45);
+                player.StatPoints += 2;
+                player.ExpLevel++;
+
+                if (player.ExpLevel > 99)
+                {
+                    player.AbpLevel++;
+                    player.ExpLevel = 99;
+                }
+
+                if (player.AbpLevel > 99)
+                {
+                    player.AbpLevel = 99;
+                    player.GamePoints++;
+                }
+
+                player.Client.SendMessage(0x02, string.Format("You have reached level {0}!", player.ExpLevel));
+                player.Show(Scope.NearbyAislings, new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
+            }
+        }
+
+        private void GenerateGold()
+        {
+            lock (rnd)
             {
                 if ((Template.LootType & LootQualifer.Gold) == LootQualifer.Gold)
-                    Money.Create(this, rnd.Next(100, 2000), new Position(X, Y));
+                    Money.Create(this, rnd.Next(
+                            (int)Math.Sqrt(Template.Level * 500) / 2,
+                            (int)Math.Sqrt(Template.Level * 5000) / 2),
+                        new Position(X, Y));
+            }
+        }
 
-                GivenExp = true;
-
-                if (player == null)
-                    return;
-
-
-                if (player.Client.Aisling == null)
-                    return;
-
-                var percent = 0.3;
-                var poly = 9;
-                var coponent = poly + player.ExpLevel / this.Template.Level + 99 * 2;
-                var exp_to_award = Math.Round(((coponent / percent) * (player.ExpLevel * 0.30)));
-                var exp_gained = Math.Round(player.ExpLevel * exp_to_award);
-
-                var p = (player.ExpLevel - Template.Level);
-
-                if (p / 10 > 0)
-                    exp_gained = 1;
-                else
-                    exp_gained = Math.Abs(exp_to_award);
-
-                if (p < 0)
+        private void GenerateDrops()
+        {
+            if (Template.Drops.Count > 0)
+            {
+                lock (rnd)
                 {
-                    exp_gained = exp_to_award * (Math.Abs(p) + 3);
-                }
+                    var idx = rnd.Next(Template.Drops.Count);
+                    var rndSelector = Template.Drops[idx];
 
-
-                player.ExpTotal += (int)(exp_gained);
-                player.ExpNext -= (int)(exp_gained);
-
-                player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)exp_gained));
-
-                if (player.ExpNext <= 0)
-                {
-                    player.ExpNext = ((int)player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6);
-                    player._MaximumHp += (int)((50 * player.Con) * 0.65);
-                    player._MaximumMp += (int)((25 * player.Wis) * 0.45);
-                    player.StatPoints += 2;
-                    player.ExpLevel++;
-
-                    if (player.ExpLevel > 99)
+                    if (ServerContext.GlobalItemTemplateCache.ContainsKey(rndSelector))
                     {
-                        player.AbpLevel++;
-                        player.ExpLevel = 99;
+                        var item = Item.Create(this, ServerContext.GlobalItemTemplateCache[rndSelector], true);
+                        if (rnd.NextDouble() <= item.Template.DropRate)
+                            item.Release(this, Position);
                     }
-
-                    if (player.AbpLevel > 99)
-                    {
-                        player.AbpLevel = 99;
-                        player.GamePoints++;
-                    }
-
-                    player.Client.SendMessage(0x02, string.Format("You have reached level {0}!", player.ExpLevel));
-                    player.Show(Scope.NearbyAislings, new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
                 }
-                player.Client.Send(new ServerFormat08(player, StatusFlags.StructA | StatusFlags.StructC));
             }
         }
 
@@ -151,6 +180,8 @@ namespace Darkages.Types
 
         public static Monster Create(MonsterTemplate template, Area map)
         {
+            Random rnd = new Random();
+
             if (template.CastSpeed == 0)
                 template.CastSpeed = 2000;
 
@@ -213,34 +244,26 @@ namespace Darkages.Types
             if ((template.MoodTyle & MoodQualifer.Friendly) == MoodQualifer.Friendly)
             {
                 obj.Aggressive = false;
-                obj.Friendly = true;
             }
 
             if ((template.MoodTyle & MoodQualifer.Unpredicable) == MoodQualifer.Unpredicable)
             {
-                //this monster has a 50% chance of being friendly.
+                //this monster has a 50% chance of being aggressive.
                 obj.Aggressive = (Generator.Random.Next(0, 1) == 1);
-                obj.Friendly = !obj.Aggressive;
-            }
-
-            if ((template.MoodTyle & MoodQualifer.Defensive) == MoodQualifer.Defensive
-                && (template.MoodTyle & MoodQualifer.Friendly) == MoodQualifer.Friendly)
-            {
-                //AI set to Help.
-                obj.Helper = true;
-                obj.Aggressive = false;
-                obj.Friendly = true;
             }
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
             {
-                var x = Generator.Random.Next(1, map.Cols);
-                var y = Generator.Random.Next(1, map.Rows);
+                var x = rnd.Next(1, map.Cols);
+                var y = rnd.Next(1, map.Rows);
 
                 while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
                 {
-                    x = Generator.Random.Next(1, map.Cols);
-                    y = Generator.Random.Next(1, map.Rows);
+                    lock (rnd)
+                    {
+                        x = rnd.Next(1, map.Cols);
+                        y = rnd.Next(1, map.Rows);
+                    }
                 }
 
                 obj.X = x;
@@ -252,6 +275,7 @@ namespace Darkages.Types
                 obj.Y = template.DefinedY;
 
                 var invalid = false;
+
                 //if not available. find a nearbly location nearby and try spawn it there.
                 while (map.IsWall(obj, obj.X, obj.Y) || map.Tile[obj.X, obj.Y] != TileContent.None)
                 {
@@ -279,17 +303,12 @@ namespace Darkages.Types
                         break;
                 }
             }
-            else if ((template.SpawnType & SpawnQualifer.Reactor) == SpawnQualifer.Reactor)
-            {
-                //TODO reactor handling.
-                //assign reactor script. ect.
-            }
 
             lock (Generator.Random)
             {
                 obj.Serial = Generator.GenerateNumber();
             }
-            obj.isAlive = true;
+
             obj.CurrentMapId = map.ID;
             obj.CurrentHp = template.MaximumHP;
             obj.CurrentMp = template.MaximumMP;
@@ -298,7 +317,7 @@ namespace Darkages.Types
             obj.CreationDate = DateTime.UtcNow;
             obj.Image = template.ImageVarience
                         > 0
-                ? (ushort) Generator.Random.Next(template.Image, template.Image + template.ImageVarience)
+                ? (ushort) rnd.Next(template.Image, template.Image + template.ImageVarience)
                 : template.Image;
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
 

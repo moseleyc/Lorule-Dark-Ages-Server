@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Darkages.Common;
+using Darkages.Network.Game;
 using Darkages.Network.Game.Components;
 using Darkages.Network.Object;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
 using Newtonsoft.Json;
@@ -54,6 +56,10 @@ namespace Darkages
         [JsonIgnore]
         [Browsable(false)]
         public bool Sent { get; set; }
+
+        [JsonIgnore] [Browsable(false)]
+        private GameServerTimer WarpTimer =
+            new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.WarpUpdateTimer));
 
         public static bool ParseSotp(short lWall, short rWall)
         {
@@ -173,8 +179,36 @@ namespace Darkages
             Script?.Update(elapsedTime);
 
 
-            var oc = ServerContext.Game.Components.OfType<ObjectComponent>().FirstOrDefault();
-            oc?.InvokeMediators(this);
+            WarpTimer.Update(elapsedTime);
+            if (WarpTimer.Elapsed)
+            {
+                UpdateWarps();
+                WarpTimer.Reset();
+            }
+        }
+
+        private void UpdateWarps()
+        {
+            if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(ID))
+                return;
+
+            var warps = ServerContext.GlobalWarpTemplateCache[ID];
+            if (warps.Count == 0)
+                return;
+
+
+            foreach (var warp in warps)
+            {
+                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(warp.Location.X, warp.Location.Y, 9)
+                                                                                       && warp.AreaID == ID);
+                if (nearby.Length == 0)
+                    continue;
+
+                foreach (var near in nearby)
+                {
+                    near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber, warp.Location.X, warp.Location.Y));
+                }
+            }
         }
 
         private void UpdateMonsters(TimeSpan elapsedTime)

@@ -8,20 +8,18 @@ namespace Darkages.Network.Game.Components
 {
     public class ObjectComponent : GameServerComponent
     {
-        private static object syncObj = new object();
-        private readonly GameServerTimer CacheEventScheduler;
-        private readonly GameServerTimer UpdateEventScheduler;
-        private readonly GameServerTimer UpdateMediatorScheduler;
-        private DateTime LastUpdate = DateTime.UtcNow;
+        private readonly GameServerTimer _cacheEventScheduler;
+        private readonly GameServerTimer _updateEventScheduler;
+        private readonly GameServerTimer _updateMediatorScheduler;
 
         public ObjectComponent(GameServer server)
             : base(server)
         {
-            UpdateEventScheduler =
+            _updateEventScheduler =
                 new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectHandlerInterval));
-            CacheEventScheduler = new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectCacheInterval));
-            UpdateMediatorScheduler =
-                new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectGarbageCollectorInterval));
+            _cacheEventScheduler = new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectCacheInterval));
+            _updateMediatorScheduler =
+                new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.ObjectGarbageCollectorInterval));
             OnAdded(OnObjectAdded);
             OnUpdated(OnObjectUpdate);
             OnRemoved(OnObjectRemoved);
@@ -224,23 +222,23 @@ namespace Darkages.Network.Game.Components
 
         public override void Update(TimeSpan elapsedTime)
         {
-            CacheEventScheduler.Update(elapsedTime);
-            UpdateEventScheduler.Update(elapsedTime);
-            UpdateMediatorScheduler.Update(elapsedTime);
+            _cacheEventScheduler.Update(elapsedTime);
+            _updateEventScheduler.Update(elapsedTime);
+            _updateMediatorScheduler.Update(elapsedTime);
 
-            if (CacheEventScheduler.Elapsed)
+            if (_cacheEventScheduler.Elapsed)
             {
                 if (ServerContext.Config.CacheObjects)
                     Cache();
 
-                CacheEventScheduler.Reset();
+                _cacheEventScheduler.Reset();
             }
 
-            if (UpdateMediatorScheduler.Elapsed)
+            if (_updateMediatorScheduler.Elapsed)
             {
                 InvokeMediators();
 
-                UpdateMediatorScheduler.Reset();
+                _updateMediatorScheduler.Reset();
             }
         }
 
@@ -262,7 +260,12 @@ namespace Darkages.Network.Game.Components
                 foreach (var obj in objects)
                     if (obj.CurrentHp == 0)
                     {
-                        obj.Show(Scope.NearbyAislings, new ServerFormat29(310, (ushort) obj.X, (ushort) obj.Y));
+                        if (ServerContext.Config.ShowMonsterDeathAnimation)
+                        {
+                            obj.Show(Scope.NearbyAislings,
+                                new ServerFormat29(ServerContext.Config.MonsterDeathAnimationNumber, (ushort) obj.X,
+                                    (ushort) obj.Y));
+                        }
                         OnObjectRemoved(obj);
                         c++;
                     }

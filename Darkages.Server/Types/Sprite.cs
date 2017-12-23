@@ -633,6 +633,7 @@ namespace Darkages.Types
             var other = new Aisling();
             other.X = x;
             other.Y = y;
+            other.CurrentMapId = CurrentMapId;
             return WithinRangeOf(other, distance);
         }
 
@@ -746,13 +747,7 @@ namespace Darkages.Types
             var response = new ServerFormat0E(Serial);
 
             foreach (var o in nearby)
-            {
-                var client = (o as Aisling).Client;
-                if (client == null)
-                    continue;
-
-                client.Send(response);
-            }
+                o?.Client?.Send(response);
 
             if (this is Monster)
                 DelObject(this as Monster);
@@ -766,9 +761,7 @@ namespace Darkages.Types
                 DelObject(this as Mundane);
 
             if (Map != null)
-            {
                 Map.Tile[X, Y] = TileContent.None;
-            }
         }
 
         public void UpdateBuffs(TimeSpan elapsedTime)
@@ -805,13 +798,7 @@ namespace Darkages.Types
 
             foreach (var o in nearby)
             {
-                var client = (o as Aisling).Client;
-
-                if (client == null)
-                    continue;
-                
-
-                client.Send(new ServerFormat11
+                o?.Client?.Send(new ServerFormat11
                 {
                     Direction = this.Direction,
                     Serial = this.Serial,
@@ -835,19 +822,19 @@ namespace Darkages.Types
 
                 for (byte i = 0; i < 4; i++)
                 {
-                    var newX = (this.X + Directions[i][0]);
-                    var newY = (this.Y + Directions[i][1]);
+                    var newX = (X + Directions[i][0]);
+                    var newY = (Y + Directions[i][1]);
 
                     if (newX == x &&
                         newY == y)
                         continue;
 
-                    if (this.Map.IsWall(this, newX, newY))
+                    if (Map.IsWall(this, newX, newY))
                         continue;
 
                     var xDist = (x - newX);
                     var yDist = (y - newY);
-                    var tDist = (float)Extensions.Sqrt(xDist * xDist + yDist * yDist);
+                    var tDist = Extensions.Sqrt(xDist * xDist + yDist * yDist);
 
                     if (length < tDist)
                         continue;
@@ -858,29 +845,31 @@ namespace Darkages.Types
                         offset = 0;
                     }
 
-                    buffer[offset] = i;
+
+                    buffer[offset.Clamp(0, buffer.Length)] = i;
                     offset++;
                 }
 
                 if (offset == 0)
                     return;
 
-
-                this.Direction = buffer[Generator.Random.Next(0, offset)];
-
-                if (this.Walk())
+                lock (Generator.Random)
                 {
-                    if (this is Monster)
-                        SaveObject<Monster>(this as Monster);
-
-                    if (this is Mundane)
-                        SaveObject<Mundane>(this as Mundane);
-
+                    Direction = buffer[Generator.Random.Next(0, offset)];
                 }
+
+                if (!Walk())
+                    return;
+
+                if (this is Monster)
+                    SaveObject(this as Monster);
+
+                if (this is Mundane)
+                    SaveObject(this as Mundane);
             }
             catch
             {
-
+                // ignored
             }
         }
 
@@ -891,11 +880,15 @@ namespace Darkages.Types
 
             lock (Generator.Random)
             {
-                this.Direction = (byte)Generator.Random.Next(0, 4);
-                if (this.Walk())
-                {
-                    SaveObject<Monster>(this as Monster);
-                }
+                Direction = (byte)Generator.Random.Next(0, 4);
+            }
+
+            if (Walk())
+            {
+                if (this is Monster)
+                    SaveObject(this as Monster);
+                if (this is Mundane)
+                    SaveObject(this as Mundane);
             }
         }
 

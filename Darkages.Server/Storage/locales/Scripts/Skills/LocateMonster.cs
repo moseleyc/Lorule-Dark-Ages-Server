@@ -13,7 +13,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
         public override void OnUse(Sprite sprite)
         {
-            var nearest = GetObjects<Monster>(i => i.CurrentMapId == sprite.CurrentMapId)
+            var nearest = GetObjects<Monster>(i => i.CurrentMapId == sprite.CurrentMapId & i.IsAlive)
                 .OrderBy(i => i.Position.DistanceFrom(sprite.Position)).FirstOrDefault();
 
             if (sprite is Aisling)
@@ -51,8 +51,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         client.Aisling.Map.Tile[prev.X, prev.Y] = TileContent.None;
 
 
-                        int direction;
-                        if (!client.Aisling.Facing(nearest.X, nearest.Y, out direction))
+                        if (!client.Aisling.Facing(nearest.X, nearest.Y, out var direction))
                         {
                             client.Aisling.Direction = (byte) direction;
 

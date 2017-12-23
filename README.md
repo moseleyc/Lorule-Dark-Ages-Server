@@ -1,4 +1,7 @@
+![#000000](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/darkages.gif?raw=true)
+
 # Lorule-Dark-Ages-Server
+
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
 ![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule.png?raw=true "Server")
@@ -95,6 +98,18 @@ Lorule Client Launcher Download:
             -- The rest of the information can be set yourself, IP, port, Ect.
 
 One more thing, run launcher as administrator if it fails, darkages will also need to run as **administrator**.
+
+
+## Formulas
+
+Formulas are in the works, but contributes are welcome! Please see the formulas directory as part of this project.
+
+Example of Supported Excel Template:
+![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/formulas/items.png?raw=true "Items Template")
+
+
+
+
 
 
 Enjoy.
