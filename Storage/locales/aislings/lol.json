@@ -37,12 +37,7 @@
         "ExpReward": 0,
         "GoldReward": 0,
         "StageIndex": 0,
-        "Rewarded": true,
-        "Current": {
-          "$type": "Darkages.Types.QuestStep`1[[Darkages.Types.Template, Darkages.Server]], Darkages.Server",
-          "Type": 255,
-          "StepComplete": false
-        }
+        "Rewarded": true
       },
       {
         "$type": "Darkages.Types.Quest, Darkages.Server",
@@ -78,12 +73,7 @@
         "ExpReward": 0,
         "GoldReward": 0,
         "StageIndex": 0,
-        "Rewarded": false,
-        "Current": {
-          "$type": "Darkages.Types.QuestStep`1[[Darkages.Types.Template, Darkages.Server]], Darkages.Server",
-          "Type": 255,
-          "StepComplete": false
-        }
+        "Rewarded": false
       }
     ]
   },
@@ -92,25 +82,25 @@
   },
   "AbpLimit": 0,
   "ExpLimit": 0,
-  "CurrentWeight": 1,
+  "CurrentWeight": 7,
   "MaximumWeight": 77,
   "Created": "2017-12-22T12:44:06.6734717Z",
-  "LastLogged": "2017-12-23T13:12:31.8369847Z",
+  "LastLogged": "2017-12-23T16:13:46.842932Z",
   "Username": "lol",
   "Password": "lol",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
   "ExpLevel": 18,
-  "ExpTotal": 12226110,
-  "ExpNext": 3250888,
+  "ExpTotal": 13709198,
+  "ExpNext": 1767800,
   "Gender": 2,
   "Title": 0,
   "Flags": 0,
-  "AreaID": 500,
+  "AreaID": 509,
   "ClassID": 4,
   "GamePoints": 0,
-  "GoldPoints": 3244,
+  "GoldPoints": 3044,
   "StatPoints": 15,
   "Medal": 0,
   "LIcon": 0,
@@ -125,7 +115,7 @@
   "Helmet": 0,
   "Shield": 1,
   "Weapon": 26,
-  "Armor": 0,
+  "Armor": 1,
   "PartyStatus": 0,
   "GroupParty": {
     "$type": "Darkages.Types.Party, Darkages.Server",
@@ -174,7 +164,7 @@
         "Icon": 12,
         "Level": 1,
         "ID": 1104059009,
-        "NextAvailableUse": "2017-12-23T13:12:31.8349841Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8279306Z",
         "Ready": true,
         "InUse": false,
         "Uses": 5
@@ -211,12 +201,12 @@
         },
         "Slot": 2,
         "Icon": 1,
-        "Level": 17,
+        "Level": 18,
         "ID": 379680291,
-        "NextAvailableUse": "2017-12-23T13:16:42.9812801Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8284772Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 9
+        "Uses": 11
       },
       "3": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -255,10 +245,10 @@
         "Icon": 21,
         "Level": 1,
         "ID": 114707553,
-        "NextAvailableUse": "2017-12-23T13:12:31.8349841Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8289306Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 3
+        "Uses": 4
       },
       "4": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -295,7 +285,7 @@
         "Icon": 0,
         "Level": 0,
         "ID": 1297800435,
-        "NextAvailableUse": "2017-12-23T13:15:48.6425276Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8289306Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -334,10 +324,10 @@
         "Icon": 4,
         "Level": 4,
         "ID": 685297667,
-        "NextAvailableUse": "2017-12-23T13:16:42.9812801Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8289306Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 34
+        "Uses": 55
       },
       "6": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -373,7 +363,7 @@
         "Icon": 36,
         "Level": 1,
         "ID": 1249621344,
-        "NextAvailableUse": "2017-12-23T13:12:31.8349841Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8289306Z",
         "Ready": true,
         "InUse": false,
         "Uses": 3
@@ -413,7 +403,7 @@
         "Icon": 32,
         "Level": 0,
         "ID": 1532165246,
-        "NextAvailableUse": "2017-12-23T13:15:41.9183232Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8294301Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -452,7 +442,7 @@
         "Icon": 17,
         "Level": 2,
         "ID": 1427263549,
-        "NextAvailableUse": "2017-12-23T13:12:31.8349841Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8294301Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -491,7 +481,7 @@
         "Icon": 51,
         "Level": 0,
         "ID": 1180727380,
-        "NextAvailableUse": "2017-12-23T13:12:31.8349841Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8309308Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -533,7 +523,7 @@
         "Icon": 15,
         "Level": 1,
         "ID": 415831731,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8309308Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -580,7 +570,7 @@
         "Icon": 60,
         "Level": 1,
         "ID": 589987663,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.831431Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -645,9 +635,9 @@
           "LevelRate": 0.3,
           "Name": "ard cradh"
         },
-        "Level": 0,
+        "Level": 1,
         "Slot": 1,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8319308Z",
         "InUse": false
       },
       "2": {
@@ -681,7 +671,7 @@
         },
         "Level": 0,
         "Slot": 2,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8324866Z",
         "InUse": false
       },
       "3": {
@@ -704,7 +694,7 @@
         },
         "Level": 0,
         "Slot": 3,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8324866Z",
         "InUse": false
       },
       "4": {
@@ -738,7 +728,7 @@
         },
         "Level": 0,
         "Slot": 4,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8324866Z",
         "InUse": false
       },
       "5": {
@@ -767,7 +757,7 @@
         },
         "Level": 0,
         "Slot": 5,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8329311Z",
         "InUse": false
       },
       "6": {
@@ -801,12 +791,12 @@
         },
         "Level": 0,
         "Slot": 6,
-        "NextAvailableUse": "2017-12-23T13:12:31.8354843Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8329311Z",
         "InUse": false
       },
       "7": {
         "$type": "Darkages.Types.Spell, Darkages.Server",
-        "Casts": 0,
+        "Casts": 1,
         "ID": 907392771,
         "Template": {
           "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
@@ -830,7 +820,7 @@
         },
         "Level": 1,
         "Slot": 7,
-        "NextAvailableUse": "2017-12-23T13:16:51.9102392Z",
+        "NextAvailableUse": "2017-12-23T16:13:46.8329311Z",
         "InUse": false
       },
       "8": null,
@@ -1153,7 +1143,82 @@
           "_Hit": 0
         }
       },
-      "2": null,
+      "2": {
+        "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
+        "Slot": 2,
+        "Item": {
+          "$type": "Darkages.Types.Item, Darkages.Server",
+          "rnd": {
+            "$type": "System.Random, mscorlib"
+          },
+          "Template": {
+            "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+            "ID": 1,
+            "CanStack": false,
+            "MaxStack": 0,
+            "Image": 1,
+            "DisplayImage": 32883,
+            "ScriptName": "Armor",
+            "Gender": 2,
+            "AcModifer": {
+              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+              "Option": 1,
+              "Value": 5
+            },
+            "OffenseElement": 0,
+            "DefenseElement": 0,
+            "Weight": 3,
+            "Flags": 77,
+            "MaxDurability": 1000,
+            "Value": 100,
+            "EquipmentSlot": 2,
+            "NpcKey": "shop1",
+            "Class": 0,
+            "LevelRequired": 1,
+            "DmgMin": 0,
+            "DmgMax": 0,
+            "DropRate": 0.0,
+            "Name": "Blouse"
+          },
+          "Cursed": false,
+          "Owner": 71399601,
+          "Image": 1,
+          "DisplayImage": 32883,
+          "DisplayName": "Blouse",
+          "Value": 0,
+          "Stacks": 0,
+          "Slot": 1,
+          "Durability": 1000,
+          "Debuffs": {
+            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+            "$values": []
+          },
+          "Buffs": {
+            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+            "$values": []
+          },
+          "Serial": 828986537,
+          "X": 19,
+          "Y": 35,
+          "Direction": 0,
+          "CurrentMapId": 509,
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "CurrentHp": 0,
+          "CurrentMp": 0,
+          "_MaximumHp": 0,
+          "_MaximumMp": 0,
+          "_Str": 0,
+          "_Int": 0,
+          "_Wis": 0,
+          "_Con": 0,
+          "_Dex": 0,
+          "_Ac": 0,
+          "_Mr": 0,
+          "_Dmg": 0,
+          "_Hit": 0
+        }
+      },
       "3": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
         "Slot": 3,
@@ -1467,6 +1532,82 @@
         "_Hit": 0
       }
     },
+    "Armor": {
+      "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
+      "Slot": 2,
+      "Item": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 1,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 1,
+          "DisplayImage": 32883,
+          "ScriptName": "Armor",
+          "Gender": 2,
+          "AcModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 1,
+            "Value": 5
+          },
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Weight": 3,
+          "Flags": 77,
+          "MaxDurability": 1000,
+          "Value": 100,
+          "EquipmentSlot": 2,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.0,
+          "Name": "Blouse"
+        },
+        "Cursed": false,
+        "Owner": 71399601,
+        "Image": 1,
+        "DisplayImage": 32883,
+        "DisplayName": "Blouse",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 1,
+        "Durability": 1000,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 828986537,
+        "X": 19,
+        "Y": 35,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      }
+    },
     "Shield": {
       "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
       "Slot": 3,
@@ -1728,7 +1869,7 @@
   "ClanTitle": "",
   "ClanRank": "",
   "OverCoat": 0,
-  "Pants": 0,
+  "Pants": 1,
   "PictureData": {
     "$type": "System.Byte[], mscorlib",
     "$value": "/9j/4AAQSkZJRgABAQAAAQABAAD//gAPZ2VuLWE1ZGUwY2U0Lf/bAEMACAYGBwYFCAcHBwkJCAoMFA0MCwsMGRITDxQdGh8eHRocHCAkLicgIiwjHBwoNyksMDE0NDQfJzk9ODI8LjM0Mv/bAEMBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIADgAMAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APMbKzha2UsvPc1Y+wwf3B/9eksf+PSOrXfjkYrFnckrFePTFuXMdtb+ZIvUZwF4zyfoDx1qubeOKby57cLk7VZTuU8464+n51sW0l5ZQTX0a5tYJUZpA6goSCAME5OdpPAJ+XnipfEOote6dtQxnziMRooBORkk4xz357NXo0aFGdO99evkPlRkfYbfsgqC7soVgYhegrQ/z9Kr3h/0d/5V5omlYSxyLfY6lWU7WVhgg1axxn86oWFxGyLGpeSYjJCozMcDnt6D9KsNO6SGM2d0GBI5ix9etOzuTGcUldnQ6TYSXmnXaBjJEUaRrdLdpiWUYXdgfLkO+GPTB9q5eWwlOn/bLd5xEcKrs2ZApZgoOOvCjOAD0xx16XQ797LSNSu41kjmfEAiYwgunV1ZXywBGOQMcHPSuXv3uTaraJAIYU3SBGkVjtOSBnvhfb0PcUYGTvWjN6dP6+79ToqypqMGULLUZYZ1WaVnibru5I/z/jWveD/R2I6YNc03b1zXQyBzp6bshtgzu65xUow6Mtw6jfXMYaSaPaxLbPL3Yzz3PrzzxkAnNDeewbN5MA339u0ZHXsOR7fX1qvYf8eqY61PKW8siM4Y/Kn+8eAPzNXdtk8kFG7NTTbVrjR4oPtc8kc7zXBj85sAINu7g9SVP4MKZe6VbzabO0SymQWyE7p2YCVmBx1x3xz6VNoA2W9xpqo6z3JiWNVY4SGQBzz3/wD11qyRmSW7ZQBA+pRIueQ6htx/pXWoJK1j5mpiantH7z3VvS6/CzsebWOnyTyq8sZWEc8nGa2LkfuuKnkjNvdXNswG6CZ4yF6DB4x9Bx+FQXOPKritZ2PpoS5qal3RWsruEW6BmA45q0t9bx3EMrgSJG4Z4843j/PP1FFFUtHcmSVSDhLZ6FjTtVt9Pnj1BbjdMqrDJGx4C7AoIHU4IIOOxGOhq5D4ksYYLM72keKZpWjKHGTj5c9D90Ciiuh1Ha55H1KE5u7emn4f8EyXvkluJJ2cbnJ4Pb5i3Pv8x/zzUU93CyABh14H9KKK527u7PWglTgoR2R//9k="
@@ -1745,11 +1886,11 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 2067199010,
-  "X": 53,
-  "Y": 49,
-  "Direction": 3,
-  "CurrentMapId": 500,
+  "Serial": 71399601,
+  "X": 25,
+  "Y": 36,
+  "Direction": 2,
+  "CurrentMapId": 509,
   "OffenseElement": 6,
   "DefenseElement": 6,
   "CurrentHp": 1709,

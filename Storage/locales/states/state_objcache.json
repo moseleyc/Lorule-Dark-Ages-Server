@@ -2,7 +2,80 @@
   "$type": "Darkages.Network.Object.ObjectService, Darkages.Server",
   "_items": {
     "$type": "System.Collections.Generic.HashSet`1[[Darkages.Types.Sprite, Darkages.Server]], System.Core",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 1,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 115,
+          "DisplayImage": 32883,
+          "ScriptName": "Armor",
+          "Gender": 2,
+          "AcModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 1,
+            "Value": 5
+          },
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Weight": 3,
+          "Flags": 77,
+          "MaxDurability": 1000,
+          "Value": 100,
+          "EquipmentSlot": 2,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.0,
+          "Name": "Blouse"
+        },
+        "Cursed": false,
+        "Owner": 1283707812,
+        "Image": 115,
+        "DisplayImage": 32883,
+        "DisplayName": "Blouse",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 1,
+        "Durability": 1000,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1530405858,
+        "X": 18,
+        "Y": 34,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      }
+    ]
   },
   "_money": {
     "$type": "System.Collections.Generic.HashSet`1[[Darkages.Types.Sprite, Darkages.Server]], System.Core",

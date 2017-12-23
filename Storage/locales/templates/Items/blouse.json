@@ -3,8 +3,8 @@
   "ID": 1,
   "CanStack": false,
   "MaxStack": 0,
-  "Image": 115,
-  "DisplayImage": 0x8073,
+  "Image": 1,
+  "DisplayImage": 32883,
   "ScriptName": "Armor",
   "Gender": 2,
   "AcModifer": {
