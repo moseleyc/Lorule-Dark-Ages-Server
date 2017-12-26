@@ -362,6 +362,14 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public bool ShowMonsterDeathAnimation = true;
 
+        [JsonProperty] public int HelperMenuId = -1;
+
+        [JsonProperty]
+        public string HelperMenuTemplateKey = "Lorule Helper";
+
+        [JsonProperty]
+        public string ServerWelcomeMessage = "Welcome to Lorule, If you need help, Please use The [F1] menu.";
+
         public override string ToString()
         {
             return StorageManager.Save(this)

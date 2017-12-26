@@ -250,7 +250,15 @@
     <Compile Include="Storage\locales\Scripts\Global\GrimReaper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\Helmet.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Items\Boot.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\Scripts\Items\Belt.cs" />
+    <Compile Include="Storage\locales\Scripts\Items\Generic.cs" />
+    <Compile Include="Storage\locales\Scripts\Items\Earring.cs" />
     <Compile Include="Storage\locales\Scripts\Items\Necklace.cs" />
     <Compile Include="Storage\locales\Scripts\Items\Weapon.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -282,6 +290,7 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\ClassChooser.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\UserHelper.cs" />
     <Compile Include="Storage\locales\Scripts\Skills\Unstuck.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

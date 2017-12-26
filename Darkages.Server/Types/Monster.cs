@@ -248,8 +248,11 @@ namespace Darkages.Types
 
             if ((template.MoodTyle & MoodQualifer.Unpredicable) == MoodQualifer.Unpredicable)
             {
-                //this monster has a 50% chance of being aggressive.
-                obj.Aggressive = (Generator.Random.Next(0, 1) == 1);
+                lock (Generator.Random)
+                {
+                    //this monster has a 50% chance of being aggressive.
+                    obj.Aggressive = (Generator.Random.Next(0, 1) == 1);
+                }
             }
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)

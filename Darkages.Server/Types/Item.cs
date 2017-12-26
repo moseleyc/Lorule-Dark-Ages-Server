@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Darkages.Common;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Newtonsoft.Json;
-using System.Linq;
-using Darkages.Network.Game;
 
 namespace Darkages.Types
 {
@@ -44,11 +44,11 @@ namespace Darkages.Types
                     {
                         (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You are to weak to even lift it.");
 
-                        if (this.Slot > 0)
+                        if (Slot > 0)
                         {
                             //remove from inventory
-                            (sprite as Aisling).Client.Aisling.Inventory.Remove(this.Slot);
-                            (sprite as Aisling).Client.Send(new ServerFormat10(this.Slot));
+                            (sprite as Aisling).Client.Aisling.Inventory.Remove(Slot);
+                            (sprite as Aisling).Client.Send(new ServerFormat10(Slot));
                             (sprite as Aisling).CurrentWeight -= Template.Weight;
 
                             if ((sprite as Aisling).CurrentWeight < 0)
@@ -57,13 +57,13 @@ namespace Darkages.Types
 
 
                             //release this item.
-                            var copy = Clone<Item>(this);
+                            var copy = Clone(this);
 
                             //generate a new item!
                             copy.Release(sprite, sprite.Position);
 
                             //delete current
-                            this.Remove<Item>();
+                            Remove<Item>();
 
                         }
                         return false;
@@ -86,7 +86,7 @@ namespace Darkages.Types
                         num_stacks = 1;
 
                     //find first item in inventory that is stackable with the same name.
-                    var item = (sprite as Aisling).Inventory.Get(i => i != null && i.Template.Name == this.Template.Name
+                    var item = (sprite as Aisling).Inventory.Get(i => i != null && i.Template.Name == Template.Name
                         && i.Stacks + num_stacks < i.Template.MaxStack).FirstOrDefault();
 
                     if (item != null)
@@ -107,35 +107,31 @@ namespace Darkages.Types
                         (sprite as Aisling).Client.Send(new ServerFormat0F(item));
 
                         //send message
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You received another {0}!", this.DisplayName));
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You received another {0}!", DisplayName));
 
                         return true;
                     }
-                    else
+                    //if we don't find an existing item of this stack, create a new stack.
+                    if (Stacks <= 0)
+                        Stacks = 1;
+
+                    Slot = (sprite as Aisling).Inventory.FindEmpty();
+
+                    if (Slot <= 0)
                     {
-                        //if we don't find an existing item of this stack, create a new stack.
-                        if (Stacks <= 0)
-                            Stacks = 1;
-
-                        Slot = (sprite as Aisling).Inventory.FindEmpty();
-
-                        if (Slot <= 0)
-                        {
-                            (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You can't carry more.");
-                            return false;
-                        }
-
-                        //assign this item to the inventory.
-                        (sprite as Aisling).Inventory.Set(this, false);
-                        var format = new ServerFormat0F(this);
-                        (sprite as Aisling).Show(Scope.Self, format);
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You receive {0} [{1}]", this.DisplayName, num_stacks));
-                        (sprite as Aisling).Client.SendStats(StatusFlags.All);
-
-                        return true;
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You can't carry more.");
+                        return false;
                     }
+
+                    //assign this item to the inventory.
+                    (sprite as Aisling).Inventory.Set(this, false);
+                    var format = new ServerFormat0F(this);
+                    (sprite as Aisling).Show(Scope.Self, format);
+                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You receive {0} [{1}]", DisplayName, num_stacks));
+                    (sprite as Aisling).Client.SendStats(StatusFlags.All);
+
+                    return true;
                 }
-                else
                 {
                     //not stackable. just try and add it to a new inventory slot.
                     Slot = (sprite as Aisling).Inventory.FindEmpty();
@@ -180,7 +176,7 @@ namespace Darkages.Types
                     (sprite as Aisling).Inventory.Assign(this);
                     var format = new ServerFormat0F(this);
                     (sprite as Aisling).Show(Scope.Self, format);
-                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("{0} Received.", this.DisplayName));
+                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("{0} Received.", DisplayName));
                     (sprite as Aisling).Client.SendStats(StatusFlags.All);
 
                     return true;
@@ -628,15 +624,15 @@ namespace Darkages.Types
 
         public void Release(Sprite owner, Position position)
         {
-            this.X = position.X;
-            this.Y = position.Y;
+            X = position.X;
+            Y = position.Y;
             lock (Generator.Random)
             {
-                this.Serial = Generator.GenerateNumber();
+                Serial = Generator.GenerateNumber();
             }
-            this.CurrentMapId = owner.CurrentMapId;
-            this.CreationDate = DateTime.UtcNow;
-            AddObject<Item>(this);
+            CurrentMapId = owner.CurrentMapId;
+            CreationDate = DateTime.UtcNow;
+            AddObject(this);
 
             if (owner is Aisling)
                 ShowTo((owner as Aisling));

@@ -1,36 +1,48 @@
-﻿using Darkages.Network.Game;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using Darkages.Network.Game;
 using Darkages.Network.Login;
 using Darkages.Network.Object;
 using Darkages.Storage;
 using Darkages.Types;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 
 namespace Darkages
 {
     public class ServerContext : ObjectManager
     {
-        Lazy<ServerContext> _instance = new Lazy<ServerContext>(true);
+        public static ServerConstants Config;
 
-        public static ServerConstants Config = null;
-
-        public static int ERRORS = 0;
+        public static int ERRORS;
         public static int DEFAULT_PORT;
-        public static IPAddress IPADDRESS => IPAddress.Parse(File.ReadAllText(Config.ServerTablePath));
-        public static string STORAGE_PATH => @"..\..\..\Storage\Locales";
 
 
         public static List<Redirect> GlobalRedirects = new List<Redirect>();
         public static List<Metafile> GlobalMetaCache = new List<Metafile>();
         public static Dictionary<int, Area> GlobalMapCache = new Dictionary<int, Area>();
-        public static Dictionary<string, MonsterTemplate> GlobalMonsterTemplateCache = new Dictionary<string, MonsterTemplate>();
-        public static Dictionary<string, SkillTemplate> GlobalSkillTemplateCache = new Dictionary<string, SkillTemplate>();
-        public static Dictionary<string, SpellTemplate> GlobalSpellTemplateCache = new Dictionary<string, SpellTemplate>();
+
+        public static Dictionary<string, MonsterTemplate> GlobalMonsterTemplateCache =
+            new Dictionary<string, MonsterTemplate>();
+
+        public static Dictionary<string, SkillTemplate> GlobalSkillTemplateCache =
+            new Dictionary<string, SkillTemplate>();
+
+        public static Dictionary<string, SpellTemplate> GlobalSpellTemplateCache =
+            new Dictionary<string, SpellTemplate>();
+
         public static Dictionary<string, ItemTemplate> GlobalItemTemplateCache = new Dictionary<string, ItemTemplate>();
-        public static Dictionary<string, MundaneTemplate> GlobalMundaneTemplateCache = new Dictionary<string, MundaneTemplate>();
-        public static Dictionary<int, List<WarpTemplate>> GlobalWarpTemplateCache = new Dictionary<int, List<WarpTemplate>>();
+
+        public static Dictionary<string, MundaneTemplate> GlobalMundaneTemplateCache =
+            new Dictionary<string, MundaneTemplate>();
+
+        public static Dictionary<int, List<WarpTemplate>> GlobalWarpTemplateCache =
+            new Dictionary<int, List<WarpTemplate>>();
+
+        public static bool Running;
+        public static IPAddress IPADDRESS => IPAddress.Parse(File.ReadAllText(Config.ServerTablePath));
+        public static string STORAGE_PATH => @"..\..\..\Storage\Locales";
 
         public static GameServer Game { get; set; }
         public static LoginServer Lobby { get; set; }
@@ -90,7 +102,7 @@ namespace Darkages
 
             redo:
             if (ERRORS > Config.ERRORCAP)
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Kill();
 
             try
             {
@@ -103,22 +115,22 @@ namespace Darkages
             }
             catch (Exception)
             {
-                ++DEFAULT_PORT; ERRORS++;
+                ++DEFAULT_PORT;
+                ERRORS++;
                 goto redo;
             }
         }
 
         /// <summary>
-        /// EP
+        ///     EP
         /// </summary>
-        public virtual void Start() => Startup();
-
-        public static bool Running = false;
+        public virtual void Start()
+        {
+            Startup();
+        }
 
         public static void Startup()
         {
-            
-
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(Config.SERVER_TITLE);
             Console.WriteLine("----------------------------------------------------------------------");
@@ -133,25 +145,36 @@ namespace Darkages
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        private static void EmptyCacheCollectors()
+        {
+            GlobalItemTemplateCache = new Dictionary<string, ItemTemplate>();
+            GlobalMapCache = new Dictionary<int, Area>();
+            GlobalMetaCache = new List<Metafile>();
+            GlobalMonsterTemplateCache = new Dictionary<string, MonsterTemplate>();
+            GlobalMundaneTemplateCache = new Dictionary<string, MundaneTemplate>();
+            GlobalRedirects = new List<Redirect>();
+            GlobalSkillTemplateCache = new Dictionary<string, SkillTemplate>();
+            GlobalSpellTemplateCache = new Dictionary<string, SpellTemplate>();
+            GlobalWarpTemplateCache = new Dictionary<int, List<WarpTemplate>>();
+        }
+
         public static void LoadObjectCache()
         {
             var _cache_ = StorageManager.Load<ObjectService>();
 
             if (_cache_ != null)
-            {
                 ObjectService.Set(_cache_);
-            }
         }
 
         public static void LoadConstants()
         {
             var _config_ = StorageManager.Load<ServerConstants>();
-            
+
             if (_config_ == null)
             {
                 Console.WriteLine("No config found. Generating defaults.");
                 Config = new ServerConstants();
-                StorageManager.Save<ServerConstants>(Config);
+                StorageManager.Save(Config);
             }
             else
             {
@@ -159,9 +182,7 @@ namespace Darkages
             }
 
             if (Config.CacheObjects)
-            {
                 LoadObjectCache();
-            }
 
             InitFromConfig();
         }
@@ -183,15 +204,203 @@ namespace Darkages
 
         public static void LoadAndCacheStorage()
         {
-            LoadMetaDatabase();
-            LoadMaps();
-            LoadSkillTemplates();
-            LoadSpellTemplates();
-            LoadItemTemplates();
-            LoadMonsterTemplates();
-            LoadMundaneTemplates();
-            LoadWarpTemplates();
+            EmptyCacheCollectors();
+            {
+                LoadMetaDatabase();
+                LoadMaps();
+                LoadSkillTemplates();
+                LoadSpellTemplates();
+                LoadItemTemplates();
+                LoadMonsterTemplates();
+                LoadMundaneTemplates();
+                LoadWarpTemplates();
+            }
             Console.WriteLine("\n");
+
+
+
+            GlobalItemTemplateCache["Boots"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 76,
+                Image = 1,
+                EquipmentSlot = ItemSlots.Foot,
+                Gender = Gender.Both,
+                DropRate = 0.04,
+                CanStack = false,
+                Value = 1000,
+                LevelRequired = 1,
+                MaxDurability = 3000,
+                Weight = 2,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Boot",
+                Class = Class.Peasant,
+                Name = "Boots",
+            };           
+
+            GlobalItemTemplateCache["Ancuisa Ceir"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 331,
+                Image = 331,
+                EquipmentSlot = ItemSlots.Waist,
+                Gender = Gender.Both,
+                DropRate = 0.08,
+                CanStack = false,
+                Value = 2500,
+                LevelRequired = 11,
+                MaxDurability = 500,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable | ItemFlags.Elemental,
+                DefenseElement = ElementManager.Element.Fire,
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Belt",
+                Class = Class.Peasant,
+                Name = "Ancuisa Ceir",
+            };
+
+            GlobalItemTemplateCache["Silver Earrings"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 230,
+                Image = 230,
+                EquipmentSlot = ItemSlots.Earring,
+                Gender = Gender.Both,
+                DropRate = 0.10,
+                CanStack = false,
+                Value = 3000,
+                LevelRequired = 8,
+                MaxDurability = 1000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                StrModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Earring",
+                Class = Class.Peasant,
+                Name = "Silver Earrings"
+            };
+
+            GlobalItemTemplateCache["Gold Earrings"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 231,
+                Image = 231,
+                EquipmentSlot = ItemSlots.Earring,
+                Gender = Gender.Both,
+                DropRate = 0.10,
+                CanStack = false,
+                Value = 10000,
+                LevelRequired = 8,
+                MaxDurability = 2000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                StrModifer = new StatusOperator(StatusOperator.Operator.Add, 2),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Earring",
+                Class = Class.Peasant,
+                Name = "Gold Earrings"
+            };
+
+
+            GlobalItemTemplateCache["Leather Gauntlet"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 227,
+                Image = 227,
+                EquipmentSlot = ItemSlots.RArm,
+                Gender = Gender.Both,
+                DropRate = 0.02,
+                CanStack = false,
+                Value = 2000,
+                LevelRequired = 9,
+                MaxDurability = 3000,
+                Weight = 2,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Generic",
+                Class = Class.Peasant,
+                Name = "Leather Gauntlet"
+            };
+
+            GlobalItemTemplateCache["Leather Greaves"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 238,
+                Image = 238,
+                EquipmentSlot = ItemSlots.Leg,
+                Gender = Gender.Both,
+                DropRate = 0.04,
+                CanStack = false,
+                Value = 4000,
+                LevelRequired = 6,
+                MaxDurability = 3000,
+                Weight = 2,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
+                ManaModifer = new StatusOperator(StatusOperator.Operator.Remove, 500),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Generic",
+                Class = Class.Peasant,
+                Name = "Leather Greaves",
+            };
+
+            GlobalItemTemplateCache["Orc Helmet"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 533,
+                Image = 2,
+                EquipmentSlot = ItemSlots.Helmet,
+                Gender = Gender.Both,
+                DropRate = 0.01,
+                CanStack = false,
+                Value = 15000,
+                LevelRequired = 96,
+                MaxDurability = 5000,
+                Weight = 3,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
+                ManaModifer = new StatusOperator(StatusOperator.Operator.Remove, 500),
+                StrModifer = new StatusOperator(StatusOperator.Operator.Add, 2),
+                IntModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
+                WisModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
+                DexModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Helmet",
+                Class = Class.Peasant,
+                Name = "Orc Helmet",
+            };
+
+            GlobalItemTemplateCache["Loures Signet Ring"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 207,
+                Image = 207,
+                EquipmentSlot = ItemSlots.LHand,
+                Gender = Gender.Both,
+                DropRate = 0.01,
+                CanStack = false,
+                Value = 2500000,
+                LevelRequired = 1,
+                MaxDurability = 2000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),                
+                ManaModifer = new StatusOperator(StatusOperator.Operator.Add, 100),
+                HealthModifer = new StatusOperator(StatusOperator.Operator.Add, 100),
+                StrModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                IntModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                WisModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                DexModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                ConModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
+                MrModifer = new StatusOperator(StatusOperator.Operator.Add, 10),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Generic",
+                Class = Class.Peasant,
+                Name = "Loures Signet Ring"
+            };
+
         }
     }
 }

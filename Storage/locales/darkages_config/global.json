@@ -39,7 +39,7 @@
   "LingerState": 1000.0,
   "LogDestroyedObjects": true,
   "LOGIN_PORT": 2610,
-  "LogRecvPackets": false,
+  "LogRecvPackets": true,
   "LogSentPackets": false,
   "MapUpdateInterval": 750.0,
   "MaxCarryGold": 100000000,
@@ -88,5 +88,8 @@
   "WarpUpdateTimer": 1.5,
   "WarpAnimationNumber": 214,
   "MonsterDeathAnimationNumber": 232,
-  "ShowMonsterDeathAnimation": true
+  "ShowMonsterDeathAnimation": true,
+  "HelperMenuId": -1,
+  "HelperMenuTemplateKey": "Lorule Helper",
+  "ServerWelcomeMessage": "Welcome to Lorule, If you need help, Please use The [F1] menu."
 }

@@ -15,6 +15,7 @@ namespace Darkages.Types
         Stackable    = 1 << 7,
         Consumable   = 1 << 8,
         Elemental    = 1 << 10,
-        QuestRelated = 1 << 11
+        QuestRelated = 1 << 11,
+        Upgradeable  = 1 << 12
     }
 }

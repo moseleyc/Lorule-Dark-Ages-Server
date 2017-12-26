@@ -46,6 +46,8 @@ namespace Darkages.Types
 
         public Element DefenseElement { get; set; }
 
+        public int Upgrades { get; set; }
+
         public byte Weight { get; set; }
 
         public ItemFlags Flags { get; set; }
@@ -67,5 +69,6 @@ namespace Darkages.Types
         public int DmgMax { get; set; }
 
         public double DropRate { get; set; }
+
     }
 }

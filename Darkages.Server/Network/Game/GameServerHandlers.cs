@@ -7,6 +7,7 @@ using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Security;
 using Darkages.Storage;
+using Darkages.Storage.locales.Scripts.Mundanes;
 using Darkages.Types;
 
 namespace Darkages.Network.Game
@@ -125,6 +126,9 @@ namespace Darkages.Network.Game
 
             if (client.Load())
             {
+                client.SendMessage(0x02, ServerContext.Config.ServerWelcomeMessage);
+
+
                 client.Aisling.LastLogged = DateTime.UtcNow;
                 client.Aisling.LoggedIn = true;
                 client.SendStats(StatusFlags.All);
@@ -598,14 +602,21 @@ namespace Darkages.Network.Game
 
                 if (spell?.Script != null)
                 {
+                    client.Aisling.IsCastingSpell = true;
                     client.Aisling.CastSpell(spell);
-                    client.Aisling.IsCastingSpell = false;
                 }
-
-                client.Aisling.ActiveSpellInfo = null;
             }
             else
             {
+                client.Aisling.ActiveSpellInfo = new CastInfo()
+                {
+                     Position = format.Point,
+                     Slot = format.Index, 
+                     SpellLines = 0,
+                     Started = DateTime.UtcNow,
+                     Target = format.Serial
+                };
+
                 var spell = client.Aisling.SpellBook.Get(i =>
                     i != null
                     && i.Slot == format.Index).FirstOrDefault();
@@ -617,8 +628,9 @@ namespace Darkages.Network.Game
 
                 client.Aisling.IsCastingSpell = true;
                 client.Aisling.CastSpell(spell);
-                client.Aisling.IsCastingSpell = false;
             }
+
+            CancelIfCasting(client);
         }
 
         /// <summary>
@@ -1061,10 +1073,32 @@ namespace Darkages.Network.Game
             }
 
 
-            var mundane = GetObject<Mundane>(i => i.Serial == format.Serial);
 
-            mundane?.Script?.OnResponse(this, client, format.Step, format.Args);
+            if (format.Serial != ServerContext.Config.HelperMenuId)
+            {
+                var mundane = GetObject<Mundane>(i => i.Serial == format.Serial);
+                mundane?.Script?.OnResponse(this, client, format.Step, format.Args);
+            }
+            else
+            {
+                if (format.Serial == ServerContext.Config.HelperMenuId &&
+                    ServerContext.GlobalMundaneTemplateCache.ContainsKey(ServerContext.Config.HelperMenuTemplateKey))
+                {
+                    if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+                        return;
+
+                    var helper = new UserHelper(this, new Mundane()
+                    {
+                        Serial = ServerContext.Config.HelperMenuId,
+                        Template = ServerContext.GlobalMundaneTemplateCache[ServerContext.Config.HelperMenuTemplateKey],
+                    });
+
+                    helper?.OnResponse(this, client, format.Step, format.Args);
+                    return;
+                }
+            }
         }
+
 
         /// <summary>
         ///     Dialogs B
@@ -1170,6 +1204,23 @@ namespace Darkages.Network.Game
             CancelIfCasting(client);
 
             #endregion
+
+            //Menu Helper Handler!
+            if (format.Serial == ServerContext.Config.HelperMenuId &&
+                ServerContext.GlobalMundaneTemplateCache.ContainsKey(ServerContext.Config.HelperMenuTemplateKey))
+            {
+                if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+                    return;
+
+                var helper = new UserHelper(this, new Mundane()
+                {
+                    Serial = ServerContext.Config.HelperMenuId,
+                    Template = ServerContext.GlobalMundaneTemplateCache[ServerContext.Config.HelperMenuTemplateKey],
+                });
+
+                helper?.OnClick(this, client);
+                return;
+            }
 
             if (format.Type == 1) // object clicked.
             {

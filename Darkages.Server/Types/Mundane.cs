@@ -162,7 +162,7 @@ namespace Darkages.Types
                 {
                     lock (Generator.Random)
                     {
-                        Direction = (byte)(Generator.Random.Next() % 4);
+                        Direction = (byte)(Generator.Random.Next(0, 4));
                     }
                     Turn();
 
