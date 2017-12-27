@@ -105,6 +105,8 @@ namespace Darkages
         public bool LoggedIn { get; set; }
         public byte Nation { get; set; }
         public string Clan { get; set; }
+        public byte Resting { get; set; }
+        public byte Mounted { get; internal set; }
 
         [JsonIgnore] public int DamageCounter = 0;
 

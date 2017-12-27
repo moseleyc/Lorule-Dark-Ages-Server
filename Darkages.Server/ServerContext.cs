@@ -401,6 +401,53 @@ namespace Darkages
                 Name = "Loures Signet Ring"
             };
 
+            GlobalItemTemplateCache["Eternal Love Ring"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 1101,
+                Image = 1101,
+                EquipmentSlot = ItemSlots.LHand,
+                Gender = Gender.Both,
+                DropRate = 0.01,
+                CanStack = false,
+                Value = 1000000,
+                LevelRequired = 21,
+                MaxDurability = 1000000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                MrModifer = new StatusOperator(StatusOperator.Operator.Add, 20),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Generic",
+                Class = Class.Peasant,
+                Name = "Eternal Love Ring"
+            };
+
+            GlobalItemTemplateCache["Black Stone Ring"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 1360,
+                Image = 1360,
+                EquipmentSlot = ItemSlots.LHand,
+                Gender = Gender.Both,
+                DropRate = 0.01,
+                CanStack = false,
+                Value = 50000,
+                LevelRequired = 99,
+                StageRequired = ClassStage.Master,
+                MaxDurability = 5000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                MrModifer = new StatusOperator(StatusOperator.Operator.Add, 10),
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 3),
+                HealthModifer = new StatusOperator(StatusOperator.Operator.Add, 400),
+                ManaModifer = new StatusOperator(StatusOperator.Operator.Add, 50),
+                StrModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Generic",
+                Class = Class.Peasant,
+                Name = "Black Stone Ring"
+            };
+
         }
     }
 }

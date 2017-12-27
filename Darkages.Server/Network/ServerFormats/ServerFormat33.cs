@@ -18,8 +18,6 @@ namespace Darkages.Network.ServerFormats
         public Aisling Aisling { get; set; }
         public GameClient Client { get; set; }
 
-        public static int x = 0;
-
         public override void Serialize(NetworkPacketReader reader)
         {
         }
@@ -54,7 +52,7 @@ namespace Darkages.Network.ServerFormats
                 if (Aisling.Helmet > 0)
                     writer.Write((byte) Aisling.Helmet);
                 else
-                    writer.Write((byte) Aisling.HairColor);
+                    writer.Write((byte) Aisling.HairStyle);
             }
             else if (displayFlag == 0x20)
             {
@@ -63,7 +61,7 @@ namespace Darkages.Network.ServerFormats
                 if (Aisling.Helmet > 0)
                     writer.Write((byte) Aisling.Helmet);
                 else
-                    writer.Write((byte) Aisling.HairColor);
+                    writer.Write((byte) Aisling.HairStyle);
             }
             else
             {
@@ -93,14 +91,14 @@ namespace Darkages.Network.ServerFormats
                 writer.Write((byte) 0);
                 writer.Write((byte) 0);
             }
-            writer.Write((byte) 0);
+            writer.Write((byte) 1);
             writer.Write(Aisling.HeadAccessory1);
             writer.Write(Aisling.Blind);
 
             writer.Write(Aisling.HeadAccessory2);
             writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
+            writer.Write((byte)Aisling.Resting);
+            writer.Write((byte) 1);
 
             if (!Aisling.Dead)
                 writer.Write(Aisling.OverCoat);

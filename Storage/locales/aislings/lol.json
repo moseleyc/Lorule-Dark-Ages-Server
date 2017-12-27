@@ -82,25 +82,25 @@
   },
   "AbpLimit": 0,
   "ExpLimit": 0,
-  "CurrentWeight": 106,
+  "CurrentWeight": 43,
   "MaximumWeight": 129,
   "Created": "2017-12-22T12:44:06.6734717Z",
-  "LastLogged": "2017-12-26T14:35:18.7546848Z",
+  "LastLogged": "2017-12-27T14:21:40.228289Z",
   "Username": "lol",
   "Password": "lol",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
   "ExpLevel": 99,
-  "ExpTotal": 14370140,
-  "ExpNext": 1106858,
+  "ExpTotal": 14370205,
+  "ExpNext": 1106793,
   "Gender": 2,
   "Title": 0,
   "Flags": 0,
   "AreaID": 509,
   "ClassID": 4,
   "GamePoints": 0,
-  "GoldPoints": 89904000,
+  "GoldPoints": 87904000,
   "StatPoints": 0,
   "Medal": 0,
   "LIcon": 0,
@@ -111,8 +111,8 @@
   "FaceStyle": 0,
   "HairColor": 0,
   "HairStyle": 5,
-  "Boots": 1,
-  "Helmet": 2,
+  "Boots": 0,
+  "Helmet": 0,
   "Shield": 1,
   "Weapon": 26,
   "Armor": 1,
@@ -164,7 +164,7 @@
         "Icon": 12,
         "Level": 1,
         "ID": 1104059009,
-        "NextAvailableUse": "2017-12-26T14:35:18.738508Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2142863Z",
         "Ready": true,
         "InUse": false,
         "Uses": 5
@@ -203,10 +203,10 @@
         "Icon": 1,
         "Level": 21,
         "ID": 379680291,
-        "NextAvailableUse": "2017-12-26T14:39:43.1340202Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2151628Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 8
+        "Uses": 19
       },
       "3": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -245,7 +245,7 @@
         "Icon": 21,
         "Level": 1,
         "ID": 114707553,
-        "NextAvailableUse": "2017-12-26T14:35:18.7397867Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2156002Z",
         "Ready": true,
         "InUse": false,
         "Uses": 4
@@ -285,7 +285,7 @@
         "Icon": 0,
         "Level": 0,
         "ID": 1297800435,
-        "NextAvailableUse": "2017-12-26T14:35:18.7397867Z",
+        "NextAvailableUse": "2017-12-27T14:23:11.9326604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -324,10 +324,10 @@
         "Icon": 4,
         "Level": 5,
         "ID": 685297667,
-        "NextAvailableUse": "2017-12-26T14:39:43.1340202Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2160379Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 31
+        "Uses": 42
       },
       "6": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -363,7 +363,7 @@
         "Icon": 36,
         "Level": 1,
         "ID": 1249621344,
-        "NextAvailableUse": "2017-12-26T14:35:18.7397867Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2160379Z",
         "Ready": true,
         "InUse": false,
         "Uses": 3
@@ -403,7 +403,7 @@
         "Icon": 32,
         "Level": 0,
         "ID": 1532165246,
-        "NextAvailableUse": "2017-12-26T14:35:18.7402238Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2160379Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -442,7 +442,7 @@
         "Icon": 17,
         "Level": 2,
         "ID": 1427263549,
-        "NextAvailableUse": "2017-12-26T14:35:18.7402238Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.216476Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -481,7 +481,7 @@
         "Icon": 51,
         "Level": 0,
         "ID": 1180727380,
-        "NextAvailableUse": "2017-12-26T14:35:18.7402238Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.216476Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -523,7 +523,7 @@
         "Icon": 15,
         "Level": 1,
         "ID": 415831731,
-        "NextAvailableUse": "2017-12-26T14:35:18.7406865Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.216476Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -570,7 +570,7 @@
         "Icon": 60,
         "Level": 1,
         "ID": 589987663,
-        "NextAvailableUse": "2017-12-26T14:35:18.7406865Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.216916Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -608,7 +608,7 @@
       "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Darkages.Types.Spell, Darkages.Server]], mscorlib",
       "1": {
         "$type": "Darkages.Types.Spell, Darkages.Server",
-        "Casts": 0,
+        "Casts": 1,
         "ID": 1149331873,
         "Template": {
           "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
@@ -637,12 +637,12 @@
         },
         "Level": 1,
         "Slot": 1,
-        "NextAvailableUse": "2017-12-26T14:35:18.7415422Z",
+        "NextAvailableUse": "2017-12-27T14:22:34.2842142Z",
         "InUse": false
       },
       "2": {
         "$type": "Darkages.Types.Spell, Darkages.Server",
-        "Casts": 0,
+        "Casts": 5,
         "ID": 1065708333,
         "Template": {
           "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
@@ -669,9 +669,9 @@
           "LevelRate": 0.6,
           "Name": "beag cradh"
         },
-        "Level": 0,
+        "Level": 1,
         "Slot": 2,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:23:27.626991Z",
         "InUse": false
       },
       "3": {
@@ -694,7 +694,7 @@
         },
         "Level": 1,
         "Slot": 3,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2182247Z",
         "InUse": false
       },
       "4": {
@@ -728,7 +728,7 @@
         },
         "Level": 1,
         "Slot": 4,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2182247Z",
         "InUse": false
       },
       "5": {
@@ -757,12 +757,12 @@
         },
         "Level": 1,
         "Slot": 5,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:21:40.2182247Z",
         "InUse": false
       },
       "6": {
         "$type": "Darkages.Types.Spell, Darkages.Server",
-        "Casts": 4,
+        "Casts": 7,
         "ID": 1143917747,
         "Template": {
           "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
@@ -791,12 +791,12 @@
         },
         "Level": 1,
         "Slot": 6,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:23:05.2542181Z",
         "InUse": false
       },
       "7": {
         "$type": "Darkages.Types.Spell, Darkages.Server",
-        "Casts": 5,
+        "Casts": 7,
         "ID": 907392771,
         "Template": {
           "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
@@ -820,7 +820,7 @@
         },
         "Level": 1,
         "Slot": 7,
-        "NextAvailableUse": "2017-12-26T14:35:18.7424429Z",
+        "NextAvailableUse": "2017-12-27T14:23:32.8014997Z",
         "InUse": false
       },
       "8": null,
@@ -865,43 +865,39 @@
         },
         "Template": {
           "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 1,
+          "ID": 0,
           "CanStack": false,
           "MaxStack": 0,
           "Image": 1,
-          "DisplayImage": 32864,
-          "ScriptName": "Armor",
-          "Gender": 1,
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 5
-          },
+          "DisplayImage": 32844,
+          "ScriptName": "Boot",
+          "Gender": 255,
           "OffenseElement": 0,
           "DefenseElement": 0,
           "Upgrades": 0,
-          "Weight": 12,
-          "Flags": 77,
-          "MaxDurability": 1000,
-          "Value": 100,
-          "EquipmentSlot": 2,
+          "Weight": 2,
+          "Flags": 4189,
+          "MaxDurability": 3000,
+          "Value": 1000,
+          "EquipmentSlot": 13,
           "NpcKey": "shop1",
           "Class": 0,
           "LevelRequired": 1,
           "DmgMin": 0,
           "DmgMax": 0,
-          "DropRate": 0.0,
-          "Name": "Shirt"
+          "DropRate": 0.04,
+          "StageRequired": 0,
+          "Name": "Boots"
         },
         "Cursed": false,
-        "Owner": 1578442912,
+        "Owner": 1560441329,
         "Image": 1,
-        "DisplayImage": 32864,
-        "DisplayName": "Shirt",
+        "DisplayImage": 32844,
+        "DisplayName": "Boots",
         "Value": 0,
         "Stacks": 0,
         "Slot": 1,
-        "Durability": 1000,
+        "Durability": 3000,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -910,9 +906,9 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1383121908,
-        "X": 21,
-        "Y": 36,
+        "Serial": 151140440,
+        "X": 20,
+        "Y": 35,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
@@ -957,6 +953,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.1,
+          "StageRequired": 0,
           "Name": "rat shit"
         },
         "Cursed": true,
@@ -1025,6 +1022,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.08,
+          "StageRequired": 0,
           "Name": "Ancuisa Ceir"
         },
         "Cursed": false,
@@ -1066,141 +1064,6 @@
         "_Hit": 0
       },
       "4": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 3,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 201,
-          "DisplayImage": 32969,
-          "ScriptName": "Necklace",
-          "Gender": 255,
-          "OffenseElement": 6,
-          "DefenseElement": 0,
-          "Upgrades": 0,
-          "Weight": 0,
-          "Flags": 1117,
-          "MaxDurability": 3000,
-          "Value": 10000,
-          "EquipmentSlot": 6,
-          "Class": 0,
-          "LevelRequired": 6,
-          "DmgMin": 0,
-          "DmgMax": 0,
-          "DropRate": 0.03,
-          "Name": "Dark Bone Necklace"
-        },
-        "Cursed": true,
-        "Owner": 1603981989,
-        "Image": 201,
-        "DisplayImage": 32969,
-        "DisplayName": "Dark Bone Necklace",
-        "Value": 0,
-        "Stacks": 0,
-        "Slot": 4,
-        "Durability": 2971,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1037907563,
-        "X": 28,
-        "Y": 34,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      "5": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 1,
-          "DisplayImage": 32844,
-          "ScriptName": "Boot",
-          "Gender": 255,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "Upgrades": 0,
-          "Weight": 2,
-          "Flags": 4189,
-          "MaxDurability": 3000,
-          "Value": 1000,
-          "EquipmentSlot": 13,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 0,
-          "DmgMax": 0,
-          "DropRate": 0.04,
-          "Name": "Boots"
-        },
-        "Cursed": false,
-        "Owner": 2051602789,
-        "Image": 1,
-        "DisplayImage": 32844,
-        "DisplayName": "Boots",
-        "Value": 0,
-        "Stacks": 0,
-        "Slot": 5,
-        "Durability": 3000,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1239575003,
-        "X": 22,
-        "Y": 34,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      "6": {
         "$type": "Darkages.Types.Item, Darkages.Server",
         "rnd": {
           "$type": "System.Random, mscorlib"
@@ -1258,16 +1121,17 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.01,
+          "StageRequired": 0,
           "Name": "Orc Helmet"
         },
         "Cursed": false,
-        "Owner": 1356977048,
+        "Owner": 1560441329,
         "Image": 2,
         "DisplayImage": 33301,
         "DisplayName": "Orc Helmet",
         "Value": 0,
         "Stacks": 0,
-        "Slot": 6,
+        "Slot": 4,
         "Durability": 5000,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -1277,9 +1141,9 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 600919701,
-        "X": 16,
-        "Y": 29,
+        "Serial": 1308805329,
+        "X": 20,
+        "Y": 34,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
@@ -1298,9 +1162,445 @@
         "_Dmg": 0,
         "_Hit": 0
       },
-      "7": null,
-      "8": null,
-      "9": null,
+      "5": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 3,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 201,
+          "DisplayImage": 32969,
+          "ScriptName": "Necklace",
+          "Gender": 255,
+          "OffenseElement": 6,
+          "DefenseElement": 0,
+          "Upgrades": 0,
+          "Weight": 0,
+          "Flags": 1117,
+          "MaxDurability": 3000,
+          "Value": 10000,
+          "EquipmentSlot": 6,
+          "Class": 0,
+          "LevelRequired": 6,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.03,
+          "StageRequired": 0,
+          "Name": "Dark Bone Necklace"
+        },
+        "Cursed": true,
+        "Owner": 1603981989,
+        "Image": 201,
+        "DisplayImage": 32969,
+        "DisplayName": "Dark Bone Necklace",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 5,
+        "Durability": 2971,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1037907563,
+        "X": 28,
+        "Y": 34,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 6,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      "6": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 0,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 1,
+          "DisplayImage": 32844,
+          "ScriptName": "Boot",
+          "Gender": 255,
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Upgrades": 0,
+          "Weight": 2,
+          "Flags": 4189,
+          "MaxDurability": 3000,
+          "Value": 1000,
+          "EquipmentSlot": 13,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.04,
+          "StageRequired": 0,
+          "Name": "Boots"
+        },
+        "Cursed": false,
+        "Owner": 2051602789,
+        "Image": 1,
+        "DisplayImage": 32844,
+        "DisplayName": "Boots",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 6,
+        "Durability": 3000,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1239575003,
+        "X": 22,
+        "Y": 34,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      "7": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 0,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 207,
+          "DisplayImage": 32975,
+          "ScriptName": "Generic",
+          "Gender": 255,
+          "HealthModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 100
+          },
+          "ManaModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 100
+          },
+          "StrModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "IntModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "WisModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "ConModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "DexModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "AcModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 1,
+            "Value": 1
+          },
+          "MrModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 10
+          },
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Upgrades": 0,
+          "Weight": 1,
+          "Flags": 4189,
+          "MaxDurability": 2000,
+          "Value": 2500000,
+          "EquipmentSlot": 8,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.01,
+          "StageRequired": 0,
+          "Name": "Loures Signet Ring"
+        },
+        "Cursed": false,
+        "Owner": 425211759,
+        "Image": 207,
+        "DisplayImage": 32975,
+        "DisplayName": "Loures Signet Ring",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 7,
+        "Durability": 1974,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 887786957,
+        "X": 20,
+        "Y": 39,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      "8": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 1,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 1,
+          "DisplayImage": 32864,
+          "ScriptName": "Armor",
+          "Gender": 1,
+          "AcModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 1,
+            "Value": 5
+          },
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Upgrades": 0,
+          "Weight": 12,
+          "Flags": 77,
+          "MaxDurability": 1000,
+          "Value": 100,
+          "EquipmentSlot": 2,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.0,
+          "StageRequired": 0,
+          "Name": "Shirt"
+        },
+        "Cursed": false,
+        "Owner": 1578442912,
+        "Image": 1,
+        "DisplayImage": 32864,
+        "DisplayName": "Shirt",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 8,
+        "Durability": 1000,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1383121908,
+        "X": 21,
+        "Y": 36,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      "9": {
+        "$type": "Darkages.Types.Item, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Template": {
+          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+          "ID": 0,
+          "CanStack": false,
+          "MaxStack": 0,
+          "Image": 207,
+          "DisplayImage": 32975,
+          "ScriptName": "Generic",
+          "Gender": 255,
+          "HealthModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 100
+          },
+          "ManaModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 100
+          },
+          "StrModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "IntModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "WisModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "ConModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "DexModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 1
+          },
+          "AcModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 1,
+            "Value": 1
+          },
+          "MrModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 10
+          },
+          "OffenseElement": 0,
+          "DefenseElement": 0,
+          "Upgrades": 0,
+          "Weight": 1,
+          "Flags": 4189,
+          "MaxDurability": 2000,
+          "Value": 2500000,
+          "EquipmentSlot": 7,
+          "NpcKey": "shop1",
+          "Class": 0,
+          "LevelRequired": 1,
+          "DmgMin": 0,
+          "DmgMax": 0,
+          "DropRate": 0.01,
+          "StageRequired": 0,
+          "Name": "Loures Signet Ring"
+        },
+        "Cursed": false,
+        "Owner": 425211759,
+        "Image": 207,
+        "DisplayImage": 32975,
+        "DisplayName": "Loures Signet Ring",
+        "Value": 0,
+        "Stacks": 0,
+        "Slot": 9,
+        "Durability": 1974,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1097885279,
+        "X": 20,
+        "Y": 39,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
       "10": null,
       "11": null,
       "12": null,
@@ -1397,6 +1697,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.0,
+            "StageRequired": 0,
             "Name": "Holy Diana"
           },
           "Cursed": false,
@@ -1474,6 +1775,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.0,
+            "StageRequired": 0,
             "Name": "Blouse"
           },
           "Cursed": false,
@@ -1483,7 +1785,7 @@
           "DisplayName": "Blouse",
           "Value": 0,
           "Stacks": 0,
-          "Slot": 7,
+          "Slot": 6,
           "Durability": 974,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -1556,6 +1858,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.1,
+            "StageRequired": 0,
             "Name": "Wooden Shield"
           },
           "Cursed": true,
@@ -1565,7 +1868,7 @@
           "DisplayName": "Wooden Shield",
           "Value": 0,
           "Stacks": 0,
-          "Slot": 4,
+          "Slot": 9,
           "Durability": 974,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -1597,108 +1900,7 @@
           "_Hit": 0
         }
       },
-      "4": {
-        "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-        "Slot": 4,
-        "Item": {
-          "$type": "Darkages.Types.Item, Darkages.Server",
-          "rnd": {
-            "$type": "System.Random, mscorlib"
-          },
-          "Template": {
-            "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-            "ID": 0,
-            "CanStack": false,
-            "MaxStack": 0,
-            "Image": 2,
-            "DisplayImage": 33301,
-            "ScriptName": "Helmet",
-            "Gender": 255,
-            "ManaModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 500
-            },
-            "StrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 2
-            },
-            "IntModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 2
-            },
-            "WisModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 2
-            },
-            "DexModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 2
-            },
-            "AcModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 2
-            },
-            "OffenseElement": 0,
-            "DefenseElement": 0,
-            "Upgrades": 0,
-            "Weight": 3,
-            "Flags": 4189,
-            "MaxDurability": 5000,
-            "Value": 15000,
-            "EquipmentSlot": 4,
-            "NpcKey": "shop1",
-            "Class": 0,
-            "LevelRequired": 96,
-            "DmgMin": 0,
-            "DmgMax": 0,
-            "DropRate": 0.01,
-            "Name": "Orc Helmet"
-          },
-          "Cursed": false,
-          "Owner": 1560441329,
-          "Image": 2,
-          "DisplayImage": 33301,
-          "DisplayName": "Orc Helmet",
-          "Value": 0,
-          "Stacks": 0,
-          "Slot": 7,
-          "Durability": 5000,
-          "Debuffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Buffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Serial": 1308805329,
-          "X": 20,
-          "Y": 34,
-          "Direction": 0,
-          "CurrentMapId": 509,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CurrentHp": 0,
-          "CurrentMp": 0,
-          "_MaximumHp": 0,
-          "_MaximumMp": 0,
-          "_Str": 0,
-          "_Int": 0,
-          "_Wis": 0,
-          "_Con": 0,
-          "_Dex": 0,
-          "_Ac": 0,
-          "_Mr": 0,
-          "_Dmg": 0,
-          "_Hit": 0
-        }
-      },
+      "4": null,
       "5": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
         "Slot": 5,
@@ -1735,6 +1937,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.1,
+            "StageRequired": 0,
             "Name": "Gold Earrings"
           },
           "Cursed": false,
@@ -1806,6 +2009,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.03,
+            "StageRequired": 0,
             "Name": "Dark Bone Necklace"
           },
           "Cursed": false,
@@ -1815,7 +2019,7 @@
           "DisplayName": "Dark Bone Necklace",
           "Value": 0,
           "Stacks": 0,
-          "Slot": 8,
+          "Slot": 6,
           "Durability": 3000,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -1860,80 +2064,41 @@
             "ID": 0,
             "CanStack": false,
             "MaxStack": 0,
-            "Image": 207,
-            "DisplayImage": 32975,
+            "Image": 1101,
+            "DisplayImage": 33869,
             "ScriptName": "Generic",
             "Gender": 255,
-            "HealthModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 100
-            },
-            "ManaModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 100
-            },
-            "StrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "IntModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "WisModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "ConModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "DexModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "AcModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 1
-            },
             "MrModifer": {
               "$type": "Darkages.Types.StatusOperator, Darkages.Server",
               "Option": 0,
-              "Value": 10
+              "Value": 20
             },
             "OffenseElement": 0,
             "DefenseElement": 0,
             "Upgrades": 0,
             "Weight": 1,
             "Flags": 4189,
-            "MaxDurability": 2000,
-            "Value": 2500000,
+            "MaxDurability": 1000000,
+            "Value": 1000000,
             "EquipmentSlot": 7,
             "NpcKey": "shop1",
             "Class": 0,
-            "LevelRequired": 1,
+            "LevelRequired": 21,
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.01,
-            "Name": "Loures Signet Ring"
+            "StageRequired": 0,
+            "Name": "Eternal Love Ring"
           },
           "Cursed": false,
-          "Owner": 425211759,
-          "Image": 207,
-          "DisplayImage": 32975,
-          "DisplayName": "Loures Signet Ring",
+          "Owner": 59453395,
+          "Image": 1101,
+          "DisplayImage": 33869,
+          "DisplayName": "Eternal Love Ring",
           "Value": 0,
           "Stacks": 0,
           "Slot": 7,
-          "Durability": 1974,
+          "Durability": 1000000,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
             "$values": []
@@ -1942,9 +2107,9 @@
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
             "$values": []
           },
-          "Serial": 1097885279,
-          "X": 20,
-          "Y": 39,
+          "Serial": 1864521088,
+          "X": 22,
+          "Y": 35,
           "Direction": 0,
           "CurrentMapId": 509,
           "OffenseElement": 0,
@@ -1977,80 +2142,41 @@
             "ID": 0,
             "CanStack": false,
             "MaxStack": 0,
-            "Image": 207,
-            "DisplayImage": 32975,
+            "Image": 1101,
+            "DisplayImage": 33869,
             "ScriptName": "Generic",
             "Gender": 255,
-            "HealthModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 100
-            },
-            "ManaModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 100
-            },
-            "StrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "IntModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "WisModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "ConModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "DexModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 1
-            },
-            "AcModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 1
-            },
             "MrModifer": {
               "$type": "Darkages.Types.StatusOperator, Darkages.Server",
               "Option": 0,
-              "Value": 10
+              "Value": 20
             },
             "OffenseElement": 0,
             "DefenseElement": 0,
             "Upgrades": 0,
             "Weight": 1,
             "Flags": 4189,
-            "MaxDurability": 2000,
-            "Value": 2500000,
+            "MaxDurability": 1000000,
+            "Value": 1000000,
             "EquipmentSlot": 8,
             "NpcKey": "shop1",
             "Class": 0,
-            "LevelRequired": 1,
+            "LevelRequired": 21,
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.01,
-            "Name": "Loures Signet Ring"
+            "StageRequired": 0,
+            "Name": "Eternal Love Ring"
           },
           "Cursed": false,
-          "Owner": 425211759,
-          "Image": 207,
-          "DisplayImage": 32975,
-          "DisplayName": "Loures Signet Ring",
+          "Owner": 59453395,
+          "Image": 1101,
+          "DisplayImage": 33869,
+          "DisplayName": "Eternal Love Ring",
           "Value": 0,
           "Stacks": 0,
-          "Slot": 8,
-          "Durability": 1974,
+          "Slot": 10,
+          "Durability": 1000000,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
             "$values": []
@@ -2059,8 +2185,8 @@
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
             "$values": []
           },
-          "Serial": 887786957,
-          "X": 20,
+          "Serial": 435790210,
+          "X": 24,
           "Y": 39,
           "Direction": 0,
           "CurrentMapId": 509,
@@ -2117,6 +2243,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.02,
+            "StageRequired": 0,
             "Name": "Leather Gauntlet"
           },
           "Cursed": false,
@@ -2194,6 +2321,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.02,
+            "StageRequired": 0,
             "Name": "Leather Gauntlet"
           },
           "Cursed": false,
@@ -2265,6 +2393,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.02,
+            "StageRequired": 0,
             "Name": "Dark Belt"
           },
           "Cursed": true,
@@ -2347,6 +2476,7 @@
             "DmgMin": 0,
             "DmgMax": 0,
             "DropRate": 0.04,
+            "StageRequired": 0,
             "Name": "Leather Greaves"
           },
           "Cursed": false,
@@ -2388,78 +2518,7 @@
           "_Hit": 0
         }
       },
-      "13": {
-        "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-        "Slot": 13,
-        "Item": {
-          "$type": "Darkages.Types.Item, Darkages.Server",
-          "rnd": {
-            "$type": "System.Random, mscorlib"
-          },
-          "Template": {
-            "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-            "ID": 0,
-            "CanStack": false,
-            "MaxStack": 0,
-            "Image": 1,
-            "DisplayImage": 32844,
-            "ScriptName": "Boot",
-            "Gender": 255,
-            "OffenseElement": 0,
-            "DefenseElement": 0,
-            "Upgrades": 0,
-            "Weight": 2,
-            "Flags": 4189,
-            "MaxDurability": 3000,
-            "Value": 1000,
-            "EquipmentSlot": 13,
-            "NpcKey": "shop1",
-            "Class": 0,
-            "LevelRequired": 1,
-            "DmgMin": 0,
-            "DmgMax": 0,
-            "DropRate": 0.04,
-            "Name": "Boots"
-          },
-          "Cursed": false,
-          "Owner": 1560441329,
-          "Image": 1,
-          "DisplayImage": 32844,
-          "DisplayName": "Boots",
-          "Value": 0,
-          "Stacks": 0,
-          "Slot": 7,
-          "Durability": 3000,
-          "Debuffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Buffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Serial": 151140440,
-          "X": 20,
-          "Y": 35,
-          "Direction": 0,
-          "CurrentMapId": 509,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CurrentHp": 0,
-          "CurrentMp": 0,
-          "_MaximumHp": 0,
-          "_MaximumMp": 0,
-          "_Str": 0,
-          "_Int": 0,
-          "_Wis": 0,
-          "_Con": 0,
-          "_Dex": 0,
-          "_Ac": 0,
-          "_Mr": 0,
-          "_Dmg": 0,
-          "_Hit": 0
-        }
-      },
+      "13": null,
       "14": null,
       "15": null,
       "16": null,
@@ -2504,6 +2563,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.0,
+          "StageRequired": 0,
           "Name": "Holy Diana"
         },
         "Cursed": false,
@@ -2581,6 +2641,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.0,
+          "StageRequired": 0,
           "Name": "Blouse"
         },
         "Cursed": false,
@@ -2590,7 +2651,7 @@
         "DisplayName": "Blouse",
         "Value": 0,
         "Stacks": 0,
-        "Slot": 7,
+        "Slot": 6,
         "Durability": 974,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -2663,6 +2724,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.1,
+          "StageRequired": 0,
           "Name": "Wooden Shield"
         },
         "Cursed": true,
@@ -2672,7 +2734,7 @@
         "DisplayName": "Wooden Shield",
         "Value": 0,
         "Stacks": 0,
-        "Slot": 4,
+        "Slot": 9,
         "Durability": 974,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -2687,108 +2749,6 @@
         "Y": 83,
         "Direction": 0,
         "CurrentMapId": 500,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      }
-    },
-    "Helmet": {
-      "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-      "Slot": 4,
-      "Item": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 2,
-          "DisplayImage": 33301,
-          "ScriptName": "Helmet",
-          "Gender": 255,
-          "ManaModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 500
-          },
-          "StrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 2
-          },
-          "IntModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 2
-          },
-          "WisModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 2
-          },
-          "DexModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 2
-          },
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 2
-          },
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "Upgrades": 0,
-          "Weight": 3,
-          "Flags": 4189,
-          "MaxDurability": 5000,
-          "Value": 15000,
-          "EquipmentSlot": 4,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 96,
-          "DmgMin": 0,
-          "DmgMax": 0,
-          "DropRate": 0.01,
-          "Name": "Orc Helmet"
-        },
-        "Cursed": false,
-        "Owner": 1560441329,
-        "Image": 2,
-        "DisplayImage": 33301,
-        "DisplayName": "Orc Helmet",
-        "Value": 0,
-        "Stacks": 0,
-        "Slot": 7,
-        "Durability": 5000,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1308805329,
-        "X": 20,
-        "Y": 34,
-        "Direction": 0,
-        "CurrentMapId": 509,
         "OffenseElement": 0,
         "DefenseElement": 0,
         "CurrentHp": 0,
@@ -2842,6 +2802,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.1,
+          "StageRequired": 0,
           "Name": "Gold Earrings"
         },
         "Cursed": false,
@@ -2913,6 +2874,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.03,
+          "StageRequired": 0,
           "Name": "Dark Bone Necklace"
         },
         "Cursed": false,
@@ -2922,7 +2884,7 @@
         "DisplayName": "Dark Bone Necklace",
         "Value": 0,
         "Stacks": 0,
-        "Slot": 8,
+        "Slot": 6,
         "Durability": 3000,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -2967,80 +2929,41 @@
           "ID": 0,
           "CanStack": false,
           "MaxStack": 0,
-          "Image": 207,
-          "DisplayImage": 32975,
+          "Image": 1101,
+          "DisplayImage": 33869,
           "ScriptName": "Generic",
           "Gender": 255,
-          "HealthModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 100
-          },
-          "ManaModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 100
-          },
-          "StrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "IntModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "WisModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "ConModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "DexModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 1
-          },
           "MrModifer": {
             "$type": "Darkages.Types.StatusOperator, Darkages.Server",
             "Option": 0,
-            "Value": 10
+            "Value": 20
           },
           "OffenseElement": 0,
           "DefenseElement": 0,
           "Upgrades": 0,
           "Weight": 1,
           "Flags": 4189,
-          "MaxDurability": 2000,
-          "Value": 2500000,
+          "MaxDurability": 1000000,
+          "Value": 1000000,
           "EquipmentSlot": 7,
           "NpcKey": "shop1",
           "Class": 0,
-          "LevelRequired": 1,
+          "LevelRequired": 21,
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.01,
-          "Name": "Loures Signet Ring"
+          "StageRequired": 0,
+          "Name": "Eternal Love Ring"
         },
         "Cursed": false,
-        "Owner": 425211759,
-        "Image": 207,
-        "DisplayImage": 32975,
-        "DisplayName": "Loures Signet Ring",
+        "Owner": 59453395,
+        "Image": 1101,
+        "DisplayImage": 33869,
+        "DisplayName": "Eternal Love Ring",
         "Value": 0,
         "Stacks": 0,
         "Slot": 7,
-        "Durability": 1974,
+        "Durability": 1000000,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -3049,9 +2972,9 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1097885279,
-        "X": 20,
-        "Y": 39,
+        "Serial": 1864521088,
+        "X": 22,
+        "Y": 35,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
@@ -3084,80 +3007,41 @@
           "ID": 0,
           "CanStack": false,
           "MaxStack": 0,
-          "Image": 207,
-          "DisplayImage": 32975,
+          "Image": 1101,
+          "DisplayImage": 33869,
           "ScriptName": "Generic",
           "Gender": 255,
-          "HealthModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 100
-          },
-          "ManaModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 100
-          },
-          "StrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "IntModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "WisModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "ConModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "DexModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 1
-          },
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 1
-          },
           "MrModifer": {
             "$type": "Darkages.Types.StatusOperator, Darkages.Server",
             "Option": 0,
-            "Value": 10
+            "Value": 20
           },
           "OffenseElement": 0,
           "DefenseElement": 0,
           "Upgrades": 0,
           "Weight": 1,
           "Flags": 4189,
-          "MaxDurability": 2000,
-          "Value": 2500000,
+          "MaxDurability": 1000000,
+          "Value": 1000000,
           "EquipmentSlot": 8,
           "NpcKey": "shop1",
           "Class": 0,
-          "LevelRequired": 1,
+          "LevelRequired": 21,
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.01,
-          "Name": "Loures Signet Ring"
+          "StageRequired": 0,
+          "Name": "Eternal Love Ring"
         },
         "Cursed": false,
-        "Owner": 425211759,
-        "Image": 207,
-        "DisplayImage": 32975,
-        "DisplayName": "Loures Signet Ring",
+        "Owner": 59453395,
+        "Image": 1101,
+        "DisplayImage": 33869,
+        "DisplayName": "Eternal Love Ring",
         "Value": 0,
         "Stacks": 0,
-        "Slot": 8,
-        "Durability": 1974,
+        "Slot": 10,
+        "Durability": 1000000,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -3166,8 +3050,8 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 887786957,
-        "X": 20,
+        "Serial": 435790210,
+        "X": 24,
         "Y": 39,
         "Direction": 0,
         "CurrentMapId": 509,
@@ -3224,6 +3108,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.02,
+          "StageRequired": 0,
           "Name": "Leather Gauntlet"
         },
         "Cursed": false,
@@ -3301,6 +3186,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.02,
+          "StageRequired": 0,
           "Name": "Leather Gauntlet"
         },
         "Cursed": false,
@@ -3372,6 +3258,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.02,
+          "StageRequired": 0,
           "Name": "Dark Belt"
         },
         "Cursed": true,
@@ -3454,6 +3341,7 @@
           "DmgMin": 0,
           "DmgMax": 0,
           "DropRate": 0.04,
+          "StageRequired": 0,
           "Name": "Leather Greaves"
         },
         "Cursed": false,
@@ -3476,78 +3364,6 @@
         "Serial": 1614210597,
         "X": 20,
         "Y": 39,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      }
-    },
-    "Boots": {
-      "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-      "Slot": 13,
-      "Item": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 1,
-          "DisplayImage": 32844,
-          "ScriptName": "Boot",
-          "Gender": 255,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "Upgrades": 0,
-          "Weight": 2,
-          "Flags": 4189,
-          "MaxDurability": 3000,
-          "Value": 1000,
-          "EquipmentSlot": 13,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 0,
-          "DmgMax": 0,
-          "DropRate": 0.04,
-          "Name": "Boots"
-        },
-        "Cursed": false,
-        "Owner": 1560441329,
-        "Image": 1,
-        "DisplayImage": 32844,
-        "DisplayName": "Boots",
-        "Value": 0,
-        "Stacks": 0,
-        "Slot": 7,
-        "Durability": 3000,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 151140440,
-        "X": 20,
-        "Y": 35,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
@@ -3616,23 +3432,37 @@
   "LoggedIn": true,
   "Nation": 3,
   "Clan": "",
+  "Resting": 0,
+  "Mounted": 0,
   "Debuffs": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Darkages.Storage.locales.debuffs.debuff_ardcradh, Darkages.Server",
+        "AcModifer": {
+          "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+          "Option": 0,
+          "Value": 50
+        },
+        "Name": "ard cradh",
+        "Length": 480,
+        "Icon": 84
+      }
+    ]
   },
   "Buffs": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 2051602789,
-  "X": 24,
-  "Y": 34,
-  "Direction": 3,
+  "Serial": 59453395,
+  "X": 33,
+  "Y": 22,
+  "Direction": 0,
   "CurrentMapId": 509,
   "OffenseElement": 6,
   "DefenseElement": 6,
   "CurrentHp": 1909,
-  "CurrentMp": 1291,
+  "CurrentMp": 631,
   "_MaximumHp": 1709,
   "_MaximumMp": 591,
   "_Str": 37,

@@ -16,7 +16,9 @@
             GoldAmount = reader.ReadInt32();
             X = reader.ReadInt16();
             Y = reader.ReadInt16();
-            Unknown = reader.ReadInt16();
+
+            if (reader.CanRead)
+                Unknown = reader.ReadInt16();
         }
 
         public override void Serialize(NetworkPacketWriter writer)

@@ -2,46 +2,19 @@
   "$type": "Darkages.Network.Object.ObjectService, Darkages.Server",
   "_items": {
     "$type": "System.Collections.Generic.HashSet`1[[Darkages.Types.Sprite, Darkages.Server]], System.Core",
+    "$values": []
+  },
+  "_money": {
+    "$type": "System.Collections.Generic.HashSet`1[[Darkages.Types.Sprite, Darkages.Server]], System.Core",
     "$values": [
       {
-        "$type": "Darkages.Types.Item, Darkages.Server",
+        "$type": "Darkages.Types.Money, Darkages.Server",
         "rnd": {
           "$type": "System.Random, mscorlib"
         },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 76,
-          "DisplayImage": 32844,
-          "ScriptName": "Boot",
-          "Gender": 255,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "Upgrades": 0,
-          "Weight": 2,
-          "Flags": 4189,
-          "MaxDurability": 3000,
-          "Value": 1000,
-          "EquipmentSlot": 13,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 0,
-          "DmgMax": 0,
-          "DropRate": 0.04,
-          "Name": "Boots"
-        },
-        "Cursed": false,
-        "Owner": 1547388672,
-        "Image": 76,
-        "DisplayImage": 32844,
-        "DisplayName": "Boots",
-        "Value": 0,
-        "Stacks": 0,
-        "Slot": 7,
-        "Durability": 2974,
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -50,9 +23,9 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1579556113,
-        "X": 23,
-        "Y": 27,
+        "Serial": 1128314475,
+        "X": 18,
+        "Y": 26,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
@@ -70,18 +43,13 @@
         "_Mr": 0,
         "_Dmg": 0,
         "_Hit": 0
-      }
-    ]
-  },
-  "_money": {
-    "$type": "System.Collections.Generic.HashSet`1[[Darkages.Types.Sprite, Darkages.Server]], System.Core",
-    "$values": [
+      },
       {
         "$type": "Darkages.Types.Money, Darkages.Server",
         "rnd": {
           "$type": "System.Random, mscorlib"
         },
-        "Amount": 39,
+        "Amount": 48,
         "Type": 137,
         "Image": 32905,
         "Debuffs": {
@@ -92,9 +60,379 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1594308396,
-        "X": 23,
-        "Y": 33,
+        "Serial": 1718173702,
+        "X": 21,
+        "Y": 28,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 486411879,
+        "X": 19,
+        "Y": 23,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 646074641,
+        "X": 20,
+        "Y": 37,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1689846329,
+        "X": 20,
+        "Y": 31,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 549587871,
+        "X": 18,
+        "Y": 22,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 25,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1871791365,
+        "X": 26,
+        "Y": 18,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1449205288,
+        "X": 21,
+        "Y": 26,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 48,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1945280170,
+        "X": 22,
+        "Y": 29,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 25,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 1971779642,
+        "X": 29,
+        "Y": 21,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 25,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 2011338604,
+        "X": 16,
+        "Y": 22,
+        "Direction": 0,
+        "CurrentMapId": 509,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 0,
+        "CurrentMp": 0,
+        "_MaximumHp": 0,
+        "_MaximumMp": 0,
+        "_Str": 0,
+        "_Int": 0,
+        "_Wis": 0,
+        "_Con": 0,
+        "_Dex": 0,
+        "_Ac": 0,
+        "_Mr": 0,
+        "_Dmg": 0,
+        "_Hit": 0
+      },
+      {
+        "$type": "Darkages.Types.Money, Darkages.Server",
+        "rnd": {
+          "$type": "System.Random, mscorlib"
+        },
+        "Amount": 32,
+        "Type": 137,
+        "Image": 32905,
+        "Debuffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Buffs": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Serial": 963622266,
+        "X": 28,
+        "Y": 21,
         "Direction": 0,
         "CurrentMapId": 509,
         "OffenseElement": 0,
