@@ -68,7 +68,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                                 .FirstOrDefault();
                             if (selections.Length == 0 || selection == null)
                             {
-                                client.SendMessageBox(0x02, "you can't do that.");
+                                client.SendMessageBox(0x02, ServerContext.Config.CantDoThat);
                                 return;
                             }
                             targetPosition = selection.Position;
@@ -82,8 +82,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                             client.Aisling.Map.Tile[prev.X, prev.Y] = TileContent.None;
 
 
-                            int direction;
-                            if (!client.Aisling.Facing(target.X, target.Y, out direction))
+                            if (!client.Aisling.Facing(target.X, target.Y, out var direction))
                             {
                                 client.Aisling.Direction = (byte) direction;
 

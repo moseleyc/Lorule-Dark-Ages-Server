@@ -33,7 +33,7 @@ namespace Darkages.Network.ServerFormats
 
             writer.Write((ushort) Aisling.X);
             writer.Write((ushort) Aisling.Y);
-            writer.Write(Aisling.Direction);
+            writer.Write((byte)Aisling.Direction);
             writer.Write((uint) Aisling.Serial);
 
             var displayFlag = Aisling.Gender == Gender.Male ? 0x10 : 0x20;
@@ -75,9 +75,9 @@ namespace Darkages.Network.ServerFormats
 
             if (!Aisling.Dead && !Aisling.Invisible)
             {
-                writer.Write(Aisling.Armor);
-                writer.Write(Aisling.Boots);
-                writer.Write(Aisling.Armor);
+                writer.Write((ushort)Aisling.Armor);
+                writer.Write((byte)Aisling.Boots);
+                writer.Write((ushort)Aisling.Armor);
                 writer.Write(Aisling.Shield);
                 writer.Write((byte) Aisling.Weapon);
                 writer.Write((short) Aisling.HairColor);
@@ -98,7 +98,7 @@ namespace Darkages.Network.ServerFormats
             writer.Write(Aisling.HeadAccessory2);
             writer.Write((byte) 0);
             writer.Write((byte)Aisling.Resting);
-            writer.Write((byte) 1);
+            writer.Write((byte)Aisling.Mounted);
 
             if (!Aisling.Dead)
                 writer.Write(Aisling.OverCoat);
@@ -119,6 +119,7 @@ namespace Darkages.Network.ServerFormats
             writer.Write((byte) 0);
             writer.WriteStringA(Aisling.Username);
             writer.WriteStringA(string.Empty);
+
         }
     }
 }

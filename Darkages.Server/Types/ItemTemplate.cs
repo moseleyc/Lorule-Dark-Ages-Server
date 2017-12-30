@@ -71,5 +71,7 @@ namespace Darkages.Types
         public double DropRate { get; set; }
 
         public ClassStage StageRequired { get; set; }
+
+        public bool HasPants { get; set; }
     }
 }

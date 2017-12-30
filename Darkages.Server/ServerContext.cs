@@ -448,6 +448,29 @@ namespace Darkages
                 Name = "Black Stone Ring"
             };
 
+
+            GlobalItemTemplateCache["Dwarvish Leather"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 397,
+                Image = 9,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Male,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 950,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Master,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 11),
+                Upgrades = 0,
+                NpcKey = "shop1",
+                ScriptName = "Armor",
+                Class = Class.Rogue,
+                HasPants = true,
+                Name = "Dwarvish Leather"
+            };
         }
     }
 }

@@ -8,7 +8,7 @@
   "Coponent": 0.0,
   "Factor": 0.0,
   "LevelRate": 1.0,
-  "SuccessRate": 0.0,
+  "SuccessRate": 0.35,
   "Level": 0,
   "Cooldown": 10,
   "MaxLevel": 100,
