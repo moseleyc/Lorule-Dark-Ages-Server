@@ -298,7 +298,6 @@ namespace Darkages.Types
                         (int) Source.OffenseElement,
                         (int) DefenseElement];
 
-                    Console.WriteLine(amplifier);
 
                     dmg = ComputeDmgFromAc(dmg);
 
@@ -560,12 +559,8 @@ namespace Darkages.Types
                     var obj = this as Monster;
 
                     _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Int = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Wis = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Con = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Dex = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * _Str + _Int + _Dex + _Con + _Wis * (int)(ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
+                    dmg = obj.Template.Level * _Str  * (int)(ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
                     _obj.ApplyDamage(this, dmg, false, 1, (applied) => { });
                 }
                 else if (this is Mundane)
@@ -573,12 +568,8 @@ namespace Darkages.Types
                     var obj = this as Mundane;
 
                     _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Int = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Wis = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Con = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
-                    _Dex = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * Str + Int + Dex + Con + Wis * ServerContext.Config.MonsterDamageMultipler;
+                    dmg = obj.Template.Level * Str * ServerContext.Config.MonsterDamageMultipler;
                     _obj.ApplyDamage(this, dmg, false, 1);
                 }
             }
@@ -845,8 +836,9 @@ namespace Darkages.Types
                         offset = 0;
                     }
 
+                    int j = i;
 
-                    buffer[offset.Clamp(0, buffer.Length)] = i;
+                    buffer[offset.Clamp(0, buffer.Length)] = (byte)j.Clamp(j, buffer.Length);
                     offset++;
                 }
 

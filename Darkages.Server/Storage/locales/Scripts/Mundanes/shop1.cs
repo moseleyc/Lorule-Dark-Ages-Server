@@ -39,7 +39,8 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             {
                 case 0x0001:
                     client.SendItemShopDialog(Mundane, "Have a browse!", 0x0004,
-                        ServerContext.GlobalItemTemplateCache.Values.ToList());
+                        ServerContext.GlobalItemTemplateCache.Values.Where(i => i.NpcKey == Mundane.Template.Name)
+                        .ToList());
                     break;
 
                 case 0x0002:

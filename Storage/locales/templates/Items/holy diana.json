@@ -11,7 +11,7 @@
     "$type": "Darkages.Types.SpellOperator, Darkages.Server",
     "Scope": 3,
     "Option": 2,
-    "Value": 3,
+    "Value": 2,
     "MinValue": 0,
     "MaxValue": 9
   },
@@ -22,10 +22,10 @@
   "MaxDurability": 0,
   "Value": 10,
   "EquipmentSlot": 1,
-  "NpcKey": "shop1",
   "Class": 4,
   "LevelRequired": 6,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "Holy Diana"
+  "Name": "Holy Diana",
+  "DropRate": 0.10,
 }

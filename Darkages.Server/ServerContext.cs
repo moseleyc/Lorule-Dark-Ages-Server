@@ -233,7 +233,7 @@ namespace Darkages
                 Weight = 2,
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Boot",
                 Class = Class.Peasant,
                 Name = "Boots",
@@ -254,7 +254,7 @@ namespace Darkages
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable | ItemFlags.Elemental,
                 DefenseElement = ElementManager.Element.Fire,
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Belt",
                 Class = Class.Peasant,
                 Name = "Ancuisa Ceir",
@@ -275,7 +275,7 @@ namespace Darkages
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 StrModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Earring",
                 Class = Class.Peasant,
                 Name = "Silver Earrings"
@@ -296,7 +296,7 @@ namespace Darkages
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 StrModifer = new StatusOperator(StatusOperator.Operator.Add, 2),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Earring",
                 Class = Class.Peasant,
                 Name = "Gold Earrings"
@@ -318,10 +318,31 @@ namespace Darkages
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Generic",
                 Class = Class.Peasant,
                 Name = "Leather Gauntlet"
+            };
+
+            GlobalItemTemplateCache["Leather Bracer"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 224,
+                Image = 224,
+                EquipmentSlot = ItemSlots.RArm,
+                Gender = Gender.Both,
+                DropRate = 0.02,
+                CanStack = false,
+                Value = 15000,
+                LevelRequired = 9,
+                MaxDurability = 3000,
+                Weight = 2,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
+                Upgrades = 0,
+                NpcKey = "Scroll Merchant",
+                ScriptName = "Generic",
+                Class = Class.Monk,
+                Name = "Leather Bracer"
             };
 
             GlobalItemTemplateCache["Leather Greaves"] = new ItemTemplate()
@@ -340,7 +361,7 @@ namespace Darkages
                 AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
                 ManaModifer = new StatusOperator(StatusOperator.Operator.Remove, 500),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Generic",
                 Class = Class.Peasant,
                 Name = "Leather Greaves",
@@ -366,7 +387,7 @@ namespace Darkages
                 WisModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
                 DexModifer = new StatusOperator(StatusOperator.Operator.Remove, 2),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Helmet",
                 Class = Class.Peasant,
                 Name = "Orc Helmet",
@@ -395,7 +416,7 @@ namespace Darkages
                 ConModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
                 MrModifer = new StatusOperator(StatusOperator.Operator.Add, 10),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Generic",
                 Class = Class.Peasant,
                 Name = "Loures Signet Ring"
@@ -416,7 +437,7 @@ namespace Darkages
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 MrModifer = new StatusOperator(StatusOperator.Operator.Add, 20),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Generic",
                 Class = Class.Peasant,
                 Name = "Eternal Love Ring"
@@ -442,34 +463,271 @@ namespace Darkages
                 ManaModifer = new StatusOperator(StatusOperator.Operator.Add, 50),
                 StrModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Scroll Merchant",
                 ScriptName = "Generic",
                 Class = Class.Peasant,
                 Name = "Black Stone Ring"
             };
 
-
-            GlobalItemTemplateCache["Dwarvish Leather"] = new ItemTemplate()
+            #region Rogue
+            GlobalItemTemplateCache["Scout Leather"] = new ItemTemplate()
             {
-                DisplayImage = 0x8000 + 397,
-                Image = 9,
+                DisplayImage = 0x8000 + 99,
+                Image = 4,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Male,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 900,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 10),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Rogue,
+                HasPants = false,
+                Name = "Scout Leather"
+            };
+
+            GlobalItemTemplateCache["Cotte"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 118,
+                Image = 4,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Female,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 900,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 10),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Rogue,
+                HasPants = false,
+                Name = "Cotte"
+            };
+            #endregion
+
+            #region Monk
+            GlobalItemTemplateCache["Dobok"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 98,
+                Image = 3,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Male,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 850,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 7),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Monk,
+                HasPants = false,
+                Name = "Dobok"
+            };
+
+            GlobalItemTemplateCache["Earth Bodice"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 117,
+                Image = 3,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Female,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 850,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 7),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Monk,
+                HasPants = false,
+                Name = "Earth Bodice"
+            };
+            #endregion
+
+            #region Warrior
+            GlobalItemTemplateCache["Leather Bliaut"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 116,
+                Image = 2,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Female,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 950,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 11),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Warrior,
+                HasPants = false,
+                Name = "Leather Bliaut"
+            };
+
+            GlobalItemTemplateCache["Leather Tunic"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 97,
+                Image = 2,
                 EquipmentSlot = ItemSlots.Armor,
                 Gender = Gender.Male,
                 DropRate = 0.00,
                 CanStack = false,
                 Value = 950,
                 LevelRequired = 1,
-                StageRequired = ClassStage.Master,
+                StageRequired = ClassStage.Class,
                 MaxDurability = 3000,
                 Weight = 4,
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
                 AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 11),
                 Upgrades = 0,
-                NpcKey = "shop1",
+                NpcKey = "Armor Merchant",
                 ScriptName = "Armor",
-                Class = Class.Rogue,
+                Class = Class.Warrior,
                 HasPants = true,
-                Name = "Dwarvish Leather"
+                Name = "Leather Tunic"
+            };
+            #endregion
+
+            #region Priest
+            GlobalItemTemplateCache["Cowl"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 100,
+                Image = 5,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Male,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 800,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 8),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Priest,
+                HasPants = true,
+                Name = "Cowl"
+            };
+
+            GlobalItemTemplateCache["Gorget Gown"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 119,
+                Image = 5,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Female,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 800,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 8),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Priest,
+                HasPants = false,
+                Name = "Gorget Gown"
+            };
+            #endregion
+
+            GlobalItemTemplateCache["Gardcorp"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 101,
+                Image = 6,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Male,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 750,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 5),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Wizard,
+                HasPants = true,
+                Name = "Gardcorp"
+            };
+
+
+            GlobalItemTemplateCache["Magi Skirt"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 120,
+                Image = 6,
+                EquipmentSlot = ItemSlots.Armor,
+                Gender = Gender.Female,
+                DropRate = 0.00,
+                CanStack = false,
+                Value = 750,
+                LevelRequired = 1,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 4,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 5),
+                Upgrades = 0,
+                NpcKey = "Armor Merchant",
+                ScriptName = "Armor",
+                Class = Class.Wizard,
+                HasPants = false,
+                Name = "Magi Skirt"
+            };
+
+
+            GlobalItemTemplateCache["Magus Diana"] = new ItemTemplate()
+            {
+                DisplayImage = 32953,
+                Image = 26,
+                EquipmentSlot = ItemSlots.Weapon,
+                Gender = Gender.Both,
+                DropRate = 0.10,
+                CanStack = false,
+                Value = 245000,
+                LevelRequired = 6,
+                StageRequired = ClassStage.Class,
+                MaxDurability = 3000,
+                Weight = 5,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable | ItemFlags.TwoHanded,
+                SpellOperator = new SpellOperator(SpellOperator.SpellOperatorPolicy.Decrease, SpellOperator.SpellOperatorScope.all, 1, 0),
+                Upgrades = 0,
+                ScriptName = "Weapon",
+                Class = Class.Wizard,
+                Name = "Magus Diana",
             };
         }
     }

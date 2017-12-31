@@ -39,8 +39,8 @@ namespace Darkages.Types
                 }
             }
 
-      
-            var npc = new Mundane();            
+
+            var npc = new Mundane();
             npc.Template = template;
 
             npc.CurrentMapId = npc.Template.AreaID;
@@ -50,8 +50,8 @@ namespace Darkages.Types
             }
             npc.X = template.X;
             npc.Y = template.Y;
-            npc._MaximumHp = (int)(npc.Template.Level / 0.1 * 32);
-            npc._MaximumMp = (int)(npc.Template.Level / 0.1 * 16);
+            npc._MaximumHp = (int) (npc.Template.Level / 0.1 * 32);
+            npc._MaximumMp = (int) (npc.Template.Level / 0.1 * 16);
             npc.Template.MaximumHp = npc.MaximumHp;
             npc.Template.MaximumMp = npc.MaximumMp;
 
@@ -62,28 +62,11 @@ namespace Darkages.Types
             npc.Map = ServerContext.GlobalMapCache[npc.CurrentMapId];
             npc.Script = ScriptManager.Load<MundaneScript>(template.ScriptKey, ServerContext.Game, npc);
 
-            if (npc.Template.EnableAttacking)
-            {
-                npc.Template.AttackTimer = new GameServerTimer(TimeSpan.FromMilliseconds(450));
-            }
-
-
-            if (npc.Template.EnableWalking)
-            {
-                npc.Template.EnableTurning = false;
-                npc.Template.WalkTimer = new GameServerTimer(TimeSpan.FromSeconds(750));
-            }
-
-            if (npc.Template.EnableSpeech)
-            {
-                npc.Template.ChatTimer = new GameServerTimer(TimeSpan.FromSeconds(Generator.Random.Next(10, 35)));
-            }
-
-            if (npc.Template.EnableTurning)
-            {
-                npc.Template.TurnTimer = new GameServerTimer(TimeSpan.FromSeconds(6));
-            }
-
+            npc.Template.AttackTimer = new GameServerTimer(TimeSpan.FromMilliseconds(450));
+            npc.Template.EnableTurning = false;
+            npc.Template.WalkTimer = new GameServerTimer(TimeSpan.FromSeconds(750));
+            npc.Template.ChatTimer = new GameServerTimer(TimeSpan.FromSeconds(Generator.Random.Next(10, 35)));
+            npc.Template.TurnTimer = new GameServerTimer(TimeSpan.FromSeconds(6));
 
             npc.AddObject(npc);
         }
@@ -95,16 +78,12 @@ namespace Darkages.Types
                 ServerContext.GlobalMapCache[CurrentMapId].Tile[X, Y] = TileContent.None;
             }
 
-            Template.EnableWalking = false;
-
             RemoveActiveTargets();
 
             if (CurrentHp == 0)
             {
                 new TaskFactory().StartNew(() =>
                 {
-                    Template.WalkTimer = null;
-                    Template.AttackTimer = null;
 
                     Thread.Sleep(1000);
                     Remove<Mundane>();
@@ -147,7 +126,8 @@ namespace Darkages.Types
                             idx = Generator.Random.Next(Template.Speech.Count);
                         }
 
-                        obj.Show(Scope.Self, new ServerFormat0D { Serial = Serial, Text = Template.Name + ": " + Template.Speech[idx], Type = 0x00 });
+                        if (Template.Speech.Count > 0)
+                            obj.Show(Scope.Self, new ServerFormat0D { Serial = Serial, Text = Template.Name + ": " + Template.Speech[idx], Type = 0x00 });
                     }
 
 

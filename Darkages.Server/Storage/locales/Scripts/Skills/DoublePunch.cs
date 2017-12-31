@@ -100,10 +100,7 @@ namespace Darkages.Scripting.Scripts.Skills
                     }
 
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
-                    if (rand.Next(1, 101) < Skill.Level)
-                        OnSuccess(sprite);
-                    else
-                        OnFailed(sprite);
+                    OnSuccess(sprite);
                 }
             }
         }

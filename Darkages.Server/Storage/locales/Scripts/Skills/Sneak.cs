@@ -51,7 +51,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 var client = (sprite as Aisling).Client;
                 client.TrainSkill(Skill);
 
-                if (rand.Next(1, 101) < Skill.Level)
+                var success = Skill.RollDice(rand);
+                if (success)
                     OnSuccess(sprite);
                 else
                     OnFailed(sprite);

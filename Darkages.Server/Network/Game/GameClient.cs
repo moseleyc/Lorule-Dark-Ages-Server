@@ -107,11 +107,12 @@ namespace Darkages.Network.Game
             if ((DateTime.UtcNow - Aisling.LastLogged).TotalMilliseconds < ServerContext.Config.LingerState)
                 return;
 
-            if ((DateTime.UtcNow - LastPingResponse).TotalSeconds > ServerContext.Config.Timeout)
-            {
-                Server.ClientDisconnected(this);
-                return;
-            }
+            //TODO: find out why this is disconnecting.
+            //if ((DateTime.UtcNow - LastPingResponse).TotalSeconds > ServerContext.Config.Timeout)
+            //{
+            //    Server.ClientDisconnected(this);
+            //    return;
+            //}
 
             #endregion
 

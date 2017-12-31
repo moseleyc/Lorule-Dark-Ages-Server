@@ -106,10 +106,13 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 {
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
                     client.TrainSkill(Skill);
-                    if (rand.Next(1, 101) < Skill.Level)
+
+                    var success = Skill.RollDice(rand);
+
+                    if (success)
                         OnSuccess(sprite);
                     else
-                        OnFailed(sprite);
+                        OnFailed(sprite);                  
                 }
             }
         }

@@ -44,6 +44,14 @@ namespace Darkages.Types
 
         public bool CanUse() => Ready;
 
+        public bool RollDice(Random rand)
+        {
+            if (Level < 30)
+                return rand.Next(1, 101) < 30;
+
+            return rand.Next(1, 101) < Level;
+        }
+
         public static Skill Create(int slot, SkillTemplate skillTemplate)
         {
             var obj = new Skill();

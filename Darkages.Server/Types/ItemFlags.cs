@@ -16,6 +16,7 @@ namespace Darkages.Types
         Consumable   = 1 << 8,
         Elemental    = 1 << 10,
         QuestRelated = 1 << 11,
-        Upgradeable  = 1 << 12
+        Upgradeable  = 1 << 12,
+        TwoHanded    = 1 << 13,
     }
 }

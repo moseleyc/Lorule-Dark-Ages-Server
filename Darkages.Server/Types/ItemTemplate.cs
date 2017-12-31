@@ -2,6 +2,22 @@
 
 namespace Darkages.Types
 {
+    public enum Variance
+    {
+        None,
+        Godly,
+        Enhanced
+    }
+
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        VeryRare,
+        Rarest
+    }
+
     public class ItemTemplate : Template
     {
         public int ID { get; set; }
@@ -73,5 +89,9 @@ namespace Darkages.Types
         public ClassStage StageRequired { get; set; }
 
         public bool HasPants { get; set; }
+
+        public Rarity ItemRarity { get; set; }
+
+        public Variance ItemVarience { get; set; }
     }
 }

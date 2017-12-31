@@ -308,9 +308,6 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\shop1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Skills\Charge.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="Storage\locales\Scripts\Skills\Crasher.cs" />
     <Compile Include="Storage\locales\Scripts\Skills\Destroyer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

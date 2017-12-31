@@ -137,8 +137,8 @@ namespace Darkages.Types
             {
                 if ((Template.LootType & LootQualifer.Gold) == LootQualifer.Gold)
                     Money.Create(this, rnd.Next(
-                            (int)Math.Sqrt(Template.Level * 500) / 2,
-                            (int)Math.Sqrt(Template.Level * 5000) / 2),
+                            (int)Template.Level * 500,
+                            (int)Template.Level * 1000),
                         new Position(X, Y));
             }
         }
@@ -180,7 +180,7 @@ namespace Darkages.Types
 
         public static Monster Create(MonsterTemplate template, Area map)
         {
-            Random rnd = new Random();
+
 
             if (template.CastSpeed == 0)
                 template.CastSpeed = 2000;
@@ -257,20 +257,20 @@ namespace Darkages.Types
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
             {
-                var x = rnd.Next(1, map.Cols);
-                var y = rnd.Next(1, map.Rows);
-
-                while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
+                lock (Generator.Random)
                 {
-                    lock (rnd)
-                    {
-                        x = rnd.Next(1, map.Cols);
-                        y = rnd.Next(1, map.Rows);
-                    }
-                }
+                    var x = Generator.Random.Next(1, map.Cols);
+                    var y = Generator.Random.Next(1, map.Rows);
 
-                obj.X = x;
-                obj.Y = y;
+                    while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
+                    {
+                        x = Generator.Random.Next(1, map.Cols);
+                        y = Generator.Random.Next(1, map.Rows);
+                    }
+
+                    obj.X = x;
+                    obj.Y = y;
+                }
             }
             else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
             {
@@ -318,10 +318,15 @@ namespace Darkages.Types
             obj._MaximumHp = template.MaximumHP;
             obj._MaximumMp = template.MaximumMP;
             obj.CreationDate = DateTime.UtcNow;
-            obj.Image = template.ImageVarience
-                        > 0
-                ? (ushort) rnd.Next(template.Image, template.Image + template.ImageVarience)
-                : template.Image;
+
+            lock (Generator.Random)
+            {
+                obj.Image = template.ImageVarience
+                            > 0
+                    ? (ushort) Generator.Random.Next(template.Image, template.Image + template.ImageVarience)
+                    : template.Image;
+            }
+
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
 
 
