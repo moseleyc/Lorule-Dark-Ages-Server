@@ -42,8 +42,6 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (client.Aisling.Invisible)
                 return;
 
-            if (client.Aisling.Flags.HasFlag(AislingFlags.GM))
-                return;
 
             if (Monster.Aggressive)
             {
@@ -151,33 +149,32 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         private void Walk()
         {
-            if (Monster.Attacked)
+            if (Target != null)
             {
-                if (Target != null)
-                    if (Monster.NextTo(Target.X, Target.Y))
+                if (Monster.NextTo(Target.X, Target.Y))
+                {
+                    lock (Monster)
                     {
-                        lock (Monster)
+                        if (Monster.Facing(Target.X, Target.Y, out var direction))
                         {
-                            if (Monster.Facing(Target.X, Target.Y, out var direction))
-                            {
-                                Monster.BashEnabled = true;
-                                Monster.CastEnabled = true;
-                            }
-                            else
-                            {
-                                Monster.BashEnabled = false;
-                                Monster.CastEnabled = true;
-                                Monster.Direction = (byte) direction;
-                                Monster.Turn();
-                            }
+                            Monster.BashEnabled = true;
+                            Monster.CastEnabled = true;
+                        }
+                        else
+                        {
+                            Monster.BashEnabled = false;
+                            Monster.CastEnabled = true;
+                            Monster.Direction = (byte) direction;
+                            Monster.Turn();
                         }
                     }
-                    else
-                    {
-                        Monster.BashEnabled = false;
-                        Monster.CastEnabled = true;
-                        Monster.WalkTo(Target.X, Target.Y);
-                    }
+                }
+                else
+                {
+                    Monster.BashEnabled = false;
+                    Monster.CastEnabled = true;
+                    Monster.WalkTo(Target.X, Target.Y);
+                }
             }
             else
             {

@@ -629,7 +629,7 @@ namespace Darkages.Network.Game
         {
             if (spell.Level < spell.Template.MaxLevel)
             {
-                var toImprove = 100 * spell.Level * spell.Template.LevelRate;
+                var toImprove = (int)(1.5 * spell.Level * spell.Template.LevelRate);
                 if (spell.Casts++ >= toImprove)
                 {
                     spell.Level++;
@@ -644,7 +644,7 @@ namespace Darkages.Network.Game
         {
             if (skill.Level < skill.Template.MaxLevel)
             {
-                var toImprove = 100 * skill.Level * skill.Template.LevelRate;
+                var toImprove = (int)(1.5 * skill.Level * skill.Template.LevelRate);
                 if (skill.Uses++ >= toImprove)
                 {
                     skill.Level++;

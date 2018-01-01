@@ -288,7 +288,7 @@ namespace Darkages.Network.Game
                 //get any item in front of user.
                 var objectsInfront = client.Aisling.GetInfront(ServerContext.Config.AutoLootPickupDistance).ToArray();
 
-                foreach (var obj in objectsInfront)
+                foreach (var obj in objectsInfront.Reverse())
                 {
                     if (obj?.CurrentMapId != client.Aisling.CurrentMapId)
                         continue;
@@ -299,6 +299,9 @@ namespace Darkages.Network.Game
                     if (obj is Item)
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+
+                    if (ServerContext.Config.LootSingleMode)
+                        break;
                 }
             }
             else
@@ -306,8 +309,11 @@ namespace Darkages.Network.Game
                 var objs = GetObjects(i => i.X == format.Position.X
                                            && i.Y == format.Position.Y, Get.Items | Get.Money);
 
-                if (objs.Length <= 0) return;
-                foreach (var obj in objs)
+                if (objs.Length <= 0)
+                    return;
+
+
+                foreach (var obj in objs.Reverse())
                 {
                     if (obj?.CurrentMapId != client.Aisling.CurrentMapId)
                         continue;
@@ -321,6 +327,9 @@ namespace Darkages.Network.Game
                     if (obj is Item)
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+
+                    if (ServerContext.Config.LootSingleMode)
+                        break;
                 }
             }
         }

@@ -236,41 +236,32 @@ namespace Darkages.Types
             if ((template.PathQualifer & PathQualifer.Wander) == PathQualifer.Wander)
                 obj.WalkEnabled = true;
 
-            if ((template.MoodTyle & MoodQualifer.Aggressive) == MoodQualifer.Aggressive)
+            if (template.MoodTyle == MoodQualifer.Aggressive)
             {
                 obj.Aggressive = true;
             }
-
-            if ((template.MoodTyle & MoodQualifer.Friendly) == MoodQualifer.Friendly)
-            {
-                obj.Aggressive = false;
-            }
-
-            if ((template.MoodTyle & MoodQualifer.Unpredicable) == MoodQualifer.Unpredicable)
+            else if (template.MoodTyle == MoodQualifer.Unpredicable)
             {
                 lock (Generator.Random)
                 {
                     //this monster has a 50% chance of being aggressive.
-                    obj.Aggressive = (Generator.Random.Next(0, 1) == 1);
+                    obj.Aggressive = (Generator.Random.Next(1, 101) > 50);
                 }
             }
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
             {
-                lock (Generator.Random)
+                var x = Generator.Random.Next(1, map.Cols);
+                var y = Generator.Random.Next(1, map.Rows);
+
+                while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
                 {
-                    var x = Generator.Random.Next(1, map.Cols);
-                    var y = Generator.Random.Next(1, map.Rows);
-
-                    while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
-                    {
-                        x = Generator.Random.Next(1, map.Cols);
-                        y = Generator.Random.Next(1, map.Rows);
-                    }
-
-                    obj.X = x;
-                    obj.Y = y;
+                    x = Generator.Random.Next(1, map.Cols);
+                    y = Generator.Random.Next(1, map.Rows);
                 }
+
+                obj.X = x;
+                obj.Y = y;
             }
             else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
             {

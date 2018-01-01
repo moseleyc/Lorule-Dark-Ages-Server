@@ -370,6 +370,9 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public string ServerWelcomeMessage = "Welcome to Lorule, If you need help, Please use The [F1] menu.";
 
+        [JsonProperty]
+        public bool LootSingleMode = true;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

@@ -46,8 +46,8 @@ namespace Darkages.Types
 
         public bool RollDice(Random rand)
         {
-            if (Level < 30)
-                return rand.Next(1, 101) < 30;
+            if (Level < 50)
+                return rand.Next(1, 101) < 50;
 
             return rand.Next(1, 101) < Level;
         }

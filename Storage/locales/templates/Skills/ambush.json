@@ -8,7 +8,7 @@
   "Exponent": 0.0,
   "Coponent": 0.0,
   "Factor": 0.0,
-  "LevelRate": 5.0,
+  "LevelRate": 0.02,
   "SuccessRate": 0.55,
   "Level": 0,
   "Cooldown": 8,

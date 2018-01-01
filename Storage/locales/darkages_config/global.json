@@ -47,8 +47,8 @@
   "MinimumHp": 500,
   "MonsterDamageFactor": 2.58,
   "MonsterDamageMultipler": 10,
-  "MonsterSkillSuccessRate": 3,
-  "MonsterSpellSuccessRate": 10,
+  "MonsterSkillSuccessRate": 30,
+  "MonsterSpellSuccessRate": 80,
   "MundaneRespawnInterval": 3.0,
   "NotEnoughGoldToDropMsg": "You wish you had that much.",
   "ObjectCacheInterval": 10.0,
@@ -91,5 +91,6 @@
   "ShowMonsterDeathAnimation": true,
   "HelperMenuId": -1,
   "HelperMenuTemplateKey": "Lorule Helper",
-  "ServerWelcomeMessage": "Welcome to Lorule, If you need help, Please use The [F1] menu."
+  "ServerWelcomeMessage": "Welcome to Lorule, If you need help, Please use The [F1] menu.",
+  "LootSingleMode": true
 }

@@ -836,18 +836,20 @@ namespace Darkages.Types
                         offset = 0;
                     }
 
-                    int j = i;
+                    var lo = (byte)((int) i).Clamp(i, buffer.Length);
+                    var hi = (byte)offset.Clamp(0, buffer.Length);
 
-                    buffer[offset.Clamp(0, buffer.Length)] = (byte)j.Clamp(j, buffer.Length);
+                    buffer[hi] = lo;
+
                     offset++;
                 }
 
                 if (offset == 0)
                     return;
 
-                lock (Generator.Random)
+                lock (rnd)
                 {
-                    Direction = buffer[Generator.Random.Next(0, offset)];
+                    Direction = buffer[rnd.Next(0, offset)];
                 }
 
                 if (!Walk())
@@ -870,9 +872,9 @@ namespace Darkages.Types
             if (!CanUpdate())
                 return;
 
-            lock (Generator.Random)
+            lock (rnd)
             {
-                Direction = (byte)Generator.Random.Next(0, 4);
+                Direction = (byte) rnd.Next(0, 4);
             }
 
             if (Walk())
@@ -904,13 +906,6 @@ namespace Darkages.Types
 
             var savedX = X;
             var savedY = Y;
-            var savedDir = Direction;
-
-            if (this is Aisling)
-            {
-                
-            }
-
 
             if (Direction == 0)
             {
