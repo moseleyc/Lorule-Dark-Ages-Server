@@ -27,6 +27,7 @@ namespace Darkages.Network.Object
 
         private bool disposedValue; // To detect redundant calls
 
+
         [JsonIgnore]
         private static bool CacheLoaded { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
 
@@ -244,8 +245,11 @@ namespace Darkages.Network.Game.Components
 
         public void InvokeMediators(Area area = null)
         {
-            MonsterMediator(area);
-            ItemMediator(area);
+            new TaskFactory().StartNew(() =>
+            {
+                MonsterMediator(area);
+                ItemMediator(area);
+            });
         }
 
         private void MonsterMediator(Area area = null)

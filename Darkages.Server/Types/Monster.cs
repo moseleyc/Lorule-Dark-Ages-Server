@@ -1,15 +1,23 @@
-﻿using Darkages.Common;
+﻿using System;
+using System.ComponentModel;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel;
+using static Darkages.ServerContext;
 
 namespace Darkages.Types
 {
     public class Monster : Sprite
     {
+        public Monster()
+        {
+            BashEnabled = false;
+            CastEnabled = false;
+            WalkEnabled = false;
+        }
+
         [JsonIgnore]
         public MonsterScript Script { get; private set; }
 
@@ -26,8 +34,10 @@ namespace Darkages.Types
 
         [Browsable(false)]
         public bool BashEnabled { get; set; }
+
         [Browsable(false)]
         public bool CastEnabled { get; set; }
+
         [Browsable(false)]
         public bool WalkEnabled { get; set; }
 
@@ -35,29 +45,36 @@ namespace Darkages.Types
 
         [JsonIgnore]
         public bool Rewarded { get; set; }
-    
+
         public bool Aggressive { get; set; }
-
-        public Monster()
-        {
-            BashEnabled = false;
-            CastEnabled = false;
-            WalkEnabled = false;
-
-        }
 
         public bool NextTo(int x, int y)
         {
-            var xDist = Math.Abs(x - this.X);
-            var yDist = Math.Abs(y - this.Y);
+            var xDist = Math.Abs(x - X);
+            var yDist = Math.Abs(y - Y);
 
-            return (xDist + yDist) == 1;
+            return xDist + yDist == 1;
         }
 
-        public bool NextTo(Sprite target) => NextTo(target.X, target.Y);
-        public bool NextToTarget() => NextTo(Target);
-        public void WalkToTarget() => WalkToTarget(Target);
-        public void WalkToTarget(Sprite target) => WalkTo(target.X, target.Y);
+        public bool NextTo(Sprite target)
+        {
+            return NextTo(target.X, target.Y);
+        }
+
+        public bool NextToTarget()
+        {
+            return NextTo(Target);
+        }
+
+        public void WalkToTarget()
+        {
+            WalkToTarget(Target);
+        }
+
+        public void WalkToTarget(Sprite target)
+        {
+            WalkTo(target.X, target.Y);
+        }
 
         public void GenerateRewards(Aisling player)
         {
@@ -85,10 +102,10 @@ namespace Darkages.Types
             var percent = 0.3;
             var poly = 9;
             var coponent = poly + player.ExpLevel / Template.Level + 99 * 2;
-            var expToAward = Math.Round(((coponent / percent) * (player.ExpLevel * 0.30)));
+            var expToAward = Math.Round(coponent / percent * (player.ExpLevel * 0.30));
             var expGained = Math.Round(player.ExpLevel * expToAward);
 
-            var p = (player.ExpLevel - Template.Level);
+            var p = player.ExpLevel - Template.Level;
 
             if (p / 10 > 0)
                 expGained = 1;
@@ -96,21 +113,19 @@ namespace Darkages.Types
                 expGained = Math.Abs(expToAward);
 
             if (p < 0)
-            {
                 expGained = expToAward * (Math.Abs(p) + 3);
-            }
 
 
-            player.ExpTotal += (int)(expGained);
-            player.ExpNext -= (int)(expGained);
+            player.ExpTotal += (int) expGained;
+            player.ExpNext -= (int) expGained;
 
-            player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)expGained));
+            player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int) expGained));
 
             if (player.ExpNext <= 0)
             {
-                player.ExpNext = ((int)player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6);
-                player._MaximumHp += (int)((50 * player.Con) * 0.65);
-                player._MaximumMp += (int)((25 * player.Wis) * 0.45);
+                player.ExpNext = player.ExpTotal * (int) (player.ExpLevel * 0.45) / 6;
+                player._MaximumHp += (int) (50 * player.Con * 0.65);
+                player._MaximumMp += (int) (25 * player.Wis * 0.45);
                 player.StatPoints += 2;
                 player.ExpLevel++;
 
@@ -127,7 +142,8 @@ namespace Darkages.Types
                 }
 
                 player.Client.SendMessage(0x02, string.Format("You have reached level {0}!", player.ExpLevel));
-                player.Show(Scope.NearbyAislings, new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
+                player.Show(Scope.NearbyAislings,
+                    new ServerFormat29((uint) player.Serial, (uint) player.Serial, 0x004F, 0x004F, 64));
             }
         }
 
@@ -137,8 +153,8 @@ namespace Darkages.Types
             {
                 if ((Template.LootType & LootQualifer.Gold) == LootQualifer.Gold)
                     Money.Create(this, rnd.Next(
-                            (int)Template.Level * 500,
-                            (int)Template.Level * 1000),
+                            Template.Level * 500,
+                            Template.Level * 1000),
                         new Position(X, Y));
             }
         }
@@ -146,25 +162,23 @@ namespace Darkages.Types
         private void GenerateDrops()
         {
             if (Template.Drops.Count > 0)
-            {
                 lock (rnd)
                 {
                     var idx = rnd.Next(Template.Drops.Count);
                     var rndSelector = Template.Drops[idx];
 
-                    if (ServerContext.GlobalItemTemplateCache.ContainsKey(rndSelector))
+                    if (GlobalItemTemplateCache.ContainsKey(rndSelector))
                     {
-                        var item = Item.Create(this, ServerContext.GlobalItemTemplateCache[rndSelector], true);
+                        var item = Item.Create(this, GlobalItemTemplateCache[rndSelector], true);
                         if (rnd.NextDouble() <= item.Template.DropRate)
                             item.Release(this, Position);
                     }
                 }
-            }
         }
 
         public void Attack()
         {
-            var target = this.Target;
+            var target = Target;
 
             if (target == null)
                 return;
@@ -172,16 +186,14 @@ namespace Darkages.Types
             Attack(target);
         }
 
-        static T RandomEnumValue<T>()
+        private static T RandomEnumValue<T>()
         {
             var v = Enum.GetValues(typeof(T));
-            return (T)v.GetValue(new Random().Next(v.Length));
+            return (T) v.GetValue(new Random().Next(v.Length));
         }
 
         public static Monster Create(MonsterTemplate template, Area map)
         {
-
-
             if (template.CastSpeed == 0)
                 template.CastSpeed = 2000;
 
@@ -204,23 +216,21 @@ namespace Darkages.Types
             obj.CastEnabled = template.MaximumMP > 0;
 
             if (obj.Template.Grow)
-            {
                 obj.Template.Level++;
-            }
 
             if (obj.Template.Level > 99)
                 obj.Template.Level = 1;
 
 
             //=E4 / 0.1 * E6 
-            obj.Template.MaximumHP = (int) ((obj.Template.Level / 0.1) * 32);
-            obj.Template.MaximumMP = (int) ((obj.Template.Level / 0.1) * 16);
+            obj.Template.MaximumHP = (int) (obj.Template.Level / 0.1 * 32);
+            obj.Template.MaximumMP = (int) (obj.Template.Level / 0.1 * 16);
 
             //calculate what ac to give depending on level.
-            obj.BonusAc = (sbyte) (70 - (101 / 70 * template.Level));
+            obj.BonusAc = (sbyte) (70 - 101 / 70 * template.Level);
 
-            if (obj.BonusAc > ServerContext.Config.BaseAC)
-                obj.BonusAc = ServerContext.Config.BaseAC;
+            if (obj.BonusAc > Config.BaseAC)
+                obj.BonusAc = Config.BaseAC;
 
             if (obj.Template.ElementType == ElementQualifer.Random)
             {
@@ -228,26 +238,22 @@ namespace Darkages.Types
                 obj.OffenseElement = RandomEnumValue<ElementManager.Element>();
             }
 
-            obj.BonusMr = (byte) (10 * (((template.Level / 10) * 100) / 100));
+            obj.BonusMr = (byte) (10 * (template.Level / 10 * 100 / 100));
 
-            if (obj.BonusMr > ServerContext.Config.BaseMR)
-                obj.BonusMr = ServerContext.Config.BaseMR;
+            if (obj.BonusMr > Config.BaseMR)
+                obj.BonusMr = Config.BaseMR;
 
             if ((template.PathQualifer & PathQualifer.Wander) == PathQualifer.Wander)
                 obj.WalkEnabled = true;
 
             if (template.MoodTyle == MoodQualifer.Aggressive)
-            {
                 obj.Aggressive = true;
-            }
             else if (template.MoodTyle == MoodQualifer.Unpredicable)
-            {
                 lock (Generator.Random)
                 {
                     //this monster has a 50% chance of being aggressive.
-                    obj.Aggressive = (Generator.Random.Next(1, 101) > 50);
+                    obj.Aggressive = Generator.Random.Next(1, 101) > 50;
                 }
-            }
 
             if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
             {
@@ -273,7 +279,7 @@ namespace Darkages.Types
                 //if not available. find a nearbly location nearby and try spawn it there.
                 while (map.IsWall(obj, obj.X, obj.Y) || map.Tile[obj.X, obj.Y] != TileContent.None)
                 {
-                    for (int i = 0; i < 4; i++)
+                    for (var i = 0; i < 4; i++)
                     {
                         var tiles = map.GetNearByTiles(obj, (short) obj.X, (short) obj.Y, 20);
 
@@ -319,7 +325,6 @@ namespace Darkages.Types
             }
 
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
-
 
 
             //TODO apply formulas.

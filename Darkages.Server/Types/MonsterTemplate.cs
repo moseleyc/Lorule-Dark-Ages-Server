@@ -80,6 +80,8 @@ namespace Darkages.Types
 
         public int AttackSpeed { get; set; }
 
+        public bool IgnoreCollision { get; set; }
+
         [JsonIgnore]
         [Browsable(false)]
         public GameServerTimer Timer { get; set; }

@@ -237,7 +237,28 @@ namespace Darkages
                 ScriptName = "Boot",
                 Class = Class.Peasant,
                 Name = "Boots",
-            };           
+            };
+
+            GlobalItemTemplateCache["Light Coral Necklace"] = new ItemTemplate()
+            {
+                DisplayImage = 0x8000 + 951,
+                Image = 951,
+                EquipmentSlot = ItemSlots.Necklace,
+                Gender = Gender.Both,
+                DropRate = 0.1,
+                CanStack = false,
+                Value = 100000000,
+                LevelRequired = 1,
+                MaxDurability = 3000000,
+                Weight = 1,
+                Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable |
+                        ItemFlags.Tradeable | ItemFlags.Upgradeable | ItemFlags.Elemental,
+                Upgrades = 0,
+                ScriptName = "Necklace",
+                Class = Class.Peasant,
+                Name = "Light Coral Necklace",
+                OffenseElement = ElementManager.Element.Light
+            };
 
             GlobalItemTemplateCache["Ancuisa Ceir"] = new ItemTemplate()
             {

@@ -35,7 +35,7 @@ namespace Darkages.Types
         public Area Map { get; set; }
 
         [JsonIgnoreAttribute]
-        public TileContent Content { get; private set; }
+        public TileContent Content { get; set; }
 
         public List<Debuff> Debuffs { get; set; }
 
@@ -294,9 +294,9 @@ namespace Darkages.Types
 
                     RemoveDebuff("sleep");
 
-                    var amplifier = ElementManager.ElementTable[
-                        (int) Source.OffenseElement,
-                        (int) DefenseElement];
+                    var amplifier = ElementTable[
+                        (int)Source.OffenseElement,
+                        (int)DefenseElement];
 
 
                     dmg = ComputeDmgFromAc(dmg);
@@ -308,7 +308,7 @@ namespace Darkages.Types
                     if (CurrentHp > MaximumHp)
                         CurrentHp = MaximumHp;
 
-                    var dealth = (int) (dmg / amplifier);
+                    var dealth = (int) (dmg * amplifier);
 
                     CurrentHp -= dealth;
 

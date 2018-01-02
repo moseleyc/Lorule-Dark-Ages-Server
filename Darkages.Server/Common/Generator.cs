@@ -1,38 +1,48 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading;
 
 namespace Darkages.Common
 {
     public static class Generator
     {
-        public static Random Random { get; private set; }
-        public static Collection<int> GeneratedNumbers { get; private set; }
-        public static Collection<string> GeneratedStrings { get; private set; }
+        public static volatile int SERIAL;
 
         static Generator()
         {
-            Generator.Random = new Random();
-            Generator.GeneratedNumbers = new Collection<int>();
-            Generator.GeneratedStrings = new Collection<string>();
+            Random = new FastRandom();
+            GeneratedNumbers = new Collection<int>();
+            GeneratedStrings = new Collection<string>();
         }
+
+        public static FastRandom Random { get; }
+        public static Collection<int> GeneratedNumbers { get; }
+        public static Collection<string> GeneratedStrings { get; }
+
 
         public static int GenerateNumber()
         {
-            int id;
+            uint id = 0;
 
             do
             {
-                id = Random.Next();
-            }
-            while (Generator.GeneratedNumbers.Contains(id));
+                if (ServerContext.Config.UseIncrementalSerials)
+                    Interlocked.Increment(ref SERIAL);
+                else
+                    id = (uint) Random.Next();
+            } while (GeneratedNumbers
+                .Contains(ServerContext.Config.UseIncrementalSerials ? SERIAL : (int) id));
+
+            if (ServerContext.Config.UseIncrementalSerials)
+                return SERIAL;
 
             lock (Random)
             {
-                GeneratedNumbers.Add(id);
+                GeneratedNumbers.Add(SERIAL);
             }
 
-            return id;
+            return (int) id;
         }
 
         public static string CreateString(int size)
@@ -41,33 +51,33 @@ namespace Darkages.Common
 
             for (var i = 0; i < size; i++)
             {
-                var binary = Generator.Random.Next(0, 2);
+                var binary = Random.Next(0, 2);
 
                 switch (binary)
                 {
                     case 0:
-                        value.Append(Convert.ToChar(Generator.Random.Next(65, 91)));
+                        value.Append(Convert.ToChar(Random.Next(65, 91)));
                         break;
 
                     case 1:
-                        value.Append(Generator.Random.Next(1, 10));
+                        value.Append(Random.Next(1, 10));
                         break;
                 }
             }
 
             return value.ToString();
         }
+
         public static string GenerateString(int size)
         {
             string s;
 
             do
             {
-                s = Generator.CreateString(size);
-            }
-            while (Generator.GeneratedStrings.Contains(s));
+                s = CreateString(size);
+            } while (GeneratedStrings.Contains(s));
 
-            Generator.GeneratedStrings.Add(s);
+            GeneratedStrings.Add(s);
 
             return s;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Scripting;
 using Darkages.Types;
@@ -9,7 +10,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
     [Script("Common Monster", "Dean")]
     public class CommonMonster : MonsterScript
     {
-        private readonly Random random = new Random();
+        private readonly FastRandom _random = new FastRandom();
         public List<SkillScript> SkillScripts = new List<SkillScript>();
         public List<SpellScript> SpellScripts = new List<SpellScript>();
 
@@ -91,7 +92,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
         public override void Update(TimeSpan elapsedTime)
         {
             if (!Monster.IsAlive)
+            {
                 return;
+            }
 
             UpdateTarget();
 
@@ -140,9 +143,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
         private void CastSpell()
         {
             if (Monster != null && Monster.Target != null && SpellScripts.Count > 0)
-                if (random.Next(1, 101) < ServerContext.Config.MonsterSpellSuccessRate)
+                if (_random.Next(1, 101) < ServerContext.Config.MonsterSpellSuccessRate)
                 {
-                    var spellidx = random.Next(SpellScripts.Count);
+                    var spellidx = _random.Next(SpellScripts.Count);
                     SpellScripts[spellidx].OnUse(Monster, Target);
                 }
         }
@@ -153,21 +156,19 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             {
                 if (Monster.NextTo(Target.X, Target.Y))
                 {
-                    lock (Monster)
+                    if (Monster.Facing(Target.X, Target.Y, out var direction))
                     {
-                        if (Monster.Facing(Target.X, Target.Y, out var direction))
-                        {
-                            Monster.BashEnabled = true;
-                            Monster.CastEnabled = true;
-                        }
-                        else
-                        {
-                            Monster.BashEnabled = false;
-                            Monster.CastEnabled = true;
-                            Monster.Direction = (byte) direction;
-                            Monster.Turn();
-                        }
+                        Monster.BashEnabled = true;
+                        Monster.CastEnabled = true;
                     }
+                    else
+                    {
+                        Monster.BashEnabled = false;
+                        Monster.CastEnabled = true;
+                        Monster.Direction = (byte) direction;
+                        Monster.Turn();
+                    }
+
                 }
                 else
                 {
@@ -191,6 +192,15 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (obj == null)
                 return;
 
+            if (Monster.Target != null)
+            {
+                if (!Monster.Facing(Target.X, Target.Y, out var direction))
+                {
+                    Monster.Direction = (byte) direction;
+                    Monster.Turn();
+                }
+            }
+
             if (obj.Count == 0 || obj.Find(o => o != null &&
                                                 o.Serial == Monster?.Target?.Serial) == null)
                 ClearTarget();
@@ -200,9 +210,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
             if (Monster != null && Monster.Target != null && SkillScripts.Count > 0)
             {
-                var idx = random.Next(SkillScripts.Count);
+                var idx = _random.Next(SkillScripts.Count);
 
-                if (random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
+                if (_random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
                     SkillScripts[idx].OnUse(Monster);
             }
             Monster?.Attack(Target);

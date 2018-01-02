@@ -1,4 +1,5 @@
-﻿using Darkages.Network.Game;
+﻿using System.Threading.Tasks;
+using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
 
@@ -42,25 +43,28 @@ namespace Darkages.Scripting.Scripts.Skills
 
         public void DestroyAll(GameClient client)
         {
-            var objects = GetObjects(i => i.CurrentMapId == client.Aisling.CurrentMapId, Get.Monsters);
-
-            var action = new ServerFormat1A
+            new TaskFactory().StartNew(() =>
             {
-                Serial = client.Aisling.Serial,
-                Number = 0x02,
-                Speed = 40
-            };
+                var objects = GetObjects(i => i.WithinRangeOf(client.Aisling), Get.Monsters);
 
-            client.Aisling.Show(Scope.NearbyAislings, action);
+                var action = new ServerFormat1A
+                {
+                    Serial = client.Aisling.Serial,
+                    Number = 0x02,
+                    Speed = 40
+                };
 
-            foreach (var obj in objects)
-            {
-                (obj as Monster).Target = client.Aisling;
-                (obj as Monster)?.GenerateRewards(client.Aisling);
-                client.SendAnimation(301, obj, client.Aisling);
+                client.Aisling.Show(Scope.NearbyAislings, action);
 
-                obj.ApplyDamage(client.Aisling, 999999, false, 40);
-            }
+                foreach (var obj in objects)
+                {
+                    (obj as Monster).Target = client.Aisling;
+                    (obj as Monster)?.GenerateRewards(client.Aisling);
+                    client.SendAnimation(301, obj, client.Aisling);
+
+                    obj.ApplyDamage(client.Aisling, 999999, false, 40);
+                }
+            });
         }
     }
 }

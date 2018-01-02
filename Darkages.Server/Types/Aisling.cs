@@ -131,6 +131,9 @@ namespace Darkages
 
         public bool InsideView(Sprite obj)
         {
+            if (ViewFrustrum.Count == 0)
+                return false;
+
             try
             {
                 List<Sprite> _view;
@@ -146,11 +149,10 @@ namespace Darkages
                     return true;
                 }
             }
-
-            catch
+            catch (System.ArgumentException)
             {
                 obj.Remove<Monster>();
-                return false;
+                return true;
             }
 
             return false;

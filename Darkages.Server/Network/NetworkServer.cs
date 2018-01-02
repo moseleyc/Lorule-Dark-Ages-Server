@@ -275,15 +275,22 @@ namespace Darkages.Network
 
             if (format != null)
             {
-                client.Read(packet, format);
+                try
+                {
+                    client.Read(packet, format);
 
-                if (_handlers[format.Command] != null)
-                    _handlers[format.Command].Invoke(this,
-                        new object[]
-                        {
-                            client,
-                            format
-                        });
+                    if (_handlers[format.Command] != null)
+                        _handlers[format.Command].Invoke(this,
+                            new object[]
+                            {
+                                client,
+                                format
+                            });
+                }
+                catch (Exception)
+                {
+                     //ignore   
+                }
             }
             else
             {

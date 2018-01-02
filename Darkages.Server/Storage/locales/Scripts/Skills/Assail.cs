@@ -73,7 +73,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         if (Target is Monster)
                             percent = Math.Abs((Target as Monster).Template.Level - client.Aisling.ExpLevel) * 99 / 100;
 
-                        var dmg = Skill.Level + client.Aisling.Str * Skill.Level * percent;
+                        var dmg = (Skill.Level + client.Aisling.Str) * percent;
 
                         i.ApplyDamage(sprite, dmg);
 

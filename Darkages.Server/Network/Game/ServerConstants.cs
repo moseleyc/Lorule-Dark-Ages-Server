@@ -34,7 +34,7 @@ namespace Darkages.Network.Game
         ///     and then the server restarts or crashes, that item will be there when
         ///     it comes back online.
         /// </summary>
-        [JsonProperty] public bool CacheObjects = true;
+        [JsonProperty] public bool CacheObjects = false;
 
         [JsonProperty] public bool CancelCastingWhenWalking = true;
 
@@ -77,7 +77,7 @@ namespace Darkages.Network.Game
         /// </summary>
         public int DeathHPPenalty = 50;
 
-        [JsonProperty] public bool DebugMode;
+        [JsonProperty] public bool DebugMode = false;
 
         [JsonProperty]
         /// <summary>
@@ -103,7 +103,7 @@ namespace Darkages.Network.Game
 
         [JsonProperty] public bool DontTurnDuringRefresh;
 
-        [JsonProperty] public double DropDecayInSeconds = 30;
+        [JsonProperty] public double DropDecayInSeconds = 120;
 
         [JsonProperty] public int ERRORCAP = 5;
 
@@ -115,13 +115,13 @@ namespace Darkages.Network.Game
         /// a visible delay. I don't recommend going lower then 20 frames per second.
         /// and i would not recommend going higher then 60 frames per second. unless you have a super duper computer!
         /// </summary>
-        public int FRAMES = 60;
+        public int FRAMES = 120;
 
         [JsonProperty]
         /// <summary>
         /// Ms between 0 cooldown based skills.
         /// </summary>
-        public double GlobalBaseSkillDelay = 300;
+        public double GlobalBaseSkillDelay = 650;
 
         [JsonProperty]
         /// <summary>
@@ -150,7 +150,7 @@ namespace Darkages.Network.Game
         /// by default this is 300ms, You should increase this to increase the chances of healing out.
         /// i would not recommend a value higher then 750ms, as healing out will become to likely.
         /// </summary>
-        public double HealoutTolerance = 300;
+        public double HealoutTolerance = 500;
 
         [JsonProperty] public string IntAddedMessage = "Your mind expands.";
 
@@ -170,7 +170,7 @@ namespace Darkages.Network.Game
         /// (for example, a mundane killed a monster object).
         /// By default, This is disabled.
         /// </summary>
-        public bool LogDestroyedObjects;
+        public bool LogDestroyedObjects = false;
 
         [JsonProperty] public int LOGIN_PORT = 2610;
 
@@ -178,15 +178,15 @@ namespace Darkages.Network.Game
         /// <summary>
         /// Log Gameserver Recv Packets?
         /// </summary>
-        public bool LogRecvPackets;
+        public bool LogRecvPackets = false;
 
         [JsonProperty]
         /// <summary>
         /// Log Gameserver Sent Packets?
         /// </summary>
-        public bool LogSentPackets;
+        public bool LogSentPackets = false;
 
-        [JsonProperty] public double MapUpdateInterval = 1000;
+        [JsonProperty] public double MapUpdateInterval = 1500;
 
         [JsonProperty] public int MaxCarryGold = 100000000;
 
@@ -196,7 +196,7 @@ namespace Darkages.Network.Game
         /// This timer will commence 5 seconds after the last message was sent.
         /// By default, 10 mimics the USDA rate.
         /// </summary>
-        public double MessageClearInterval = 10;
+        public double MessageClearInterval = 12;
 
         [JsonProperty]
         /// <summary>
@@ -204,13 +204,13 @@ namespace Darkages.Network.Game
         /// </summary>
         public int MinimumHp = 500;
 
-        [JsonProperty] public double MonsterDamageFactor = 2.58;
+        [JsonProperty] public double MonsterDamageFactor = 1.58;
 
-        [JsonProperty] public int MonsterDamageMultipler = 10;
+        [JsonProperty] public int MonsterDamageMultipler = 5;
 
-        [JsonProperty] public int MonsterSkillSuccessRate = 3;
+        [JsonProperty] public int MonsterSkillSuccessRate = 40;
 
-        [JsonProperty] public int MonsterSpellSuccessRate = 10;
+        [JsonProperty] public int MonsterSpellSuccessRate = 30;
 
         [JsonProperty]
         /// <summary>
@@ -220,13 +220,13 @@ namespace Darkages.Network.Game
         /// to keep server usage down. but you can probably go as high as 60.0.
         /// this value is in seconds.
         /// </summary>
-        public double MundaneRespawnInterval = 3.0;
+        public double MundaneRespawnInterval = 2.0;
 
         [JsonProperty] public string NotEnoughGoldToDropMsg = "You wish you had that much.";
 
-        [JsonProperty] public double ObjectCacheInterval = 10;
+        [JsonProperty] public double ObjectCacheInterval = 20;
 
-        [JsonProperty] public double ObjectGarbageCollectorInterval = 1000;
+        [JsonProperty] public double ObjectGarbageCollectorInterval = 500;
 
         [JsonProperty]
         /// <summary>
@@ -245,7 +245,7 @@ namespace Darkages.Network.Game
         /// this also controls the auto-save function.
         /// and auto-saves will also occur on this interval.
         /// </summary>
-        public double PingInterval = 5.0;
+        public double PingInterval = 10.0;
 
         [JsonProperty]
         /// <summary>
@@ -254,9 +254,9 @@ namespace Darkages.Network.Game
         /// </summary>
         public bool QueuePackets = true;
 
-        [JsonProperty] public bool RecvUseTaskMethod = true;
+        [JsonProperty] public bool RecvUseTaskMethod = false;
 
-        [JsonProperty] public bool RecvWaitAll = true;
+        [JsonProperty] public bool RecvWaitAll = false;
 
         [JsonProperty] public bool RefreshOnWalkCollision = true;
 
@@ -264,7 +264,7 @@ namespace Darkages.Network.Game
         /// <summary>
         /// What is the time between aisling f5ing?
         /// </summary>
-        public int RefreshRate = 100;
+        public int RefreshRate = 300;
 
         [JsonProperty]
         /// <summary>
@@ -277,20 +277,20 @@ namespace Darkages.Network.Game
         /// <summary>
         /// In Seconds, How often should we have active aislings?
         /// </summary>
-        public double SaveRate = 15.0;
+        public double SaveRate = 30.0;
 
         [JsonProperty] public bool SendClientPacketsAsAsync = true;
 
         [JsonProperty] public int SERVER_PORT = 2615;
 
-        [JsonProperty] public string SERVER_TITLE = "Darkages Server : 7.18";
+        [JsonProperty] public string SERVER_TITLE = "Lorule Dark ages Server - Accepting Clients Version 7.18";
 
         [JsonProperty]
         /// <summary>
         /// What is the tolerance for packet sending overflow?
         /// This should be a low number, I recommend using a value between 1 and 10.
         /// </summary>
-        public int ServerOverflowTolerate = 255;
+        public int ServerOverflowTolerate = 256;
 
         [JsonProperty] public string ServerTablePath = "server.tbl";
 
@@ -301,7 +301,7 @@ namespace Darkages.Network.Game
         /// Setting to high can crash the game client.
         /// I would recommend no lower then 12, no higher then 30.
         /// </summary>
-        public int SpriteBatchSize = 12;
+        public int SpriteBatchSize = 24;
 
         [JsonProperty] public int StartingMap = 509;
 
@@ -320,11 +320,11 @@ namespace Darkages.Network.Game
         /// Aisling will disconnect if no connection activity within this period.
         /// by default, 20 seconds is a pretty good indication.
         /// </summary>
-        public double Timeout = 20;
+        public double Timeout = 60;
 
         [JsonProperty] public bool TransFormAsParallel = true;
 
-        [JsonProperty] public bool UseFastSqrtMethod;
+        [JsonProperty] public bool UseFastSqrtMethod = false;
 
         [JsonProperty] public string UserDroppedGoldMsg = "noname has dropped some money nearby.";
 
@@ -334,7 +334,7 @@ namespace Darkages.Network.Game
 
         [JsonProperty] public string WisAddedMessage = "Your will increases.";
 
-        [JsonProperty] public double WithinRangeProximity = 13.0;
+        [JsonProperty] public double WithinRangeProximity = 10.0;
 
         [JsonProperty] public string YouDroppedGoldMsg = "you dropped some gold.";
 
@@ -351,7 +351,7 @@ namespace Darkages.Network.Game
         public byte BaseMR = 70;
 
         [JsonProperty]
-        public double WarpUpdateTimer = 1.5;
+        public double WarpUpdateTimer = 1.0;
 
         [JsonProperty]
         public ushort WarpAnimationNumber = 214;
@@ -360,7 +360,7 @@ namespace Darkages.Network.Game
         public ushort MonsterDeathAnimationNumber = 350;
 
         [JsonProperty]
-        public bool ShowMonsterDeathAnimation = true;
+        public bool ShowMonsterDeathAnimation = false;
 
         [JsonProperty] public int HelperMenuId = -1;
 
@@ -372,6 +372,12 @@ namespace Darkages.Network.Game
 
         [JsonProperty]
         public bool LootSingleMode = true;
+
+        [JsonProperty]
+        public bool UseIncrementalSerials = true;
+
+        [JsonProperty]
+        public bool UseFastRandom = true;
 
         public override string ToString()
         {

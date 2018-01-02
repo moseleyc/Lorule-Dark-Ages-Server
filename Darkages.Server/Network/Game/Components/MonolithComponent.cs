@@ -58,19 +58,22 @@ namespace Darkages.Network.Game.Components
 
         public void SpawnOn(MonsterTemplate template, Area map)
         {
-            var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
-
-            if (count < template.SpawnMax)
+            new TaskFactory().StartNew(() =>
             {
-                if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
+                var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
+
+                if (count < template.SpawnMax)
                 {
-                    var needed = Math.Abs(count - template.SpawnSize);
-                    for (var i = needed - 1; i >= 0; i--)
+                    if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
+                    {
+                        var needed = Math.Abs(count - template.SpawnSize);
+                        for (var i = needed - 1; i >= 0; i--)
+                            CreateFromTemplate<Monster>(template, map);
+                    }
+                    if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
                         CreateFromTemplate<Monster>(template, map);
                 }
-                if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
-                    CreateFromTemplate<Monster>(template, map);
-            }
+            });
         }
 
         public void CreateFromTemplate<T>(Template template, Area map) where T : Sprite, new()
@@ -78,13 +81,12 @@ namespace Darkages.Network.Game.Components
             var obj = new T();
 
             if (obj is Monster)
-                new TaskFactory().StartNew(() =>
-                {
-                    var newObj = Monster.Create(template as MonsterTemplate, map);
+            {
+                var newObj = Monster.Create(template as MonsterTemplate, map);
 
-                    if (GetObject<Monster>(i => i.Serial == newObj.Serial) == null)
-                        AddObject(newObj);
-                });
+                if (GetObject<Monster>(i => i.Serial == newObj.Serial) == null)
+                    AddObject(newObj);
+            }
         }
     }
 }

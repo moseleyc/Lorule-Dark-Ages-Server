@@ -112,6 +112,12 @@ namespace Darkages
                         return false;
             }
 
+            if (obj is Monster)
+            {
+                if (((Monster) obj).Template.IgnoreCollision)
+                    return false;
+            }
+
 
             foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
                 Get.Monsters | Get.Mundanes | Get.Aislings))
