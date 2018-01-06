@@ -7,7 +7,7 @@ namespace Darkages.Security
     [System.Serializable]
     public sealed class SecurityParameters : IFormattable
     {
-        public static readonly SecurityParameters Default = new SecurityParameters(0, Encoding.ASCII.GetBytes(ServerContext.Config.DefaultKey));
+        public static readonly SecurityParameters Default = new SecurityParameters(0, Encoding.ASCII.GetBytes(ServerContext.Config?.DefaultKey ?? "NexonInc."));
 
         public byte Seed { get; private set; }
         public byte[] Salt { get; private set; }

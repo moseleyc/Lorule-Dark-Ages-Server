@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 
 namespace Darkages.Network.Object
 {
+    [Serializable]
     public sealed class ObjectService : IDisposable
     {
         [JsonIgnore] private static readonly object syncLock = new object();
 
         [JsonIgnore] private static ObjectService context;
-
 
         [JsonIgnore] private readonly HashSet<Sprite> _aislings = new HashSet<Sprite>();
 

@@ -20,7 +20,7 @@ namespace Darkages.Network
 
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
 
-        private readonly ManualResetEvent _sendDone = new ManualResetEvent(!ServerContext.Config.SendClientPacketsAsAsync);
+        private readonly ManualResetEvent _sendDone = new ManualResetEvent(!ServerContext.Config?.SendClientPacketsAsAsync ?? false);
 
         public NetworkClient()
         {
@@ -55,8 +55,9 @@ namespace Darkages.Network
         }
 
 
-        public void Read(NetworkPacket packet, NetworkFormat format)
+        public virtual void Read(NetworkPacket packet, NetworkFormat format)
         {
+
             try
             {
                 if (format.Secured)
@@ -79,7 +80,7 @@ namespace Darkages.Network
                 }
 
 
-                if (ServerContext.Config.LogRecvPackets)
+                if (ServerContext.Config?.LogRecvPackets ?? false)
                 {
                     Console.WriteLine("r: {0}", packet);
                 }

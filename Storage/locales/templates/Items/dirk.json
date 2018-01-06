@@ -34,5 +34,6 @@
   "LevelRequired": 1,
   "DmgMin": 11,
   "DmgMax": 16,
-  "Name": "Dirk"
+  "Name": "Dirk",
+  "DropRate": 0.3,
 }

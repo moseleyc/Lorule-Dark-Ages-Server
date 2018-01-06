@@ -110,6 +110,8 @@
     <Compile Include="Network\ClientFormats\ClientFormat38.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat39.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat3A.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat3B.cs" />
+    <Compile Include="Network\ClientFormats\ClientFormat3F.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat3E.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat43.cs" />
     <Compile Include="Network\ClientFormats\ClientFormat44.cs" />
@@ -206,7 +208,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\GlobalScript.cs" />
     <Compile Include="Scripting\ItemScript.cs" />
-    <Compile Include="Scripting\MapScript.cs" />
     <Compile Include="Scripting\MonsterScript.cs" />
     <Compile Include="Scripting\MundaneScript.cs" />
     <Compile Include="Scripting\SpellScript.cs" />
@@ -232,18 +233,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\debuffs\debuff_sleep.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Storage\locales\Scripts\Areas\Barrens.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Storage\locales\Scripts\Areas\tour.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Storage\locales\Scripts\Areas\Mileth.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Storage\locales\Scripts\Areas\Arena.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Global\GrimReaper.cs">
@@ -392,6 +381,7 @@
     <Compile Include="Types\PartyMember.cs" />
     <Compile Include="Types\PathQualifer.cs" />
     <Compile Include="Types\Popup.cs" />
+    <Compile Include="Types\PortalSession.cs" />
     <Compile Include="Types\PostQualifer.cs" />
     <Compile Include="Types\PreQualifer.cs" />
     <Compile Include="Types\Quest.cs" />
@@ -434,7 +424,9 @@
     <Compile Include="Types\TargetQualifiers.cs" />
     <Compile Include="Types\Template.cs" />
     <Compile Include="Types\TileContent.cs" />
+    <Compile Include="Types\Warp.cs" />
     <Compile Include="Types\WarpTemplate.cs" />
+    <Compile Include="Types\WorldMapTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="include\Newtonsoft.Json.dll" />
@@ -527,6 +519,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

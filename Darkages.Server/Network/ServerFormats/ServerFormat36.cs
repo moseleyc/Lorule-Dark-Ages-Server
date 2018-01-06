@@ -74,13 +74,11 @@ namespace Darkages.Network.ServerFormats
                 writer.Write((byte) user.ClassID);
                 writer.Write((byte) (
                     user.Serial == Client.Aisling.Serial
-                        ? ListColor.Teal
+                        ? ListColor.Tan
                         : Math.Abs(Client.Aisling.ExpLevel - user.ExpLevel) < 10
                             ? ListColor.Orange
                             : ListColor.White));
-                writer.Write((byte) (user.GroupParty.Members.Count > 0
-                    ? StatusIcon.TeamHunting
-                    : StatusIcon.SoloHunting));
+                writer.Write((byte)user.ActiveStatus);
                 writer.Write((byte) user.Title > 0);
                 writer.Write((byte) user.Stage > 0);
                 writer.WriteStringA(user.Username);

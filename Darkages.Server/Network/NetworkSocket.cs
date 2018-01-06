@@ -11,7 +11,7 @@ namespace Darkages.Network
         private readonly byte[] header = new byte[0x0003];
         private int headerLength = 3;
         private int headerOffset;
-        private readonly byte[] packet = new byte[ServerContext.Config.BufferSize];
+        private readonly byte[] packet = new byte[ServerContext.Config?.BufferSize ?? 8192];
         private int packetLength;
         private int packetOffset;
 

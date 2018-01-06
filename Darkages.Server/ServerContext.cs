@@ -14,14 +14,14 @@ namespace Darkages
     public class ServerContext : ObjectManager
     {
         public static ServerConstants Config;
-
         public static int ERRORS;
         public static int DEFAULT_PORT;
 
-
         public static List<Redirect> GlobalRedirects = new List<Redirect>();
         public static List<Metafile> GlobalMetaCache = new List<Metafile>();
-        public static Dictionary<int, Area> GlobalMapCache = new Dictionary<int, Area>();
+
+        public static Dictionary<int, Area> GlobalMapCache =
+            new Dictionary<int, Area>();
 
         public static Dictionary<string, MonsterTemplate> GlobalMonsterTemplateCache =
             new Dictionary<string, MonsterTemplate>();
@@ -40,8 +40,11 @@ namespace Darkages
         public static Dictionary<int, List<WarpTemplate>> GlobalWarpTemplateCache =
             new Dictionary<int, List<WarpTemplate>>();
 
+        public static Dictionary<int, WorldMapTemplate> GlobalWorldMapTemplateCache =
+            new Dictionary<int, WorldMapTemplate>();
+
         public static bool Running;
-        public static IPAddress IPADDRESS => IPAddress.Parse(File.ReadAllText(Config.ServerTablePath));
+        public static IPAddress IPADDRESS => IPAddress.Parse(File.ReadAllText("server.tbl"));
         public static string STORAGE_PATH => @"..\..\..\Storage\Locales";
 
         public static GameServer Game { get; set; }
@@ -218,6 +221,7 @@ namespace Darkages
             Console.WriteLine("\n");
 
 
+            //TODO: These will not remain here. Just here for now for testing, They need to get serialized.
 
             GlobalItemTemplateCache["Boots"] = new ItemTemplate()
             {
@@ -427,7 +431,7 @@ namespace Darkages
                 MaxDurability = 2000,
                 Weight = 1,
                 Flags = ItemFlags.Bankable | ItemFlags.Dropable | ItemFlags.Equipable | ItemFlags.Repairable | ItemFlags.Tradeable | ItemFlags.Upgradeable,
-                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),                
+                AcModifer = new StatusOperator(StatusOperator.Operator.Remove, 1),
                 ManaModifer = new StatusOperator(StatusOperator.Operator.Add, 100),
                 HealthModifer = new StatusOperator(StatusOperator.Operator.Add, 100),
                 StrModifer = new StatusOperator(StatusOperator.Operator.Add, 1),
@@ -750,6 +754,291 @@ namespace Darkages
                 Class = Class.Wizard,
                 Name = "Magus Diana",
             };
+
+            #region Warps
+            var warp1 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 100,
+                    Location = new Position(5, 13),
+                },
+                To = new Warp()
+                {
+                    AreaID = 101,
+                    Location = new Position(37, 19)
+                },
+                LevelRequired = 1,
+                Name = "Lost Wilderness",
+                WarpRadius = 0,
+                WarpType = WarpType.Map
+            };
+
+            var warp2 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 101,
+                    Location = new Position(37, 18),
+                },
+                To = new Warp()
+                {
+                    AreaID = 100,
+                    Location = new Position(5, 12)
+                },
+                LevelRequired = 1,
+                Name = "The Awakening",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+            };
+
+            var warp3 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 101,
+                    Location = new Position(49, 26),
+                },
+                To = new Warp()
+                {
+                    PortalKey = 1,                     
+                },
+                Name = "World Map",
+                WarpRadius = 0,
+                WarpType = WarpType.World,
+                LevelRequired = 1
+            };
+
+            var warp4 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 508,
+                    Location = new Position(8, 14),
+                },
+                To = new Warp()
+                {
+                    PortalKey = 1,
+                },
+                Name = "World Map",
+                WarpRadius = 0,
+                WarpType = WarpType.World,
+                LevelRequired = 1
+            };
+
+            var warp5 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 508,
+                    Location = new Position(7, 14),
+                },
+                To = new Warp()
+                {
+                    PortalKey = 1,
+                },
+                Name = "Arena Lobby",
+                WarpRadius = 0,
+                WarpType = WarpType.World,
+                LevelRequired = 1
+            };
+
+            var warp6 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 508,
+                    Location = new Position(14, 8),
+                },
+                To = new Warp()
+                {
+                     AreaID = 509,
+                     Location = new Position(7, 7),                      
+                },
+                Name = "Arena 1",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 1
+            };
+            var warp7 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 508,
+                    Location = new Position(14, 7),
+                },
+                To = new Warp()
+                {
+                    AreaID = 509,
+                    Location = new Position(7, 7),
+                },
+                Name = "Arena 2",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 1
+            };
+            var warp8 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(43, 19),
+                },
+                To = new Warp()
+                {
+                    PortalKey = 1,
+                },
+                Name = "World Map",
+                WarpRadius = 0,
+                WarpType = WarpType.World,
+                LevelRequired = 1
+            };
+            var warp9 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(36, 7),
+                },
+                To = new Warp()
+                {
+                    AreaID = 151,
+                    Location = new Position(25, 69),
+                },
+                Name = "descent caverns 1-1",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 6
+            };
+            var warp10 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 151,
+                    Location = new Position(26, 77),
+                },
+                To = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(35, 8),
+                },
+                Name = "Descent 1",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 6
+            };
+            var warp11 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(46, 10),
+                },
+                To = new Warp()
+                {
+                    AreaID = 152,
+                    Location = new Position(17, 3),
+                },
+                Name = "Lorule Crypt 1-1",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 3
+            };
+            var warp12 = new WarpTemplate()
+            {
+                From = new Warp()
+                {
+                    AreaID = 152,
+                    Location = new Position(17, 1),
+                },
+                To = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(48, 9),
+                },
+                Name = "Departure from Lorule Crypt 1-1",
+                WarpRadius = 0,
+                WarpType = WarpType.Map,
+                LevelRequired = 3
+            };
+
+            GlobalWarpTemplateCache[100] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[100].Add(warp1);
+
+            GlobalWarpTemplateCache[101] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[101].Add(warp2);
+            GlobalWarpTemplateCache[101].Add(warp3);
+
+            GlobalWarpTemplateCache[508] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[508].Add(warp4);
+            GlobalWarpTemplateCache[508].Add(warp5);
+            GlobalWarpTemplateCache[508].Add(warp6);
+            GlobalWarpTemplateCache[508].Add(warp7);
+
+            GlobalWarpTemplateCache[150] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[150].Add(warp8);
+            GlobalWarpTemplateCache[150].Add(warp9);
+            GlobalWarpTemplateCache[150].Add(warp11);
+
+            GlobalWarpTemplateCache[151] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[151].Add(warp10);
+
+            GlobalWarpTemplateCache[152] = new List<WarpTemplate>();
+            GlobalWarpTemplateCache[152].Add(warp12);
+
+
+            #endregion
+
+
+            var temuair_Worldmap = new WorldMapTemplate();
+            temuair_Worldmap.Name = "Temuair";
+            temuair_Worldmap.FieldNumber = 1;
+            temuair_Worldmap.Portals = new List<WorldPortal>();
+            temuair_Worldmap.Transition = new Warp()
+            {
+                AreaID = ServerContext.Config.TransitionZone,
+                Location = new Position(
+                    ServerContext.Config.TransitionPointX,
+                    ServerContext.Config.TransitionPointY)
+            };
+
+            temuair_Worldmap.Portals.Add(new WorldPortal()
+            {
+                DisplayName = "Lorule Arena",
+                Destination = new Warp()
+                {
+                    AreaID = 508,
+                    Location = new Position(10, 10)
+                },
+                PointX = 225,
+                PointY = 330
+            });
+
+            temuair_Worldmap.Portals.Add(new WorldPortal()
+            {
+                DisplayName = "Lost Wilderness",
+                Destination = new Warp()
+                {
+                    AreaID = 101,
+                    Location = new Position(46, 26)
+                },
+                PointX = 120,
+                PointY = 330
+            });
+
+            temuair_Worldmap.Portals.Add(new WorldPortal()
+            {
+                DisplayName = "Descending Caverns",
+                Destination = new Warp()
+                {
+                    AreaID = 150,
+                    Location = new Position(43, 18)
+                },
+                PointX = 167,
+                PointY = 259
+            });
+
+            GlobalWorldMapTemplateCache[1] = temuair_Worldmap;
         }
     }
 }

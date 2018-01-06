@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
@@ -230,7 +231,10 @@ namespace Darkages.Types
             Debuffs = new List<Debuff>();
         }
 
-        public Random rnd = new Random();
+        private static readonly ThreadLocal<Random> _rnd
+             = new ThreadLocal<Random>(() => new Random());
+
+        public Random rnd => _rnd.Value;
 
         public void ApplyDamage(Sprite Source, int dmg, bool truedamage = false, byte sound = 1,
             Action<int> dmgcb = null)
@@ -601,6 +605,10 @@ namespace Darkages.Types
                     aisling.Show(Scope.Self, hpbar);
                 }
             }
+            else
+            {
+                target.RemoveBuffsAndDebuffs();
+            }            
         }
 
         public void RemoveFrom(Aisling nearbyAisling)

@@ -188,8 +188,11 @@ namespace Darkages.Types
 
         private static T RandomEnumValue<T>()
         {
-            var v = Enum.GetValues(typeof(T));
-            return (T) v.GetValue(new Random().Next(v.Length));
+            lock (Generator.Random)
+            {
+                var v = Enum.GetValues(typeof(T));
+                return (T)v.GetValue(Generator.Random.Next(1, v.Length));
+            }
         }
 
         public static Monster Create(MonsterTemplate template, Area map)
@@ -212,7 +215,6 @@ namespace Darkages.Types
             obj.CastTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.CastSpeed));
             obj.BashTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.AttackSpeed));
             obj.WalkTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.MovementSpeed));
-            obj.BashEnabled = true;
             obj.CastEnabled = template.MaximumMP > 0;
 
             if (obj.Template.Grow)
@@ -236,6 +238,13 @@ namespace Darkages.Types
             {
                 obj.DefenseElement = RandomEnumValue<ElementManager.Element>();
                 obj.OffenseElement = RandomEnumValue<ElementManager.Element>();
+            }
+            else if (obj.Template.ElementType == ElementQualifer.Defined)
+            {
+                obj.DefenseElement = template?.DefenseElement == ElementManager.Element.None ? RandomEnumValue<ElementManager.Element>()
+                    : template.DefenseElement;
+                obj.OffenseElement = template?.OffenseElement == ElementManager.Element.None ? RandomEnumValue<ElementManager.Element>()
+                    : template.OffenseElement;
             }
 
             obj.BonusMr = (byte) (10 * (template.Level / 10 * 100 / 100));

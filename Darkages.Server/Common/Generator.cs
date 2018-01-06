@@ -11,12 +11,12 @@ namespace Darkages.Common
 
         static Generator()
         {
-            Random = new FastRandom();
+            Random = (dynamic)(ServerContext.Config.UseFastRandom ? (dynamic)new FastRandom() : (dynamic)new Random());
             GeneratedNumbers = new Collection<int>();
             GeneratedStrings = new Collection<string>();
         }
 
-        public static FastRandom Random { get; }
+        public static dynamic Random { get; }
         public static Collection<int> GeneratedNumbers { get; }
         public static Collection<string> GeneratedStrings { get; }
 
@@ -27,14 +27,14 @@ namespace Darkages.Common
 
             do
             {
-                if (ServerContext.Config.UseIncrementalSerials)
+                if (ServerContext.Config?.UseIncrementalSerials ?? false)
                     Interlocked.Increment(ref SERIAL);
                 else
                     id = (uint) Random.Next();
             } while (GeneratedNumbers
-                .Contains(ServerContext.Config.UseIncrementalSerials ? SERIAL : (int) id));
+                .Contains(ServerContext.Config?.UseIncrementalSerials ?? false ? SERIAL : (int) id));
 
-            if (ServerContext.Config.UseIncrementalSerials)
+            if (ServerContext.Config?.UseIncrementalSerials ?? false)
                 return SERIAL;
 
             lock (Random)

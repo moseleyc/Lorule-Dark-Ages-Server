@@ -157,9 +157,7 @@
     //public class ClientFormat38 { } Added
     //public class ClientFormat39 { } Added (Mundane Dialog Response)
     //public class ClientFormat3A { }
-    public class ClientFormat3B
-    {
-    }
+    // public class ClientFormat3B { } // boards
 
     public class ClientFormat3C
     {
@@ -170,9 +168,9 @@
     }
 
     //public class ClientFormat3E { } Added (Use Skill)
-    public class ClientFormat3F
-    {
-    } // (Map Click)
+    //public class ClientFormat3F
+    //{
+    //} // (Map Click)
 
     public class ClientFormat40
     {

@@ -6,7 +6,7 @@ namespace Darkages.Network
 {
     public class NetworkPacketWriter
     {
-        private readonly byte[] buffer = new byte[ServerContext.Config.BufferSize];
+        private readonly byte[] buffer = new byte[ServerContext.Config?.BufferSize ?? 8192];
         private readonly Encoding encoding = Encoding.GetEncoding(949);
 
         public int Position { get; set; }

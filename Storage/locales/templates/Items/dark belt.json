@@ -18,6 +18,6 @@
   "LevelRequired": 11,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.8,
+  "DropRate": 0.03,
   "Name": "Dark Belt"
 }

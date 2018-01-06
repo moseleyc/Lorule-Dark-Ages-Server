@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network.Game;
-using Darkages.Network.Game.Components;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 
 namespace Darkages
 {
@@ -26,19 +25,13 @@ namespace Darkages
 
         [JsonIgnore]
         [Browsable(false)]
-        public TileContent[,] Tile { get; private set; }
+        public TileContent[,] Tile { get; set; }
 
         public int Music { get; set; }
 
         [JsonIgnore]
         [Browsable(false)]
         public bool Ready { get; set; }
-
-        public string ScriptKey { get; set; }
-
-        [JsonIgnore]
-        [Browsable(false)]
-        public MapScript Script { get; set; }
 
         [JsonRequired]
         public ushort Rows { get; set; }
@@ -181,10 +174,6 @@ namespace Darkages
             if (!Has<Aisling>())
                 return;
 
-            //Update Area Script.
-            Script?.Update(elapsedTime);
-
-
             WarpTimer.Update(elapsedTime);
             if (WarpTimer.Elapsed)
             {
@@ -205,14 +194,16 @@ namespace Darkages
 
             foreach (var warp in warps)
             {
-                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(warp.Location.X, warp.Location.Y, 9)
-                                                                                       && warp.AreaID == ID);
+                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(warp.From.Location.X, warp.From.Location.Y, 9)
+                                                                                       && warp.From.AreaID == ID);
                 if (nearby.Length == 0)
                     continue;
 
                 foreach (var near in nearby)
                 {
-                    near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber, warp.Location.X, warp.Location.Y));
+                    near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber, 
+                        warp.From.Location.X, 
+                        warp.From.Location.Y));
                 }
             }
         }
@@ -302,52 +293,57 @@ namespace Darkages
             var radiusSq = radius * radius;
             var result = new List<Position>();
 
-            for (short j = 0; j < Rows; j++)
-            for (short i = 0; i < Cols; i++)
-            {
-                var xDist = Math.Abs(x - i);
-                var yDist = Math.Abs(y - j);
+            for (var j = 0; y < Rows; y++)
+                for (var i = 0; x < Cols; x++)
+                {
 
-                if (xDist > radius || yDist > radius)
-                    continue;
-                if (xDist > innerBound || yDist > innerBound)
-                    continue;
-                if (IsWall(obj, i, j))
-                    continue;
-                if (i == x && j == y)
-                    continue;
+                    var xDist = Math.Abs(x - i);
+                    var yDist = Math.Abs(y - j);
+
+                    if (xDist > radius || yDist > radius)
+                        continue;
+                    if (xDist > innerBound || yDist > innerBound)
+                        continue;
+                    if (IsWall(obj, i, j))
+                        continue;
+                    if (i == x && j == y)
+                        continue;
 
 
-                if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
-                    && Tile[i, j] == TileContent.None)
-                    result.Add(new Position(i, j));
-            }
+                    if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
+                        && Tile[i, j] == TileContent.None)
+                        result.Add(new Position(i, j));
+                }
 
             return result.ToArray();
         }
 
         public void OnLoaded()
         {
-            Tile = new TileContent[Rows, Cols];
 
-            var stream = new MemoryStream(Data);
-            var reader = new BinaryReader(stream);
+            Tile = new TileContent[Cols, Rows];
 
-            for (var y = 0; y < Rows; y++)
-            for (var x = 0; x < Cols; x++)
+            using (var stream = new MemoryStream(Data))
             {
-                reader.BaseStream.Seek(2, SeekOrigin.Current);
+                using (var reader = new BinaryReader(stream))
+                {
+                    for (int y = 0; y < Rows; y++)
+                    {
+                        for (int x = 0; x < Cols; x++)
+                        {
 
-                if (ParseSotp(reader.ReadInt16(), reader.ReadInt16()))
-                    Tile[x, y] = TileContent.Wall;
-                else
-                    Tile[x, y] = TileContent.None;
+                            reader.BaseStream.Seek(2, SeekOrigin.Current);
+
+                            if (ParseSotp(reader.ReadInt16(), reader.ReadInt16()))
+                                Tile[x, y] = TileContent.Wall;
+                            else
+                                Tile[x, y] = TileContent.None;
+
+                        }
+                    }
+                    SetWarps();
+                }
             }
-
-            SetWarps();
-
-            reader.Close();
-            stream.Close();
 
             Ready = true;
         }
@@ -360,7 +356,12 @@ namespace Darkages
                 var warps = ServerContext.GlobalWarpTemplateCache[ID];
 
                 foreach (var warp in warps)
-                    Tile[warp.Location.X, warp.Location.Y] = TileContent.Warp;
+                {
+                    if (warp.WarpType == WarpType.Map)
+                    {
+                        Tile[warp.From.Location.X, warp.From.Location.Y] = TileContent.Warp;
+                    }
+                }
             }
         }
 
@@ -368,10 +369,11 @@ namespace Darkages
         {
             var positions = new List<Position>();
 
-            for (var y = 0; y < Rows; y++)
+            for (int y = 0; y < Rows; y++)
             {
-                for (var x = 0; x < Cols; x++)
+                for (int x = 0; x < Cols; x++)
                 {
+
                     if (Tile[x, y] == TileContent.None
                         || Tile[x, y] == TileContent.Money
                         || Tile[x, y] == TileContent.Item)

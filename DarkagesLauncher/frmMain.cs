@@ -197,6 +197,7 @@ namespace ClientLauncher
                 public int PatchTable { get; set; }
                 public int HookTable { get; set; }
                 public int ClientVersion { get; set; }
+                public int SplashPtr { get; set; }
             }
         }
 
@@ -227,8 +228,15 @@ namespace ClientLauncher
                 IntPtr.Zero, null, ref si, out pi);
 
             MemorySharp memory;
-            memory = new MemorySharp((int)pi.dwProcessId);
-
+            try
+            {
+                memory = new MemorySharp((int)pi.dwProcessId);
+            }
+            catch
+            {
+                MessageBox.Show("This application needs to run as admin.");
+                return;
+            }
             var payload = new byte[7];
             var segments = server.IPAddress.Split('.');
 
@@ -245,6 +253,9 @@ namespace ClientLauncher
 
                 memory.Write((IntPtr)(0x400000 + server.HookTable), payload, false);
                 memory.Write((IntPtr)(0x400000 + server.PatchTable), payload, false);
+
+                //kill
+                memory.Write((IntPtr)(0x400000 + server.SplashPtr), 0x87, false);
             }
 
             IntPtr ThreadHandle = pi.hThread;

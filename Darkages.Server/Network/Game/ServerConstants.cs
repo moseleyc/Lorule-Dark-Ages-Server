@@ -1,4 +1,5 @@
 ﻿using Darkages.Storage;
+using Darkages.Types;
 using Newtonsoft.Json;
 
 namespace Darkages.Network.Game
@@ -202,7 +203,7 @@ namespace Darkages.Network.Game
         /// <summary>
         /// What is the Lowest HP an aisling can reach under any circumstances?
         /// </summary>
-        public int MinimumHp = 500;
+        public int MinimumHp = 50;
 
         [JsonProperty] public double MonsterDamageFactor = 1.58;
 
@@ -303,7 +304,10 @@ namespace Darkages.Network.Game
         /// </summary>
         public int SpriteBatchSize = 24;
 
-        [JsonProperty] public int StartingMap = 509;
+        [JsonProperty] public int StartingMap = 100;
+
+        [JsonProperty]
+        public Position StartingPosition = new Position(5, 5);
 
         [JsonProperty]
         /// <summary>
@@ -378,6 +382,18 @@ namespace Darkages.Network.Game
 
         [JsonProperty]
         public bool UseFastRandom = true;
+
+        [JsonProperty]
+        public int DeathFreeLevelCap = 11;
+
+        [JsonProperty]
+        public int TransitionZone = 9999;
+
+        [JsonProperty]
+        public short TransitionPointX = 3;
+
+        [JsonProperty]
+        public short TransitionPointY = 3;
 
         public override string ToString()
         {

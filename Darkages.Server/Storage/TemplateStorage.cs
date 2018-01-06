@@ -103,10 +103,10 @@ namespace Darkages.Storage
                     var template =
                         StorageManager.WarpBucket.Load<WarpTemplate>(Path.GetFileNameWithoutExtension(asset));
 
-                    if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(template.AreaID))
-                        ServerContext.GlobalWarpTemplateCache[template.AreaID] = new List<WarpTemplate>();
+                    if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(template.From.AreaID))
+                        ServerContext.GlobalWarpTemplateCache[template.From.AreaID] = new List<WarpTemplate>();
 
-                    ServerContext.GlobalWarpTemplateCache[template.AreaID].Add(template);
+                    ServerContext.GlobalWarpTemplateCache[template.From.AreaID].Add(template);
                     Console.WriteLine(" -> {0} Loaded From {1}", template.Name, Path.GetFileName(asset));
                 }
             }

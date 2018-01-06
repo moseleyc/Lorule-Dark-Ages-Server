@@ -256,13 +256,73 @@ namespace Darkages.Network.Game
 
             if (client.Aisling.Walk())
             {
-                client.Aisling.Map.Script?.OnStep(client);
+                if (client.Aisling.AreaID == ServerContext.Config.TransitionZone)
+                {
+                    client.Aisling.PortalSession = new PortalSession() { FieldNumber = 1, IsMapOpen = false };
+                    client.Aisling.PortalSession.TransitionToMap(client);
+                    return;
+                }
+
+                if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(client.Aisling.CurrentMapId))
+                    return;
+
+                foreach (var warps in ServerContext.GlobalWarpTemplateCache[client.Aisling.CurrentMapId])
+                {
+                    if (warps.From.Location.DistanceFrom(client.Aisling.Position) <= warps.WarpRadius)
+                    {
+                        if (warps.WarpType == WarpType.Map)
+                        {
+                            client.WarpTo(warps);
+                        }
+                        else if (warps.WarpType == WarpType.World)
+                        {
+                            if (!ServerContext.GlobalWorldMapTemplateCache.ContainsKey(warps.To.PortalKey))
+                            {
+                                client.SendMessage(0x02, "You can't travel at the moment.");
+                                return;
+                            }
+
+                            client.Aisling.PortalSession = new PortalSession();
+                            client.Aisling.PortalSession.FieldNumber = warps.To.PortalKey;
+                            client.Aisling.PortalSession.TransitionToMap(client);
+                        }
+                    }
+                }
             }
             else
             {
                 if (ServerContext.Config.RefreshOnWalkCollision)
                     client.Refresh();
             }
+        }
+
+        /// <summary>
+        /// World Map
+        /// </summary>
+        protected override void Format3FHandler(GameClient client, ClientFormat3F format)
+        {
+            if (client.Aisling == null || !client.Aisling.LoggedIn)
+                return;
+
+            var maxIdx = format.Index;
+            if (maxIdx <= 0)
+                return;
+
+            var worldmap = client.Aisling.PortalSession?.Template;
+
+            if (worldmap == null)
+                return;
+
+            var node = worldmap.Portals
+                    .Find(i => i.Destination != null &&
+                        i.Destination.AreaID == maxIdx);
+
+            if (node == null)
+                return;
+
+            client.Aisling.PortalSession.TransitionToMap(client,
+                (short)node.Destination.Location.X,
+                (short)node.Destination.Location.Y, node.Destination.AreaID);
         }
 
         /// <summary>
@@ -733,6 +793,11 @@ namespace Darkages.Network.Game
             #endregion
 
             client.Aisling.Show(Scope.Self, new ServerFormat36(client));
+        }
+
+        protected override void Format3BHandler(GameClient client, ClientFormat3B format)
+        {
+            client.SendMessageBox(0x00, "\0");
         }
 
         /// <summary>
@@ -1447,6 +1512,15 @@ namespace Darkages.Network.Game
         protected override void Format75Handler(GameClient client, ClientFormat75 format)
         {
             AutoSave(client);
+        }
+
+
+        protected override void Format79Handler(GameClient client, ClientFormat79 format)
+        {
+            if (client == null || client.Aisling == null)
+                return;
+
+            client.Aisling.ActiveStatus = format.Status;
         }
 
         /// <summary>

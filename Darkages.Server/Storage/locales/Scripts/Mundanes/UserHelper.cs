@@ -30,12 +30,12 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                     var opts = new List<OptionsDataItem>();
 
                     var map = ServerContext.GlobalWarpTemplateCache;
-                    var warp_names = map.Values.SelectMany(i => i).Where(i => i != null);
+                    var warp_names = map.Values.SelectMany(i => i).Where(i => i != null && i.WarpType == WarpType.Map && i.To != null && i.From != null);
 
                     foreach (var warp in warp_names)
                     {
                         opts.Add(new OptionsDataItem(
-                            (short) warp.AreaID,  warp.Name));
+                            (short) warp.To.AreaID,  warp.Name));
                     }
 
                     client.SendOptionsDialog(Mundane, "You may travel to these location.",
@@ -54,15 +54,23 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             //try and find a valid warp.
                             if (ServerContext.GlobalWarpTemplateCache.ContainsKey(key))
                             {
-                                var warp = ServerContext.GlobalWarpTemplateCache[client.Aisling.CurrentMapId].Find(i => i.Destination.ID
-                                                                                                == key);
+                                var warp = ServerContext.GlobalWarpTemplateCache.Values
+                                    .FirstOrDefault(i => i.Count(n => n.To != null && n.To.AreaID == key) > 0)
+                                    .FirstOrDefault() ?? ServerContext.GlobalWarpTemplateCache.Values
+                                    .FirstOrDefault(i => i.Count(n => n.From != null && n.From.AreaID == key) > 0)
+                                    .FirstOrDefault();
 
                                 if (warp != null)
                                 {
                                     client.WarpTo(warp);
                                 }
-                            }
+                                else
+                                {
+                                    client.SendMessage(0x02, "You can't travel there at this time.");
+                                    return;
+                                }
 
+                            }
                         }
                     }
 

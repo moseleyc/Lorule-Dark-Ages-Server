@@ -26,7 +26,7 @@ namespace Darkages.Network.ServerFormats
 
             BuildEquipment(writer);
 
-            writer.Write((byte) ActivityStatus.Awake);
+            writer.Write((byte)Aisling.ActiveStatus);
             writer.WriteStringA(Aisling.Username);
             writer.Write(Aisling.Nation);
             writer.WriteStringA(Aisling.Stage.ToString());

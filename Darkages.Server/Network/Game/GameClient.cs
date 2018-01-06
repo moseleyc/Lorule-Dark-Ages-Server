@@ -62,7 +62,7 @@ namespace Darkages.Network.Game
 
         public void WarpTo(WarpTemplate warps)
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(warps.Destination.ID))
+            if (ServerContext.GlobalMapCache.ContainsKey(warps.From.AreaID))
             {
                 if (warps.LevelRequired > 0 && Aisling.ExpLevel < warps.LevelRequired)
                 {
@@ -73,25 +73,32 @@ namespace Darkages.Network.Game
                     return;
                 }
 
-                if (Aisling.Map.ID != warps.Destination.ID)
+                if (Aisling.Map.ID != warps.To.AreaID)
                 {
                     LeaveArea(true, false);
-                    Aisling.Map = ServerContext.GlobalMapCache[warps.Destination.ID];
-                    Aisling.X = warps.DestinationPosition.X;
-                    Aisling.Y = warps.DestinationPosition.Y;
-                    Aisling.CurrentMapId = warps.Destination.ID;
+                    Aisling.Map = ServerContext.GlobalMapCache[warps.To.AreaID];
+                    Aisling.X = warps.To.Location.X;
+                    Aisling.Y = warps.To.Location.Y;
+                    Aisling.CurrentMapId = warps.To.AreaID;
                     Aisling.AreaID = Aisling.CurrentMapId;
                     ShouldUpdateMap = true;
                     EnterArea();
+                    Aisling.Client.CloseDialog();
                 }
                 else
                 {
                     LeaveArea(true, false);
-                    Aisling.X = warps.DestinationPosition.X;
-                    Aisling.Y = warps.DestinationPosition.Y;
+                    Aisling.X = warps.To.Location.X;
+                    Aisling.Y = warps.To.Location.Y;
                     EnterArea();
+                    Aisling.Client.CloseDialog();
                 }
             }
+        }
+
+        public void CloseDialog()
+        {
+            SendPacket(new byte[] { (byte)0x30, 0x00, 0x0A, 0x00 });
         }
 
         public void Update(TimeSpan elapsedTime)
@@ -424,6 +431,14 @@ namespace Darkages.Network.Game
             SendLocation();
             UpdateDisplay();
             RefreshObjects();
+            SendMusic();
+        }
+
+        public void SendMusic()
+        {
+            Aisling.Client.SendPacket(new byte[] {
+                    0x19, 0x00, 0xFF,
+                    (byte)Aisling.Map.Music });
         }
 
         public void Insert()

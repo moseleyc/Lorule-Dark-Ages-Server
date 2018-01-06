@@ -14,7 +14,7 @@
   },
   "OffenseElement": 0,
   "DefenseElement": 0,
-  "Weight": 12,
+  "Weight": 2,
   "Flags": 77,
   "MaxDurability": 0,
   "Value": 100,
@@ -24,5 +24,7 @@
   "LevelRequired": 1,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "Shirt"
+  "Name": "Shirt",
+  "DropRate": 0.5,
+  "HasPants": true
 }

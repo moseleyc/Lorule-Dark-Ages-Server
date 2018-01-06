@@ -35,9 +35,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(178, 12);
+            this.button1.Location = new System.Drawing.Point(347, 16);
+            this.button1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 21);
+            this.button1.Size = new System.Drawing.Size(200, 38);
             this.button1.TabIndex = 0;
             this.button1.Text = "Launch Client";
             this.button1.UseVisualStyleBackColor = true;
@@ -46,16 +47,18 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 12);
+            this.comboBox1.Location = new System.Drawing.Point(15, 16);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 21);
+            this.comboBox1.Size = new System.Drawing.Size(316, 38);
             this.comboBox1.TabIndex = 1;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(284, 11);
+            this.button2.Location = new System.Drawing.Point(559, 16);
+            this.button2.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(32, 21);
+            this.button2.Size = new System.Drawing.Size(64, 38);
             this.button2.TabIndex = 2;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -63,17 +66,23 @@
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(326, 239);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(634, 70);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
+            this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmMain";
-            this.Text = " Client Launcher";
+            this.Opacity = 0.9D;
+            this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Text = " Lorule Launcher";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
 

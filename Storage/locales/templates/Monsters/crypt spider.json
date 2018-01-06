@@ -1,0 +1,48 @@
+{
+  "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
+  "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": []
+  },
+  "ID": 152,
+  "Image": 0x4035,
+  "ScriptName": "Common Monster",
+  "DefinedX": 0,
+  "DefinedY": 0,
+  "Exponent": 0.0,
+  "Coponent": 0.0,
+  "Factor": 0.0,
+  "LootType": 8,
+  "MoodTyle": 1,
+  "SpawnType": 1,
+  "ElementType": 2,
+  "PathQualifer": 1,
+  "Level": 4,
+  "MaximumHP": 0,
+  "MaximumMP": 0,
+  "SpawnerID": 0,
+  "AreaID": 152,
+  "RegenSpeed": 0,
+  "MovementSpeed": 2000,
+  "CastSpeed": 4000,
+  "ArmorClass": 0,
+  "MagicResist": 0,
+  "SpawnMax": 2500,
+  "SpawnRate": 5,
+  "SpawnSize": 9,
+  "AttackSpeed": 1000,
+  "IgnoreCollision": false,
+  "ImageVarience": 0,
+  "SpawnOnlyOnActiveMaps": false,
+  "UpdateMapWide": false,
+  "Grow": false,
+  "SpellScripts": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "beag cradh"
+    ]
+  },
+  "DefenseElement": 1,
+  "OffenseElement": 0,
+  "Name": "Crypt Spider"
+}

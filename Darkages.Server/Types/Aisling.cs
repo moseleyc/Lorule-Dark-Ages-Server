@@ -112,6 +112,9 @@ namespace Darkages
 
         public List<Quest> Quests = new List<Quest>();
 
+        public PortalSession PortalSession { get; set; }
+        public Position LastPosition { get; internal set; }
+        public int LastMapId { get; internal set; }
 
         public Aisling()
         {
@@ -127,6 +130,7 @@ namespace Darkages
             ActiveSpellInfo = null;
             LoggedIn = false;
             ActiveStatus = ActivityStatus.Awake;
+            PortalSession = new PortalSession();
         }
 
         public bool InsideView(Sprite obj)
@@ -168,6 +172,11 @@ namespace Darkages
                 if (ViewFrustrum.Contains(obj))
                     ViewFrustrum.Remove(obj);
             }
+        }
+
+        public void GoHome()
+        {
+
         }
 
         public void View(Sprite obj)
@@ -230,8 +239,8 @@ namespace Darkages
 
                 Username = string.Empty,
                 Password = string.Empty,
-                X = 28,
-                Y = 29,
+                X = ServerContext.Config.StartingPosition.X,
+                Y = ServerContext.Config.StartingPosition.Y,
 
                 AbpLevel = 0,
                 AbpTotal = 0,
@@ -295,7 +304,7 @@ namespace Darkages
 
             if (ServerContext.GlobalMapCache.ContainsKey(result.AreaID))
             {
-                result.Map = ServerContext.GlobalMapCache[509];
+                result.Map = ServerContext.GlobalMapCache[result.AreaID];
             }
 
             return result;

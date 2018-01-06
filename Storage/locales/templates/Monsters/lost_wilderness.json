@@ -1,0 +1,53 @@
+{
+  "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
+  "ID": 0,
+  "Image": 0x4001,
+  "ScriptName": "Common Monster",
+  "DefinedX": 31,
+  "DefinedY": 25,
+  "Exponent": 0.0,
+  "Coponent": 0.0,
+  "Factor": 0.0,
+  "LootType": 72,
+  "MoodTyle": 3,
+  "SpawnType": 1,
+  "ElementType": 1,
+  "PathQualifer": 1,
+  "Level": 2,
+  "MaximumHP": 200,
+  "MaximumMP": 200,
+  "SpawnerID": 0,
+  "AreaID": 101,
+  "RegenSpeed": 0,
+  "MovementSpeed": 650,
+  "CastSpeed": 1000,
+  "ArmorClass": 0,
+  "MagicResist": 20,
+  "SpawnMax": 4024,
+  "SpawnRate": 25,
+  "SpawnSize": 100,
+  "AttackSpeed": 750,
+  "ImageVarience": 5,
+  "SpawnOnlyOnActiveMaps": false,
+  "UpdateMapWide": false,
+  "Grow": false,
+  "SpellScripts": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+      "beag cradh",
+      "beag ioc fein",
+      "dion"
+    ]
+  },
+  "Name": "Bee",
+ "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+	"Dark Belt",
+        "Dark Bone Necklace",
+        "Light Coral Necklace",
+        "Dirk",
+        "Wooden Shield"
+    ]
+  },
+}

@@ -11,6 +11,7 @@ using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
+using Newtonsoft.Json;
 using static System.Threading.ThreadPool;
 
 namespace Darkages.Network
@@ -18,10 +19,15 @@ namespace Darkages.Network
     public abstract class NetworkServer<TClient> : ObjectManager
         where TClient : NetworkClient, new()
     {
+        [JsonIgnore]
         private readonly Queue<Action> _recvBuffers = new Queue<Action>();
+        [JsonIgnore]
         private bool _receiving;
+        [JsonIgnore]
         private readonly MethodInfo[] _handlers;
+        [JsonIgnore]
         private Socket _listener;
+        [JsonIgnore]
         private bool _listening;
 
         protected NetworkServer(int capacity)
@@ -39,7 +45,14 @@ namespace Darkages.Network
                     BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
+        public NetworkServer()
+        {
+
+        }
+
+        [JsonIgnore]
         public IPAddress Address { get; }
+
         public TClient[] Clients { get; }
 
         private void EndConnectClient(IAsyncResult result)
@@ -57,7 +70,7 @@ namespace Darkages.Network
                 {
                     Socket = new NetworkSocket(socket)
                     {
-                        LingerState = new LingerOption(false, ServerContext.Config.DisposeTimeout)
+                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1)
                     }
                 };
 
@@ -204,13 +217,13 @@ namespace Darkages.Network
             _listening = true;
             _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _listener.Bind(new IPEndPoint(IPAddress.Any, port));
-            _listener.Listen(ServerContext.Config.ConnectionCapacity);
+            _listener.Listen(ServerContext.Config?.ConnectionCapacity ?? 1000);
             _listener.BeginAccept(EndConnectClient, null);
         }
 
         public virtual void ClientConnected(TClient client)
         {
-            if (ServerContext.Config.DebugMode)
+            if (ServerContext.Config?.DebugMode ?? false)
             {
                 Console.WriteLine("[{0}]: Client Connected.", client.Serial);
             }

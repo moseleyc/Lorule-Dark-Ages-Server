@@ -32,6 +32,10 @@ namespace Darkages.Storage.locales.Scripts.Global
                         return;
                     }
 
+                    client.Aisling.LastMapId = client.Aisling.CurrentMapId;
+                    client.Aisling.LastPosition = client.Aisling.Position;
+
+                    client.CloseDialog();
                     client.Aisling.Flags = AislingFlags.Dead;
                     client.HpRegenTimer.Disabled = true;
                     client.MpRegenTimer.Disabled = true;
@@ -70,19 +74,37 @@ namespace Darkages.Storage.locales.Scripts.Global
 
         private static void SendToHell(GameClient client)
         {
-            client.Aisling.Show(Scope.NearbyAislings,
-                new ServerFormat29((uint) client.Aisling.Serial,
-                    (uint) client.Aisling.Serial, 0x81, 0x81, 100));
+            if (ServerContext.GlobalMapCache.ContainsKey(88888) || client.Aisling.ExpLevel <= ServerContext.Config.DeathFreeLevelCap)
+            {
+                client.Aisling.Show(Scope.NearbyAislings,
+                    new ServerFormat29((uint)client.Aisling.Serial,
+                        (uint)client.Aisling.Serial, 0x81, 0x81, 100));
 
-            client.LeaveArea(true, true);
-            client.Aisling.X = 13;
-            client.Aisling.Y = 11;
-            client.Aisling.Direction = 0;
-            client.Aisling.CurrentMapId = 88888;
-            client.Aisling.Map = ServerContext.GlobalMapCache[88888];
-            client.Save();
-            client.ShouldUpdateMap = true;
-            client.EnterArea();
+                client.LeaveArea(true, true);
+                client.Aisling.X = 13;
+                client.Aisling.Y = 11;
+                client.Aisling.Direction = 0;
+                client.Aisling.CurrentMapId = 88888;
+                client.Aisling.AreaID = 88888;
+                client.Aisling.Map = ServerContext.GlobalMapCache[88888];
+                client.Save();
+                client.ShouldUpdateMap = true;
+                client.EnterArea();
+            }
+            else
+            {
+                client.LeaveArea(true, true);
+                client.Aisling.CurrentHp = 1;
+                client.Aisling.CurrentMapId = ServerContext.Config.StartingMap;
+                client.Aisling.AreaID = ServerContext.Config.StartingMap;
+                client.Aisling.X = ServerContext.Config.StartingPosition.X;
+                client.Aisling.Y = ServerContext.Config.StartingPosition.Y;
+                client.Aisling.Map = ServerContext.GlobalMapCache[ServerContext.Config.StartingMap];
+                client.Save();
+                client.ShouldUpdateMap = true;
+                client.EnterArea();
+                return;
+            }
         }
 
         public override void Update(TimeSpan elapsedTime)
@@ -109,17 +131,14 @@ namespace Darkages.Storage.locales.Scripts.Global
 
         private void Revive()
         {
+            Client.CloseDialog();
+            Client.Aisling.CurrentHp = Client.Aisling.MaximumHp;
             Client.HpRegenTimer.Disabled = false;
             Client.MpRegenTimer.Disabled = false;
-            Client.Aisling.CurrentHp = Client.Aisling.MaximumHp;
-            Client.Aisling.Flags = AislingFlags.Normal;
-            Client.Send(new ServerFormat08(Client.Aisling,
-                StatusFlags.All));
+            Client.Send(new ServerFormat08(Client.Aisling, StatusFlags.All));
             Client.UpdateDisplay();
-            Client.Aisling.Show(Scope.NearbyAislings,
-                new ServerFormat29((uint) Client.Aisling.Serial,
-                    (uint) Client.Aisling.Serial, 160, 160, 100));
             Client.Aisling.Flags = AislingFlags.Normal;
+            Client.Aisling.GoHome();
             Client.Save();
         }
     }

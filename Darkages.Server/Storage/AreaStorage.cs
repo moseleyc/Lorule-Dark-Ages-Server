@@ -51,31 +51,24 @@ namespace Darkages.Storage
             var area_names = Directory.GetFiles(area_dir, "*.json", SearchOption.TopDirectoryOnly);
 
             foreach (var area in area_names)
-                try
+            {
+                var mapObj = StorageManager.AreaBucket.Load(Path.GetFileNameWithoutExtension(area));
+                var mapFile = Directory.GetFiles($@"{ServerContext.STORAGE_PATH}\maps", $"lod{mapObj.Number}.map",
+                    SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+                if (mapFile != null && File.Exists(mapFile))
                 {
-                    var mapObj = StorageManager.AreaBucket.Load(Path.GetFileNameWithoutExtension(area));
-                    var mapFile = Directory.GetFiles($@"{ServerContext.STORAGE_PATH}\maps", $"lod{mapObj.Number}.map",
-                        SearchOption.TopDirectoryOnly).FirstOrDefault();
+                    mapObj.Data = File.ReadAllBytes(mapFile);
+                    mapObj.Hash = Crc16Provider.ComputeChecksum(mapObj.Data);
+                    StorageManager.AreaBucket.Save(mapObj);
 
-                    if (mapFile != null && File.Exists(mapFile))
-                    {
-                        mapObj.Data = File.ReadAllBytes(mapFile);
-                        mapObj.Hash = Crc16Provider.ComputeChecksum(mapObj.Data);
-                        StorageManager.AreaBucket.Save(mapObj);
+                    //mapObj.Script = ScriptManager.Load<MapScript>(mapObj.ScriptKey, mapObj);
+                    mapObj.OnLoaded();
 
 
-                        mapObj.Script = ScriptManager.Load<MapScript>(mapObj.ScriptKey, mapObj);
-                        mapObj.OnLoaded();
-
-                        ServerContext.GlobalMapCache[mapObj.Number] = mapObj;
-                    }
+                    ServerContext.GlobalMapCache[mapObj.Number] = mapObj;
                 }
-                catch
-                {
-                    Console.WriteLine("Unable to load Map {0}, Not compatible.", Path.GetFileName(area));
-                    File.Delete(area);
-                    Console.WriteLine("Deleted Corrupt Area Template : {0}", Path.GetFileName(area));
-                }
+            }
         }
     }
 }

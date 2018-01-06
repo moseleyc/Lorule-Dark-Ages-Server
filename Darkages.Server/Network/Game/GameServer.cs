@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Darkages.Network.Game.Components;
 
 namespace Darkages.Network.Game
 {
+    [Serializable]
     public partial class GameServer
     {
         public static object ServerSyncObj = new object();
@@ -13,11 +15,18 @@ namespace Darkages.Network.Game
         private bool isRunning;
         private DateTime lastUpdate = DateTime.UtcNow;
         private Thread updateThread;
+        public static TcpClient Proxy = null;
 
+        static GameServer()
+        {
+            //Proxy = new TcpClient("127.0.0.1", 2617);
+        }
 
         public GameServer(int capacity)
             : base(capacity)
         {
+            Frames = ServerContext.Config.FRAMES;
+
             Components = new Collection<GameServerComponent>();
             UpdateSpan = TimeSpan.FromSeconds(1.0 / Frames);
             InitializeGameServer();
@@ -27,7 +36,7 @@ namespace Darkages.Network.Game
         public TimeSpan UpdateSpan { get; }
         public TimeSpan Delta { get; set; }
 
-        public int Frames { get; set; } = ServerContext.Config.FRAMES;
+        public int Frames { get; set; } 
 
         private void AutoSave(GameClient client)
         {
@@ -66,8 +75,8 @@ namespace Darkages.Network.Game
             var MilethSpawner = new MonolithComponent(this);
             Components.Add(MilethSpawner);
 
-            var objectCOmponent = new ObjectComponent(this);
-            Components.Add(objectCOmponent);
+            var objectComponent = new ObjectComponent(this);
+            Components.Add(objectComponent);
 
             var mundaneComponent = new MundaneComponent(this);
             Components.Add(mundaneComponent);
@@ -75,31 +84,39 @@ namespace Darkages.Network.Game
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }
 
+        GameServerTimer ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(10));
+
         public void Update(TimeSpan elapsedTime)
         {
-            UpdateClients(elapsedTime);
+            ServerTimer.Update(elapsedTime);
 
-            UpdateAreas(elapsedTime);
-
-            UpdateComponents(elapsedTime);
+            if (ServerTimer.Elapsed)
+            {
+                UpdateClients(elapsedTime);
+                UpdateAreas(elapsedTime);
+                UpdateComponents(elapsedTime);
+            }
         }
 
         private void UpdateComponents(TimeSpan elapsedTime)
         {
-            for (var i = 0; i < Components.Count; i++)
-                Components[i].Update(elapsedTime);
+            ThreadPool.QueueUserWorkItem((w) =>
+            {
+                lock (Components)
+                {
+                    for (var i = 0; i < Components.Count; i++)
+                        Components[i].Update(elapsedTime);
+                }
+            });
         }
 
         private static void UpdateAreas(TimeSpan elapsedTime)
         {
-            lock (ServerSyncObj)
+            foreach (Area area in ServerContext.GlobalMapCache.Values)
             {
-                foreach (Area area in ServerContext.GlobalMapCache.Values)
-                {
-                    area?.Update(elapsedTime);
+                area.Update(elapsedTime);
 
-                    UpdateGroundItems(area);
-                }
+                UpdateGroundItems(area);
             }
         }
 

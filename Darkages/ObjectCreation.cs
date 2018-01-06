@@ -62,11 +62,6 @@ namespace Darkages
                         template.Data = File.ReadAllBytes(mapFile);
                         template.Hash = Crc16Provider.ComputeChecksum(template.Data);
 
-                        var dimensions = GetDimensions(template.Data);
-                        template.Cols = dimensions[0];
-                        template.Rows = dimensions[1];
-
-
                         StorageManager.AreaBucket.Save(template);
                         Console.WriteLine("New Area Added. You must restart server to take affect.");
                         Close();

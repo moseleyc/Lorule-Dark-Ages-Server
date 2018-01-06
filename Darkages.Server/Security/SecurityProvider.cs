@@ -217,7 +217,7 @@ namespace Darkages.Security
         }
         public void Transform(NetworkPacket packet)
         {
-            bool UsingParallel = ServerContext.Config.TransFormAsParallel;
+            bool UsingParallel = ServerContext.Config?.TransFormAsParallel ?? true;
 
             if (UsingParallel)
             {

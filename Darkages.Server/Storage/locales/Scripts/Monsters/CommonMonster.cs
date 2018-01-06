@@ -25,12 +25,14 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
                     SpellScripts.Add(script);
                 }
+            if (Monster.Template.SkillScripts != null)
+                foreach (var skillscriptstr in Monster.Template.SkillScripts)
+                {
+                    var script = ScriptManager.Load<SkillScript>(skillscriptstr,
+                        Spell.Create(1, ServerContext.GlobalSpellTemplateCache[skillscriptstr]));
 
-
-            var wff = ScriptManager.Load<SkillScript>("wff",
-                Skill.Create(1, ServerContext.GlobalSkillTemplateCache["Wolf Fang Fist"]));
-
-            SkillScripts.Add(wff);
+                    SkillScripts.Add(script);
+                }
         }
 
         public Sprite Target => Monster.Target;
@@ -47,6 +49,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             if (Monster.Aggressive)
             {
                 Monster.Target = client.Aisling;
+                Monster.WalkEnabled = true;
             }
         }
 
@@ -201,12 +204,12 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 }
             }
 
-            if (obj.Count == 0 || obj.Find(o => o != null &&
-                                                o.Serial == Monster?.Target?.Serial) == null)
-                ClearTarget();
 
-            if (Target == null)
+            if (Target == null || Target.CurrentHp == 0)
+            {
+                ClearTarget();
                 return;
+            }
 
             if (Monster != null && Monster.Target != null && SkillScripts.Count > 0)
             {

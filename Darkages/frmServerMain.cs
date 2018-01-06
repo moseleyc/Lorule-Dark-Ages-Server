@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Darkages.Network.Game;
+using Darkages.Storage;
+using Darkages.Types;
+using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Darkages.Common;
-using Darkages.Network.Game;
-using Darkages.Storage;
-using Darkages.Types;
-using Newtonsoft.Json;
 using ZTn.Json.JsonTreeView;
 using ZTn.Json.JsonTreeView.Controls;
 using static Darkages.Network.Object.ObjectManager;
@@ -18,20 +17,14 @@ namespace Darkages
     public partial class frmServerMain : Form
     {
         private JTokenTreeUserControl _configtree;
-        private Instance _proxy = new Instance();
+        private static Instance _proxy = new Instance();
 
         public frmServerMain()
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
-            {
-                if (ServerContext.Config.DebugMode)
-                {
-                    Debug.WriteLine(eventArgs.Exception.ToString());
-                }
-            };
         }
+    
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -43,12 +36,25 @@ namespace Darkages
                 Enabled = true
             };
 
+            BackColor = System.Drawing.Color.Black;
+            ForeColor = System.Drawing.Color.Lime;
+            Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 9);
 
-            foreach (Control c in _configtree.Controls)
+            foreach (Control c in Controls)
             {
-                c.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 10);
+                c.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 11);
                 c.BackColor = System.Drawing.Color.Black;
-                c.ForeColor = System.Drawing.Color.Orange;
+                c.ForeColor = System.Drawing.Color.Lime;
+
+                if (c.Controls.Count > 0)
+                {
+                    foreach (Control cc in c.Controls)
+                    {
+                        cc.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 10);
+                        cc.BackColor = System.Drawing.Color.Black;
+                        cc.ForeColor = System.Drawing.Color.Lime;
+                    }
+                }
             }
 
             _configtree.AfterSelect += _configtree_AfterSelect;
@@ -79,7 +85,10 @@ namespace Darkages
             {
                 SpellScripts =
                     new Collection<string>(ServerContext.GlobalSpellTemplateCache.Keys
-                        .ToList())
+                        .ToList()),
+
+                SkillScripts = new Collection<string>(ServerContext.GlobalSkillTemplateCache.Keys
+                        .ToList()),
             });
             objCreateWindow.ShowDialog();
         }
@@ -115,19 +124,6 @@ namespace Darkages
             ServerContext.LoadMonsterTemplates();
         }
 
-        private void speedUpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ServerContext.Game.Frames += 10;
-
-            if (ServerContext.Game.Frames > 60)
-                ServerContext.Game.Frames = 60;
-        }
-
-        private void slowDownToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ServerContext.Game.Frames =
-                ServerContext.Game.Frames.Clamp(5, ServerContext.Game.Frames--);
-        }
 
         private void spellTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -258,6 +254,7 @@ namespace Darkages
             objCreateWindow.ShowDialog();
         }
 
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (_proxy == null)
@@ -278,6 +275,7 @@ namespace Darkages
                 textBox1.Visible = false;
                 button4.Visible = false;
                 button3.Text = "Stop Server";
+
             }
             else
             {
@@ -293,6 +291,7 @@ namespace Darkages
                 ServerContext.Running = false;
 
                 _proxy = null;
+
 
                 GC.Collect();
             }
@@ -368,6 +367,11 @@ namespace Darkages
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new jsonEditor().ShowDialog();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

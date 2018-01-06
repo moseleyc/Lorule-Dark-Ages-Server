@@ -67,6 +67,22 @@ namespace Darkages.Storage
                     }
                 }
 
+                if (obj is GameServer)
+                {
+                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\context";
+                    var path = Path.Combine(StoragePath, string.Format("{0}.json", "context"));
+
+                    if (!File.Exists(path))
+                        return null;
+
+                    using (var s = File.OpenRead(path))
+                    using (var f = new StreamReader(s))
+                    {
+                        var objd = (GameServer)JsonConvert.DeserializeObject<GameServer>(f.ReadToEnd(), Settings);
+                        return objd as T;
+                    }
+                }
+
                 if (obj is ObjectService)
                 {
                     var StoragePath = $@"{ServerContext.STORAGE_PATH}\states";
@@ -116,6 +132,20 @@ namespace Darkages.Storage
                         Directory.CreateDirectory(StoragePath);
 
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "state_objcache"));
+                    var objString = JsonConvert.SerializeObject(obj, Settings);
+
+                    File.WriteAllText(path, objString);
+                    return objString;
+                }
+
+                if (obj is GameServer)
+                {
+                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\context";
+
+                    if (!Directory.Exists(StoragePath))
+                        Directory.CreateDirectory(StoragePath);
+
+                    var path = Path.Combine(StoragePath, string.Format("{0}.json", "context"));
                     var objString = JsonConvert.SerializeObject(obj, Settings);
 
                     File.WriteAllText(path, objString);

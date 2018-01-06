@@ -24,27 +24,71 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
         public override void OnClick(GameServer server, GameClient client)
         {
-            if (client.Aisling.Dead)
-            {
-                var options = new List<OptionsDataItem>();
-                options.Add(new OptionsDataItem(0x0001, "Yes."));
-                options.Add(new OptionsDataItem(0x0002, "No."));
-
-                client.SendOptionsDialog(Mundane, "You seek redemption?", options.ToArray());
-            }
+            var options = new List<OptionsDataItem>();
+            options.Add(new OptionsDataItem(0x0001, "North"));
+            options.Add(new OptionsDataItem(0x0002, "East"));
+            options.Add(new OptionsDataItem(0x0003, "South"));
+            options.Add(new OptionsDataItem(0x0004, "West"));
+            options.Add(new OptionsDataItem(0x0005, "Middle"));
+            options.Add(new OptionsDataItem(0x0006, "Leave Arena"));
+            client.SendOptionsDialog(Mundane, "Give the orders.", options.ToArray());
         }
 
         public override void OnResponse(GameServer server, GameClient client, ushort responseID, string args)
         {
-            if (responseID == 0x0001)
-                client.SendOptionsDialog(Mundane, "Beg for Life.",
-                    new OptionsDataItem(0x0005, "Please my lord."),
-                    new OptionsDataItem(0x0001, "No, Fuck you."));
+            if (responseID == 0x0006)
+                client.SendOptionsDialog(Mundane, "Are you sure you want to leave?",
+                    new OptionsDataItem(0x0060, "Leave"),
+                    new OptionsDataItem(0x0070, "Continue Fighting"));
 
-            if (responseID == 0x0005)
+            if (responseID == 0x0060)
             {
                 client.Aisling.CurrentHp = client.Aisling.MaximumHp;
                 client.SendStats(StatusFlags.All);
+
+                client.Aisling.PortalSession = new PortalSession() { IsMapOpen = false, FieldNumber = 1 };
+                client.Aisling.PortalSession.TransitionToMap(client);
+                client.CloseDialog();
+            }
+            if (responseID == 0x0001)
+            {
+                client.LeaveArea(true, false);
+                client.Aisling.X = 4;
+                client.Aisling.Y = 4;
+                client.EnterArea();
+                client.CloseDialog();
+            }
+            if (responseID == 0x0002)
+            {
+                client.LeaveArea(true, false);
+                client.Aisling.X = 51;
+                client.Aisling.Y = 4;
+                client.EnterArea();
+                client.CloseDialog();
+            }
+            if (responseID == 0x0003)
+            {
+                client.LeaveArea(true, false);
+                client.Aisling.X = 51;
+                client.Aisling.Y = 51;
+                client.EnterArea();
+                client.CloseDialog();
+            }
+            if (responseID == 0x0004)
+            {
+                client.LeaveArea(true, false);
+                client.Aisling.X = 4;
+                client.Aisling.Y = 51;
+                client.EnterArea();
+                client.CloseDialog();
+            }
+            if (responseID == 0x0005)
+            {
+                client.LeaveArea(true, false);
+                client.Aisling.X = 35;
+                client.Aisling.Y = 35;
+                client.EnterArea();
+                client.CloseDialog();
             }
         }
     }

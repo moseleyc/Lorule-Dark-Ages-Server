@@ -107,7 +107,11 @@ namespace Darkages.Types
         public Collection<string> SkillScripts { get; set; }
     
         [JsonIgnore]
+        [Browsable(false)]
         public DateTime LastUpdate { get; set; }
+
+        public ElementManager.Element DefenseElement { get; set; }
+        public ElementManager.Element OffenseElement { get; set; }
 
         [JsonProperty] [Description("What Drops?")]
         public Collection<string> Drops = new Collection<string>();
