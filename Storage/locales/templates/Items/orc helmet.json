@@ -1,0 +1,59 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 2,
+  "DisplayImage": 33301,
+  "ScriptName": "Helmet",
+  "Gender": 255,
+  "ManaModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 500
+  },
+  "StrModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 2
+  },
+  "IntModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 2
+  },
+  "WisModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 2
+  },
+  "DexModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 2
+  },
+  "AcModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 2
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "Weight": 3,
+  "Flags": 4189,
+  "MaxDurability": 5000,
+  "Value": 15000,
+  "EquipmentSlot": 4,
+  "NpcKey": "Scroll Merchant",
+  "Class": 0,
+  "LevelRequired": 96,
+  "DmgMin": 0,
+  "DmgMax": 0,
+  "DropRate": 0.01,
+  "StageRequired": 0,
+  "HasPants": false,
+  "ItemRarity": 0,
+  "ItemVarience": 0,
+  "Name": "Orc Helmet"
+}

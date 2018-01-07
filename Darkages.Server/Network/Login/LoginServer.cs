@@ -156,6 +156,7 @@ namespace Darkages.Network.Login
                 return;
             }
 
+
             client.Encryption.Parameters = new SecurityParameters(redirect.Seed, redirect.Salt);
             client.Send(new ServerFormat60
             {
@@ -163,6 +164,9 @@ namespace Darkages.Network.Login
                 Hash = Notification.Hash
             });
             ServerContext.GlobalRedirects.Remove(redirect);
+
+            client.SendPacket(new byte[] {
+                    0x19, 0x00, 0xFF, 0x31 });
         }
 
         /// <summary>

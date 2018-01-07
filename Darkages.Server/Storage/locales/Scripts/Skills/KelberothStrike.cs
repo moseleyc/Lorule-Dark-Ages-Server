@@ -61,23 +61,10 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         Target = i;
 
                         var dmg = Convert.ToInt32(client.Aisling.CurrentHp / 3);
-                        i.ApplyDamage(sprite, dmg, true);
+                        i.ApplyDamage(sprite, dmg, true, Skill.Template.Sound);
 
                         sprite.CurrentHp -= dmg * 2;
                         ((Aisling) sprite).Client.SendStats(StatusFlags.StructB);
-
-
-                        //probably should calculate the percent after we do some damage. not before.
-                        //response to send hpbar to client.
-                        var hpbar = new ServerFormat13
-                        {
-                            Serial = i.Serial,
-                            Health = 255,
-                            Sound = Skill.Template.Sound
-                        };
-
-                        //send hpbar to client
-                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
 
 
                         if (i is Monster)
@@ -125,6 +112,37 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         OnSuccess(sprite);
                     else
                         OnFailed(sprite);
+                }
+            }
+            else
+            {
+                var target = sprite.Target;
+                if (target == null)
+                    return;
+
+                if (target is Aisling)
+                {
+                    (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                        new ServerFormat29((uint)target.Serial, (uint)target.Serial,
+                            Skill.Template.TargetAnimation, 0, 100));
+
+                    var dmg = Convert.ToInt32(target.CurrentHp / 3);
+                    target.ApplyDamage(sprite, dmg, true, Skill.Template.Sound);
+
+                    sprite.CurrentHp -= dmg * 2;
+
+                    var action = new ServerFormat1A
+                    {
+                        Serial = sprite.Serial,
+                        Number = 0x82,
+                        Speed = 20
+                    };
+
+                    if (sprite is Monster)
+                    {
+                        (target as Aisling).Client.SendStats(StatusFlags.All);
+                        (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings, action);
+                    }
                 }
             }
         }

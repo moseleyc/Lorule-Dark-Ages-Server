@@ -162,6 +162,9 @@ namespace Darkages
 
         public void Update(TimeSpan elapsedTime)
         {
+            if (!Has<Aisling>())
+                return;
+
             if (Has<Monster>())
                 UpdateMonsters(elapsedTime);
 
@@ -170,9 +173,6 @@ namespace Darkages
 
             if (Has<Item>() || Has<Money>())
                 UpdateItems(elapsedTime);
-
-            if (!Has<Aisling>())
-                return;
 
             WarpTimer.Update(elapsedTime);
             if (WarpTimer.Elapsed)
@@ -184,26 +184,27 @@ namespace Darkages
 
         private void UpdateWarps()
         {
-            if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(ID))
-                return;
 
-            var warps = ServerContext.GlobalWarpTemplateCache[ID];
-            if (warps.Count == 0)
+            var warps = ServerContext.GlobalWarpTemplateCache.Where(i => i.ActivationMapId == ID).ToArray();
+            if (warps.Length == 0)
                 return;
 
 
             foreach (var warp in warps)
             {
-                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(warp.From.Location.X, warp.From.Location.Y, 9)
-                                                                                       && warp.From.AreaID == ID);
-                if (nearby.Length == 0)
-                    continue;
-
-                foreach (var near in nearby)
+                foreach (var o in warp.Activations)
                 {
-                    near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber, 
-                        warp.From.Location.X, 
-                        warp.From.Location.Y));
+                    var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(o.Location.X, o.Location.Y, 9)
+                                                                                           && o.AreaID == ID);
+                    if (nearby.Length == 0)
+                        continue;
+
+                    foreach (var near in nearby)
+                    {
+                        near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber,
+                            o.Location.X,
+                            o.Location.Y));
+                    }
                 }
             }
         }
@@ -273,7 +274,9 @@ namespace Darkages
         public bool Has<T>()
             where T : Sprite, new()
         {
-            return GetObjects<T>(i => i != null && i.CurrentMapId == ID).Length > 0;
+            var objs = GetObjects<T>(i => i != null && i.CurrentMapId == ID);
+
+            return objs.Length > 0;
         }
 
         public bool Has<T>(T obj)
@@ -350,19 +353,24 @@ namespace Darkages
 
         private void SetWarps()
         {
-            //Set all Warp points as non-passable conditions.
-            if (ServerContext.GlobalWarpTemplateCache.ContainsKey(ID))
-            {
-                var warps = ServerContext.GlobalWarpTemplateCache[ID];
 
-                foreach (var warp in warps)
+            var warps = ServerContext.GlobalWarpTemplateCache
+                .Where(i => i.ActivationMapId == ID).ToArray();
+
+            if (warps.Length == 0)
+                return;
+
+            foreach (var warp in warps)
+            {
+                foreach (var o in warp.Activations)
                 {
                     if (warp.WarpType == WarpType.Map)
                     {
-                        Tile[warp.From.Location.X, warp.From.Location.Y] = TileContent.Warp;
+                        Tile[o.Location.X, o.Location.Y] = TileContent.Warp;
                     }
                 }
             }
+
         }
 
         public Position FindNearestEmpty(Position aislingPosition)

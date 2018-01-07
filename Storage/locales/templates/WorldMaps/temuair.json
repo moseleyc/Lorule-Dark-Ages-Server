@@ -1,0 +1,84 @@
+{
+  "$type": "Darkages.Types.WorldMapTemplate, Darkages.Server",
+  "Portals": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.WorldPortal, Darkages.Server]], mscorlib",
+    "$values": [
+      {
+        "$type": "Darkages.Types.WorldPortal, Darkages.Server",
+        "DisplayName": "Lorule Arena",
+        "PointX": 225,
+        "PointY": 330,
+        "Destination": {
+          "$type": "Darkages.Types.Warp, Darkages.Server",
+          "Location": {
+            "$type": "Darkages.Types.Position, Darkages.Server",
+            "X": 10,
+            "Y": 10
+          },
+          "AreaID": 508,
+          "PortalKey": 0
+        }
+      },
+      {
+        "$type": "Darkages.Types.WorldPortal, Darkages.Server",
+        "DisplayName": "Lost Wilderness",
+        "PointX": 120,
+        "PointY": 330,
+        "Destination": {
+          "$type": "Darkages.Types.Warp, Darkages.Server",
+          "Location": {
+            "$type": "Darkages.Types.Position, Darkages.Server",
+            "X": 46,
+            "Y": 26
+          },
+          "AreaID": 101,
+          "PortalKey": 0
+        }
+      },
+      {
+        "$type": "Darkages.Types.WorldPortal, Darkages.Server",
+        "DisplayName": "Descending Caverns",
+        "PointX": 167,
+        "PointY": 259,
+        "Destination": {
+          "$type": "Darkages.Types.Warp, Darkages.Server",
+          "Location": {
+            "$type": "Darkages.Types.Position, Darkages.Server",
+            "X": 43,
+            "Y": 18
+          },
+          "AreaID": 150,
+          "PortalKey": 0
+        }
+      },
+      {
+        "$type": "Darkages.Types.WorldPortal, Darkages.Server",
+        "DisplayName": "Rucesion",
+        "PointX": 190,
+        "PointY": 500,
+        "Destination": {
+          "$type": "Darkages.Types.Warp, Darkages.Server",
+          "Location": {
+            "$type": "Darkages.Types.Position, Darkages.Server",
+            "X": 27,
+            "Y": 39
+          },
+          "AreaID": 200,
+          "PortalKey": 0
+        }
+      }
+    ]
+  },
+  "FieldNumber": 1,
+  "Transition": {
+    "$type": "Darkages.Types.Warp, Darkages.Server",
+    "Location": {
+      "$type": "Darkages.Types.Position, Darkages.Server",
+      "X": 3,
+      "Y": 3
+    },
+    "AreaID": 9999,
+    "PortalKey": 0
+  },
+  "Name": "Temuair"
+}

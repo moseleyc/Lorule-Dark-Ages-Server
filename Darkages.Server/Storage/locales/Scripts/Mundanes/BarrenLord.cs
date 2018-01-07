@@ -49,7 +49,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.Aisling.CurrentHp = client.Aisling.MaximumHp;
 
                 client.SendStats(StatusFlags.All);
-                client.WarpTo(ServerContext.GlobalWarpTemplateCache[509][0]);
+                client.Aisling.GoHome();
             }
         }
     }

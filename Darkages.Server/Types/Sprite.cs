@@ -844,11 +844,10 @@ namespace Darkages.Types
                         offset = 0;
                     }
 
-                    var lo = (byte)((int) i).Clamp(i, buffer.Length);
-                    var hi = (byte)offset.Clamp(0, buffer.Length);
-
-                    buffer[hi] = lo;
-
+                    checked
+                    {
+                        buffer[offset] = i;
+                    }
                     offset++;
                 }
 

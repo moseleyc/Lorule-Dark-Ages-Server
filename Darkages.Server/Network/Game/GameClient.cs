@@ -62,7 +62,10 @@ namespace Darkages.Network.Game
 
         public void WarpTo(WarpTemplate warps)
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(warps.From.AreaID))
+            if (warps.WarpType == WarpType.World)
+                return;
+
+            if (ServerContext.GlobalMapCache.Values.Any(i => i.ID == warps.ActivationMapId))
             {
                 if (warps.LevelRequired > 0 && Aisling.ExpLevel < warps.LevelRequired)
                 {
@@ -81,7 +84,6 @@ namespace Darkages.Network.Game
                     Aisling.Y = warps.To.Location.Y;
                     Aisling.CurrentMapId = warps.To.AreaID;
                     Aisling.AreaID = Aisling.CurrentMapId;
-                    ShouldUpdateMap = true;
                     EnterArea();
                     Aisling.Client.CloseDialog();
                 }
@@ -420,6 +422,7 @@ namespace Darkages.Network.Game
 
         public void LeaveArea(bool update = false, bool delete = false)
         {
+            Aisling.LastMapId = Aisling.CurrentMapId;
             Aisling.Remove(update, delete);
         }
 
@@ -431,7 +434,8 @@ namespace Darkages.Network.Game
             SendLocation();
             UpdateDisplay();
             RefreshObjects();
-            SendMusic();
+
+
         }
 
         public void SendMusic()
@@ -454,6 +458,13 @@ namespace Darkages.Network.Game
 
         public void RefreshMap()
         {
+            if (Aisling.CurrentMapId != Aisling.LastMapId)
+            {
+                ShouldUpdateMap = true;
+                Aisling.LastMapId = Aisling.CurrentMapId;
+                SendMusic();
+            }
+
             if (ShouldUpdateMap)
             {
                 Aisling.ViewFrustrum = new List<Sprite>();

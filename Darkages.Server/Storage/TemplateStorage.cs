@@ -36,8 +36,9 @@ namespace Darkages.Storage
             if (tmp is MundaneTemplate)
                 StoragePath = StoragePath.Replace("%", "Mundanes");
 
-            if (tmp is WarpTemplate)
-                StoragePath = StoragePath.Replace("%", "Warps");
+            if (tmp is WorldMapTemplate)
+                StoragePath = StoragePath.Replace("%", "WorldMaps");
+
 
             if (!Directory.Exists(StoragePath))
                 Directory.CreateDirectory(StoragePath);
@@ -98,17 +99,15 @@ namespace Darkages.Storage
 
                     Console.WriteLine(" -> {0} Loaded From {1}", template.Name, Path.GetFileName(asset));
                 }
-                else if (tmp is WarpTemplate)
+                else if (tmp is WorldMapTemplate)
                 {
                     var template =
-                        StorageManager.WarpBucket.Load<WarpTemplate>(Path.GetFileNameWithoutExtension(asset));
+                        StorageManager.WorldMapBucket.Load<WorldMapTemplate>(Path.GetFileNameWithoutExtension(asset));
+                    ServerContext.GlobalWorldMapTemplateCache[template.FieldNumber] = template;
 
-                    if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(template.From.AreaID))
-                        ServerContext.GlobalWarpTemplateCache[template.From.AreaID] = new List<WarpTemplate>();
-
-                    ServerContext.GlobalWarpTemplateCache[template.From.AreaID].Add(template);
                     Console.WriteLine(" -> {0} Loaded From {1}", template.Name, Path.GetFileName(asset));
                 }
+
             }
         }
 
@@ -128,11 +127,29 @@ namespace Darkages.Storage
             }
         }
 
-        public void Save(T obj)
+        public void Save(T obj, bool replace = true)
         {
-            var path = Path.Combine(StoragePath, string.Format("{0}.json", obj.Name.ToLower()));
+            var path = MakeUnique(Path.Combine(StoragePath, string.Format("{0}.json", obj.Name.ToLower())))
+                .FullName;
+
+
             var objString = JsonConvert.SerializeObject(obj, StorageManager.Settings);
             File.WriteAllText(path, objString);
+        }
+
+        public FileInfo MakeUnique(string path)
+        {
+            string dir = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileNameWithoutExtension(path);
+            string fileExt = Path.GetExtension(path);
+
+            for (int i = 1; ; ++i)
+            {
+                if (!File.Exists(path))
+                    return new FileInfo(path);
+
+                path = Path.Combine(dir, fileName + " " + i + fileExt);
+            }
         }
     }
 }

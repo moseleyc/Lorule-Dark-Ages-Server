@@ -176,7 +176,21 @@ namespace Darkages
 
         public void GoHome()
         {
+            var DestinationMap = ServerContext.Config.TransitionZone; 
 
+            if (ServerContext.GlobalMapCache.ContainsKey(DestinationMap))
+            {
+                var targetMap = ServerContext.GlobalMapCache[DestinationMap];
+
+                Client.LeaveArea(true, false);
+                Client.Aisling.Map = targetMap;
+                Client.Aisling.X = ServerContext.Config.TransitionPointX;
+                Client.Aisling.Y = ServerContext.Config.TransitionPointY;
+                Client.Aisling.AreaID = DestinationMap;
+                Client.Aisling.CurrentMapId = DestinationMap;
+                Client.EnterArea();
+                Client.Refresh();
+            }
         }
 
         public void View(Sprite obj)

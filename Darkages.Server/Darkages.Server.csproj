@@ -285,6 +285,7 @@
     <Compile Include="Storage\locales\Scripts\Skills\LocateMonster.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Storage\WarpStorage.cs" />
     <Compile Include="Types\Dialog.cs" />
     <Compile Include="Types\DialogSequence.cs" />
     <Compile Include="Storage\locales\Scripts\Mundanes\GrandMaster01.cs">

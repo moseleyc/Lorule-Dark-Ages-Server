@@ -20,13 +20,14 @@ namespace Darkages.Storage
 
         public static AislingStorage AislingBucket = new AislingStorage();
         public static AreaStorage AreaBucket = new AreaStorage();
+        public static WarpStorage WarpBucket = new WarpStorage();
 
         public static TemplateStorage<SkillTemplate> SKillBucket = new TemplateStorage<SkillTemplate>();
         public static TemplateStorage<SpellTemplate> SpellBucket = new TemplateStorage<SpellTemplate>();
         public static TemplateStorage<ItemTemplate> ItemBucket = new TemplateStorage<ItemTemplate>();
         public static TemplateStorage<MonsterTemplate> MonsterBucket = new TemplateStorage<MonsterTemplate>();
         public static TemplateStorage<MundaneTemplate> MundaneBucket = new TemplateStorage<MundaneTemplate>();
-        public static TemplateStorage<WarpTemplate> WarpBucket = new TemplateStorage<WarpTemplate>();
+        public static TemplateStorage<WorldMapTemplate> WorldMapBucket = new TemplateStorage<WorldMapTemplate>();
 
         public static T LoadFrom<T>(string path) where T : Template
         {

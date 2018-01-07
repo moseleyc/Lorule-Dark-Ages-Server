@@ -87,8 +87,6 @@ namespace Darkages.Storage.locales.Scripts.Global
                 client.Aisling.CurrentMapId = 88888;
                 client.Aisling.AreaID = 88888;
                 client.Aisling.Map = ServerContext.GlobalMapCache[88888];
-                client.Save();
-                client.ShouldUpdateMap = true;
                 client.EnterArea();
             }
             else
@@ -100,8 +98,6 @@ namespace Darkages.Storage.locales.Scripts.Global
                 client.Aisling.X = ServerContext.Config.StartingPosition.X;
                 client.Aisling.Y = ServerContext.Config.StartingPosition.Y;
                 client.Aisling.Map = ServerContext.GlobalMapCache[ServerContext.Config.StartingMap];
-                client.Save();
-                client.ShouldUpdateMap = true;
                 client.EnterArea();
                 return;
             }
@@ -139,7 +135,6 @@ namespace Darkages.Storage.locales.Scripts.Global
             Client.UpdateDisplay();
             Client.Aisling.Flags = AislingFlags.Normal;
             Client.Aisling.GoHome();
-            Client.Save();
         }
     }
 }

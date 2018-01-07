@@ -5,7 +5,7 @@ using Darkages.Types;
 
 namespace Darkages.Scripting.Scripts.Skills
 {
-    [Script("WindBlade", "Dean")]
+    [Script("Wind Blade", "Dean")]
     public class WindBlade : SkillScript
     {
         public Skill _skill;
@@ -110,6 +110,35 @@ namespace Darkages.Scripting.Scripts.Skills
                         OnSuccess(sprite);
                     else
                         OnFailed(sprite);
+                }
+            }
+            else
+            {
+                var target = sprite.Target;
+                if (target == null)
+                    return;
+
+                if (target is Aisling)
+                {
+                    (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
+                        new ServerFormat29((uint)target.Serial, (uint)target.Serial,
+                            Skill.Template.TargetAnimation, 0, 100));
+
+                    var dmg = 1 * sprite.Str * 20 * Skill.Level;
+                    target.ApplyDamage(sprite, dmg, true, Skill.Template.Sound);
+
+                    var action = new ServerFormat1A
+                    {
+                        Serial = sprite.Serial,
+                        Number = 0x82,
+                        Speed = 20
+                    };
+
+                    if (sprite is Monster)
+                    {
+                        (target as Aisling).Client.SendStats(StatusFlags.All);
+                        (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings, action);
+                    }
                 }
             }
         }

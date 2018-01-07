@@ -91,7 +91,7 @@
   "DurabilityRolloverLimit": 10,
   "BaseMR": 70,
   "WarpUpdateTimer": 1.0,
-  "WarpAnimationNumber": 214,
+  "WarpAnimationNumber": 96,
   "MonsterDeathAnimationNumber": 350,
   "ShowMonsterDeathAnimation": false,
   "HelperMenuId": -1,

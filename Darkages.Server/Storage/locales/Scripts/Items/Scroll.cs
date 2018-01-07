@@ -22,15 +22,6 @@ namespace Darkages.Storage.locales.Scripts.Items
         {
             if (sprite is Aisling)
             {
-                if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(500) ||
-                    ServerContext.GlobalWarpTemplateCache[500].Count == 0)
-                {
-                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You can't travel there now.");
-                    return;
-                }
-
-                (sprite as Aisling).Client.WarpTo(ServerContext.GlobalWarpTemplateCache[509][0]);
-                (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You have scrolled to mileth.");
             }
         }
     }

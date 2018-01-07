@@ -202,7 +202,9 @@ namespace Darkages.Network.Game
             if (client?.Aisling?.Map == null) return;
 
             if (client.ShouldUpdateMap)
+            {
                 SendMapData(client);
+            }
         }
 
         private static void SendMapData(GameClient client)
@@ -216,7 +218,6 @@ namespace Darkages.Network.Game
                 };
                 client.Send(response);
             }
-
             client.Aisling.Map.OnLoaded();
             client.ShouldUpdateMap = false;
         }
@@ -263,28 +264,31 @@ namespace Darkages.Network.Game
                     return;
                 }
 
-                if (!ServerContext.GlobalWarpTemplateCache.ContainsKey(client.Aisling.CurrentMapId))
-                    return;
-
-                foreach (var warps in ServerContext.GlobalWarpTemplateCache[client.Aisling.CurrentMapId])
+                foreach (var warps in ServerContext.GlobalWarpTemplateCache)
                 {
-                    if (warps.From.Location.DistanceFrom(client.Aisling.Position) <= warps.WarpRadius)
-                    {
-                        if (warps.WarpType == WarpType.Map)
-                        {
-                            client.WarpTo(warps);
-                        }
-                        else if (warps.WarpType == WarpType.World)
-                        {
-                            if (!ServerContext.GlobalWorldMapTemplateCache.ContainsKey(warps.To.PortalKey))
-                            {
-                                client.SendMessage(0x02, "You can't travel at the moment.");
-                                return;
-                            }
+                    if (!(warps.ActivationMapId == client.Aisling.CurrentMapId))
+                        continue;
 
-                            client.Aisling.PortalSession = new PortalSession();
-                            client.Aisling.PortalSession.FieldNumber = warps.To.PortalKey;
-                            client.Aisling.PortalSession.TransitionToMap(client);
+                    foreach (var o in warps.Activations)
+                    {
+                        if (o.Location.DistanceFrom(client.Aisling.Position) <= warps.WarpRadius)
+                        {
+                            if (warps.WarpType == WarpType.Map)
+                            {
+                                client.WarpTo(warps);
+                            }
+                            else if (warps.WarpType == WarpType.World)
+                            {
+                                if (!ServerContext.GlobalWorldMapTemplateCache.ContainsKey(warps.To.PortalKey))
+                                {
+                                    client.SendMessage(0x02, "You can't travel at the moment.");
+                                    return;
+                                }
+
+                                client.Aisling.PortalSession = new PortalSession();
+                                client.Aisling.PortalSession.FieldNumber = warps.To.PortalKey;
+                                client.Aisling.PortalSession.TransitionToMap(client);
+                            }
                         }
                     }
                 }
@@ -1030,7 +1034,6 @@ namespace Darkages.Network.Game
                         client.Aisling.Inventory.Set(b, false);
                         client.Send(new ServerFormat0F(b));
                     }
-                    client.Save();
                 }
                     break;
                 case Pane.Skills:
@@ -1062,7 +1065,6 @@ namespace Darkages.Network.Game
                         client.Aisling.SkillBook.Set(b, false);
                         client.Send(new ServerFormat2C(b.Slot, b.Icon, b.Name));
                     }
-                    client.Save();
                 }
                     break;
                 case Pane.Spells:
@@ -1094,7 +1096,6 @@ namespace Darkages.Network.Game
                         client.Aisling.SpellBook.Set(b, false);
                         client.Send(new ServerFormat17(b));
                     }
-                    client.Save();
                 }
                     break;
                 case Pane.Tools:

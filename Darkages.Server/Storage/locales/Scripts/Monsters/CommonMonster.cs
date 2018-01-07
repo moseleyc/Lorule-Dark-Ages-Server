@@ -29,7 +29,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 foreach (var skillscriptstr in Monster.Template.SkillScripts)
                 {
                     var script = ScriptManager.Load<SkillScript>(skillscriptstr,
-                        Spell.Create(1, ServerContext.GlobalSpellTemplateCache[skillscriptstr]));
+                        Skill.Create(1, ServerContext.GlobalSkillTemplateCache[skillscriptstr]));
 
                     SkillScripts.Add(script);
                 }
@@ -145,6 +145,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         private void CastSpell()
         {
+            if (Monster.IsFrozen || Monster.IsSleeping || Monster.IsBlind || Monster.IsConfused)
+                return;
+
             if (Monster != null && Monster.Target != null && SpellScripts.Count > 0)
                 if (_random.Next(1, 101) < ServerContext.Config.MonsterSpellSuccessRate)
                 {
@@ -155,6 +158,10 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         private void Walk()
         {
+            if (Monster.IsFrozen || Monster.IsSleeping || Monster.IsBlind || Monster.IsConfused)
+                return;
+
+
             if (Target != null)
             {
                 if (Monster.NextTo(Target.X, Target.Y))
@@ -190,6 +197,9 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         private void Bash()
         {
+            if (Monster.IsFrozen || Monster.IsSleeping || Monster.IsBlind || Monster.IsConfused)
+                return;
+
             var obj = Monster.GetInfront(1);
 
             if (obj == null)

@@ -39,7 +39,15 @@ namespace Darkages.Network.Game.Components
                             if (template.Timer == null)
                                 template.Timer = new GameServerTimer(TimeSpan.FromSeconds(template.SpawnRate));
 
-                            template.Timer.Update(DateTime.UtcNow - template.LastUpdate);
+                            try
+                            {
+                                template.Timer.Update(DateTime.UtcNow - template.LastUpdate);
+                            }
+                            catch
+                            {
+                                template.LastUpdate = DateTime.UtcNow;
+                            }
+
                             if (template.Timer.Elapsed)
                             {
                                 if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())

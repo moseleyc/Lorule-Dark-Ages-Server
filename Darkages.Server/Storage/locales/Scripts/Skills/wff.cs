@@ -7,7 +7,7 @@ using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Skills
 {
-    [Script("wff", "Dean")]
+    [Script("Wolf Fang Fist", "Dean")]
     public class Wff : SkillScript
     {
         public Skill _skill;

@@ -9,6 +9,7 @@
   "Gender": 255,
   "OffenseElement": 6,
   "DefenseElement": 0,
+  "Upgrades": 0,
   "Weight": 0,
   "Flags": 1117,
   "MaxDurability": 3000,
@@ -18,6 +19,10 @@
   "LevelRequired": 6,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "Dark Bone Necklace",
-  "DropRate": 0.2
+  "DropRate": 0.2,
+  "StageRequired": 0,
+  "HasPants": false,
+  "ItemRarity": 0,
+  "ItemVarience": 0,
+  "Name": "Dark Bone Necklace"
 }

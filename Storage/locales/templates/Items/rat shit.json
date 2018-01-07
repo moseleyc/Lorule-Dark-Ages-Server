@@ -8,6 +8,7 @@
   "Gender": 255,
   "OffenseElement": 0,
   "DefenseElement": 0,
+  "Upgrades": 0,
   "Weight": 0,
   "Flags": 2236,
   "MaxDurability": 0,
@@ -17,6 +18,10 @@
   "LevelRequired": 0,
   "DmgMin": 0,
   "DmgMax": 0,
-  "Name": "rat shit",
-  "DropRate" : 0.2
+  "DropRate": 0.2,
+  "StageRequired": 0,
+  "HasPants": false,
+  "ItemRarity": 0,
+  "ItemVarience": 0,
+  "Name": "rat shit"
 }
