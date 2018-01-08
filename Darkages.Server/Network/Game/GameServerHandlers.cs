@@ -123,6 +123,10 @@ namespace Darkages.Network.Game
             client.Aisling.EquipmentManager.Client = client;
             client.Aisling.CurrentWeight = 0;
             client.Aisling.MaximumWeight = (int) (client.Aisling.Str * ServerContext.Config.WeightIncreaseModifer);
+            client.Aisling.ActiveStatus = ActivityStatus.Awake;
+            client.Aisling.InvitePrivleges = true;
+            client.Aisling.LeaderPrivleges = false;
+            Party.Reform(client);
 
             if (client.Load())
             {
@@ -893,6 +897,19 @@ namespace Darkages.Network.Game
                 mode = GroupStatus.AcceptingRequests;
 
             client.Aisling.PartyStatus = mode;
+
+            if (client.Aisling.PartyStatus == GroupStatus.NotAcceptingRequests)
+            {
+                if (client.Aisling.LeaderPrivleges)
+                {
+                    Party.DisbandParty(client.Aisling.GroupParty);
+                }
+                else
+                {
+                    Party.WithDrawFromParty(client);
+                    Party.Reform(client);
+                }
+            }
         }
 
         /// <summary>
@@ -918,58 +935,31 @@ namespace Darkages.Network.Game
 
             #endregion
 
-            if (format.Type != 0x02) return;
+            if (format.Type != 0x02)
+                return;
+
             //get aisling who i want to group, check if they are nearby.
             var player = GetObject<Aisling>(i => i.Username.ToLower() == format.Name
                                                  && i.WithinRangeOf(client.Aisling));
 
-            if (player == null) return;
+            if (player == null)
             {
-                //does player have group open?
-                if (player.PartyStatus != GroupStatus.AcceptingRequests)
-                {
-                    client.SendMessage(0x02,
-                        ServerContext.Config.GroupRequestDeclinedMsg.Replace("noname", player.Username));
-                    return;
-                }
+                client.SendMessage(0x02, ServerContext.Config.BadRequestMessage);
+                return;
+            }
 
-                //is this user in another group already?, and I'm not already in it?
-                if (player.GroupParty.Members.Count > 0
-                    && !player.GroupParty.Has(client.Aisling))
-                {
-                    client.SendMessage(0x02, ServerContext.Config.GroupedAlreadyMsg.Replace("noname", player.Username));
-                    return;
-                }
+            //does player have group open?
+            if (player.PartyStatus != GroupStatus.AcceptingRequests)
+            {
+                client.SendMessage(0x02,
+                    ServerContext.Config.GroupRequestDeclinedMsg.Replace("noname", player.Username));
+                return;
+            }
 
-                //is this a new group? or existing grop?
-                var isNew = client.Aisling.GroupParty.Members.Count == 0;
-
-                if (isNew)
-                {
-                    //add player to your group.
-                    client.Aisling.GroupParty.Add(player, true); //leader is the creator.
-
-                    //add you to players group.
-                    player.GroupParty.Add(client.Aisling);
-                }
-                else
-                {
-                    //it's an existing group.
-                    //am i the leader of this group?
-
-                    var leader = client.Aisling.GroupParty.Members
-                        .FirstOrDefault(i => i.Leader)
-                        ?.Aisling;
-
-                    //am i the leader?
-                    if (leader != null && leader.Serial == client.Aisling.Serial)
-                        client.Aisling.GroupParty.Add(player);
-                }
-
-                //am i already in this players group?
-                //if so, player is the leader, remove me.
-
-                client.Aisling.GroupParty.Add(player);
+            if (client.Aisling.GroupParty.RequestUserToJoin(player))
+            {
+                client.Aisling.LeaderPrivleges = true;
+                player.InvitePrivleges = true;
             }
         }
 

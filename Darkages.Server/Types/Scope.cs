@@ -10,5 +10,7 @@
         AislingsOnSameMap = 5,
         DefinedAislings = 6,
         VeryNearbyAislings = 7,
+        NearbyGroupMembersExcludingSelf = 8,
+        NearbyGroupMembers = 9,
     }
 }

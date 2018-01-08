@@ -34,8 +34,23 @@ namespace Darkages.Network.ServerFormats
             packet.Write((byte) 0x0);
             packet.Write((byte) 0x0);
 
-            packet.WriteStringA("No Group");
+            var isGrouped = Aisling.GroupParty.LengthExcludingSelf > 0;
 
+            if (!isGrouped)
+                packet.WriteStringA("no group");
+            else
+            {
+                var partyMessage = "Group members\n";
+
+                foreach (var member in Aisling.GroupParty.Members)
+                {
+                    partyMessage += string.Format("{0}{1}\n", 
+                            (Aisling.Username.Equals(member.GroupParty.Creator.Username,
+                                StringComparison.OrdinalIgnoreCase)) ? " * " : " ", member.Username);
+                }
+                partyMessage += string.Format("{0} total", Aisling.GroupParty.Length);
+                packet.WriteStringA(partyMessage);
+            }
 
             packet.Write((byte) Aisling.PartyStatus);
             packet.Write((byte) 0x00);

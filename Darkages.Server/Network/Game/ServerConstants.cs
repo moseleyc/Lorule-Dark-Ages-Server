@@ -395,6 +395,9 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public short TransitionPointY = 3;
 
+        [JsonProperty]
+        public string BadRequestMessage = "(Invalid Request)";
+
         public override string ToString()
         {
             return StorageManager.Save(this)

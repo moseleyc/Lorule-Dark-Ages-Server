@@ -5,7 +5,7 @@ namespace Darkages.Types
     [Flags]
     public enum GroupStatus
     {
-        AcceptingRequests    = 0,
-        NotAcceptingRequests = 1
+        NotAcceptingRequests = 0,
+        AcceptingRequests    = 1
     }
 }

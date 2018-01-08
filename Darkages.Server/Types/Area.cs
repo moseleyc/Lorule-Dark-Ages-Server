@@ -184,26 +184,33 @@ namespace Darkages
 
         private void UpdateWarps()
         {
+            var warpsOnMap = ServerContext.GlobalWarpTemplateCache.Where(i => i.ActivationMapId == ID);
 
-            var warps = ServerContext.GlobalWarpTemplateCache.Where(i => i.ActivationMapId == ID).ToArray();
-            if (warps.Length == 0)
-                return;
-
-
-            foreach (var warp in warps)
+            foreach (var warp in warpsOnMap)
             {
-                foreach (var o in warp.Activations)
-                {
-                    var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(o.Location.X, o.Location.Y, 9)
-                                                                                           && o.AreaID == ID);
-                    if (nearby.Length == 0)
-                        continue;
+                if (!Has<Aisling>())
+                    continue;
 
-                    foreach (var near in nearby)
+                if (!warp.Activations.Any())
+                    continue;
+
+                var nearby = GetObjects<Aisling>(i => 
+                    i.LoggedIn && i.CurrentMapId == warp.ActivationMapId);
+
+                if (nearby.Length == 0)
+                    continue;
+
+
+                foreach (var warpObj in warp.Activations)
+                {
+                    foreach (var obj in nearby)
                     {
-                        near.Show(Scope.Self, new ServerFormat29(ServerContext.Config.WarpAnimationNumber,
-                            o.Location.X,
-                            o.Location.Y));
+                        if (obj.Position.WithinSquare(warpObj.Location, 10))
+                        {
+                            obj.Show(Scope.Self, new ServerFormat29(
+                                ServerContext.Config.WarpAnimationNumber, 
+                                warpObj.Location.X, warpObj.Location.Y));
+                        }
                     }
                 }
             }

@@ -3,25 +3,25 @@
   "AbpLimit": 0,
   "ExpLimit": 0,
   "CurrentWeight": 0,
-  "MaximumWeight": 22,
-  "Created": "2018-01-08T12:23:45.1470641Z",
-  "LastLogged": "2018-01-08T15:44:13.3222969Z",
-  "Username": "hi",
-  "Password": "hi",
+  "MaximumWeight": 16,
+  "Created": "2018-01-08T13:54:53.1804774Z",
+  "LastLogged": "2018-01-08T14:02:28.665884Z",
+  "Username": "b",
+  "Password": "b",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
-  "ExpLevel": 11,
-  "ExpTotal": 36021,
-  "ExpNext": 23940,
-  "Gender": 1,
+  "ExpLevel": 1,
+  "ExpTotal": 1,
+  "ExpNext": 600,
+  "Gender": 2,
   "Title": 0,
   "Flags": 0,
-  "AreaID": 150,
+  "AreaID": 100,
   "ClassID": 0,
   "GamePoints": 0,
   "GoldPoints": 1000,
-  "StatPoints": 19,
+  "StatPoints": 0,
   "Medal": 0,
   "LIcon": 0,
   "RIcon": 0,
@@ -30,7 +30,7 @@
   "FaceColor": 0,
   "FaceStyle": 0,
   "HairColor": 0,
-  "HairStyle": 3,
+  "HairStyle": 7,
   "Boots": 0,
   "Helmet": 0,
   "Shield": 0,
@@ -42,7 +42,7 @@
     "$type": "System.Byte[], mscorlib",
     "$value": ""
   },
-  "ProfileMessage": "boo",
+  "ProfileMessage": "",
   "LoggedIn": true,
   "Nation": 3,
   "Clan": "",
@@ -81,7 +81,7 @@
         "Icon": 12,
         "Level": 0,
         "ID": 1019,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -111,9 +111,9 @@
         },
         "Slot": 2,
         "Icon": 1,
-        "Level": 26,
+        "Level": 9,
         "ID": 1020,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:33.4515767Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -146,7 +146,7 @@
         "Icon": 21,
         "Level": 0,
         "ID": 1021,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -178,7 +178,7 @@
         "Icon": 0,
         "Level": 0,
         "ID": 1022,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -208,12 +208,12 @@
         },
         "Slot": 5,
         "Icon": 4,
-        "Level": 11,
+        "Level": 6,
         "ID": 1023,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:33.4515767Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 3
+        "Uses": 1
       },
       "6": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -242,7 +242,7 @@
         "Icon": 36,
         "Level": 0,
         "ID": 1024,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -274,7 +274,7 @@
         "Icon": 32,
         "Level": 0,
         "ID": 1025,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -306,7 +306,7 @@
         "Icon": 17,
         "Level": 0,
         "ID": 1026,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -338,7 +338,7 @@
         "Icon": 51,
         "Level": 0,
         "ID": 1027,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -371,7 +371,7 @@
         "Icon": 15,
         "Level": 0,
         "ID": 1028,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6648824Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -410,7 +410,7 @@
         "Icon": 60,
         "Level": 0,
         "ID": 1029,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -477,7 +477,7 @@
         },
         "Level": 0,
         "Slot": 1,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "2": {
@@ -511,7 +511,7 @@
         },
         "Level": 0,
         "Slot": 2,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "3": {
@@ -532,9 +532,9 @@
           "LevelRate": 0.6,
           "Name": "beag ioc fein"
         },
-        "Level": 3,
+        "Level": 0,
         "Slot": 3,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "4": {
@@ -568,7 +568,7 @@
         },
         "Level": 0,
         "Slot": 4,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "5": {
@@ -597,7 +597,7 @@
         },
         "Level": 0,
         "Slot": 5,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "6": {
@@ -631,7 +631,7 @@
         },
         "Level": 0,
         "Slot": 6,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "7": {
@@ -660,7 +660,7 @@
         },
         "Level": 0,
         "Slot": 7,
-        "NextAvailableUse": "2018-01-08T15:44:13.321797Z",
+        "NextAvailableUse": "2018-01-08T14:02:28.6653834Z",
         "InUse": false
       },
       "8": null,
@@ -804,7 +804,7 @@
       ]
     }
   },
-  "Display": 16,
+  "Display": 32,
   "ClanTitle": "",
   "ClanRank": "",
   "Quests": {
@@ -813,10 +813,10 @@
   },
   "PortalSession": {
     "$type": "Darkages.PortalSession, Darkages.Server",
-    "IsMapOpen": true,
-    "FieldNumber": 1
+    "IsMapOpen": false,
+    "FieldNumber": 0
   },
-  "LastMapId": 150,
+  "LastMapId": 100,
   "Debuffs": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
     "$values": []
@@ -825,18 +825,18 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 1003,
-  "X": 30,
-  "Y": 15,
-  "Direction": 3,
-  "CurrentMapId": 150,
+  "Serial": 1008,
+  "X": 8,
+  "Y": 7,
+  "Direction": 1,
+  "CurrentMapId": 100,
   "OffenseElement": 0,
   "DefenseElement": 0,
-  "CurrentHp": 1030,
-  "CurrentMp": 360,
-  "_MaximumHp": 1030,
-  "_MaximumMp": 360,
-  "_Str": 4,
+  "CurrentHp": 60,
+  "CurrentMp": 30,
+  "_MaximumHp": 60,
+  "_MaximumMp": 30,
+  "_Str": 3,
   "_Int": 3,
   "_Wis": 3,
   "_Con": 3,

@@ -35,29 +35,38 @@ namespace Darkages.Storage.locales.Scripts.Spells
                         Speed = 30
                     };
 
-
-                    client.Aisling.CurrentHp += client.Aisling.MaximumHp / 10;
-
-                    if (client.Aisling.CurrentHp > client.Aisling.MaximumHp)
-                        client.Aisling.CurrentHp = client.Aisling.MaximumHp;
-
                     client.Aisling.CurrentMp -= Spell.Template.ManaCost;
 
-                    if (client.Aisling.CurrentMp < 0)
-                        client.Aisling.CurrentMp = 0;
 
-                    if (client.Aisling.CurrentHp > 0)
+                    foreach (var obj in client.Aisling.PartyMembers)
                     {
-                        var hpbar = new ServerFormat13
+                        if (obj == null || obj.Dead)
+                            continue;
+
+                        obj.CurrentHp += obj.MaximumHp / 10;
+
+                        if (obj.CurrentHp > obj.MaximumHp)
+                            obj.CurrentHp = obj.MaximumHp;
+
+                        if (client.Aisling.CurrentMp < 0)
+                            client.Aisling.CurrentMp = 0;
+
+                        if (obj.CurrentHp > 0)
                         {
-                            Serial = client.Serial,
-                            Health = (ushort) (100 * client.Aisling.CurrentHp / client.Aisling.MaximumHp),
-                            Sound = 8
-                        };
-                        client.Aisling.Show(Scope.NearbyAislings, hpbar);
+                            var hpbar = new ServerFormat13
+                            {
+                                Serial = obj.Serial,
+                                Health = (ushort)(100 * obj.CurrentHp / obj.MaximumHp),
+                                Sound = 8
+                            };
+                            obj.Show(Scope.NearbyAislings, hpbar);
+                        }
+
+                        obj.Client.SendStats(StatusFlags.StructB);
+                        client.SendAnimation(0x04, obj, client.Aisling);
+
                     }
 
-                    client.SendAnimation(0x04, client.Aisling, client.Aisling);
                     client.Aisling.Show(Scope.NearbyAislings, action);
                     client.SendMessage(0x02, "you cast " + Spell.Template.Name + ".");
                     client.SendStats(StatusFlags.All);

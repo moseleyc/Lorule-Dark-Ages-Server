@@ -30,7 +30,7 @@ namespace Darkages.Network.ServerFormats
             writer.WriteStringA(Aisling.Username);
             writer.Write(Aisling.Nation);
             writer.WriteStringA(Aisling.Stage.ToString());
-            writer.Write((byte) 0x00);
+            writer.Write((byte)Aisling.PartyStatus);
 
             writer.WriteStringA(Aisling.ClanTitle);
             writer.WriteStringA(Aisling.Path.ToString());

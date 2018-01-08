@@ -455,6 +455,84 @@ namespace Darkages.Types
                         gc.Client.Send(format);
                     }
                     break;
+                case Scope.GroupMembers:
+                    {
+                        if (this is Aisling)
+                        {
+                            foreach (var gc in GetObjects<Aisling>(that => (this as Aisling).GroupParty.Has(that)))
+                            {
+                                if (this is Aisling)
+                                {
+                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+
+                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+                                }
+
+                                gc.Client.Send(format);
+                            }
+                        }
+                    }
+                    break;
+                case Scope.NearbyGroupMembersExcludingSelf:
+                    {
+                        if (this is Aisling)
+                        {
+                            foreach (var gc in GetObjects<Aisling>(that => that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that)))
+                            {
+                                if (this is Aisling)
+                                {
+                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+
+                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+                                }
+
+                                gc.Client.Send(format);
+                            }
+                        }
+                    }
+                    break;
+                case Scope.NearbyGroupMembers:
+                    {
+                        if (this is Aisling)
+                        {
+                            foreach (var gc in GetObjects<Aisling>(that => that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that, true)))
+                            {
+                                if (this is Aisling)
+                                {
+                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+
+                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    {
+                                        if (format is ServerFormat33)
+                                            return;
+                                    }
+                                }
+
+                                gc.Client.Send(format);
+                            }
+                        }
+                    }
+                    break;
                 case Scope.DefinedAislings:
                     if (definer != null && definer.Length > 0)
                     {

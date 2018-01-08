@@ -48,10 +48,23 @@ namespace Darkages
         public byte Shield { get; set; }
         public ushort Weapon { get; set; }
         public ushort Armor { get; set; }
-
+        public byte OverCoat { get; set; }
+        public byte Pants { get; set; }
+        public byte[] PictureData { get; set; }
+        public string ProfileMessage { get; set; }
+        public bool LoggedIn { get; set; }
+        public byte Nation { get; set; }
+        public string Clan { get; set; }
+        public byte Resting { get; set; }
+        public byte Mounted { get; set; }
         public GroupStatus PartyStatus { get; set; }
 
+        [JsonIgnore]
         public Party GroupParty { get; set; }
+
+        [JsonIgnore]
+        [Browsable(false)]
+        public bool IsCastingSpell { get; set; }
 
         public SkillBook SkillBook { get; set; }
 
@@ -83,38 +96,39 @@ namespace Darkages
         public new Position Position => new Position(X, Y);
 
         public ClassStage Stage { get; set; }
+
         public Class Path { get; set; }
 
         [Browsable(false)]
         public Legend LegendBook { get; set; }
 
         public BodySprite Display { get; set; }
+
         public string ClanTitle { get; set; }
+
         public string ClanRank { get; set; }
 
         [JsonIgnore]
         public CastInfo ActiveSpellInfo { get; set; }
 
         [JsonIgnore]
-        [Browsable(false)]
-        public bool IsCastingSpell { get; set; }
-        public byte OverCoat { get; set; }
-        public byte Pants { get; set; }
-        public byte[] PictureData { get; set; }
-        public string ProfileMessage { get;  set; }
-        public bool LoggedIn { get; set; }
-        public byte Nation { get; set; }
-        public string Clan { get; set; }
-        public byte Resting { get; set; }
-        public byte Mounted { get; internal set; }
+        public int DamageCounter = 0;
 
-        [JsonIgnore] public int DamageCounter = 0;
+        public List<Quest> Quests { get; set; }
 
-        public List<Quest> Quests = new List<Quest>();
+        [JsonIgnore]
+        public List<Aisling> PartyMembers => GroupParty?.Members;
+
 
         public PortalSession PortalSession { get; set; }
-        public Position LastPosition { get; internal set; }
-        public int LastMapId { get; internal set; }
+        public Position LastPosition { get; set; }
+        public int LastMapId { get; set; }
+
+        [JsonIgnore]
+        public bool LeaderPrivleges { get; set; }
+
+        [JsonIgnore]
+        public bool InvitePrivleges { get; set; }
 
         public Aisling()
         {
@@ -123,7 +137,6 @@ namespace Darkages
             Clan = "";
             Nation = 3;
             Flags = AislingFlags.Normal;
-            GroupParty = new Party();
             LegendBook = new Legend();
             ClanTitle = string.Empty;
             ClanRank = string.Empty;
@@ -131,6 +144,10 @@ namespace Darkages
             LoggedIn = false;
             ActiveStatus = ActivityStatus.Awake;
             PortalSession = new PortalSession();
+            Quests = new List<Quest>();
+            PartyStatus = GroupStatus.AcceptingRequests;
+            InvitePrivleges = true;
+            LeaderPrivleges = false;
         }
 
         public bool InsideView(Sprite obj)
