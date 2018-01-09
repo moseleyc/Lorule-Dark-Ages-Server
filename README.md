@@ -45,7 +45,7 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Object Spawning
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) World Maps, World Portals, Warps
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Grouping
-- [x] ![#eeeccc](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Community States, Awake, daydreaming ect.
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elementals
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests
 
@@ -156,7 +156,14 @@ Example of Supported Excel Template:
                 Console.WriteLine("Object Server Connected.");
             }
         }   
-        ```
+        
+        This would allow you to interface to the object service from an independant server.
+        and be able to handle packets send and received from a running lorule server.
+        
+        An example use for this would be a messaging proxy, for relaying communication between aislings across different servers.
+        Accessing objects Across Multple Servers, ect
+        
+        
         
         
 
