@@ -17,13 +17,15 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 
 ## Project Design Overview.
 - Json based storage and cache
-- SingleInstance Object Manager Service and Object Management with cache support.
+- SingleInstance Object Manager Service
 - Configurable From UI
 - Scriptable Storage System/Content
 - Component driven design pattern.
+- Component Proxy Service to support server transitions and multiple servers.
+
 
 ## Server Development Status:
-- Server is currently about ~~90~~ 92% percent completed until it is content ready.
+- Server is currently about ~~92%~~ 94% percent completed until it is content ready.
 - Expect Glithes! Help by testing and reporting them!
 
 ## Working Features
@@ -39,34 +41,26 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests, Examples can be found in gos/benson templates.
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Monster Drops, Example can be found in arena_insects.json
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Loot Systems, Experience System
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Object Spawning
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Mundane combat, Mundanes respawn, attack, talk, move-around ect.
-
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) World Maps, World Portals, Warps
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Grouping
+- [x] ![#eeeccc](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elementals
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests
 
 
 
 ## What is missing?
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database
-- [x] ~~![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Scriptables need to be refractored to be more maintainable.~~
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Exchanging
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) In-game Boards
-- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Community States, Awake, daydreaming ect.
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Whispering, Ignore
-- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Grouping
-- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Elements
-- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Damage Formulas
-- [x] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) World Map
-
-[x] = In Progress
 
 
-## Progress Map 17/12/2017
-- ~~Quests - Going to redo these into Quest Scripts, So that they can be modified, instead of having them hard-coded into mundane scripts.
-Then things like mundanes, will just have a set of quest keys for available quests, I will then Create a better handler for them.~~
-- Ingame boards After Quests
-- Exchanging after boards
-- Grouping after Exchanging
+
+## Progress Map 09/01/2018
+- Exchanging
 
 ## Building & Compiling
 - This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
@@ -109,7 +103,61 @@ Example of Supported Excel Template:
 ![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/formulas/items.png?raw=true "Items Template")
 
 
+## Projects
 
 
+# Client Launcher (DarkagesLauncher.csproj)
+    - Used to connect you and your users to a lorule server, by default the client is configured to run on localhost.
+    - Requires Administrator Privlages, 
+    
+# Darkages (Darkages.csproj)
+    - This is the Main Server Interface, It references the main server library and act's as a front-end to (Darkages.Server)
+    
+# Darkages.Server (Darkages.Server.csproj)
+    - This is the Main Server Library, This contains a ServerConext that acts as a wrapper to Server Instance.
+   
+   For instance if one wanted to create a service proxy, an example of creating a new service instance if
+   desired can be done using this pattern:
+   
+```cs   
+        public class ObjectClient : NetworkClient
+        {
+            public Proxy ProxyServer = new Proxy();
+            public class Proxy : ServerContext
+            {
+
+            }
+        }
+
+        public class ObjectServer : NetworkServer<ObjectClient>
+        {
+            public ObjectServer() : base(1000)
+            {
+
+            }
+
+            public override void Abort()
+            {
+
+            }
+
+            public override void ClientDataReceived(ObjectClient client, NetworkPacket packet)
+            {
+                var objs = client.GetObjects<Monster>(i => true);
+
+            }
+
+            public override void ClientDisconnected(ObjectClient client)
+            {
+            }
+
+            public override void ClientConnected(ObjectClient client)
+            {
+                Console.WriteLine("Object Server Connected.");
+            }
+        }   
+        ```
+        
+        
 
 
