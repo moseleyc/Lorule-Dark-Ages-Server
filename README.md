@@ -156,8 +156,7 @@ Example of Supported Excel Template:
                 Console.WriteLine("Object Server Connected.");
             }
         }  
-```cs   
-
+```
 
 This would allow you to interface to the object service from an independant server.
 and be able to handle packets send and received from a running lorule server.
