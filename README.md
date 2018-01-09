@@ -155,13 +155,15 @@ Example of Supported Excel Template:
             {
                 Console.WriteLine("Object Server Connected.");
             }
-        }   
+        }  
+```cs   
+
+
+This would allow you to interface to the object service from an independant server.
+and be able to handle packets send and received from a running lorule server.
         
-        This would allow you to interface to the object service from an independant server.
-        and be able to handle packets send and received from a running lorule server.
-        
-        An example use for this would be a messaging proxy, for relaying communication between aislings across different servers.
-        Accessing objects Across Multple Servers, ect
+An example use for this would be a messaging proxy, for relaying communication between aislings across different servers.
+Accessing objects Across Multple Servers, ect
         
         
         
