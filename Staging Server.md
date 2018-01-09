@@ -12,4 +12,5 @@ To connect to it.
 Also set the correct path to the DA 7.18 client you installed in step 1.
 ![image](https://media.discordapp.net/attachments/398842755750690816/400415432445657101/image.png?width=500&height=349)
 
-Then you can connect.
+Then you can connect, If you get an error after clicking launch, ensure you are running the client as admin.
+
