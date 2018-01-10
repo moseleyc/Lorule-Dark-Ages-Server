@@ -2,7 +2,8 @@
 
 # Lorule-Dark-Ages-Server
 ## Discord- https://discord.gg/PwbFH3T
-## Server: Online - Click for info on joining: Lorule-Dark-Ages-Server/Staging Server.md
+## Server: [#00FF00] Online 
+For Info on how to play: https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/Staging%20Server.md
 
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
