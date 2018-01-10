@@ -398,6 +398,12 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public string BadRequestMessage = "(Invalid Request)";
 
+        [JsonProperty]
+        public string CantCarryMoreMsg = "You can't carry more.";
+
+        [JsonProperty]
+        public string ToWeakToLift = "You are to weak to even lift it.";
+
         public override string ToString()
         {
             return StorageManager.Save(this)

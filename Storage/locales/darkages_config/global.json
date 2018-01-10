@@ -104,5 +104,7 @@
   "TransitionZone": 9999,
   "TransitionPointX": 3,
   "TransitionPointY": 3,
-  "BadRequestMessage": "(Invalid Request)"
+  "BadRequestMessage": "(Invalid Request)",
+  "CantCarryMoreMsg": "You can't carry more.",
+  "ToWeakToLift": "You are to weak to even lift it."
 }

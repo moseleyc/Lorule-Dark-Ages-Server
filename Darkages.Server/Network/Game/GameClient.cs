@@ -226,7 +226,6 @@ namespace Darkages.Network.Game
             }
         }
 
-
         public bool Load()
         {
             LastPingResponse = DateTime.UtcNow;

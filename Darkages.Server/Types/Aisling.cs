@@ -41,8 +41,8 @@ namespace Darkages
         public int BodyStyle { get; set; }
         public int FaceColor { get; set; }
         public int FaceStyle { get; set; }
-        public int HairColor { get; set; }
-        public int HairStyle { get; set; }
+        public byte HairColor { get; set; }
+        public byte HairStyle { get; set; }
         public byte Boots { get; set; }
         public int Helmet { get; set; }
         public byte Shield { get; set; }
@@ -129,6 +129,9 @@ namespace Darkages
 
         [JsonIgnore]
         public bool InvitePrivleges { get; set; }
+        public ushort HeadAccessory3 { get; set; }
+        public byte BootColor { get; set; }
+        public byte NameColor { get; set; }
 
         public Aisling()
         {
@@ -317,6 +320,8 @@ namespace Darkages
                 SpellBook = new SpellBook(),
                 Inventory = new Inventory(),
                 EquipmentManager = new EquipmentManager(null),
+                NameColor = 1,
+                BootColor = 0,
             };
 
             foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)

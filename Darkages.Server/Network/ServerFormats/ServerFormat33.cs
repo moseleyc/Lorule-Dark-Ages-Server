@@ -21,6 +21,7 @@ namespace Darkages.Network.ServerFormats
         public override void Serialize(NetworkPacketReader reader)
         {
         }
+        public static int x = 0;
 
         public override void Serialize(NetworkPacketWriter writer)
         {
@@ -45,80 +46,71 @@ namespace Darkages.Network.ServerFormats
             else
                 displayFlag = Aisling.Gender == Gender.Male ? 0x10 : 0x20;
 
+
             if (displayFlag == 0x10)
             {
-                writer.Write((byte) 0x00);
-
-                if (Aisling.Helmet > 0)
-                    writer.Write((byte) Aisling.Helmet);
+                if (Aisling.Helmet > 100)
+                    writer.Write((ushort) Aisling.Helmet);
                 else
-                    writer.Write((byte) Aisling.HairStyle);
+                    writer.Write((ushort) Aisling.HairStyle);
             }
             else if (displayFlag == 0x20)
             {
-                writer.Write((byte) 0x00);
-
-                if (Aisling.Helmet > 0)
-                    writer.Write((byte) Aisling.Helmet);
+                if (Aisling.Helmet > 100)
+                    writer.Write((ushort) Aisling.Helmet);
                 else
-                    writer.Write((byte) Aisling.HairStyle);
+                    writer.Write((ushort) Aisling.HairStyle);
             }
             else
             {
-                writer.Write((byte) 0x00);
-                writer.Write((byte) 0x00);
+                writer.Write((ushort) 0x00);
             }
 
-            writer.Write((byte) (Aisling.Dead || Aisling.Invisible
-                ? displayFlag
-                : (byte) (Aisling.Display + Aisling.Pants)));
+            writer.Write((byte)(Aisling.Dead || Aisling.Invisible
+                    ? displayFlag
+                    : (byte)(Aisling.Display + Aisling.Pants)));
+
 
             if (!Aisling.Dead && !Aisling.Invisible)
             {
                 writer.Write((ushort)Aisling.Armor);
                 writer.Write((byte)Aisling.Boots);
                 writer.Write((ushort)Aisling.Armor);
-                writer.Write(Aisling.Shield);
-                writer.Write((byte) Aisling.Weapon);
-                writer.Write((short) Aisling.HairColor);
+                writer.Write((byte)Aisling.Shield);
+                writer.Write((byte)Aisling.Weapon);
+                writer.Write((byte)Aisling.HairColor);
+                writer.Write((byte)Aisling.BootColor);
+                writer.Write((ushort)Aisling.HeadAccessory1);
+                writer.Write((byte)0);
+                writer.Write((ushort)Aisling.HeadAccessory2);
+                writer.Write((byte)0);
+                writer.Write((byte)Aisling.Resting);
+                writer.Write((ushort)Aisling.OverCoat);
             }
             else
             {
-                writer.Write((ushort) 0x00);
-                writer.Write((byte) 0);
-                writer.Write((ushort) 0);
-                writer.Write((byte) 0);
-                writer.Write((byte) 0);
-                writer.Write((byte) 0);
+                writer.Write((ushort)0);
+                writer.Write((byte)0);
+                writer.Write((ushort)0);
+                writer.Write((byte)0);
+                writer.Write((byte)0);
+                writer.Write((byte)Aisling.HairColor);
+                writer.Write((byte)0);
+                writer.Write((ushort)0);
+                writer.Write((byte)0);
+                writer.Write((ushort)0);
+                writer.Write((byte)0);
+                writer.Write((byte)0);
+                writer.Write((ushort)0);
             }
-            writer.Write((byte) 1);
-            writer.Write(Aisling.HeadAccessory1);
-            writer.Write(Aisling.Blind);
 
-            writer.Write(Aisling.HeadAccessory2);
-            writer.Write((byte) 0);
-            writer.Write((byte)Aisling.Resting);
-            writer.Write((byte)Aisling.Mounted);
-
-            if (!Aisling.Dead)
-                writer.Write(Aisling.OverCoat);
+            if (Aisling.Map != null && Aisling.Map.Ready && Aisling.LoggedIn)
+                writer.Write((byte)(Aisling.Map.Flags.HasFlag(MapFlags.PlayerKill) ? 1 : 0));
             else
-                writer.Write((byte) 0);
+                writer.Write((byte)0);
 
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.Write((byte) 0);
-            writer.WriteStringA(Aisling.Username);
-            writer.WriteStringA(string.Empty);
+            writer.WriteStringA(Aisling.Username ?? string.Empty);
+            writer.WriteStringA(Aisling.GroupParty.LengthExcludingSelf > 0 ? Aisling.GroupParty.Name ?? string.Empty : string.Empty);
 
         }
     }

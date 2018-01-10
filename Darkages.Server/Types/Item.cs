@@ -33,6 +33,7 @@ namespace Darkages.Types
 
         public uint Durability { get; set; }
 
+        public byte Color { get; set; }
 
         public bool GiveTo(Sprite sprite, bool checkWeight = true, byte slot = 0)
         {
@@ -42,7 +43,7 @@ namespace Darkages.Types
                 {
                     if (!((sprite as Aisling).CurrentWeight + Template.Weight < (sprite as Aisling).MaximumWeight))
                     {
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You are to weak to even lift it.");
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, ServerContext.Config.ToWeakToLift);
 
                         if (Slot > 0)
                         {
@@ -53,8 +54,6 @@ namespace Darkages.Types
 
                             if ((sprite as Aisling).CurrentWeight < 0)
                                 (sprite as Aisling).CurrentWeight = 0;
-
-
 
                             //release this item.
                             var copy = Clone(this);
@@ -119,7 +118,7 @@ namespace Darkages.Types
 
                     if (Slot <= 0)
                     {
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You can't carry more.");
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, ServerContext.Config.CantCarryMoreMsg);
                         return false;
                     }
 
@@ -138,7 +137,7 @@ namespace Darkages.Types
 
                     if (Slot <= 0)
                     {
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, "You can't carry more.");
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, ServerContext.Config.CantCarryMoreMsg);
                         (sprite as Aisling).Client.SendStats(StatusFlags.All);
                         return false;
                     }
@@ -586,21 +585,22 @@ namespace Darkages.Types
             if (Owner == null)
                 return null;
 
-            var obj = new Item();
-            obj.CreationDate = DateTime.UtcNow;
-            obj.Template = itemtemplate;
-            obj.X = Owner.X;
-            obj.Y = Owner.Y;
-            obj.Image = itemtemplate.Image;
-            obj.DisplayImage = itemtemplate.DisplayImage;
-            obj.CurrentMapId = Owner.CurrentMapId;
-            obj.Cursed = curse;
-            obj.Owner = (uint)Owner.Serial;
-            obj.DisplayName = itemtemplate.Name;
-            obj.Durability = itemtemplate.MaxDurability;
-            obj.OffenseElement = itemtemplate.OffenseElement;
-            obj.DefenseElement = itemtemplate.DefenseElement;
-
+            var obj = new Item()
+            {
+                CreationDate = DateTime.UtcNow,
+                Template = itemtemplate,
+                X = Owner.X,
+                Y = Owner.Y,
+                Image = itemtemplate.Image,
+                DisplayImage = itemtemplate.DisplayImage,
+                CurrentMapId = Owner.CurrentMapId,
+                Cursed = curse,
+                Owner = (uint)Owner.Serial,
+                DisplayName = itemtemplate.Name,
+                Durability = itemtemplate.MaxDurability,
+                OffenseElement = itemtemplate.OffenseElement,
+                DefenseElement = itemtemplate.DefenseElement
+            };
             if (obj.Template.Flags.HasFlag(ItemFlags.Repairable))
             {
                 if (obj.Template.MaxDurability == uint.MinValue)
@@ -626,10 +626,12 @@ namespace Darkages.Types
         {
             X = position.X;
             Y = position.Y;
+
             lock (Generator.Random)
             {
                 Serial = Generator.GenerateNumber();
             }
+
             CurrentMapId = owner.CurrentMapId;
             CreationDate = DateTime.UtcNow;
             AddObject(this);

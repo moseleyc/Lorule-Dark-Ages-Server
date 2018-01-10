@@ -107,5 +107,10 @@ namespace Darkages.Network
         {
             return new NetworkPacket(buffer, 0, Position);
         }
+
+        internal void WriteStringA(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

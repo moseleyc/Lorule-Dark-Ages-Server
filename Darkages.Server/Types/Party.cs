@@ -9,6 +9,7 @@ namespace Darkages.Types
     {
         public static object SyncObj = new object();
 
+        public string Name { get; set; }
         public Aisling Creator { get; set; }
 
         public List<Aisling> Members { get; set; }
