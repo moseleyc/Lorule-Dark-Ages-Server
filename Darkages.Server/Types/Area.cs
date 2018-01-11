@@ -286,17 +286,6 @@ namespace Darkages
             return objs.Length > 0;
         }
 
-        public bool Has<T>(T obj)
-            where T : Sprite, new()
-        {
-            return GetObjects<T>(i => i.CurrentMapId == ID).Length > 0;
-        }
-
-        public T[] Take<T>() where T : Sprite, new()
-        {
-            return GetObjects<T>(i => i.CurrentMapId == ID);
-        }
-
         public Position[] GetNearByTiles(Sprite obj, short x, short y, double radius)
         {
             var innerBound = radius * (Math.Sqrt(2.0) / 2.0);

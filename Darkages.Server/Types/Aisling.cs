@@ -12,8 +12,6 @@ namespace Darkages
 {
     public class Aisling : Sprite
     {
-        public int AbpLimit { get; set; }
-        public int ExpLimit { get; set; }
         public int CurrentWeight { get; set; }
         public int MaximumWeight { get; set; }
         public DateTime Created { get; set; }
@@ -257,11 +255,6 @@ namespace Darkages
             }
             spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.5);
             spell.InUse = false;
-        }
-
-        public void RemoveFromNearby()
-        {
-            Show(Scope.NearbyAislings, new ServerFormat0E(this.Serial));
         }
 
         public static Aisling Create()

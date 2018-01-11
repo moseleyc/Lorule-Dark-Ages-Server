@@ -15,8 +15,12 @@ namespace Darkages.Storage
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             ObjectCreationHandling = ObjectCreationHandling.Auto,
             Formatting = Formatting.Indented,
-            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
         };
+
+        static StorageManager()
+        {
+        }
 
         public static AislingStorage AislingBucket = new AislingStorage();
         public static AreaStorage AreaBucket = new AreaStorage();

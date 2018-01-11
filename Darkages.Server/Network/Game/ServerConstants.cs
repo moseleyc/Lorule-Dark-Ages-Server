@@ -404,6 +404,9 @@ namespace Darkages.Network.Game
         [JsonProperty]
         public string ToWeakToLift = "You are to weak to even lift it.";
 
+        [JsonProperty]
+        public ItemColor DefaultItemColor = ItemColor.blue;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

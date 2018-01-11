@@ -93,5 +93,7 @@ namespace Darkages.Types
         public Rarity ItemRarity { get; set; }
 
         public Variance ItemVarience { get; set; }
+
+        public ItemColor Color { get; set; }
     }
 }

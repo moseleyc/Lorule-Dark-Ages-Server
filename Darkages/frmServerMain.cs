@@ -36,23 +36,20 @@ namespace Darkages
                 Enabled = true
             };
 
-            BackColor = System.Drawing.Color.Black;
-            ForeColor = System.Drawing.Color.Lime;
-            Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 9);
+            BackColor = System.Drawing.Color.White;
+            ForeColor = System.Drawing.Color.Blue;
 
             foreach (Control c in Controls)
             {
-                c.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 11);
-                c.BackColor = System.Drawing.Color.Black;
-                c.ForeColor = System.Drawing.Color.Lime;
+                c.BackColor = System.Drawing.Color.White;
+                c.ForeColor = System.Drawing.Color.Blue;
 
                 if (c.Controls.Count > 0)
                 {
                     foreach (Control cc in c.Controls)
                     {
-                        cc.Font = new System.Drawing.Font("Arial,Verdana,Helvetica,sans-serif", 10);
-                        cc.BackColor = System.Drawing.Color.Black;
-                        cc.ForeColor = System.Drawing.Color.Lime;
+                        cc.BackColor = System.Drawing.Color.White;
+                        cc.ForeColor = System.Drawing.Color.Blue;
                     }
                 }
             }
@@ -76,6 +73,8 @@ namespace Darkages
 
             if (!textBox1.Focused)
                 textBox1.Text = eventArgs.GetJsonString();
+
+
         }
 
         private void monsterTemplateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -371,6 +370,16 @@ namespace Darkages
 
         private void button6_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void everythingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_proxy != null && _proxy.IsRunning)
+            {
+                _proxy.Flush();
+                return;
+            }
 
         }
     }

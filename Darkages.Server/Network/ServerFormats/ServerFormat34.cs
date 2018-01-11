@@ -58,7 +58,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Weapon != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Weapon.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte) Aisling.EquipmentManager.Weapon.Item.Color);
             }
             else
             {
@@ -70,7 +70,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Armor != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Armor.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Armor.Item.Color);
             }
             else
             {
@@ -82,7 +82,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Shield != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Shield.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Shield.Item.Color);
             }
             else
             {
@@ -94,7 +94,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.DisplayHelm != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.DisplayHelm.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.DisplayHelm.Item.Color);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Earring != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Earring.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Earring.Item.Color);
             }
             else
             {
@@ -118,7 +118,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Necklace != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Necklace.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Necklace.Item.Color);
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.LRing != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.LRing.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.LRing.Item.Color);
             }
             else
             {
@@ -142,7 +142,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.RRing != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.RRing.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.RRing.Item.Color);
             }
             else
             {
@@ -154,7 +154,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.LGauntlet != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.LGauntlet.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.LGauntlet.Item.Color);
             }
             else
             {
@@ -166,7 +166,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.RGauntlet != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.RGauntlet.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.RGauntlet.Item.Color);
             }
             else
             {
@@ -178,7 +178,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Belt != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Belt.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Belt.Item.Color);
             }
             else
             {
@@ -190,7 +190,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Greaves != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Greaves.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Greaves.Item.Color);
             }
             else
             {
@@ -202,7 +202,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.FirstAcc != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.FirstAcc.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.FirstAcc.Item.Color);
             }
             else
             {
@@ -213,7 +213,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Boots != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Boots.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Boots.Item.Color);
             }
             else
             {
@@ -225,7 +225,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Overcoat != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Overcoat.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Overcoat.Item.Color);
             }
             else
             {
@@ -237,7 +237,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.Helmet != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.Helmet.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.Helmet.Item.Color);
             }
             else
             {
@@ -249,7 +249,7 @@ namespace Darkages.Network.ServerFormats
             if (Aisling.EquipmentManager.SecondAcc != null)
             {
                 writer.Write((ushort) Aisling.EquipmentManager.SecondAcc.Item.DisplayImage);
-                writer.Write((byte) 0x00);
+                writer.Write((byte)Aisling.EquipmentManager.SecondAcc.Item.Color);
             }
             else
             {

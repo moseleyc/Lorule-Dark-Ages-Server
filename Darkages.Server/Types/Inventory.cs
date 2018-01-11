@@ -31,7 +31,6 @@ namespace Darkages.Types
         public int Length => Items.Count;
         public void Assign(Item Item) => Set(Item);
         public new Item[] Get(Predicate<Item> prediate) => this.Items.Values.Where(i => i != null && prediate(i)).ToArray();
-        public void Swap(Item A, Item B) => A = Interlocked.Exchange<Item>(ref B, A);
         public void Set(Item s) => Items[s.Slot] = Clone<Item>(s);
 
         public byte FindEmpty()
@@ -50,7 +49,6 @@ namespace Darkages.Types
         }
 
         public void Set(Item s, bool clone = false) => Items[s.Slot] = (clone == true) ? Clone<Item>(s) : s;
-        public void Clear(Item s) => Items[s.Slot] = null;
 
         public Item Remove(byte movingFrom)
         {

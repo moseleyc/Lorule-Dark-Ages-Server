@@ -57,8 +57,6 @@ namespace Darkages.Types
 
         public EquipmentSlot SecondAcc => this[ItemSlots.SecondAcc];
 
-        public EquipmentSlot ThirdAcc => this[ItemSlots.ThirdAcc];
-
         private void OnEquipmentRemoved(byte displayslot)
         {
             if (Equipment[displayslot] == null)

@@ -25,7 +25,7 @@
   "LevelRequired": 8,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.1,
+  "DropRate": 0.3,
   "StageRequired": 0,
   "HasPants": false,
   "ItemRarity": 0,

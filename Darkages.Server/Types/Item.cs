@@ -601,6 +601,10 @@ namespace Darkages.Types
                 OffenseElement = itemtemplate.OffenseElement,
                 DefenseElement = itemtemplate.DefenseElement
             };
+
+            if (obj.Color == 0)
+                obj.Color = (byte)ServerContext.Config.DefaultItemColor;
+
             if (obj.Template.Flags.HasFlag(ItemFlags.Repairable))
             {
                 if (obj.Template.MaxDurability == uint.MinValue)

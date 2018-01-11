@@ -1,9 +1,8 @@
 ﻿using Darkages.Network.Game;
 using Newtonsoft.Json;
-using System.Collections;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System;
 
 namespace Darkages.Types
 {
@@ -30,12 +29,6 @@ namespace Darkages.Types
         [Description("Scaling Exponent")]
         public double Exponent { get; set; }
 
-        [Description("Scaling Proponent Overflow")]
-        public double Coponent { get; set; }
-
-        [Description("Damage Scale Factor. ")]
-        public double Factor { get; set; }
-
         public LootQualifer LootType { get; set; }
 
         public MoodQualifer MoodTyle { get; set; }
@@ -56,18 +49,9 @@ namespace Darkages.Types
 
         public int AreaID { get; set; }
 
-        [Description("Regen time in seconds, each tick = 10% health + mana.")]
-        public int RegenSpeed { get; set; }
-
         public int MovementSpeed { get; set; }
 
         public int CastSpeed { get; set; }
-
-        [Description("Base Damage will be +- % mod.")]
-        public int ArmorClass { get; set; }
-
-        [Description("Spells casted on this monster will miss by 30% if i give the value 70.")]
-        public byte MagicResist { get; set; }
 
         [Description("Monsters spawned will not exceed this.")]
         public int SpawnMax { get; set; }
@@ -92,9 +76,6 @@ namespace Darkages.Types
         [Description("Does this aisling spawn if no aislings are on this map? default = false")]
         public bool SpawnOnlyOnActiveMaps { get; set; }
 
-        [Description("Does this monster script run when no aislings are nearby? default = false")]
-        public bool UpdateMapWide { get; set; }
-
         [Description("Does this monster grow stonger over time? default = false")]
         public bool Grow { get; set; }
 
@@ -111,6 +92,7 @@ namespace Darkages.Types
         public DateTime LastUpdate { get; set; }
 
         public ElementManager.Element DefenseElement { get; set; }
+
         public ElementManager.Element OffenseElement { get; set; }
 
         [JsonProperty] [Description("What Drops?")]

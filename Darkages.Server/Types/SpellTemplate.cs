@@ -5,30 +5,6 @@ namespace Darkages.Types
 {
     public class SpellTemplate : Template
     {
-        [Flags]
-        public enum SpellTargetScope
-        {
-            Self = 1,
-            SingleTarget = 2,
-            Area = 3,
-            InFront = 4,
-            Group = 5,
-            GroupExcludingSelf = 6,
-            NearbyAislings = 7,
-            NearbySprites = 8,
-            AllSpritesOnMap = 9,
-            EveryAisling = 10,
-            EverySprite = 11,
-            All = EveryAisling | EverySprite,
-        }
-
-        public enum IconStatus : byte
-        {
-            Active = 0x00,
-            Available = 0x01,
-            Unavailable = 0x02
-        }
-
         public enum SpellUseType : byte
         {
             Unusable = 0,
@@ -40,7 +16,6 @@ namespace Darkages.Types
             TwoDigit = 6,
             OneDigit = 7
         }
-
 
         public byte Icon { get; set; }
         public byte MaxLevel { get; set; }

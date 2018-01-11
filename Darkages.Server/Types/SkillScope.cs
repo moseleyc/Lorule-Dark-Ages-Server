@@ -7,5 +7,6 @@ namespace Darkages.Types
     {
         Assail = 0,
         Ability = 1,
+        Tool
     }
 }

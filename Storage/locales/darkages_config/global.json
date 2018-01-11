@@ -27,7 +27,7 @@
   "DontTurnDuringRefresh": false,
   "DropDecayInSeconds": 120.0,
   "ERRORCAP": 5,
-  "FRAMES": 120,
+  "FRAMES": 60,
   "GlobalBaseSkillDelay": 650.0,
   "GlobalSpawnTimer": 1000.0,
   "GroupedAlreadyMsg": "noname is already in a group.",
@@ -106,5 +106,6 @@
   "TransitionPointY": 3,
   "BadRequestMessage": "(Invalid Request)",
   "CantCarryMoreMsg": "You can't carry more.",
-  "ToWeakToLift": "You are to weak to even lift it."
+  "ToWeakToLift": "You are to weak to even lift it.",
+  "DefaultItemColor": 1
 }

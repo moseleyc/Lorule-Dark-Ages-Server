@@ -363,6 +363,7 @@
     <Compile Include="Types\GroupStatus.cs" />
     <Compile Include="Types\Inventory.cs" />
     <Compile Include="Types\Item.cs" />
+    <Compile Include="Types\ItemColor.cs" />
     <Compile Include="Types\ItemFlags.cs" />
     <Compile Include="Types\Legend.cs" />
     <Compile Include="Types\LegendColor.cs" />
@@ -384,9 +385,7 @@
     <Compile Include="Types\Popup.cs" />
     <Compile Include="Types\PortalSession.cs" />
     <Compile Include="Types\PostQualifer.cs" />
-    <Compile Include="Types\PreQualifer.cs" />
     <Compile Include="Types\Quest.cs" />
-    <Compile Include="Types\RewardTemplate.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\SkillScript.cs" />
     <Compile Include="Security\SecurityParameters.cs" />
