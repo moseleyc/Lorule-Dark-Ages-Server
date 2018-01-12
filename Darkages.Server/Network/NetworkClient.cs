@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
@@ -19,14 +21,15 @@ namespace Darkages.Network
         private bool _sending;
 
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
-
-        private readonly ManualResetEvent _sendDone = new ManualResetEvent(!ServerContext.Config?.SendClientPacketsAsAsync ?? false);
+        private readonly Throttler _throttler;
 
         public NetworkClient()
         {
             Reader = new NetworkPacketReader();
             Writer = new NetworkPacketWriter();
             Encryption = new SecurityProvider();
+
+            _throttler = new Throttler(0x4096, TimeSpan.FromSeconds(1), 1024);
         }
 
         public NetworkPacketReader Reader { get; set; }
@@ -35,63 +38,50 @@ namespace Darkages.Network
         public SecurityProvider Encryption { get; set; }
         public byte Ordinal { get; set; }
         public int Serial { get; set; }
-        public bool Running { get; set; }
-
-        public ManualResetEvent SendDone => _sendDone;
 
         private static byte P(NetworkPacket value)
         {
-            return (byte) (value.Data[1] ^ (byte) (value.Data[0] - 0x2D));
+            return (byte)(value.Data[1] ^ (byte)(value.Data[0] - 0x2D));
         }
 
         private static void TransFormDialog(NetworkPacket value)
         {
-            value.Data[2] ^= (byte) (P(value) + 0x72);
-            value.Data[3] ^= (byte) (((byte) (P(value) + 0x72) + 1) % 256);
-            value.Data[4] ^= (byte) (P(value) + 0x28);
-            value.Data[5] ^= (byte) (((byte) (P(value) + 0x28) + 1) % 256);
+            value.Data[2] ^= (byte)(P(value) + 0x72);
+            value.Data[3] ^= (byte)(((byte)(P(value) + 0x72) + 1) % 256);
+            value.Data[4] ^= (byte)(P(value) + 0x28);
+            value.Data[5] ^= (byte)(((byte)(P(value) + 0x28) + 1) % 256);
 
-            For(0, value.Data.Length - 6, i => value.Data[6 + i] ^= (byte) (((byte) (P(value) + 0x28) + i + 2) % 256));
+            For(0, value.Data.Length - 6, i => value.Data[6 + i] ^= (byte)(((byte)(P(value) + 0x28) + i + 2) % 256));
         }
 
 
         public virtual void Read(NetworkPacket packet, NetworkFormat format)
         {
-
-            try
+            if (format.Secured)
             {
-                if (format.Secured)
-                {
-                    Encryption.Transform(packet);
+                Encryption.Transform(packet);
 
-                    if (format.Command == 0x39 || format.Command == 0x3A)
-                    {
-                        TransFormDialog(packet);
-                        Reader.Position = 6;
-                    }
-                    else
-                    {
-                        Reader.Position = 0;
-                    }
+                if (format.Command == 0x39 || format.Command == 0x3A)
+                {
+                    TransFormDialog(packet);
+                    Reader.Position = 6;
                 }
                 else
                 {
-                    Reader.Position = -1;
+                    Reader.Position = 0;
                 }
-
-
-                if (ServerContext.Config?.LogRecvPackets ?? false)
-                {
-                    Console.WriteLine("r: {0}", packet);
-                }
-
-                Reader.Packet = packet;
-                format.Serialize(Reader);
             }
-            catch
+            else
             {
-                // ignored
+                Reader.Position = -1;
             }
+
+            if (ServerContext.Config?.LogRecvPackets ?? false)
+                Console.WriteLine("r: {0}", packet);
+
+
+            Reader.Packet = packet;
+            format.Serialize(Reader);
         }
 
         public void SendAsync(NetworkFormat format)
@@ -111,27 +101,22 @@ namespace Darkages.Network
         private void SendBuffers(object state)
         {
             while (true)
-                try
+            {
+                NetworkFormat format;
+
+                lock (_sendBuffers)
                 {
-                    NetworkFormat format;
-
-                    lock (_sendBuffers)
+                    if (_sendBuffers.Count == 0)
                     {
-                        if (_sendBuffers.Count == 0)
-                        {
-                            _sending = false;
-                            return;
-                        }
-
-                        format = _sendBuffers.Dequeue();
+                        _sending = false;
+                        return;
                     }
 
-                    SendFormat(format);
+                    format = _sendBuffers.Dequeue();
                 }
-                catch
-                {
-                    return;
-                }
+
+                SendFormat(format);
+            }
         }
 
         public void SendPacket(byte[] data)
@@ -142,9 +127,10 @@ namespace Darkages.Network
                 Writer.Write(data);
 
                 var packet = Writer.ToPacket();
-                Encryption.Transform(packet);
-
-                Socket.Send(packet.ToArray());
+                {
+                    Encryption.Transform(packet);
+                    Socket.Send(packet.ToArray());
+                }
             }
         }
 
@@ -155,94 +141,68 @@ namespace Darkages.Network
 
             lock (Writer)
             {
-                Writer.Position = 0;
-                Writer.Write(format.Command);
-
-                if (format.Secured)
-                    Writer.Write(Ordinal++);
-
-                format.Serialize(Writer);
+                if (!GetPacket(format))
+                    return;
 
                 var packet = Writer.ToPacket();
-
-
-                if (_lastFormat == format.Command)
                 {
-                    ++_matches;
-                }
-                else
-                {
-                    _lastFormat = format.Command;
-                    _matches = 0;
-                }
+                    if (ServerContext.Config.LogSentPackets)
+                        if (this is GameClient)
+                            Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
 
-                var sendIt = _matches < (format is ServerFormat3C
-                                 ? ServerContext.Config.PacketOverflowLimit
-                                 : ServerContext.Config.ServerOverflowTolerate);
+                    if (format.Secured)
+                        Encryption.Transform(packet);
 
-                if (ServerContext.Config.LogSentPackets)
-                    if (this is GameClient)
-                        Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
+                    var buffer = packet.ToArray();
 
-                if (format.Secured)
-                    Encryption.Transform(packet);
-
-
-                if (!sendIt)
-                    return;
-
-                var buffer = packet.ToArray();
-
-                if (ServerContext.Config.SendClientPacketsAsAsync)
-                {
+                    _throttler.ThrottledWait(buffer.Length);
                     Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
-                    return;
                 }
-
-                Socket.Send(buffer);
             }
+        }
+
+        private bool GetPacket(NetworkFormat format)
+        {
+            Writer.Position = 0;
+            Writer.Write(format.Command);
+
+            if (format.Secured)
+                Writer.Write(Ordinal++);
+
+            format.Serialize(Writer);
+
+            if (_lastFormat == format.Command)
+            {
+                ++_matches;
+            }
+            else
+            {
+                _lastFormat = format.Command;
+                _matches = 0;
+            }
+
+            return _matches < (format is ServerFormat3C
+                             ? ServerContext.Config.PacketOverflowLimit
+                             : ServerContext.Config.ServerOverflowTolerate);
         }
 
         private void SendCallback(IAsyncResult ar)
         {
-            try
+            var client = (Socket)ar.AsyncState;
             {
-                var client = (Socket) ar.AsyncState;
                 client.EndSend(ar);
-
-                _sendDone.Set();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
             }
         }
+
+
+        List<NetworkFormat> formatBatch = new List<NetworkFormat>();
 
         public void Send(NetworkFormat format)
         {
-            var queue = ServerContext.Config.QueuePackets;
-
-            catcher:
-            try
-            {
-                if (queue)
-                    SendAsync(format);
-                else
-                    SendFormat(format);
-
-                Errors = 0;
-            }
-            catch
-            {
-                if (Errors++ <= ServerContext.Config.ClientPacketSendErrorLimit)
-                {
-                    Writer = new NetworkPacketWriter();
-                    queue = !queue;
-
-                    goto catcher;
-                }
-            }
+            SendAsync(format);
         }
+    
+
 
         public void SendMessageBox(byte code, string text)
         {

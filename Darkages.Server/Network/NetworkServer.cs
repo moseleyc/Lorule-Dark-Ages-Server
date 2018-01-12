@@ -238,20 +238,17 @@ namespace Darkages.Network
                     return;
 
                 _receiving = true;
-                QueueUserWorkItem(RecvBuffers);
+                QueueUserWorkItem(ConsumeRecvBuffers, _recvBuffers);
             }
         }
 
-        private void RecvBuffers(object state)
+        private void ConsumeRecvBuffers(object state)
         {
-            if (ServerContext.Config.RecvWaitAll)
-            {
-                Task.WaitAll();
-            }
-
             while (true)
             {
-                lock (_recvBuffers)
+                Action format;
+
+                lock (state)
                 {
                     if (_recvBuffers.Count == 0)
                     {
@@ -259,27 +256,16 @@ namespace Darkages.Network
                         return;
                     }
 
-                    var format = _recvBuffers.Dequeue();
-                    {
-                        format();
-                    }
+                    format = _recvBuffers.Dequeue();
                 }
+
+                Task.Run(format).Wait();
             }
         }
 
-        public virtual void ClientDataReceived(TClient client, NetworkPacket packet)
-        {
-            if (ServerContext.Config.RecvUseTaskMethod)
-            {
-                var task = new Action(() => { ProcessFormat(client, packet); });
-
-                Recv(task);
-            }
-            else
-            {
-                ProcessFormat(client, packet);
-            }
-        }
+        public virtual void ClientDataReceived(TClient client, NetworkPacket packet) 
+                => Recv(()
+                => ProcessFormat(client, packet));
 
 
         public void ProcessFormat(TClient client, NetworkPacket packet)

@@ -66,10 +66,6 @@ namespace Darkages.Types
 
         public bool IgnoreCollision { get; set; }
 
-        [JsonIgnore]
-        [Browsable(false)]
-        public GameServerTimer Timer { get; set; }
-
         [Description("Does this monster have various other sprites? use 0 if not.")]
         public int ImageVarience { get; set; }
 
@@ -86,10 +82,6 @@ namespace Darkages.Types
         [JsonProperty]
         [Description("What Skills will this monster use?")]
         public Collection<string> SkillScripts { get; set; }
-    
-        [JsonIgnore]
-        [Browsable(false)]
-        public DateTime LastUpdate { get; set; }
 
         public ElementManager.Element DefenseElement { get; set; }
 

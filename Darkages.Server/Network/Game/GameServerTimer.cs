@@ -11,6 +11,7 @@ namespace Darkages.Network.Game
         }
 
         public TimeSpan Timer { get; set; }
+
         public TimeSpan Delay { get; set; }
 
         public bool Elapsed => Timer >= Delay;

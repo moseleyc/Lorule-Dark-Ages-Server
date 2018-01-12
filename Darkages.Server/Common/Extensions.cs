@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -22,6 +23,25 @@ namespace Darkages.Common
         public static byte[] ToByteArray(this string str)
         {
             return encoding.GetBytes(str);
+        }
+
+
+        public class DisposableStopwatch : IDisposable
+        {
+            private readonly Stopwatch sw;
+            private readonly Action<TimeSpan> f;
+
+            public DisposableStopwatch(Action<TimeSpan> f)
+            {
+                this.f = f;
+                sw = Stopwatch.StartNew();
+            }
+
+            public void Dispose()
+            {
+                sw.Stop();
+                f(sw.Elapsed);
+            }
         }
 
         public static bool IsWithin(this int value, int minimum, int maximum)

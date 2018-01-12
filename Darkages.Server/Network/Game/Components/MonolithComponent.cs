@@ -1,7 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Darkages.Types;
+using Darkages.Common;
+using static Darkages.Common.Extensions;
 
 namespace Darkages.Network.Game.Components
 {
@@ -15,7 +19,6 @@ namespace Darkages.Network.Game.Components
             _timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
         }
 
-        public DateTime LastUpdate { get; set; }
 
         public override void Update(TimeSpan elapsedTime)
         {
@@ -23,6 +26,8 @@ namespace Darkages.Network.Game.Components
 
             if (_timer.Elapsed)
             {
+                _timer.Reset();
+
                 var templates = ServerContext.GlobalMonsterTemplateCache.Values;
                 if (templates.Count == 0)
                     return;
@@ -36,55 +41,42 @@ namespace Darkages.Network.Game.Components
                     foreach (var template in temps)
                         if (template != null)
                         {
-                            if (template.Timer == null)
-                                template.Timer = new GameServerTimer(TimeSpan.FromSeconds(template.SpawnRate));
+                            if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
+                                continue;
 
-                            try
+                            using (new DisposableStopwatch(t => Console.WriteLine("{0} elapsed", t)))
                             {
-                                template.Timer.Update(DateTime.UtcNow - template.LastUpdate);
-                            }
-                            catch
-                            {
-                                template.LastUpdate = DateTime.UtcNow;
-                            }
-
-                            if (template.Timer.Elapsed)
-                            {
-                                if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
-                                    continue;
-
-                                SpawnOn(template, map);
-                                template.LastUpdate = DateTime.UtcNow;
-                                template.Timer.Reset();
+                                Task.Run(() => SpawnOn(template, map));
                             }
                         }
                 }
-
-                _timer.Reset();
             }
         }
 
-        public void SpawnOn(MonsterTemplate template, Area map)
+        public bool SpawnOn(MonsterTemplate template, Area map)
         {
-            new TaskFactory().StartNew(() =>
-            {
-                var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
+            var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
 
-                if (count < template.SpawnMax)
+            if (count < template.SpawnMax)
+            {
+                count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
+
+                if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
                 {
-                    if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
+                    var needed = Math.Abs(count - template.SpawnSize);
+                    for (var i = needed - 1; i >= 0; i--)
                     {
-                        var needed = Math.Abs(count - template.SpawnSize);
-                        for (var i = needed - 1; i >= 0; i--)
-                            CreateFromTemplate<Monster>(template, map);
-                    }
-                    if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
                         CreateFromTemplate<Monster>(template, map);
+                    }
                 }
-            });
+                else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
+                    CreateFromTemplate<Monster>(template, map);
+            }
+
+            return false;
         }
 
-        public void CreateFromTemplate<T>(Template template, Area map) where T : Sprite, new()
+        public bool CreateFromTemplate<T>(Template template, Area map) where T : Sprite, new()
         {
             var obj = new T();
 
@@ -93,8 +85,14 @@ namespace Darkages.Network.Game.Components
                 var newObj = Monster.Create(template as MonsterTemplate, map);
 
                 if (GetObject<Monster>(i => i.Serial == newObj.Serial) == null)
+                {
                     AddObject(newObj);
+                    return true;
+                }
             }
+            return false;
         }
+
+
     }
 }

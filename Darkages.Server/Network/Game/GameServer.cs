@@ -34,13 +34,13 @@ namespace Darkages.Network.Game
 
         public Collection<GameServerComponent> Components { get; }
         public TimeSpan UpdateSpan { get; }
-        public TimeSpan Delta { get; set; }
 
         public int Frames { get; set; } 
 
         private void AutoSave(GameClient client)
         {
-            if ((DateTime.UtcNow - client.LastSave).TotalSeconds > ServerContext.Config.SaveRate)
+            if ((DateTime.UtcNow - client.LastSave)
+                .TotalSeconds > ServerContext.Config.SaveRate)
                 client.Save();
         }
 
@@ -51,18 +51,20 @@ namespace Darkages.Network.Game
 
             while (isRunning)
             {
-                var delta =
-                    DateTime.UtcNow - lastUpdate;
+                var delta = DateTime.UtcNow - lastUpdate;
+                {
+                    Update(delta);
+                    lastUpdate = DateTime.UtcNow;
+                }
 
-                Update(delta);
-
-                lastUpdate = DateTime.UtcNow;
                 Thread.Sleep(UpdateSpan);
             }
         }
 
         public void InitializeGameServer()
         {
+            ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MinimalLatency));
+
             var daytimeComponent = new DaytimeComponent(this);
             Components.Add(daytimeComponent);
 
@@ -84,7 +86,7 @@ namespace Darkages.Network.Game
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }
 
-        GameServerTimer ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(10));
+        internal GameServerTimer ServerTimer { get; set; }
 
         public void Update(TimeSpan elapsedTime)
         {
