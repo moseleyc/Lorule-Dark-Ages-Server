@@ -446,13 +446,13 @@ namespace Darkages.Network.Game
 
         public void Insert()
         {
-            if (Aisling.Map.Tile == null)
+            if (!Aisling.Map.Ready)
                 return;
 
             if (GetObject<Aisling>(i => i.Serial == Aisling.Serial) == null)
                 AddObject(Aisling);
 
-            Aisling.Map.Tile[Aisling.X, Aisling.Y] = TileContent.Aisling;
+            Aisling.Map.Update(Aisling.X, Aisling.Y, TileContent.Aisling);
         }
 
         public void RefreshMap()

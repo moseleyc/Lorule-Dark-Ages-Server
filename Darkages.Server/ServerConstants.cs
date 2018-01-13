@@ -397,6 +397,9 @@ namespace Darkages
         [JsonProperty]
         public double MinimalLatency = 10;
 
+        [JsonProperty]
+        public int DeathMap = 88888;
+
         public override string ToString()
         {
             return StorageManager.Save(this)

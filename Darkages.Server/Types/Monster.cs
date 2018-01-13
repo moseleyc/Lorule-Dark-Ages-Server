@@ -269,7 +269,7 @@ namespace Darkages.Types
                 var x = Generator.Random.Next(1, map.Cols);
                 var y = Generator.Random.Next(1, map.Rows);
 
-                while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
+                while (map.IsWall(obj, x, y) || map[x, y] != TileContent.None)
                 {
                     lock (Generator.Random)
                     {
@@ -289,7 +289,7 @@ namespace Darkages.Types
                 var invalid = false;
 
                 //if not available. find a nearbly location nearby and try spawn it there.
-                while (map.IsWall(obj, obj.X, obj.Y) || map.Tile[obj.X, obj.Y] != TileContent.None)
+                while (map.IsWall(obj, obj.X, obj.Y) || map[obj.X, obj.Y] != TileContent.None)
                 {
                     for (var i = 0; i < 4; i++)
                     {

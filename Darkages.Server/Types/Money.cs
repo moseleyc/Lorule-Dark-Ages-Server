@@ -41,6 +41,7 @@ namespace Darkages.Types
             money.CurrentMapId = Parent.CurrentMapId;
             money.X = location.X;
             money.Y = location.Y;
+            money.Map = Parent.Map;
 
             var mt = (int)money.Type;
 

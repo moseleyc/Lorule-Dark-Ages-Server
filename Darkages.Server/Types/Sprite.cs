@@ -223,9 +223,9 @@ namespace Darkages.Types
             if (this is Mundane)
                 Content = TileContent.Mundane;
             if (this is Money)
-                Content = TileContent.Money;
+                Content = TileContent.None;
             if (this is Item)
-                Content = TileContent.Item;
+                Content = TileContent.None;
 
             Buffs   = new List<Buff>();
             Debuffs = new List<Debuff>();
@@ -837,8 +837,7 @@ namespace Darkages.Types
             if (this is Mundane)
                 DelObject(this as Mundane);
 
-            if (Map != null)
-                Map.Tile[X, Y] = TileContent.None;
+            Map?.Update(X, Y, TileContent.None);
         }
 
         public void UpdateBuffs(TimeSpan elapsedTime)
@@ -1099,8 +1098,8 @@ namespace Darkages.Types
 
         private void CompleteWalk(int savedX, int savedY)
         {
-            Map.Tile[savedX, savedY] = TileContent.None;
-            Map.Tile[X, Y] = Content;
+            Map.Update(savedX, savedY, TileContent.None);
+            Map.Update(X, Y, Content);
 
             if (this is Aisling)
             {

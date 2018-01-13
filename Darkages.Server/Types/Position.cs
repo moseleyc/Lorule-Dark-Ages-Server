@@ -93,29 +93,26 @@ namespace Darkages.Types
             {
                 list.Add(new TileContentPosition(
                     new Position(this.X - 1, this.Y), 
-                    map.Tile[this.X - 1, this.Y])
-                    );
+                    map[this.X - 1, this.Y]));
             }
             if (this.Y > 0)
             {
                 list.Add(new TileContentPosition(
                     new Position(this.X, this.Y - 1),
-                    map.Tile[this.X, this.Y - 1])
-                    );
-
+                    map[this.X, this.Y - 1]));
             }
             if (this.X < map.Rows - 1)
             {
                 list.Add(new TileContentPosition(
                     new Position(this.X + 1, this.Y),
-                    map.Tile[this.X + 1, this.Y])
+                    map[this.X + 1, this.Y])
                     );
             }
             if (this.Y < map.Cols - 1)
             {
                 list.Add(new TileContentPosition(
                     new Position(this.X, this.Y + 1),
-                    map.Tile[this.X, this.Y + 1])
+                    map[this.X, this.Y + 1])
                     );
             }
 

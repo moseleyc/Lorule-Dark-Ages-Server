@@ -602,6 +602,8 @@ namespace Darkages.Types
                 DefenseElement = itemtemplate.DefenseElement
             };
 
+            obj.Map = Owner.Map;
+
             if (obj.Color == 0)
                 obj.Color = (byte)ServerContext.Config.DefaultItemColor;
 
@@ -638,6 +640,7 @@ namespace Darkages.Types
 
             CurrentMapId = owner.CurrentMapId;
             CreationDate = DateTime.UtcNow;
+            Map = owner.Map;
             AddObject(this);
 
             if (owner is Aisling)

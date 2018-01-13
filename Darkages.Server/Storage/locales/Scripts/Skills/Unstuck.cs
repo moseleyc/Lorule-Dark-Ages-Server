@@ -24,7 +24,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 {
                     client.Aisling.X = targetPosition.X;
                     client.Aisling.Y = targetPosition.Y;
-                    client.Aisling.Map.Tile[prev.X, prev.Y] = TileContent.None;
+                    client.Aisling.Map.Update(prev.X, prev.Y, TileContent.None);
                     client.Refresh();
                 }
             }

@@ -32,27 +32,8 @@ namespace Darkages.Network.Game.Components
             if (Map == null)
                 return;
 
-            if (obj is Aisling)
-                if (!(obj as Aisling).Dead)
-                    Map.Tile[obj.X, obj.Y] = TileContent.Aisling;
-
-            if (obj is Monster)
-                Map.Tile[obj.X, obj.Y] = TileContent.Monster;
-
-            if (obj is Monster)
-                SaveObject(obj as Monster);
-
-            if (obj is Mundane)
-            {
-                SaveObject(obj as Mundane);
-                Map.Tile[obj.X, obj.Y] = TileContent.Mundane;
-            }
-
-            if (obj is Money || obj is Item)
-            {
-                SaveObject(obj as Money);
-                Map.Tile[obj.X, obj.Y] = TileContent.None;
-            }
+            if (obj.CurrentHp > 0)
+                Map.Update(obj.X, obj.Y, obj.Content);
         }
 
         public void OnObjectRemoved(Sprite obj)
@@ -63,8 +44,7 @@ namespace Darkages.Network.Game.Components
             if (!ServerContext.GlobalMapCache.ContainsKey(obj.CurrentMapId))
                 return;
 
-            var Map = ServerContext.GlobalMapCache[obj.CurrentMapId];
-            Map.Tile[obj.X, obj.Y] = TileContent.None;
+            obj.Map?.Update(obj.X, obj.Y, TileContent.None);
 
             if (obj is Monster || obj is Mundane)
             {

@@ -347,7 +347,7 @@ namespace Darkages
         {
             if (Map != null)
             {
-                Map.Tile[X, Y] = TileContent.None;
+                Map.Update(X, Y, TileContent.None);
             }
 
             if (update)

@@ -323,8 +323,11 @@ namespace Darkages.Network
                 if (near.LoggedIn)
                 {
                     if (near.Map != null && near.Map.Ready)
-                        near.Map.Tile[(client as GameClient).Aisling.X, (client as GameClient).Aisling.Y] =
-                            TileContent.None;
+                        near.Map.Update(
+                            (client as GameClient).Aisling.X, 
+                            (client as GameClient).Aisling.Y,
+                            TileContent.None);
+
                     near.Show(Scope.Self, new ServerFormat0E((client as GameClient).Aisling.Serial));
                 }
             }

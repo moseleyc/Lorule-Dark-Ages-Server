@@ -74,7 +74,7 @@ namespace Darkages.Storage.locales.Scripts.Global
 
         private static void SendToHell(GameClient client)
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(88888) || client.Aisling.ExpLevel <= ServerContext.Config.DeathFreeLevelCap)
+            if (ServerContext.GlobalMapCache.ContainsKey(ServerContext.Config.DeathMap) || client.Aisling.ExpLevel <= ServerContext.Config.DeathFreeLevelCap)
             {
                 client.Aisling.Show(Scope.NearbyAislings,
                     new ServerFormat29((uint)client.Aisling.Serial,
@@ -84,9 +84,9 @@ namespace Darkages.Storage.locales.Scripts.Global
                 client.Aisling.X = 13;
                 client.Aisling.Y = 11;
                 client.Aisling.Direction = 0;
-                client.Aisling.CurrentMapId = 88888;
-                client.Aisling.AreaID = 88888;
-                client.Aisling.Map = ServerContext.GlobalMapCache[88888];
+                client.Aisling.CurrentMapId = ServerContext.Config.DeathMap;
+                client.Aisling.AreaID = ServerContext.Config.DeathMap;
+                client.Aisling.Map = ServerContext.GlobalMapCache[ServerContext.Config.DeathMap];
                 client.EnterArea();
             }
             else

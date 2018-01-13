@@ -25,7 +25,7 @@ namespace Darkages
 
         [JsonIgnore]
         [Browsable(false)]
-        public TileContent[,] Tile { get; set; }
+        private TileContent[,] Tile;
 
         public int Music { get; set; }
 
@@ -54,6 +54,21 @@ namespace Darkages
         private GameServerTimer WarpTimer =
             new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.WarpUpdateTimer));
 
+
+        public void Update(int x, int y, TileContent value)
+        {
+            lock (Tile.SyncRoot)
+            {
+                Tile[x, y] = value;
+            }
+        }
+
+        public TileContent this[int x, int y]
+        {
+            get => Tile[x, y];
+            set => Update(x, y, value);
+        }
+
         public static bool ParseSotp(short lWall, short rWall)
         {
             if (lWall == 0 &&
@@ -70,69 +85,66 @@ namespace Darkages
 
         public bool IsWall(Sprite obj, int x, int y)
         {
-            lock (Tile)
+            if (x < 0 || y < 0)
+                return true;
+
+            x = x.Clamp(x, Cols - 1);
+            y = y.Clamp(y, Rows - 1);
+
+            if (obj is Aisling)
             {
-                if (x < 0 || y < 0)
-                    return true;
-
-                x = x.Clamp(x, Cols - 1);
-                y = y.Clamp(y, Rows - 1);
-
-                if (obj is Aisling)
+                if (((Aisling)obj).Flags.HasFlag(AislingFlags.GM))
                 {
-                    if (((Aisling)obj).Flags.HasFlag(AislingFlags.GM))
-                    {
-                        return false;
-                    }
-
-                    SetWarps();
-
-                    if (Tile[x, y] == TileContent.Warp)
-                        return false;
-
-                    var isobj = Tile[x, y];
-
-                    if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
-                            Get.Aislings | Get.Monsters | Get.Mundanes) == null)
-                    {
-                        Tile[x, y] = isobj == TileContent.Wall
-                            ? TileContent.Wall
-                            : TileContent.None;
-
-                        return false;
-                    }
-
-                    if (Tile[x, y] != TileContent.Wall)
-                        if ((obj as Aisling).Dead)
-                            return false;
+                    return false;
                 }
 
-                if (obj is Monster)
-                {
-                    if (((Monster)obj).Template.IgnoreCollision)
-                        return false;
-                }
+                SetWarps();
 
-
-                foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
-                    Get.Monsters | Get.Mundanes | Get.Aislings))
-                    Tile[nobj.X, nobj.Y] = nobj.Content;
-
-                if (Tile[x, y] == TileContent.Warp)
-                    return true;
-                if (Tile[x, y] == TileContent.Wall)
-                    return true;
-                if (Tile[x, y] == TileContent.Monster)
-                    return true;
-                if (Tile[x, y] == TileContent.Mundane)
-                    return true;
-                if (Tile[x, y] == TileContent.Aisling)
-                    return true;
-                if (Tile[x, y] == TileContent.None)
+                if (this[x, y] == TileContent.Warp)
                     return false;
 
-                return false;
+                var isobj = this[x, y];
+
+                if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
+                        Get.Aislings | Get.Monsters | Get.Mundanes) == null)
+                {
+                    this[x, y] = isobj == TileContent.Wall
+                        ? TileContent.Wall
+                        : TileContent.None;
+
+                    return false;
+                }
+
+                if (this[x, y] != TileContent.Wall)
+                    if ((obj as Aisling).Dead)
+                        return false;
             }
+
+            if (obj is Monster)
+            {
+                if (((Monster)obj).Template.IgnoreCollision)
+                    return false;
+            }
+
+
+            foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
+                Get.Monsters | Get.Mundanes | Get.Aislings))
+                this[nobj.X, nobj.Y] = nobj.Content;
+
+            if (this[x, y] == TileContent.Warp)
+                return true;
+            if (this[x, y] == TileContent.Wall)
+                return true;
+            if (this[x, y] == TileContent.Monster)
+                return true;
+            if (this[x, y] == TileContent.Mundane)
+                return true;
+            if (this[x, y] == TileContent.Aisling)
+                return true;
+            if (this[x, y] == TileContent.None)
+                return false;
+
+            return false;
         }
 
         public byte[] GetRowData(int row)
@@ -313,7 +325,7 @@ namespace Darkages
 
 
                     if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
-                        && Tile[i, j] == TileContent.None)
+                        && this[i, j] == TileContent.None)
                         result.Add(new Position(i, j));
                 }
 
@@ -337,9 +349,9 @@ namespace Darkages
                             reader.BaseStream.Seek(2, SeekOrigin.Current);
 
                             if (ParseSotp(reader.ReadInt16(), reader.ReadInt16()))
-                                Tile[x, y] = TileContent.Wall;
+                                this[x, y] = TileContent.Wall;
                             else
-                                Tile[x, y] = TileContent.None;
+                                this[x, y] = TileContent.None;
 
                         }
                     }
@@ -365,7 +377,7 @@ namespace Darkages
                 {
                     if (warp.WarpType == WarpType.Map)
                     {
-                        Tile[o.Location.X, o.Location.Y] = TileContent.Warp;
+                        this[o.Location.X, o.Location.Y] = TileContent.Warp;
                     }
                 }
             }
@@ -381,9 +393,9 @@ namespace Darkages
                 for (int x = 0; x < Cols; x++)
                 {
 
-                    if (Tile[x, y] == TileContent.None
-                        || Tile[x, y] == TileContent.Money
-                        || Tile[x, y] == TileContent.Item)
+                    if (this[x, y] == TileContent.None
+                        || this[x, y] == TileContent.Money
+                        || this[x, y] == TileContent.Item)
                     {
                         positions.Add(new Position(x, y));
                     }

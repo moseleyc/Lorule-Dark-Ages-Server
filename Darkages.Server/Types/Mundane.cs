@@ -73,10 +73,7 @@ namespace Darkages.Types
 
         public void OnDeath()
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(CurrentMapId))
-            {
-                ServerContext.GlobalMapCache[CurrentMapId].Tile[X, Y] = TileContent.None;
-            }
+            Map.Update(X, Y, TileContent.None);
 
             RemoveActiveTargets();
 
