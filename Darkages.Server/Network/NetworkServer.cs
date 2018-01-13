@@ -65,9 +65,10 @@ namespace Darkages.Network
                 {
                     Socket = new NetworkSocket(socket)
                     {
-                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1)
+                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1),
                     }
                 };
+
 
                 if (client.Socket.Connected)
                     if (AddClient(client))

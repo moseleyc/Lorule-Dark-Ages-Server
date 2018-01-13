@@ -12,7 +12,6 @@ namespace Darkages.Network
 
         private readonly byte[] header = new byte[0x0003];
         private readonly byte[] packet = new byte[ServerContext.Config?.BufferSize ?? 8192];
-        private readonly Throttler _throttler;
 
         private int headerOffset;
         private int packetLength;
@@ -21,7 +20,7 @@ namespace Darkages.Network
         public NetworkSocket(Socket socket)
             : base(socket.DuplicateAndClose(processId))
         {
-            _throttler = new Throttler(0x4096, TimeSpan.FromSeconds(1), 0x8192);
+
         }
 
         public bool HeaderComplete => headerOffset == headerLength;
@@ -42,8 +41,6 @@ namespace Darkages.Network
 
         public IAsyncResult BeginReceivePacket(AsyncCallback callback, out SocketError error, object state)
         {
-            _throttler.ThrottledWait(packetLength);
-
             return BeginReceive(
                 packet,
                 packetOffset,

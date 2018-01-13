@@ -102,19 +102,16 @@ namespace Darkages.Network.Game.Components
 
         public void SpawnOn(MonsterTemplate template, Area map)
         {
-            using (new DisposableStopwatch(t => Console.WriteLine("{0} elapsed", t)))
-            {
-                var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
+            var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
 
-                if (count < template.SpawnMax)
+            if (count < template.SpawnMax)
+            {
+                if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
                 {
-                    if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
-                    {
-                        CreateFromTemplate<Monster>(template, map);
-                    }
-                    else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
-                        CreateFromTemplate<Monster>(template, map);
+                    CreateFromTemplate<Monster>(template, map);
                 }
+                else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
+                    CreateFromTemplate<Monster>(template, map);
             }
         }
 
