@@ -19,16 +19,11 @@ namespace Darkages.Network
     public abstract class NetworkServer<TClient> : ObjectManager
         where TClient : NetworkClient, new()
     {
-        [JsonIgnore]
-        private readonly Queue<Action> _recvBuffers = new Queue<Action>();
-        [JsonIgnore]
-        private bool _receiving;
-        [JsonIgnore]
         private readonly MethodInfo[] _handlers;
-        [JsonIgnore]
-        private Socket _listener;
-        [JsonIgnore]
+        private readonly Queue<Action> _recvBuffers = new Queue<Action>();
+        private bool _receiving;
         private bool _listening;
+        private Socket _listener;
 
         protected NetworkServer(int capacity)
         {
@@ -78,6 +73,7 @@ namespace Darkages.Network
                     if (AddClient(client))
                     {
                         ClientConnected(client);
+
                         lock (Generator.Random)
                         {
                             client.Serial = Generator.GenerateNumber();

@@ -3,23 +3,23 @@
   "CurrentWeight": 2,
   "MaximumWeight": 14,
   "Created": "2018-01-12T11:46:08.8790158Z",
-  "LastLogged": "2018-01-13T02:47:21.7840116Z",
+  "LastLogged": "2018-01-13T03:26:05.3491364Z",
   "Username": "lol",
   "Password": "lol",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
-  "ExpLevel": 14,
-  "ExpTotal": 185105,
-  "ExpNext": 154173,
+  "ExpLevel": 16,
+  "ExpTotal": 747070,
+  "ExpNext": 613292,
   "Gender": 2,
   "Title": 0,
   "Flags": 0,
-  "AreaID": 101,
+  "AreaID": 151,
   "ClassID": 0,
   "GamePoints": 0,
   "GoldPoints": 2457,
-  "StatPoints": 25,
+  "StatPoints": 29,
   "Medal": 0,
   "LIcon": 0,
   "RIcon": 0,
@@ -74,8 +74,8 @@
         "Icon": 12,
         "Level": 3,
         "ID": 996,
-        "NextAvailableUse": "2018-01-13T02:59:59.2148873Z",
-        "Ready": false,
+        "NextAvailableUse": "2018-01-13T03:26:05.3341346Z",
+        "Ready": true,
         "InUse": false,
         "Uses": 0
       },
@@ -101,8 +101,8 @@
         "Icon": 1,
         "Level": 100,
         "ID": 997,
-        "NextAvailableUse": "2018-01-13T02:59:52.7590747Z",
-        "Ready": true,
+        "NextAvailableUse": "2018-01-13T03:27:14.6559935Z",
+        "Ready": false,
         "InUse": false,
         "Uses": 0
       },
@@ -129,7 +129,7 @@
         "Icon": 21,
         "Level": 2,
         "ID": 998,
-        "NextAvailableUse": "2018-01-13T02:48:15.7707338Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3356351Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -156,8 +156,8 @@
         "Icon": 0,
         "Level": 0,
         "ID": 999,
-        "NextAvailableUse": "2018-01-13T02:53:43.6851295Z",
-        "Ready": true,
+        "NextAvailableUse": "2018-01-13T03:27:15.8059976Z",
+        "Ready": false,
         "InUse": false,
         "Uses": 0
       },
@@ -181,12 +181,12 @@
         },
         "Slot": 5,
         "Icon": 4,
-        "Level": 32,
+        "Level": 36,
         "ID": 1000,
-        "NextAvailableUse": "2018-01-13T02:59:52.7595749Z",
-        "Ready": true,
+        "NextAvailableUse": "2018-01-13T03:27:14.6559935Z",
+        "Ready": false,
         "InUse": false,
-        "Uses": 8
+        "Uses": 0
       },
       "6": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -210,7 +210,7 @@
         "Icon": 36,
         "Level": 2,
         "ID": 1001,
-        "NextAvailableUse": "2018-01-13T02:47:56.0742435Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3361346Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -237,7 +237,7 @@
         "Icon": 32,
         "Level": 0,
         "ID": 1002,
-        "NextAvailableUse": "2018-01-13T02:48:06.0870625Z",
+        "NextAvailableUse": "2018-01-13T03:27:14.1634655Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -264,7 +264,7 @@
         "Icon": 17,
         "Level": 3,
         "ID": 1003,
-        "NextAvailableUse": "2018-01-13T02:47:56.381284Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3361346Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -291,7 +291,7 @@
         "Icon": 51,
         "Level": 0,
         "ID": 1004,
-        "NextAvailableUse": "2018-01-13T02:47:47.0103334Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3361346Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -319,7 +319,7 @@
         "Icon": 15,
         "Level": 0,
         "ID": 1005,
-        "NextAvailableUse": "2018-01-13T02:47:21.7715102Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3361346Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -353,7 +353,7 @@
         "Icon": 60,
         "Level": 1,
         "ID": 1006,
-        "NextAvailableUse": "2018-01-13T02:47:21.7715102Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3366349Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -420,7 +420,7 @@
         },
         "Level": 0,
         "Slot": 1,
-        "NextAvailableUse": "2018-01-13T02:47:21.77251Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3376351Z",
         "InUse": false
       },
       "2": {
@@ -454,7 +454,7 @@
         },
         "Level": 0,
         "Slot": 2,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "3": {
@@ -477,7 +477,7 @@
         },
         "Level": 6,
         "Slot": 3,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "4": {
@@ -511,7 +511,7 @@
         },
         "Level": 0,
         "Slot": 4,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "5": {
@@ -540,7 +540,7 @@
         },
         "Level": 3,
         "Slot": 5,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "6": {
@@ -574,7 +574,7 @@
         },
         "Level": 0,
         "Slot": 6,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "7": {
@@ -603,7 +603,7 @@
         },
         "Level": 0,
         "Slot": 7,
-        "NextAvailableUse": "2018-01-13T02:47:21.7730095Z",
+        "NextAvailableUse": "2018-01-13T03:26:05.3381354Z",
         "InUse": false
       },
       "8": null,
@@ -1082,7 +1082,44 @@
   "ClanRank": "",
   "Quests": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Quest, Darkages.Server]], mscorlib",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Darkages.Types.Quest, Darkages.Server",
+        "ItemRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "SpellRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.SpellTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "SkillRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.SkillTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "LegendRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Legend+LegendItem, Darkages.Server]], mscorlib",
+          "$values": [
+            {
+              "$type": "Darkages.Types.Legend+LegendItem, Darkages.Server",
+              "Icon": 7,
+              "Color": 88,
+              "Category": "Quest",
+              "Value": "Helped Benson start a fight."
+            }
+          ]
+        },
+        "Name": "Benson_quest",
+        "Started": true,
+        "Completed": false,
+        "TimeStarted": "2018-01-13T03:08:50.2030148Z",
+        "TimeCompleted": "0001-01-01T00:00:00",
+        "ExpReward": 0,
+        "GoldReward": 0,
+        "StageIndex": 0,
+        "Rewarded": false
+      }
+    ]
   },
   "PortalSession": {
     "$type": "Darkages.PortalSession, Darkages.Server",
@@ -1091,32 +1128,44 @@
   },
   "LastPosition": {
     "$type": "Darkages.Types.Position, Darkages.Server",
-    "X": 5,
+    "X": 7,
     "Y": 6
   },
-  "LastMapId": 101,
+  "LastMapId": 151,
   "HeadAccessory3": 0,
   "BootColor": 13,
   "NameColor": 1,
   "Debuffs": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Darkages.Storage.locales.debuffs.debuff_beagcradh, Darkages.Server",
+        "AcModifer": {
+          "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+          "Option": 0,
+          "Value": 20
+        },
+        "Name": "beag cradh",
+        "Length": 60,
+        "Icon": 5
+      }
+    ]
   },
   "Buffs": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 1429,
-  "X": 47,
-  "Y": 22,
-  "Direction": 1,
-  "CurrentMapId": 101,
+  "Serial": 165,
+  "X": 63,
+  "Y": 73,
+  "Direction": 0,
+  "CurrentMapId": 151,
   "OffenseElement": 0,
   "DefenseElement": 0,
-  "CurrentHp": 1321,
-  "CurrentMp": 459,
-  "_MaximumHp": 1321,
-  "_MaximumMp": 459,
+  "CurrentHp": 1515,
+  "CurrentMp": 525,
+  "_MaximumHp": 1515,
+  "_MaximumMp": 525,
   "_Str": 4,
   "_Int": 3,
   "_Wis": 3,

@@ -21,15 +21,12 @@ namespace Darkages.Network
         private bool _sending;
 
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
-        private readonly Throttler _throttler;
 
         public NetworkClient()
         {
             Reader = new NetworkPacketReader();
             Writer = new NetworkPacketWriter();
             Encryption = new SecurityProvider();
-
-            _throttler = new Throttler(0x4096, TimeSpan.FromSeconds(1), 1024);
         }
 
         public NetworkPacketReader Reader { get; set; }
@@ -154,8 +151,6 @@ namespace Darkages.Network
                         Encryption.Transform(packet);
 
                     var buffer = packet.ToArray();
-
-                    _throttler.ThrottledWait(buffer.Length);
                     Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
                 }
             }
