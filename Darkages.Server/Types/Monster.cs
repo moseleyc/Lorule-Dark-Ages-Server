@@ -271,8 +271,11 @@ namespace Darkages.Types
 
                 while (map.IsWall(obj, x, y) || map.Tile[x, y] != TileContent.None)
                 {
-                    x = Generator.Random.Next(1, map.Cols);
-                    y = Generator.Random.Next(1, map.Rows);
+                    lock (Generator.Random)
+                    {
+                        x = Generator.Random.Next(1, map.Cols);
+                        y = Generator.Random.Next(1, map.Rows);
+                    }
                 }
 
                 obj.X = x;
@@ -290,7 +293,7 @@ namespace Darkages.Types
                 {
                     for (var i = 0; i < 4; i++)
                     {
-                        var tiles = map.GetNearByTiles(obj, (short) obj.X, (short) obj.Y, 20);
+                        var tiles = map.GetNearByTiles(obj, (short)obj.X, (short)obj.Y, 20);
 
                         if (tiles.Length > 0)
                         {

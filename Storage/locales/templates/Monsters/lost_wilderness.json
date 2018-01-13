@@ -22,8 +22,8 @@
   "MovementSpeed": 650,
   "CastSpeed": 1000,
   "ArmorClass": 0,
-  "MagicResist": 20,
-  "SpawnMax": 20000,
+  "MagicResist": 4000,
+  "SpawnMax": 200000,
   "SpawnRate": 1,
   "SpawnSize": 100,
   "AttackSpeed": 750,
@@ -43,7 +43,7 @@
  "Drops": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [
-	"Dark Belt",
+	      "Dark Belt",
         "Dark Bone Necklace",
         "Light Coral Necklace",
         "Dirk",
@@ -52,15 +52,15 @@
         "Dobok",
         "Shirt",
         "Blouse",
-	"Silver Earrings",
-	"Gold Earrings",
+	      "Silver Earrings",
+	      "Gold Earrings",
         "Gardcorp",
         "Black Stone Ring",
         "Ancuisa Ceir",
         "Leather Tunic",
         "Cotte",
         "Eternal Love Ring",
-        "Orc Helmet"       
+        "Orc Helmet"
     ]
   },
 }

@@ -70,66 +70,69 @@ namespace Darkages
 
         public bool IsWall(Sprite obj, int x, int y)
         {
-            if (x < 0 || y < 0)
-                return true;
-
-            x = x.Clamp(x, Cols - 1);
-            y = y.Clamp(y, Rows - 1);
-
-            if (obj is Aisling)
+            lock (Tile)
             {
-                if (((Aisling) obj).Flags.HasFlag(AislingFlags.GM))
+                if (x < 0 || y < 0)
+                    return true;
+
+                x = x.Clamp(x, Cols - 1);
+                y = y.Clamp(y, Rows - 1);
+
+                if (obj is Aisling)
                 {
-                    return false;
+                    if (((Aisling)obj).Flags.HasFlag(AislingFlags.GM))
+                    {
+                        return false;
+                    }
+
+                    SetWarps();
+
+                    if (Tile[x, y] == TileContent.Warp)
+                        return false;
+
+                    var isobj = Tile[x, y];
+
+                    if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
+                            Get.Aislings | Get.Monsters | Get.Mundanes) == null)
+                    {
+                        Tile[x, y] = isobj == TileContent.Wall
+                            ? TileContent.Wall
+                            : TileContent.None;
+
+                        return false;
+                    }
+
+                    if (Tile[x, y] != TileContent.Wall)
+                        if ((obj as Aisling).Dead)
+                            return false;
                 }
 
-                SetWarps();
+                if (obj is Monster)
+                {
+                    if (((Monster)obj).Template.IgnoreCollision)
+                        return false;
+                }
+
+
+                foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
+                    Get.Monsters | Get.Mundanes | Get.Aislings))
+                    Tile[nobj.X, nobj.Y] = nobj.Content;
 
                 if (Tile[x, y] == TileContent.Warp)
+                    return true;
+                if (Tile[x, y] == TileContent.Wall)
+                    return true;
+                if (Tile[x, y] == TileContent.Monster)
+                    return true;
+                if (Tile[x, y] == TileContent.Mundane)
+                    return true;
+                if (Tile[x, y] == TileContent.Aisling)
+                    return true;
+                if (Tile[x, y] == TileContent.None)
                     return false;
 
-                var isobj = Tile[x, y];
-
-                if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
-                        Get.Aislings | Get.Monsters | Get.Mundanes) == null)
-                {
-                    Tile[x, y] = isobj == TileContent.Wall
-                        ? TileContent.Wall
-                        : TileContent.None;
-
-                    return false;
-                }
-
-                if (Tile[x, y] != TileContent.Wall)
-                    if ((obj as Aisling).Dead)
-                        return false;
-            }
-
-            if (obj is Monster)
-            {
-                if (((Monster) obj).Template.IgnoreCollision)
-                    return false;
-            }
-
-
-            foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
-                Get.Monsters | Get.Mundanes | Get.Aislings))
-                Tile[nobj.X, nobj.Y] = nobj.Content;
-
-            if (Tile[x, y] == TileContent.Warp)
-                return true;
-            if (Tile[x, y] == TileContent.Wall)
-                return true;
-            if (Tile[x, y] == TileContent.Monster)
-                return true;
-            if (Tile[x, y] == TileContent.Mundane)
-                return true;
-            if (Tile[x, y] == TileContent.Aisling)
-                return true;
-            if (Tile[x, y] == TileContent.None)
                 return false;
-
-            return false;
+            }
         }
 
         public byte[] GetRowData(int row)

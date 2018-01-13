@@ -6,19 +6,58 @@ using System.Threading.Tasks;
 using Darkages.Types;
 using Darkages.Common;
 using static Darkages.Common.Extensions;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace Darkages.Network.Game.Components
 {
     public class MonolithComponent : GameServerComponent
     {
         private readonly GameServerTimer _timer;
+        private readonly Thread _spawnThread;
 
         public MonolithComponent(GameServer server)
             : base(server)
         {
             _timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
+            _spawnThread = new Thread(new ThreadStart(SpawnConsumer));
+            _spawnThread.IsBackground = true;
+            _spawnThread.Start();
         }
 
+        public Queue<Spawn> SpawnQueue = new Queue<Spawn>();
+        public object SyncObj = new object();
+
+        public class Spawn
+        {
+            public DateTime LastSpawned { get; set; }
+            public MonsterTemplate Template { get; set; }
+            public Area Map { get; set; }
+        }
+
+        private void SpawnConsumer()
+        {
+            while (true)
+            {
+
+                Spawn spawnObj = null;
+
+                lock (SyncObj) {
+
+                    if (SpawnQueue.Count > 0)
+                    {
+                        spawnObj = SpawnQueue.Dequeue();
+                    }
+                }
+
+                if (spawnObj != null)
+                {
+                    SpawnOn(spawnObj.Template, spawnObj.Map);
+                }
+
+                Thread.Sleep(100);
+            }
+        }
 
         public override void Update(TimeSpan elapsedTime)
         {
@@ -39,42 +78,46 @@ namespace Darkages.Network.Game.Components
 
                     var temps = templates.Where(i => i.AreaID == map.ID);
                     foreach (var template in temps)
+                    {
                         if (template != null)
                         {
                             if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
                                 continue;
 
-                            using (new DisposableStopwatch(t => Console.WriteLine("{0} elapsed", t)))
+                            var spawn = new Spawn()
                             {
-                                Task.Run(() => SpawnOn(template, map));
+                                Template = template,
+                                Map = map
+                            };
+
+                            lock (SyncObj)
+                            {
+                                SpawnQueue.Enqueue(spawn);
                             }
                         }
+                    }
                 }
             }
         }
 
-        public bool SpawnOn(MonsterTemplate template, Area map)
+        public void SpawnOn(MonsterTemplate template, Area map)
         {
-            var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
-
-            if (count < template.SpawnMax)
+            using (new DisposableStopwatch(t => Console.WriteLine("{0} elapsed", t)))
             {
-                count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
+                var count = GetObjects<Monster>(i => i.Template.Name == template.Name).Length;
 
-                if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
+                if (count < template.SpawnMax)
                 {
-                    var needed = Math.Abs(count - template.SpawnSize);
-                    for (var i = needed - 1; i >= 0; i--)
+                    if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
                     {
                         CreateFromTemplate<Monster>(template, map);
                     }
+                    else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
+                        CreateFromTemplate<Monster>(template, map);
                 }
-                else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
-                    CreateFromTemplate<Monster>(template, map);
             }
-
-            return false;
         }
+
 
         public bool CreateFromTemplate<T>(Template template, Area map) where T : Sprite, new()
         {
