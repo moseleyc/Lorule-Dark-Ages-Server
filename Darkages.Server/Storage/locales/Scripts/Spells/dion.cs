@@ -33,7 +33,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                 client.TrainSpell(Spell);
 
-                if (sprite.Buffs.FirstOrDefault(i => i.Name == buff.Name) == null)
+                if (sprite.Buffs.FirstOrDefault(i => i.Name.ToLower().Contains("dion")) == null)
                 {
                     buff.OnApplied(sprite, buff);
 

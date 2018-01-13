@@ -10,7 +10,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
     [Script("Common Monster", "Dean")]
     public class CommonMonster : MonsterScript
     {
-        private readonly FastRandom _random = new FastRandom();
+        private readonly Random _random = new Random();
         public List<SkillScript> SkillScripts = new List<SkillScript>();
         public List<SpellScript> SpellScripts = new List<SpellScript>();
 

@@ -36,7 +36,7 @@ namespace Darkages.Types
         {
             var colorInt = 0;
 
-            if ((Length -Timer.Tick).IsWithin(0, 10))
+            if ((Length - Timer.Tick).IsWithin(0, 10))
                 colorInt = 1;
             else if ((Length - Timer.Tick).IsWithin(10, 20))
                 colorInt = 2;
@@ -59,6 +59,7 @@ namespace Darkages.Types
 
         public virtual void OnDurationUpdate(Sprite Affected, Buff buff)
         {
+            Display(Affected);
         }
 
         public virtual void OnEnded(Sprite Affected, Buff buff)

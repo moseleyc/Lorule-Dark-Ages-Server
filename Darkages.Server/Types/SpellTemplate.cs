@@ -29,6 +29,10 @@ namespace Darkages.Types
         public SpellUseType TargetType { get; set; }
         public int BaseLines { get; set; }
         public double LevelRate { get; set; }
+        public byte Sound { get; set; }
+        public ushort Animation { get; set; }
+        public double DamageExponent { get; set; }
+        public ElementManager.Element ElementalProperty { get; set; }
 
         public SpellTemplate()
         {

@@ -236,7 +236,19 @@ namespace Darkages.Types
 
         public Random rnd => _rnd.Value;
 
-        public void ApplyDamage(Sprite Source, int dmg, bool truedamage = false, byte sound = 1,
+        public void ApplyDamage(Sprite source, 
+            int dmg, 
+            Element element, 
+            byte sound = 1)
+        {
+            var s = Clone<Sprite>(source);
+            s.OffenseElement = element;
+            ApplyDamage(source, dmg, false, sound);
+        }
+
+        public void ApplyDamage(Sprite Source, int dmg, 
+            bool truedamage = false, 
+            byte sound = 1,
             Action<int> dmgcb = null)
         {
             if (!Attackable)

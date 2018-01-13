@@ -9,8 +9,8 @@ namespace Darkages.Storage.locales.Buffs
         /// </summary>
         public override string Name => "dion";
 
-        public override int Length => 6;
-        public override byte Icon => 19;
+        public override int Length => 7;
+        public override byte Icon => 53;
 
         public override void OnApplied(Sprite Affected, Buff buff)
         {

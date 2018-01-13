@@ -47,7 +47,8 @@ namespace Darkages.Network.Game
 
         public bool IsDead()
         {
-            return Aisling != null && Aisling.Flags == AislingFlags.Dead;
+            return Aisling != null && (Aisling.Flags.HasFlag(AislingFlags.Dead))
+                || (Aisling.CurrentHp == 0);
         }
 
         public bool CanSeeGhosts()

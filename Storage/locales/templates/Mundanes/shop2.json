@@ -1,6 +1,6 @@
 {
   "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
-  "Image": 17186,
+  "Image": 17021,
   "Level": 99,
   "ScriptKey": "shop1",
   "EnableWalking": false,

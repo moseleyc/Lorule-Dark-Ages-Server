@@ -151,7 +151,7 @@ namespace Darkages
         /// by default this is 300ms, You should increase this to increase the chances of healing out.
         /// i would not recommend a value higher then 750ms, as healing out will become to likely.
         /// </summary>
-        public double HealoutTolerance = 500;
+        public double HealoutTolerance = 10;
 
         [JsonProperty] public string IntAddedMessage = "Your mind expands.";
 

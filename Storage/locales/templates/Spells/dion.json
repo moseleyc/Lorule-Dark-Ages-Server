@@ -1,2 +1,2 @@
-{"$type":"Darkages.Types.SpellTemplate, Darkages.Server","Icon":11,"MaxLevel":100,"ScriptKey":"dion","BaseLines": 0,
+{"$type":"Darkages.Types.SpellTemplate, Darkages.Server","Icon":53,"MaxLevel":100,"ScriptKey":"dion","BaseLines": 0,
   "LevelRate": 0.9,"MinLines":0,"MaxLines":9,"ManaCost":6,"Scope":1,"TargetType":5,"Family":4,"Text":"\u0000","Name":"dion"}

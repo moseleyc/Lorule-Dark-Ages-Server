@@ -33,7 +33,7 @@
   "GroupedAlreadyMsg": "noname is already in a group.",
   "GroupRequestDeclinedMsg": "noname does not wish to join your group.",
   "HandShakeMessage": "CAN WE ALL GET ALONG\n",
-  "HealoutTolerance": 500.0,
+  "HealoutTolerance": 10.0,
   "IntAddedMessage": "Your mind expands.",
   "LimitWalkingWhenRefreshing": false,
   "LingerState": 1000.0,

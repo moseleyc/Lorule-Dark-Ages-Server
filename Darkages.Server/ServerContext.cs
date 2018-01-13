@@ -229,6 +229,173 @@ namespace Darkages
                 LoadWorldMapTemplates();
             }
 
+            //template examples.
+
+
+            GlobalSpellTemplateCache["deo saighead"] = new SpellTemplate()
+            {
+                Animation = 23,
+                Sound = 26,
+                BaseLines = 2,
+                Icon = 71,
+                ManaCost = 250,
+                LevelRate = 0.06,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 1,
+                Name = "deo saighead",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.5,
+                ElementalProperty = ElementManager.Element.Light
+            };
+
+            GlobalSpellTemplateCache["beag srad"] = new SpellTemplate()
+            {
+                Animation = 12,
+                Sound = 79,
+                BaseLines = 1,
+                Icon = 40,
+                ManaCost = 5,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "beag srad",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.02,
+                ElementalProperty = ElementManager.Element.Fire
+            };
+
+            GlobalSpellTemplateCache["srad"] = new SpellTemplate()
+            {
+                Animation = 12,
+                Sound = 79,
+                BaseLines = 1,
+                Icon = 40,
+                ManaCost = 50,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "srad",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.03,
+                ElementalProperty = ElementManager.Element.Fire
+            };
+
+            GlobalSpellTemplateCache["mor srad"] = new SpellTemplate()
+            {
+                Animation = 12,
+                Sound = 79,
+                BaseLines = 2,
+                Icon = 41,
+                ManaCost = 500,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "mor srad",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.05,
+                ElementalProperty = ElementManager.Element.Fire
+            };
+
+            GlobalSpellTemplateCache["ard srad"] = new SpellTemplate()
+            {
+                Animation = 12,
+                Sound = 79,
+                BaseLines = 3,
+                Icon = 42,
+                ManaCost = 1200,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 1,
+                Name = "ard srad",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.10,
+                ElementalProperty = ElementManager.Element.Fire
+            };
+
+            GlobalSpellTemplateCache["beag sal"] = new SpellTemplate()
+            {
+                Animation = 9,
+                Sound = 79,
+                BaseLines = 1,
+                Icon = 46,
+                ManaCost = 5,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "beag sal",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.02,
+                ElementalProperty = ElementManager.Element.Water
+            };
+
+            GlobalSpellTemplateCache["sal"] = new SpellTemplate()
+            {
+                Animation = 9,
+                Sound = 79,
+                BaseLines = 1,
+                Icon = 46,
+                ManaCost = 50,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "sal",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.03,
+                ElementalProperty = ElementManager.Element.Water
+            };
+
+            GlobalSpellTemplateCache["mor sal"] = new SpellTemplate()
+            {
+                Animation = 9,
+                Sound = 79,
+                BaseLines = 2,
+                Icon = 47,
+                ManaCost = 500,
+                LevelRate = 0.10,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 0,
+                Name = "mor sal",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.05,
+                ElementalProperty = ElementManager.Element.Water
+            };
+
+            GlobalSpellTemplateCache["ard sal"] = new SpellTemplate()
+            {
+                Animation = 9,
+                Sound = 79,
+                BaseLines = 3,
+                Icon = 48,
+                ManaCost = 1200,
+                LevelRate = 0.03,
+                MaxLevel = 100,
+                MaxLines = 9,
+                MinLines = 1,
+                Name = "ard sal",
+                ScriptKey = "Generic Elemental Single",
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                DamageExponent = 0.10,
+                ElementalProperty = ElementManager.Element.Water
+            };
+
+
+
             Console.WriteLine("\n");
         }
     }

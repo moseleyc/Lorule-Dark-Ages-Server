@@ -72,6 +72,9 @@ namespace Darkages.Types
             if (obj.Template.Name == "dion")
                 obj.Template.Buff = new buff_dion();
 
+            if (obj.Template.Name == "mor dion")
+                obj.Template.Buff = new buff_mordion();
+
             if (obj.Template.Name == "pramh")
                 obj.Template.Debuff = new debuff_sleep();
 

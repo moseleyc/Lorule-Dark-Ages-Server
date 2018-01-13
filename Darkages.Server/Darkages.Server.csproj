@@ -76,7 +76,6 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Generator.cs" />
     <Compile Include="Common\Predicate.cs" />
-    <Compile Include="Common\Random.cs" />
     <Compile Include="Common\Reflection.cs" />
     <Compile Include="Compression\CompressableObject.cs" />
     <Compile Include="Compression\CompressionProvider.cs" />
@@ -215,6 +214,9 @@
     <Compile Include="Storage\AislingStorage.cs" />
     <Compile Include="Storage\AreaStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
+    <Compile Include="Storage\locales\buffs\buff_mordion.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Storage\locales\debuffs\debuff_ardcradh.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -285,6 +287,12 @@
     </Compile>
     <Compile Include="Storage\locales\Scripts\Skills\LocateMonster.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\mordion.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Spells\SingleElementalSpell.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\WarpStorage.cs" />
     <Compile Include="Types\Dialog.cs" />
