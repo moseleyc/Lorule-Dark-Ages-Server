@@ -105,5 +105,6 @@
   "ToWeakToLift": "You are to weak to even lift it.",
   "DefaultItemColor": 13,
   "MinimalLatency": 10.0,
-  "DeathMap": 88888
+  "DeathMap": 88888,
+  "Version": 718
 }

@@ -11,12 +11,12 @@ namespace Darkages.Common
 
         static Generator()
         {
-            Random = (dynamic)(ServerContext.Config.UseFastRandom ? (dynamic)new FastRandom() : (dynamic)new Random());
+            Random = new Random();
             GeneratedNumbers = new Collection<int>();
             GeneratedStrings = new Collection<string>();
         }
 
-        public static dynamic Random { get; }
+        public static Random Random { get; }
         public static Collection<int> GeneratedNumbers { get; }
         public static Collection<string> GeneratedStrings { get; }
 

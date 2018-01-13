@@ -90,15 +90,13 @@ namespace Darkages.Types
                     broken.Add(item);
             }
 
-            lock (Equipment)
-            {
-                foreach (var item in broken)
-                {
-                    if (item?.Template == null)
-                        continue;
 
-                    RemoveFromExisting(item.Template.EquipmentSlot);
-                }
+            foreach (var item in broken)
+            {
+                if (item?.Template == null)
+                    continue;
+
+                RemoveFromExisting(item.Template.EquipmentSlot);
             }
         }
 

@@ -13,7 +13,7 @@ using Darkages.Types;
 
 namespace Darkages.Network.Game
 {
-    public class GameClient : NetworkClient
+    public class GameClient : NetworkClient<GameClient>
     {
         public List<uint> AnimationFactories = new List<uint>();
         public Collection<GlobalScript> GlobalScripts = new Collection<GlobalScript>();
@@ -654,13 +654,13 @@ namespace Darkages.Network.Game
         {
             if (spell.Level < spell.Template.MaxLevel)
             {
-                var toImprove = (int)(1.5 * spell.Level * spell.Template.LevelRate);
+                var toImprove = (int)(0.10 / spell.Template.LevelRate);
                 if (spell.Casts++ >= toImprove)
                 {
                     spell.Level++;
                     spell.Casts = 0;
                     Send(new ServerFormat17(spell));
-                    SendMessage(0x02, string.Format("{0} has improved!", spell.Template.Name));
+                    SendMessage(0x02, string.Format("{0} has improved.", spell.Template.Name));
                 }
             }
         }
@@ -669,19 +669,26 @@ namespace Darkages.Network.Game
         {
             if (skill.Level < skill.Template.MaxLevel)
             {
-                var toImprove = (int)(1.5 * skill.Level * skill.Template.LevelRate);
+                var toImprove = (int)(0.10 / skill.Template.LevelRate);
                 if (skill.Uses++ >= toImprove)
                 {
                     skill.Level++;
                     skill.Uses = 0;
                     Send(new ServerFormat2C(skill.Slot, skill.Icon, skill.Name));
-                    SendMessage(0x02, string.Format("{0} has improved!", skill.Template.Name));
+
+                    SendMessage(0x02, string.Format("{0} has improved. (Lv. {1})",
+                        skill.Template.Name, 
+                        skill.Level));
                 }
+
+                Send(new ServerFormat3F((byte)skill.Template.Pane,
+                    skill.Slot,
+                    skill.Template.Cooldown));
             }
         }
 
         /// <summary>
-        ///     Stop and Interupt everything this client is doing.
+        /// Stop and Interupt everything this client is doing.
         /// </summary>
         public void Interupt()
         {

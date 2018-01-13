@@ -17,7 +17,7 @@ using static System.Threading.ThreadPool;
 namespace Darkages.Network
 {
     public abstract class NetworkServer<TClient> : ObjectManager
-        where TClient : NetworkClient, new()
+        where TClient : NetworkClient<TClient>, new()
     {
         private readonly MethodInfo[] _handlers;
         private readonly Queue<Action> _recvBuffers = new Queue<Action>();

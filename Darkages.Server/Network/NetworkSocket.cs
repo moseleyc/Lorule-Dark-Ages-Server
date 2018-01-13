@@ -27,7 +27,7 @@ namespace Darkages.Network
 
         public bool PacketComplete => packetOffset == packetLength;
 
-        public IAsyncResult BeginReceiveHeader(AsyncCallback callback, out SocketError error, object state)
+        public virtual IAsyncResult BeginReceiveHeader(AsyncCallback callback, out SocketError error, object state)
         {
             return BeginReceive(
                 header,
@@ -39,7 +39,7 @@ namespace Darkages.Network
                 state);
         }
 
-        public IAsyncResult BeginReceivePacket(AsyncCallback callback, out SocketError error, object state)
+        public virtual IAsyncResult BeginReceivePacket(AsyncCallback callback, out SocketError error, object state)
         {
             return BeginReceive(
                 packet,
@@ -51,7 +51,7 @@ namespace Darkages.Network
                 state);
         }
 
-        public int EndReceiveHeader(IAsyncResult result, out SocketError error)
+        public virtual int EndReceiveHeader(IAsyncResult result, out SocketError error)
         {
             var bytes = EndReceive(result, out error);
 
@@ -70,7 +70,7 @@ namespace Darkages.Network
             return bytes;
         }
 
-        public int EndReceivePacket(IAsyncResult result, out SocketError error)
+        public virtual int EndReceivePacket(IAsyncResult result, out SocketError error)
         {
             var bytes = EndReceive(result, out error);
 

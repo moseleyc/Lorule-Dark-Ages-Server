@@ -25,7 +25,7 @@ namespace Darkages.Network.Login
         /// </summary>
         protected override void Format00Handler(LoginClient client, ClientFormat00 format)
         {
-            if (format.Version == 718)
+            if (format.Version == ServerContext.Config.Version)
                 client.Send(new ServerFormat00
                 {
                     Type = 0x00,

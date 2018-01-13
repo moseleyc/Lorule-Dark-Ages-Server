@@ -139,6 +139,7 @@
     <Compile Include="Network\Game\GameServerComponent.cs" />
     <Compile Include="Network\Game\GameServerHandlers.cs" />
     <Compile Include="Network\Game\GameServerTimer.cs" />
+    <Compile Include="Network\Client.cs" />
     <Compile Include="ServerConstants.cs" />
     <Compile Include="Network\IFormattable.cs" />
     <Compile Include="Network\IPAttribute.cs" />

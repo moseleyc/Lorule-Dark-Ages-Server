@@ -36,7 +36,7 @@
   "ImageVarience": 0,
   "SpawnOnlyOnActiveMaps": true,
   "UpdateMapWide": false,
-  "Grow": false,
+  "Grow": true,
   "SpellScripts": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [

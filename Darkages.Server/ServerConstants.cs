@@ -399,6 +399,9 @@ namespace Darkages
 
         [JsonProperty]
         public int DeathMap = 88888;
+        
+        [JsonProperty]
+        public int Version = 718;
 
         public override string ToString()
         {

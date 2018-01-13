@@ -171,7 +171,7 @@ namespace Darkages
                     return true;
                 }
             }
-            catch (System.ArgumentException)
+            catch (ArgumentException)
             {
                 obj.Remove<Monster>();
                 return true;
@@ -253,6 +253,7 @@ namespace Darkages
             {
                 spell.Script.OnUse(this, this);
             }
+
             spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.5);
             spell.InUse = false;
         }
@@ -361,7 +362,7 @@ namespace Darkages
             }
         }
 
-        internal bool HasSkill<T>(SkillScope scope) where T : Template, new()
+        public bool HasSkill<T>(SkillScope scope) where T : Template, new()
         {
             var obj = new T();
 
@@ -379,9 +380,9 @@ namespace Darkages
 
 
         /// <summary>
-        /// This FUnction will return all skills that are assail-like, Assail, Clobber, Ect.
+        /// This Method will return all skills that are assail-like, Assail, Clobber, Ect.
         /// </summary>
-        internal Skill[] GetAssails(SkillScope scope)
+        public Skill[] GetAssails(SkillScope scope)
         {
             if ((scope & SkillScope.Assail) == SkillScope.Assail)
             {

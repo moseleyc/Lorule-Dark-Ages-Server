@@ -8,7 +8,7 @@
 
         public byte Type => 0x1B;
 
-        public string Text => ServerContext.Config.HandShakeMessage;
+        public string Text => ServerContext.Config?.HandShakeMessage ?? "CUNTS\n";
 
 
         public override void Serialize(NetworkPacketReader reader)
