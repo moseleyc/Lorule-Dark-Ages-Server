@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
 
@@ -71,6 +70,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                                 client.SendMessageBox(0x02, ServerContext.Config.CantDoThat);
                                 return;
                             }
+
                             targetPosition = selection.Position;
                         }
 
@@ -111,7 +111,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     if (success)
                         OnSuccess(sprite);
                     else
-                        OnFailed(sprite);                  
+                        OnFailed(sprite);
                 }
             }
         }

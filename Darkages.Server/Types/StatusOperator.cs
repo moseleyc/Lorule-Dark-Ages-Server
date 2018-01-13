@@ -5,16 +5,16 @@
         public enum Operator
         {
             Add = 0,
-            Remove = 1,
+            Remove = 1
+        }
+
+        public StatusOperator(Operator option, int value)
+        {
+            Option = option;
+            Value = value;
         }
 
         public Operator Option { get; set; }
         public int Value { get; set; }
-
-        public StatusOperator(Operator option, int value)
-        {
-            this.Option = option;
-            this.Value  = value;
-        }
     }
 }

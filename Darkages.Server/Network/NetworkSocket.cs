@@ -1,5 +1,4 @@
-﻿using Darkages.Common;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 
@@ -20,7 +19,6 @@ namespace Darkages.Network
         public NetworkSocket(Socket socket)
             : base(socket.DuplicateAndClose(processId))
         {
-
         }
 
         public bool HeaderComplete => headerOffset == headerLength;
@@ -80,10 +78,7 @@ namespace Darkages.Network
 
             packetOffset += bytes;
 
-            if (PacketComplete)
-            {
-                headerOffset = 0;
-            }
+            if (PacketComplete) headerOffset = 0;
 
             return bytes;
         }

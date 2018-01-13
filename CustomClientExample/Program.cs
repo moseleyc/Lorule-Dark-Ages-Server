@@ -1,33 +1,31 @@
-﻿using Darkages.Network.ServerFormats;
-using System;
+﻿using System;
+using System.Net.Sockets;
+using System.Threading;
+using Darkages.Network;
+using Darkages.Network.ServerFormats;
 
 namespace CustomClientExample
 {
-    class Program
+    internal class Program
     {
-        static readonly DAClient client = new DAClient();
+        private static readonly DAClient client = new DAClient();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             client.Connect("127.0.0.1", 2610, out var error);
 
-            if (error != System.Net.Sockets.SocketError.Success)
+            if (error != SocketError.Success)
             {
                 Console.WriteLine("Unable to connect.");
                 return;
             }
 
-            System.Threading.Thread.CurrentThread.Join();
+            Thread.CurrentThread.Join();
         }
     }
 
     public class DAClient : Client<DAClient>
     {
-        public DAClient() : base()
-        {
-
-        }
-
         public override void Format7EHandler(ServerFormat7E format)
         {
             Console.WriteLine(format.Text);

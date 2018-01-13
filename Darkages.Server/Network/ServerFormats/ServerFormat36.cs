@@ -78,7 +78,7 @@ namespace Darkages.Network.ServerFormats
                         : Math.Abs(Client.Aisling.ExpLevel - user.ExpLevel) < 10
                             ? ListColor.Orange
                             : ListColor.White));
-                writer.Write((byte)user.ActiveStatus);
+                writer.Write((byte) user.ActiveStatus);
                 writer.Write((byte) user.Title > 0);
                 writer.Write((byte) user.Stage > 0);
                 writer.WriteStringA(user.Username);

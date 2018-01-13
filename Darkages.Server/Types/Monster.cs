@@ -18,33 +18,26 @@ namespace Darkages.Types
             WalkEnabled = false;
         }
 
-        [JsonIgnore]
-        public MonsterScript Script { get; private set; }
+        [JsonIgnore] public MonsterScript Script { get; private set; }
 
         public GameServerTimer BashTimer { get; set; }
         public GameServerTimer CastTimer { get; set; }
         public GameServerTimer WalkTimer { get; set; }
         public MonsterTemplate Template { get; set; }
 
-        [JsonIgnore]
-        public bool Attacked => CurrentHp < MaximumHp && IsAlive;
+        [JsonIgnore] public bool Attacked => CurrentHp < MaximumHp && IsAlive;
 
-        [JsonIgnore]
-        public bool IsAlive => CurrentHp > 0;
+        [JsonIgnore] public bool IsAlive => CurrentHp > 0;
 
-        [Browsable(false)]
-        public bool BashEnabled { get; set; }
+        [Browsable(false)] public bool BashEnabled { get; set; }
 
-        [Browsable(false)]
-        public bool CastEnabled { get; set; }
+        [Browsable(false)] public bool CastEnabled { get; set; }
 
-        [Browsable(false)]
-        public bool WalkEnabled { get; set; }
+        [Browsable(false)] public bool WalkEnabled { get; set; }
 
         public ushort Image { get; private set; }
 
-        [JsonIgnore]
-        public bool Rewarded { get; set; }
+        [JsonIgnore] public bool Rewarded { get; set; }
 
         public bool Aggressive { get; set; }
 
@@ -191,7 +184,7 @@ namespace Darkages.Types
             lock (Generator.Random)
             {
                 var v = Enum.GetValues(typeof(T));
-                return (T)v.GetValue(Generator.Random.Next(1, v.Length));
+                return (T) v.GetValue(Generator.Random.Next(1, v.Length));
             }
         }
 
@@ -241,9 +234,11 @@ namespace Darkages.Types
             }
             else if (obj.Template.ElementType == ElementQualifer.Defined)
             {
-                obj.DefenseElement = template?.DefenseElement == ElementManager.Element.None ? RandomEnumValue<ElementManager.Element>()
+                obj.DefenseElement = template?.DefenseElement == ElementManager.Element.None
+                    ? RandomEnumValue<ElementManager.Element>()
                     : template.DefenseElement;
-                obj.OffenseElement = template?.OffenseElement == ElementManager.Element.None ? RandomEnumValue<ElementManager.Element>()
+                obj.OffenseElement = template?.OffenseElement == ElementManager.Element.None
+                    ? RandomEnumValue<ElementManager.Element>()
                     : template.OffenseElement;
             }
 
@@ -270,13 +265,11 @@ namespace Darkages.Types
                 var y = Generator.Random.Next(1, map.Rows);
 
                 while (map.IsWall(obj, x, y) || map[x, y] != TileContent.None)
-                {
                     lock (Generator.Random)
                     {
                         x = Generator.Random.Next(1, map.Cols);
                         y = Generator.Random.Next(1, map.Rows);
                     }
-                }
 
                 obj.X = x;
                 obj.Y = y;
@@ -293,7 +286,7 @@ namespace Darkages.Types
                 {
                     for (var i = 0; i < 4; i++)
                     {
-                        var tiles = map.GetNearByTiles(obj, (short)obj.X, (short)obj.Y, 20);
+                        var tiles = map.GetNearByTiles(obj, (short) obj.X, (short) obj.Y, 20);
 
                         if (tiles.Length > 0)
                         {

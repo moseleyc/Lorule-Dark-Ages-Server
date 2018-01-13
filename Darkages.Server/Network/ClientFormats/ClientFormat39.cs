@@ -25,7 +25,9 @@ namespace Darkages.Network.ClientFormats
                 var length = reader.ReadByte();
 
                 if (Step == 0x0500)
+                {
                     Args = Convert.ToString(length);
+                }
                 else
                 {
                     var data = reader.ReadBytes(length);

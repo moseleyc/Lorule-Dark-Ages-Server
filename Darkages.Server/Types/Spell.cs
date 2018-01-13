@@ -1,21 +1,21 @@
-﻿using Darkages.Common;
-using Darkages.Scripting;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
+using Darkages.Scripting;
 using Darkages.Storage.locales.Buffs;
 using Darkages.Storage.locales.debuffs;
+using Newtonsoft.Json;
 
 namespace Darkages.Types
 {
     public class Spell
     {
+        public int Casts = 0;
         public int ID { get; set; }
 
-        [JsonIgnore]
-        public SpellScript Script { get; set; }
+        [JsonIgnore] public SpellScript Script { get; set; }
 
         public SpellTemplate Template { get; set; }
 
@@ -25,30 +25,21 @@ namespace Darkages.Types
 
         public DateTime NextAvailableUse { get; set; }
 
-        [JsonIgnore]
-        public bool Ready => DateTime.UtcNow > NextAvailableUse;
+        [JsonIgnore] public bool Ready => DateTime.UtcNow > NextAvailableUse;
 
         public bool InUse { get; internal set; }
 
-        public bool CanUse() => Ready;
-
-        public int Casts = 0;
-
         [JsonIgnore]
-        [Browsable(false)]
-        public string Name
+        [Browsable(false)] public string Name => string.Format("{0} (Lev:{1}/{2})",
+            Template.Name,
+            Level, Template.MaxLevel);
+
+        [JsonIgnore] [Browsable(false)] public int Lines { get; set; }
+
+        public bool CanUse()
         {
-            get
-            {
-                return string.Format("{0} (Lev:{1}/{2})", 
-                    Template.Name, 
-                    Level, Template.MaxLevel);
-            }
+            return Ready;
         }
-
-        [JsonIgnore]
-        [Browsable(false)]
-        public int Lines { get; set; }
 
         public static Spell Create(int slot, SpellTemplate spellTemplate)
         {
@@ -57,9 +48,10 @@ namespace Darkages.Types
             {
                 obj.ID = Generator.GenerateNumber();
             }
+
             obj.Template = spellTemplate;
             obj.Level = 0;
-            obj.Slot = (byte)slot;
+            obj.Slot = (byte) slot;
             obj.Lines = obj.Template.BaseLines;
 
             AssignDebuffsAndBuffs(obj);

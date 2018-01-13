@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Scripting;
 using Darkages.Types;
@@ -25,6 +24,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
                     SpellScripts.Add(script);
                 }
+
             if (Monster.Template.SkillScripts != null)
                 foreach (var skillscriptstr in Monster.Template.SkillScripts)
                 {
@@ -94,10 +94,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
         public override void Update(TimeSpan elapsedTime)
         {
-            if (!Monster.IsAlive)
-            {
-                return;
-            }
+            if (!Monster.IsAlive) return;
 
             UpdateTarget();
 
@@ -178,7 +175,6 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                         Monster.Direction = (byte) direction;
                         Monster.Turn();
                     }
-
                 }
                 else
                 {
@@ -206,13 +202,11 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 return;
 
             if (Monster.Target != null)
-            {
                 if (!Monster.Facing(Target.X, Target.Y, out var direction))
                 {
                     Monster.Direction = (byte) direction;
                     Monster.Turn();
                 }
-            }
 
 
             if (Target == null || Target.CurrentHp == 0)
@@ -228,6 +222,7 @@ namespace Darkages.Storage.locales.Scripts.Monsters
                 if (_random.Next(1, 101) < ServerContext.Config.MonsterSkillSuccessRate)
                     SkillScripts[idx].OnUse(Monster);
             }
+
             Monster?.Attack(Target);
         }
 

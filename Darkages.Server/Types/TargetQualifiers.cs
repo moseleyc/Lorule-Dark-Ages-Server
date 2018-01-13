@@ -9,7 +9,7 @@ namespace Darkages.Types
         Radius = 2,
         Adjacent = 3,
         Parallel = 4,
-        All      = 5,
+        All = 5,
         Infront = 6
     }
 }

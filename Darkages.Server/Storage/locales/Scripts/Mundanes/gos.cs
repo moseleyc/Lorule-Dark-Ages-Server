@@ -89,11 +89,15 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 {
                     Thread.Sleep(3000);
                     Mundane.Show(Scope.NearbyAislings,
-                        new ServerFormat0D { Text = "what u say cunt!!", Type = 0x00, Serial = Mundane.Serial });
+                        new ServerFormat0D {Text = "what u say cunt!!", Type = 0x00, Serial = Mundane.Serial});
                     Thread.Sleep(2000);
                     Mundane.Show(Scope.NearbyAislings,
-                        new ServerFormat0D { Text = "you got a problem? there a problem!?", Type = 0x00, Serial = Mundane.Serial });
-
+                        new ServerFormat0D
+                        {
+                            Text = "you got a problem? there a problem!?",
+                            Type = 0x00,
+                            Serial = Mundane.Serial
+                        });
                 });
 
 
@@ -108,7 +112,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                     }
 
                     Mundane.Show(Scope.NearbyAislings,
-                        new ServerFormat0D { Text = "fuckn weak as piss.", Type = 0x00, Serial = Mundane.Serial });
+                        new ServerFormat0D {Text = "fuckn weak as piss.", Type = 0x00, Serial = Mundane.Serial});
 
                     Mundane.CurrentHp = 0;
                     Mundane.Template.TurnTimer = null;
@@ -227,6 +231,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             SequenceMenu.MoveNext(client);
                             SequenceMenu.Invoke(client);
                         }
+
                         ;
                         break;
                     case 0x0010:
@@ -258,6 +263,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
                             client.Send(new ServerFormat30(client, SequenceMenu));
                         }
+
                         break;
                     case 0x0015:
                         if (quest != null && !quest.Rewarded && !quest.Completed)
@@ -273,6 +279,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             quest.OnCompleted(client.Aisling);
                             client.SendOptionsDialog(Mundane, "Thank you.");
                         }
+
                         break;
                 }
         }

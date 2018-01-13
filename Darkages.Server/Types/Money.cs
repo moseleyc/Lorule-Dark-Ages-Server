@@ -43,14 +43,11 @@ namespace Darkages.Types
             money.Y = location.Y;
             money.Map = Parent.Map;
 
-            var mt = (int)money.Type;
+            var mt = (int) money.Type;
 
-            if (mt > 0)
-            {
-                money.Image = (ushort)(mt + 0x8000);
-            }
+            if (mt > 0) money.Image = (ushort) (mt + 0x8000);
 
-            Parent.AddObject<Money>(money);
+            Parent.AddObject(money);
         }
 
         private void CalcAmount(int amount)

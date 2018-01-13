@@ -60,10 +60,7 @@ namespace Darkages.Scripting.Scripts.Skills
                     i.Target = client.Aisling;
                     i.ApplyDamage(sprite, dmg, false, 44);
 
-                    if (i is Monster)
-                    {
-                        (i as Monster).Target = client.Aisling;
-                    }
+                    if (i is Monster) (i as Monster).Target = client.Aisling;
 
                     if (i is Aisling)
                     {
@@ -78,6 +75,7 @@ namespace Darkages.Scripting.Scripts.Skills
                             new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
                                 Skill.Template.TargetAnimation, 0, 100));
                 }
+
                 client.Aisling.CurrentHp = 1;
                 client.SendStats(StatusFlags.All);
                 client.Aisling.Show(Scope.NearbyAislings, action);
@@ -97,6 +95,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         client.Aisling.Flags = AislingFlags.Normal;
                         client.Refresh();
                     }
+
                     client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
 
                     var success = Skill.RollDice(rand);
@@ -116,7 +115,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 if (target is Aisling)
                 {
                     (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
-                        new ServerFormat29((uint)target.Serial, (uint)sprite.Serial,
+                        new ServerFormat29((uint) target.Serial, (uint) sprite.Serial,
                             Skill.Template.TargetAnimation, 0, 100));
 
                     var dmg = sprite.CurrentHp * 300 / 100 + 99;

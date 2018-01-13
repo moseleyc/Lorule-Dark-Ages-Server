@@ -1,19 +1,20 @@
-﻿using Darkages.Common;
-using Darkages.Types;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Darkages.Network.Game;
+using Darkages.Common;
 using Darkages.Storage;
-using Newtonsoft.Json;
+using Darkages.Types;
+using ZTn.Json.JsonTreeView;
 using ZTn.Json.JsonTreeView.Controls;
 
 namespace Darkages
 {
     public partial class jsonEditor : Form
     {
-        private JTokenTreeUserControl _configtree;
+        private readonly JTokenTreeUserControl _configtree;
+
+        public int LastSelected = -1;
 
         public jsonEditor()
         {
@@ -31,15 +32,13 @@ namespace Darkages
             _configtree.AfterSelect += _configtree_AfterSelect;
         }
 
-        private void _configtree_AfterSelect(object sender, ZTn.Json.JsonTreeView.AfterSelectEventArgs e)
+        private void _configtree_AfterSelect(object sender, AfterSelectEventArgs e)
         {
             textBox1.Text = e.TypeName;
 
             if (!textBox1.Focused)
                 textBox1.Text = e.GetJsonString();
         }
-
-        public int LastSelected = -1;
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -62,10 +61,10 @@ namespace Darkages
         {
             panel1.Controls.Add(_configtree);
 
-            if (!Directory.Exists(ServerContext.STORAGE_PATH))
+            if (!Directory.Exists(ServerContext.StoragePath))
                 return;
 
-            var content_files = Directory.GetFiles(ServerContext.STORAGE_PATH, "*.json", SearchOption.AllDirectories);
+            var content_files = Directory.GetFiles(ServerContext.StoragePath, "*.json", SearchOption.AllDirectories);
 
             foreach (var _file in content_files)
             {
@@ -73,13 +72,13 @@ namespace Darkages
 
                 var type = File.ReadLines(file).ToArray();
                 var stype = type.FirstOrDefault(i => i.Contains("$type"))
-                    ?.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                    ?.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
                     .ToArray();
 
                 var typestr = "";
 
                 if (stype.Length > 0)
-                    typestr = string.Join(",", new[] { stype[0], stype[1] });
+                    typestr = string.Join(",", stype[0], stype[1]);
 
                 typestr = typestr.Replace("{", "");
                 typestr = typestr.Replace("}", "");
@@ -88,49 +87,49 @@ namespace Darkages
 
                 var tobj = Reflection.Create(typestr);
                 if (tobj != null)
-                {
                     if (tobj is Template)
                     {
                         if (tobj is ItemTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<ItemTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<ItemTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
+
                         if (tobj is MundaneTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<MundaneTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] { obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<MundaneTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
+
                         if (tobj is MonsterTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<MonsterTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] { obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<MonsterTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
+
                         if (tobj is SkillTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<SkillTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] { obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<SkillTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
+
                         if (tobj is SpellTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<SpellTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] { obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<SpellTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
+
                         if (tobj is WarpTemplate)
                         {
-                            var obj = Storage.StorageManager.LoadFrom<WarpTemplate>(file);
-                            listView1.Items.Add(new ListViewItem(new[] { obj.Name, obj.GetType().Name, file }));
+                            var obj = StorageManager.LoadFrom<WarpTemplate>(file);
+                            listView1.Items.Add(new ListViewItem(new[] {obj.Name, obj.GetType().Name, file}));
                         }
-                                         
                     }
-                }
             }
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (_configtree != null)

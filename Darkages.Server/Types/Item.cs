@@ -14,7 +14,7 @@ namespace Darkages.Types
 
         public bool Cursed { get; set; }
 
-        public uint Owner  { get; set; }
+        public uint Owner { get; set; }
 
         public ushort Image { get; set; }
 
@@ -26,8 +26,7 @@ namespace Darkages.Types
 
         public ushort Stacks { get; set; }
 
-        [JsonIgnore]
-        public ItemScript Script { get; set; }
+        [JsonIgnore] public ItemScript Script { get; set; }
 
         public byte Slot { get; set; }
 
@@ -40,7 +39,6 @@ namespace Darkages.Types
             if (sprite is Aisling)
             {
                 if (checkWeight)
-                {
                     if (!((sprite as Aisling).CurrentWeight + Template.Weight < (sprite as Aisling).MaximumWeight))
                     {
                         (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, ServerContext.Config.ToWeakToLift);
@@ -63,11 +61,10 @@ namespace Darkages.Types
 
                             //delete current
                             Remove<Item>();
-
                         }
+
                         return false;
                     }
-                }
 
                 (sprite as Aisling).CurrentWeight += Template.Weight;
 
@@ -77,16 +74,15 @@ namespace Darkages.Types
 
                 if (Template.Flags.HasFlag(ItemFlags.Stackable))
                 {
-
-
-                    var num_stacks = (byte)Stacks;
+                    var num_stacks = (byte) Stacks;
 
                     if (num_stacks <= 0)
                         num_stacks = 1;
 
                     //find first item in inventory that is stackable with the same name.
                     var item = (sprite as Aisling).Inventory.Get(i => i != null && i.Template.Name == Template.Name
-                        && i.Stacks + num_stacks < i.Template.MaxStack).FirstOrDefault();
+                                                                                && i.Stacks + num_stacks <
+                                                                                i.Template.MaxStack).FirstOrDefault();
 
                     if (item != null)
                     {
@@ -106,10 +102,12 @@ namespace Darkages.Types
                         (sprite as Aisling).Client.Send(new ServerFormat0F(item));
 
                         //send message
-                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You received another {0}!", DisplayName));
+                        (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02,
+                            string.Format("You received another {0}!", DisplayName));
 
                         return true;
                     }
+
                     //if we don't find an existing item of this stack, create a new stack.
                     if (Stacks <= 0)
                         Stacks = 1;
@@ -126,11 +124,13 @@ namespace Darkages.Types
                     (sprite as Aisling).Inventory.Set(this, false);
                     var format = new ServerFormat0F(this);
                     (sprite as Aisling).Show(Scope.Self, format);
-                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("You receive {0} [{1}]", DisplayName, num_stacks));
+                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02,
+                        string.Format("You receive {0} [{1}]", DisplayName, num_stacks));
                     (sprite as Aisling).Client.SendStats(StatusFlags.All);
 
                     return true;
                 }
+
                 {
                     //not stackable. just try and add it to a new inventory slot.
                     Slot = (sprite as Aisling).Inventory.FindEmpty();
@@ -175,7 +175,8 @@ namespace Darkages.Types
                     (sprite as Aisling).Inventory.Assign(this);
                     var format = new ServerFormat0F(this);
                     (sprite as Aisling).Show(Scope.Self, format);
-                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, string.Format("{0} Received.", DisplayName));
+                    (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02,
+                        string.Format("{0} Received.", DisplayName));
                     (sprite as Aisling).Client.SendStats(StatusFlags.All);
 
                     return true;
@@ -192,12 +193,13 @@ namespace Darkages.Types
                 return;
 
             #region Armor class Modifers
+
             if (Template.AcModifer != null)
             {
                 if (Template.AcModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusAc -= (sbyte)Template.AcModifer.Value;
+                    client.Aisling.BonusAc -= (sbyte) Template.AcModifer.Value;
                 if (Template.AcModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusAc += (sbyte)Template.AcModifer.Value;
+                    client.Aisling.BonusAc += (sbyte) Template.AcModifer.Value;
 
 
                 if (client.Aisling.BonusAc < -70)
@@ -209,14 +211,16 @@ namespace Darkages.Types
                 client.SendMessage(0x03, string.Format("E: {0}, AC: {1}", Template.Name, client.Aisling.Ac));
                 client.SendStats(StatusFlags.StructD);
             }
+
             #endregion
 
             #region Lines
+
             if (Template.SpellOperator != null)
             {
                 var op = Template.SpellOperator;
 
-                for (int i = 0; i < client.Aisling.SpellBook.Spells.Count; i++)
+                for (var i = 0; i < client.Aisling.SpellBook.Spells.Count; i++)
                 {
                     var spell = client.Aisling.SpellBook.FindInSlot(i);
 
@@ -231,24 +235,28 @@ namespace Darkages.Types
                     UpdateSpellSlot(client, spell.Slot);
                 }
             }
+
             #endregion
 
             #region MR
+
             if (Template.MrModifer != null)
             {
                 if (Template.MrModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusMr -= (byte)Template.MrModifer.Value;
+                    client.Aisling.BonusMr -= (byte) Template.MrModifer.Value;
                 if (Template.MrModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusMr += (byte)Template.MrModifer.Value;
+                    client.Aisling.BonusMr += (byte) Template.MrModifer.Value;
 
                 if (client.Aisling.BonusMr < 0)
                     client.Aisling.BonusMr = 0;
                 if (client.Aisling.BonusMr > 70)
                     client.Aisling.BonusMr = 70;
             }
+
             #endregion
 
             #region Health
+
             if (Template.HealthModifer != null)
             {
                 if (Template.HealthModifer.Option == StatusOperator.Operator.Add)
@@ -259,9 +267,11 @@ namespace Darkages.Types
                 if (client.Aisling.BonusHp < 0)
                     client.Aisling.BonusHp = ServerContext.Config.MinimumHp;
             }
+
             #endregion
 
             #region Mana
+
             if (Template.ManaModifer != null)
             {
                 if (Template.ManaModifer.Option == StatusOperator.Operator.Add)
@@ -272,82 +282,96 @@ namespace Darkages.Types
                 if (client.Aisling.BonusMp < 0)
                     client.Aisling.BonusMp = ServerContext.Config.MinimumHp;
             }
+
             #endregion
 
             #region Str
+
             if (Template.StrModifer != null)
             {
                 if (Template.StrModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusStr -= (byte)Template.StrModifer.Value;
+                    client.Aisling.BonusStr -= (byte) Template.StrModifer.Value;
                 if (Template.StrModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusStr += (byte)Template.StrModifer.Value;
+                    client.Aisling.BonusStr += (byte) Template.StrModifer.Value;
             }
+
             #endregion
 
             #region Int
+
             if (Template.IntModifer != null)
             {
                 if (Template.IntModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusInt -= (byte)Template.IntModifer.Value;
+                    client.Aisling.BonusInt -= (byte) Template.IntModifer.Value;
                 if (Template.IntModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusInt += (byte)Template.IntModifer.Value;
+                    client.Aisling.BonusInt += (byte) Template.IntModifer.Value;
             }
+
             #endregion
 
             #region Wis
+
             if (Template.WisModifer != null)
             {
                 if (Template.WisModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusWis -= (byte)Template.WisModifer.Value;
+                    client.Aisling.BonusWis -= (byte) Template.WisModifer.Value;
                 if (Template.WisModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusWis += (byte)Template.WisModifer.Value;
+                    client.Aisling.BonusWis += (byte) Template.WisModifer.Value;
             }
+
             #endregion
 
             #region Con
+
             if (Template.ConModifer != null)
             {
                 if (Template.ConModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusCon -= (byte)Template.ConModifer.Value;
+                    client.Aisling.BonusCon -= (byte) Template.ConModifer.Value;
                 if (Template.ConModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusCon += (byte)Template.ConModifer.Value;
+                    client.Aisling.BonusCon += (byte) Template.ConModifer.Value;
 
                 if (client.Aisling.BonusCon < 0)
                     client.Aisling.BonusCon = ServerContext.Config.BaseStatAttribute;
                 if (client.Aisling.BonusCon > 255)
                     client.Aisling.BonusCon = 255;
             }
+
             #endregion
 
             #region Dex
+
             if (Template.DexModifer != null)
             {
                 if (Template.DexModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusDex -= (byte)Template.DexModifer.Value;
+                    client.Aisling.BonusDex -= (byte) Template.DexModifer.Value;
                 if (Template.DexModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusDex += (byte)Template.DexModifer.Value;
+                    client.Aisling.BonusDex += (byte) Template.DexModifer.Value;
             }
+
             #endregion
 
             #region Hit
+
             if (Template.HitModifer != null)
             {
                 if (Template.HitModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusHit -= (byte)Template.HitModifer.Value;
+                    client.Aisling.BonusHit -= (byte) Template.HitModifer.Value;
                 if (Template.HitModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusHit += (byte)Template.HitModifer.Value;
+                    client.Aisling.BonusHit += (byte) Template.HitModifer.Value;
             }
+
             #endregion
 
             #region Dmg
+
             if (Template.DmgModifer != null)
             {
                 if (Template.DmgModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusDmg -= (byte)Template.DmgModifer.Value;
+                    client.Aisling.BonusDmg -= (byte) Template.DmgModifer.Value;
                 if (Template.DmgModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusDmg += (byte)Template.DmgModifer.Value;
-
+                    client.Aisling.BonusDmg += (byte) Template.DmgModifer.Value;
             }
+
             #endregion
         }
 
@@ -357,12 +381,13 @@ namespace Darkages.Types
                 return;
 
             #region Armor class Modifers
+
             if (Template.AcModifer != null)
             {
                 if (Template.AcModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusAc += (sbyte)Template.AcModifer.Value;
+                    client.Aisling.BonusAc += (sbyte) Template.AcModifer.Value;
                 if (Template.AcModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusAc -= (sbyte)Template.AcModifer.Value;
+                    client.Aisling.BonusAc -= (sbyte) Template.AcModifer.Value;
 
                 if (client.Aisling.BonusAc < -70)
                     client.Aisling.BonusAc = -70;
@@ -372,14 +397,16 @@ namespace Darkages.Types
                 client.SendMessage(0x03, string.Format("E: {0}, AC: {1}", Template.Name, client.Aisling.Ac));
                 client.SendStats(StatusFlags.StructD);
             }
+
             #endregion
 
             #region Lines
+
             if (Template.SpellOperator != null)
             {
                 var op = Template.SpellOperator;
 
-                for (int i = 0; i < client.Aisling.SpellBook.Spells.Count; i++)
+                for (var i = 0; i < client.Aisling.SpellBook.Spells.Count; i++)
                 {
                     var spell = client.Aisling.SpellBook.FindInSlot(i);
 
@@ -392,24 +419,15 @@ namespace Darkages.Types
 
                         if (op.Scope == SpellOperator.SpellOperatorScope.cradh)
                         {
-                            if (spell.Template.Name.Contains("cradh"))
-                            {
-                                spell.Lines -= op.Value;
-                            }
+                            if (spell.Template.Name.Contains("cradh")) spell.Lines -= op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.ioc)
                         {
-                            if (spell.Template.Name.Contains("ioc"))
-                            {
-                                spell.Lines -= op.Value;
-                            }
+                            if (spell.Template.Name.Contains("ioc")) spell.Lines -= op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.nadur)
                         {
-                            if (spell.Template.Name.Contains("nadur"))
-                            {
-                                spell.Lines -= op.Value;
-                            }
+                            if (spell.Template.Name.Contains("nadur")) spell.Lines -= op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.all)
                         {
@@ -418,59 +436,51 @@ namespace Darkages.Types
                     }
 
                     if (op.Option == SpellOperator.SpellOperatorPolicy.Set)
-                    {
                         if (op.Scope == SpellOperator.SpellOperatorScope.cradh)
                         {
-                            if (spell.Template.Name.Contains("cradh"))
-                            {
-                                spell.Lines = op.Value;
-                            }
+                            if (spell.Template.Name.Contains("cradh")) spell.Lines = op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.ioc)
                         {
-                            if (spell.Template.Name.Contains("ioc"))
-                            {
-                                spell.Lines = op.Value;
-                            }
+                            if (spell.Template.Name.Contains("ioc")) spell.Lines = op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.nadur)
                         {
-                            if (spell.Template.Name.Contains("nadur"))
-                            {
-                                spell.Lines = op.Value;
-                            }
+                            if (spell.Template.Name.Contains("nadur")) spell.Lines = op.Value;
                         }
                         else if (op.Scope == SpellOperator.SpellOperatorScope.all)
                         {
                             spell.Lines = op.Value;
                         }
-                    }
 
                     if (spell.Lines < spell.Template.MinLines)
                         spell.Lines = spell.Template.MinLines;
 
                     UpdateSpellSlot(client, spell.Slot);
-
                 }
             }
+
             #endregion
 
             #region MR
+
             if (Template.MrModifer != null)
             {
                 if (Template.MrModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusMr += (byte)Template.MrModifer.Value;
+                    client.Aisling.BonusMr += (byte) Template.MrModifer.Value;
                 if (Template.MrModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusMr -= (byte)Template.MrModifer.Value;
+                    client.Aisling.BonusMr -= (byte) Template.MrModifer.Value;
 
                 if (client.Aisling.BonusMr < 0)
                     client.Aisling.BonusMr = 0;
                 if (client.Aisling.BonusMr > 70)
                     client.Aisling.BonusMr = 70;
             }
+
             #endregion
 
             #region Health
+
             if (Template.HealthModifer != null)
             {
                 if (Template.HealthModifer.Option == StatusOperator.Operator.Add)
@@ -481,9 +491,11 @@ namespace Darkages.Types
                 if (client.Aisling.BonusHp < 0)
                     client.Aisling.BonusHp = ServerContext.Config.MinimumHp;
             }
+
             #endregion
 
             #region Mana
+
             if (Template.ManaModifer != null)
             {
                 if (Template.ManaModifer.Option == StatusOperator.Operator.Add)
@@ -494,76 +506,91 @@ namespace Darkages.Types
                 if (client.Aisling.BonusMp < 0)
                     client.Aisling.BonusMp = ServerContext.Config.MinimumHp;
             }
+
             #endregion
 
             #region Str
+
             if (Template.StrModifer != null)
             {
                 if (Template.StrModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusStr += (byte)Template.StrModifer.Value;
+                    client.Aisling.BonusStr += (byte) Template.StrModifer.Value;
                 if (Template.StrModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusStr -= (byte)Template.StrModifer.Value;
+                    client.Aisling.BonusStr -= (byte) Template.StrModifer.Value;
             }
+
             #endregion
 
             #region Int
+
             if (Template.IntModifer != null)
             {
                 if (Template.IntModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusInt += (byte)Template.IntModifer.Value;
+                    client.Aisling.BonusInt += (byte) Template.IntModifer.Value;
                 if (Template.IntModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusInt -= (byte)Template.IntModifer.Value;
+                    client.Aisling.BonusInt -= (byte) Template.IntModifer.Value;
             }
+
             #endregion
 
             #region Wis
+
             if (Template.WisModifer != null)
             {
                 if (Template.WisModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusWis += (byte)Template.WisModifer.Value;
+                    client.Aisling.BonusWis += (byte) Template.WisModifer.Value;
                 if (Template.WisModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusWis -= (byte)Template.WisModifer.Value;
+                    client.Aisling.BonusWis -= (byte) Template.WisModifer.Value;
             }
+
             #endregion
 
             #region Con
+
             if (Template.ConModifer != null)
             {
                 if (Template.ConModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusCon += (byte)Template.ConModifer.Value;
+                    client.Aisling.BonusCon += (byte) Template.ConModifer.Value;
                 if (Template.ConModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusCon -= (byte)Template.ConModifer.Value;
+                    client.Aisling.BonusCon -= (byte) Template.ConModifer.Value;
             }
+
             #endregion
 
             #region Dex
+
             if (Template.DexModifer != null)
             {
                 if (Template.DexModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusDex += (byte)Template.DexModifer.Value;
+                    client.Aisling.BonusDex += (byte) Template.DexModifer.Value;
                 if (Template.DexModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusDex -= (byte)Template.DexModifer.Value;
+                    client.Aisling.BonusDex -= (byte) Template.DexModifer.Value;
             }
+
             #endregion
 
             #region Hit
+
             if (Template.HitModifer != null)
             {
                 if (Template.HitModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusHit += (byte)Template.HitModifer.Value;
+                    client.Aisling.BonusHit += (byte) Template.HitModifer.Value;
                 if (Template.HitModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusHit -= (byte)Template.HitModifer.Value;
+                    client.Aisling.BonusHit -= (byte) Template.HitModifer.Value;
             }
+
             #endregion
 
             #region Dmg
+
             if (Template.DmgModifer != null)
             {
                 if (Template.DmgModifer.Option == StatusOperator.Operator.Add)
-                    client.Aisling.BonusDmg += (byte)Template.DmgModifer.Value;
+                    client.Aisling.BonusDmg += (byte) Template.DmgModifer.Value;
                 if (Template.DmgModifer.Option == StatusOperator.Operator.Remove)
-                    client.Aisling.BonusDmg -= (byte)Template.DmgModifer.Value;
+                    client.Aisling.BonusDmg -= (byte) Template.DmgModifer.Value;
             }
+
             #endregion
         }
 
@@ -585,7 +612,7 @@ namespace Darkages.Types
             if (Owner == null)
                 return null;
 
-            var obj = new Item()
+            var obj = new Item
             {
                 CreationDate = DateTime.UtcNow,
                 Template = itemtemplate,
@@ -595,7 +622,7 @@ namespace Darkages.Types
                 DisplayImage = itemtemplate.DisplayImage,
                 CurrentMapId = Owner.CurrentMapId,
                 Cursed = curse,
-                Owner = (uint)Owner.Serial,
+                Owner = (uint) Owner.Serial,
                 DisplayName = itemtemplate.Name,
                 Durability = itemtemplate.MaxDurability,
                 OffenseElement = itemtemplate.OffenseElement,
@@ -605,7 +632,7 @@ namespace Darkages.Types
             obj.Map = Owner.Map;
 
             if (obj.Color == 0)
-                obj.Color = (byte)ServerContext.Config.DefaultItemColor;
+                obj.Color = (byte) ServerContext.Config.DefaultItemColor;
 
             if (obj.Template.Flags.HasFlag(ItemFlags.Repairable))
             {
@@ -614,6 +641,7 @@ namespace Darkages.Types
                     obj.Template.MaxDurability = ServerContext.Config.DefaultItemDurability;
                     obj.Durability = ServerContext.Config.DefaultItemDurability;
                 }
+
                 if (obj.Template.Value == uint.MinValue)
                     obj.Template.Value = ServerContext.Config.DefaultItemValue;
             }
@@ -644,7 +672,7 @@ namespace Darkages.Types
             AddObject(this);
 
             if (owner is Aisling)
-                ShowTo((owner as Aisling));
+                ShowTo(owner as Aisling);
         }
     }
 }

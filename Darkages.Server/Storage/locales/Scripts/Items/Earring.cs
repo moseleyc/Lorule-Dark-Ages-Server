@@ -1,6 +1,5 @@
 ﻿using Darkages.Scripting;
 using Darkages.Types;
-using static Darkages.Types.ElementManager;
 
 namespace Darkages.Storage.locales.Scripts.Items
 {

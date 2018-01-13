@@ -1,24 +1,23 @@
-﻿using Darkages.Common;
+﻿using System;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
-using System;
 
 namespace Darkages.Types
 {
     public class Buff
     {
-        public virtual string Name { get; set; }
-        public virtual int Length  { get; set; }
-        public virtual byte Icon   { get; set; }
-
-        [JsonIgnore]
-        public GameServerTimer Timer { get; set; }
-
         public Buff()
         {
             Timer = new GameServerTimer(TimeSpan.FromSeconds(1.0));
         }
+
+        public virtual string Name { get; set; }
+        public virtual int Length { get; set; }
+        public virtual byte Icon { get; set; }
+
+        [JsonIgnore] public GameServerTimer Timer { get; set; }
 
         public bool Has(string name)
         {
@@ -50,11 +49,9 @@ namespace Darkages.Types
                 colorInt = 6;
 
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
-                    .Send(new ServerFormat3A(Icon, (byte)colorInt));
-            }
+                    .Send(new ServerFormat3A(Icon, (byte) colorInt));
         }
 
         public virtual void OnDurationUpdate(Sprite Affected, Buff buff)
@@ -65,11 +62,9 @@ namespace Darkages.Types
         public virtual void OnEnded(Sprite Affected, Buff buff)
         {
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
                     .Send(new ServerFormat3A(Icon, byte.MinValue));
-            }
 
             Affected.Buffs.Remove(buff);
         }
@@ -83,14 +78,10 @@ namespace Darkages.Types
 
             if (Timer.Elapsed)
             {
-                if ((Length - Timer.Tick) > 0)
-                {
+                if (Length - Timer.Tick > 0)
                     OnDurationUpdate(Affected, this);
-                }
                 else
-                {
                     OnEnded(Affected, this);
-                }
 
                 Timer.Tick++;
                 Timer.Reset();

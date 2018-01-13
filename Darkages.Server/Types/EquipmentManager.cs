@@ -16,8 +16,7 @@ namespace Darkages.Types
                 Equipment[i] = null;
         }
 
-        [JsonIgnore]
-        public GameClient Client { get; set; }
+        [JsonIgnore] public GameClient Client { get; set; }
 
         public Dictionary<int, EquipmentSlot> Equipment { get; set; }
 

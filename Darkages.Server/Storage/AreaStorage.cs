@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Darkages.IO;
-using Darkages.Scripting;
 using Newtonsoft.Json;
 
 namespace Darkages.Storage
@@ -13,10 +11,10 @@ namespace Darkages.Storage
 
         static AreaStorage()
         {
-            if (ServerContext.STORAGE_PATH == null)
+            if (ServerContext.StoragePath == null)
                 ServerContext.LoadConstants();
 
-            StoragePath = $@"{ServerContext.STORAGE_PATH}\areas";
+            StoragePath = $@"{ServerContext.StoragePath}\areas";
 
             if (!Directory.Exists(StoragePath))
                 Directory.CreateDirectory(StoragePath);
@@ -53,7 +51,7 @@ namespace Darkages.Storage
             foreach (var area in area_names)
             {
                 var mapObj = StorageManager.AreaBucket.Load(Path.GetFileNameWithoutExtension(area));
-                var mapFile = Directory.GetFiles($@"{ServerContext.STORAGE_PATH}\maps", $"lod{mapObj.Number}.map",
+                var mapFile = Directory.GetFiles($@"{ServerContext.StoragePath}\maps", $"lod{mapObj.Number}.map",
                     SearchOption.TopDirectoryOnly).FirstOrDefault();
 
                 if (mapFile != null && File.Exists(mapFile))

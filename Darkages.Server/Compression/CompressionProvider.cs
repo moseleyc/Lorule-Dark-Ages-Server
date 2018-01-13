@@ -10,10 +10,7 @@ namespace Darkages.Compression
             var buffer = new byte[4096];
             int length;
 
-            while ((length = src.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                dst.Write(buffer, 0, length);
-            }
+            while ((length = src.Read(buffer, 0, buffer.Length)) > 0) dst.Write(buffer, 0, length);
 
             dst.Flush();
         }

@@ -77,10 +77,7 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         i.ApplyDamage(sprite, dmg);
 
-                        if (i is Monster)
-                        {
-                            (i as Monster).Target = client.Aisling;
-                        }
+                        if (i is Monster) (i as Monster).Target = client.Aisling;
 
                         if (i is Aisling)
                         {
@@ -96,6 +93,7 @@ namespace Darkages.Scripting.Scripts.Skills
                                     Skill.Template.TargetAnimation, 0, 100));
                     }
                 }
+
                 client.Aisling.Show(Scope.NearbyAislings, action);
             }
         }

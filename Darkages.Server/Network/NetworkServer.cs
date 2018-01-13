@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.ClientFormats;
@@ -21,15 +20,15 @@ namespace Darkages.Network
     {
         private readonly MethodInfo[] _handlers;
         private readonly Queue<Action> _recvBuffers = new Queue<Action>();
-        private bool _receiving;
-        private bool _listening;
         private Socket _listener;
+        private bool _listening;
+        private bool _receiving;
 
         protected NetworkServer(int capacity)
         {
             var type = typeof(NetworkServer<TClient>);
 
-            Address = ServerContext.IPADDRESS;
+            Address = ServerContext.Ipaddress;
             Clients = new TClient[capacity];
 
             _handlers = new MethodInfo[256];
@@ -42,11 +41,9 @@ namespace Darkages.Network
 
         public NetworkServer()
         {
-
         }
 
-        [JsonIgnore]
-        public IPAddress Address { get; }
+        [JsonIgnore] public IPAddress Address { get; }
 
         public TClient[] Clients { get; }
 
@@ -54,10 +51,7 @@ namespace Darkages.Network
         {
             try
             {
-                if (_listener == null || !_listening)
-                {
-                    return;
-                }
+                if (_listener == null || !_listening) return;
 
                 var socket = _listener.EndAccept(result);
 
@@ -65,7 +59,7 @@ namespace Darkages.Network
                 {
                     Socket = new NetworkSocket(socket)
                     {
-                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1),
+                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1)
                     }
                 };
 
@@ -220,10 +214,7 @@ namespace Darkages.Network
 
         public virtual void ClientConnected(TClient client)
         {
-            if (ServerContext.Config?.DebugMode ?? false)
-            {
-                Console.WriteLine("[{0}]: Client Connected.", client.Serial);
-            }
+            if (ServerContext.Config?.DebugMode ?? false) Console.WriteLine("[{0}]: Client Connected.", client.Serial);
         }
 
         public void Recv(Action format)
@@ -260,9 +251,11 @@ namespace Darkages.Network
             }
         }
 
-        public virtual void ClientDataReceived(TClient client, NetworkPacket packet) 
-                => Recv(()
+        public virtual void ClientDataReceived(TClient client, NetworkPacket packet)
+        {
+            Recv(()
                 => ProcessFormat(client, packet));
+        }
 
 
         public void ProcessFormat(TClient client, NetworkPacket packet)
@@ -285,7 +278,7 @@ namespace Darkages.Network
                 }
                 catch (Exception)
                 {
-                     //ignore   
+                    //ignore   
                 }
             }
             else
@@ -324,7 +317,7 @@ namespace Darkages.Network
                 {
                     if (near.Map != null && near.Map.Ready)
                         near.Map.Update(
-                            (client as GameClient).Aisling.X, 
+                            (client as GameClient).Aisling.X,
                             (client as GameClient).Aisling.Y,
                             TileContent.None);
 

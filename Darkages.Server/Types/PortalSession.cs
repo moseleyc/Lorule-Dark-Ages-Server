@@ -7,6 +7,11 @@ namespace Darkages
 {
     public class PortalSession
     {
+        public PortalSession()
+        {
+            IsMapOpen = false;
+        }
+
         public bool IsMapOpen { get; set; }
         public int FieldNumber { get; set; }
 
@@ -14,21 +19,15 @@ namespace Darkages
         public WorldMapTemplate Template
             => ServerContext.GlobalWorldMapTemplateCache[FieldNumber];
 
-        public PortalSession()
-        {
-            IsMapOpen = false;
-        }
-
         public void ShowFieldMap(GameClient client)
         {
             if (client.Aisling.PortalSession == null)
-            {
-                client.Aisling.PortalSession 
-                    = new PortalSession()
+                client.Aisling.PortalSession
+                    = new PortalSession
                     {
-                        FieldNumber = 1, IsMapOpen = false
+                        FieldNumber = 1,
+                        IsMapOpen = false
                     };
-            }
 
             client.Send(new ServerFormat2E(client.Aisling));
             IsMapOpen = true;

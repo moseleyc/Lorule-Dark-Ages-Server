@@ -14,8 +14,7 @@ namespace Darkages.Types
     {
         public MundaneTemplate Template { get; set; }
 
-        [JsonIgnore]
-        public MundaneScript Script { get; set; }
+        [JsonIgnore] public MundaneScript Script { get; set; }
 
         public static void Create(MundaneTemplate template)
         {
@@ -26,18 +25,10 @@ namespace Darkages.Types
 
             //this npc was already created?
             if (existing != null)
-            {
-                //check if it's dead.
                 if (existing.CurrentHp == 0)
-                {
                     existing.OnDeath();
-                }
                 else
-                {
-                    //it's alive. no need to re-add.
                     return;
-                }
-            }
 
 
             var npc = new Mundane();
@@ -48,6 +39,7 @@ namespace Darkages.Types
             {
                 npc.Serial = Generator.GenerateNumber();
             }
+
             npc.X = template.X;
             npc.Y = template.Y;
             npc._MaximumHp = (int) (npc.Template.Level / 0.1 * 32);
@@ -78,27 +70,22 @@ namespace Darkages.Types
             RemoveActiveTargets();
 
             if (CurrentHp == 0)
-            {
                 new TaskFactory().StartNew(() =>
                 {
-
                     Thread.Sleep(1000);
                     Remove<Mundane>();
                 });
-            }
         }
 
         private void RemoveActiveTargets()
         {
             var nearbyMonsters = GetObjects<Monster>(i => WithinRangeOf(this));
             foreach (var nearby in nearbyMonsters)
-            {
                 if (nearby.Target != null && nearby.Target.Serial == Serial)
                 {
                     nearby.Target = null;
                     SaveObject(nearby);
                 }
-            }
         }
 
         public void Update(TimeSpan update)
@@ -124,7 +111,13 @@ namespace Darkages.Types
                         }
 
                         if (Template.Speech.Count > 0)
-                            obj.Show(Scope.Self, new ServerFormat0D { Serial = Serial, Text = Template.Name + ": " + Template.Speech[idx], Type = 0x00 });
+                            obj.Show(Scope.Self,
+                                new ServerFormat0D
+                                {
+                                    Serial = Serial,
+                                    Text = Template.Name + ": " + Template.Speech[idx],
+                                    Type = 0x00
+                                });
                     }
 
 
@@ -139,8 +132,9 @@ namespace Darkages.Types
                 {
                     lock (Generator.Random)
                     {
-                        Direction = (byte)(Generator.Random.Next(0, 4));
+                        Direction = (byte) Generator.Random.Next(0, 4);
                     }
+
                     Turn();
 
                     Template.TurnTimer.Reset();
@@ -152,12 +146,10 @@ namespace Darkages.Types
                 Template.AttackTimer.Update(update);
                 if (Template.AttackTimer.Elapsed)
                 {
-                    var targets = GetObjects<Monster>(i => i.WithinRangeOf(this)).OrderBy(i => i.Position.DistanceFrom(Position));
+                    var targets = GetObjects<Monster>(i => i.WithinRangeOf(this))
+                        .OrderBy(i => i.Position.DistanceFrom(Position));
 
-                    foreach (var t in targets)
-                    {
-                        t.Target = this;
-                    }
+                    foreach (var t in targets) t.Target = this;
 
                     var target = Target == null ? targets.FirstOrDefault() : Target;
 
@@ -166,7 +158,6 @@ namespace Darkages.Types
 
                     if (target != null)
                     {
-
                         Script?.TargetAcquired(target);
 
                         if (!Position.IsNextTo(target.Position))
@@ -177,7 +168,7 @@ namespace Darkages.Types
                         {
                             if (!Facing(target, out var direction))
                             {
-                                Direction = (byte)direction;
+                                Direction = (byte) direction;
                                 Turn();
                             }
                             else

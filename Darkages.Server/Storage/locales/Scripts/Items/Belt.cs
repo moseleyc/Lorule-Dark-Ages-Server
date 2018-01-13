@@ -50,7 +50,6 @@ namespace Darkages.Storage.locales.Scripts.Items
 
         public override void UnEquipped(Sprite sprite, byte displayslot)
         {
-
             if (Item.Template.Flags.HasFlag(ItemFlags.Elemental))
                 sprite.DefenseElement = Element.None;
 

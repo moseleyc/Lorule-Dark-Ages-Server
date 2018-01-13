@@ -10,9 +10,8 @@ namespace Darkages.Storage.locales.Scripts.Skills
     [Script("Wolf Fang Fist", "Dean")]
     public class Wff : SkillScript
     {
-        public Skill _skill;
-
         private readonly Random rand = new Random();
+        public Skill _skill;
 
         public Wff(Skill skill) : base(skill)
         {

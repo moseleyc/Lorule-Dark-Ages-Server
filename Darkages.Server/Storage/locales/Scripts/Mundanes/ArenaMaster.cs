@@ -46,10 +46,11 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.Aisling.CurrentHp = client.Aisling.MaximumHp;
                 client.SendStats(StatusFlags.All);
 
-                client.Aisling.PortalSession = new PortalSession() { IsMapOpen = false, FieldNumber = 1 };
+                client.Aisling.PortalSession = new PortalSession {IsMapOpen = false, FieldNumber = 1};
                 client.Aisling.PortalSession.TransitionToMap(client);
                 client.CloseDialog();
             }
+
             if (responseID == 0x0001)
             {
                 client.LeaveArea(true, false);
@@ -58,6 +59,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.EnterArea();
                 client.CloseDialog();
             }
+
             if (responseID == 0x0002)
             {
                 client.LeaveArea(true, false);
@@ -66,6 +68,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.EnterArea();
                 client.CloseDialog();
             }
+
             if (responseID == 0x0003)
             {
                 client.LeaveArea(true, false);
@@ -74,6 +77,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.EnterArea();
                 client.CloseDialog();
             }
+
             if (responseID == 0x0004)
             {
                 client.LeaveArea(true, false);
@@ -82,6 +86,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 client.EnterArea();
                 client.CloseDialog();
             }
+
             if (responseID == 0x0005)
             {
                 client.LeaveArea(true, false);

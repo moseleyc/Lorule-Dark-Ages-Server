@@ -105,7 +105,7 @@ namespace Darkages.Network.Game.Components
                     //Invoke Onleave
                     if (obj is Monster)
                         (obj as Monster).Script
-                            ?.OnLeave(nearbyAisling?.Client);
+                            ?.OnLeave(nearbyAisling.Client);
                 }
 
                 //aisling has not seen this object before.
@@ -122,11 +122,11 @@ namespace Darkages.Network.Game.Components
                             //invoke OnApproach
                             if (obj is Monster)
                                 (obj as Monster).Script
-                                    ?.OnApproach(nearbyAisling?.Client);
+                                    ?.OnApproach(nearbyAisling.Client);
 
                             spriteBatch.Add(obj);
                         }
-                        else if (obj is Aisling)
+                        else
                         {
                             if (obj.Client.Aisling.Serial != nearbyAisling.Client.Aisling.Serial &&
                                 !(obj as Aisling).Dead)
@@ -245,11 +245,9 @@ namespace Darkages.Network.Game.Components
                     if (obj.CurrentHp == 0)
                     {
                         if (ServerContext.Config.ShowMonsterDeathAnimation)
-                        {
                             obj.Show(Scope.NearbyAislings,
                                 new ServerFormat29(ServerContext.Config.MonsterDeathAnimationNumber, (ushort) obj.X,
                                     (ushort) obj.Y));
-                        }
                         OnObjectRemoved(obj);
                         c++;
                     }

@@ -33,20 +33,16 @@ namespace Darkages.Storage.locales.Scripts.Items
                 if (Item.Template.Flags.HasFlag(ItemFlags.Equipable))
                 {
                     if (Item.Template.EquipmentSlot == ItemSlots.LArm || Item.Template.EquipmentSlot == ItemSlots.RArm)
-                    {
                         if (client.Aisling.EquipmentManager.LGauntlet == null)
                             Item.Template.EquipmentSlot = ItemSlots.LArm;
                         else if (client.Aisling.EquipmentManager.RGauntlet == null)
                             Item.Template.EquipmentSlot = ItemSlots.RArm;
-                    }
                     if (Item.Template.EquipmentSlot == ItemSlots.LHand ||
                         Item.Template.EquipmentSlot == ItemSlots.RHand)
-                    {
                         if (client.Aisling.EquipmentManager.LRing == null)
                             Item.Template.EquipmentSlot = ItemSlots.LHand;
                         else if (client.Aisling.EquipmentManager.RRing == null)
                             Item.Template.EquipmentSlot = ItemSlots.RHand;
-                    }
 
                     if (!client.CheckReqs(client, Item))
                     {

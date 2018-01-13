@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Darkages.Types
+﻿namespace Darkages.Types
 {
     public class SpellTemplate : Template
     {
@@ -15,6 +12,11 @@ namespace Darkages.Types
             NoTarget = 5,
             TwoDigit = 6,
             OneDigit = 7
+        }
+
+        public SpellTemplate()
+        {
+            Text = string.Empty + "\0";
         }
 
         public byte Icon { get; set; }
@@ -33,10 +35,5 @@ namespace Darkages.Types
         public ushort Animation { get; set; }
         public double DamageExponent { get; set; }
         public ElementManager.Element ElementalProperty { get; set; }
-
-        public SpellTemplate()
-        {
-            Text = string.Empty + "\0";
-        }
     }
 }

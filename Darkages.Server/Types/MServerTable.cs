@@ -1,33 +1,26 @@
-﻿using Darkages.Compression;
-using Darkages.IO;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
+using Darkages.Compression;
+using Darkages.IO;
 
 namespace Darkages.Types
 {
     public class MServerTable : CompressableObject
     {
-        public Collection<MServer> Servers { get; set; }
-
-        [XmlIgnore]
-        public ushort Size
-        {
-            get { return (ushort)this.DeflatedData.Length; }
-        }
-        [XmlIgnore]
-        public byte[] Data
-        {
-            get { return this.DeflatedData; }
-        }
-        [XmlIgnore]
-        public uint Hash { get; set; }
-
         public MServerTable()
         {
-            this.Servers = new Collection<MServer>();
+            Servers = new Collection<MServer>();
         }
+
+        public Collection<MServer> Servers { get; set; }
+
+        [XmlIgnore] public ushort Size => (ushort) DeflatedData.Length;
+
+        [XmlIgnore] public byte[] Data => DeflatedData;
+
+        [XmlIgnore] public uint Hash { get; set; }
 
         public static MServerTable FromFile(string filename)
         {
@@ -56,7 +49,7 @@ namespace Darkages.Types
             {
                 var count = reader.ReadByte();
 
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var server = new MServer();
 
@@ -64,25 +57,26 @@ namespace Darkages.Types
                     server.Address = reader.ReadIPAddress();
                     server.Port = reader.ReadUInt16();
 
-                    var text = reader.ReadString().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    var text = reader.ReadString().Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
 
                     server.Name = text[0];
                     server.Description = text[1];
 
                     reader.ReadByte();
 
-                    this.Servers.Add(server);
+                    Servers.Add(server);
                 }
             }
         }
+
         public override void Save(MemoryStream stream)
         {
             using (var writer = new BufferWriter(stream))
             {
                 writer.Write(
-                    (byte)this.Servers.Count);
+                    (byte) Servers.Count);
 
-                foreach (var server in this.Servers)
+                foreach (var server in Servers)
                 {
                     writer.Write(server.Guid);
                     writer.Write(server.Address);

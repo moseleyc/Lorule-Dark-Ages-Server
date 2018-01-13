@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System.Linq;
 
 namespace Darkages.Storage.locales.Scripts.Mundanes
 {
@@ -11,8 +11,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
     public class UserHelper : MundaneScript
     {
         public UserHelper(GameServer server, Mundane mundane) : base(server, mundane)
-        { 
-
+        {
         }
 
         public override void OnClick(GameServer server, GameClient client)
@@ -26,22 +25,21 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
             switch (responseID)
             {
                 case 0x0001:
-                    {
-                        var opts = new List<OptionsDataItem>();
+                {
+                    var opts = new List<OptionsDataItem>();
 
-                        var map = ServerContext.GlobalWarpTemplateCache;
-                        var warp_names = map.Select(i => i).Where(i => i != null && i.WarpType == WarpType.Map && i.To != null);
+                    var map = ServerContext.GlobalWarpTemplateCache;
+                    var warp_names = map.Select(i => i)
+                        .Where(i => i != null && i.WarpType == WarpType.Map && i.To != null);
 
-                        foreach (var warp in warp_names)
-                        {
-                            opts.Add(new OptionsDataItem(
-                                (short)warp.To.AreaID, warp.Name));
-                        }
+                    foreach (var warp in warp_names)
+                        opts.Add(new OptionsDataItem(
+                            (short) warp.To.AreaID, warp.Name));
 
-                        client.SendOptionsDialog(Mundane, "You may travel to these location.",
-                            opts.ToArray()
-                        );
-                    }
+                    client.SendOptionsDialog(Mundane, "You may travel to these location.",
+                        opts.ToArray()
+                    );
+                }
                     break;
                 default:
 
@@ -51,7 +49,6 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
                         if (ServerContext.GlobalMapCache.ContainsKey(key))
                         {
-
                             var warp = ServerContext.GlobalWarpTemplateCache
                                 .Where(i => i.Activations.Count(p => p.AreaID == key) > 0).FirstOrDefault();
 
@@ -62,9 +59,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             else
                             {
                                 client.SendMessage(0x02, "You can't travel there at this time.");
-                                return;
                             }
-
                         }
                     }
 
@@ -74,12 +69,10 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
         public override void OnGossip(GameServer server, GameClient client, string message)
         {
-
         }
 
         public override void TargetAcquired(Sprite Target)
         {
-
         }
     }
 }

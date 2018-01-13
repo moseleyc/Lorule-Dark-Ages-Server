@@ -193,7 +193,7 @@ namespace Darkages.Network.ServerFormats
                 (short) Items.Count());
 
             foreach (var item in Items)
-                writer.Write((byte)item);
+                writer.Write(item);
         }
     }
 

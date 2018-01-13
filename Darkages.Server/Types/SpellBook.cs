@@ -1,8 +1,8 @@
-﻿using Darkages.Network.Object;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Darkages.Network.Object;
 
 namespace Darkages.Types
 {
@@ -14,11 +14,11 @@ namespace Darkages.Types
 
         public SpellBook()
         {
-            for (int i = 0; i < SPELLLENGTH; i++)
-            {
-                Spells[i + 1] = null;
-            }
+            for (var i = 0; i < SPELLLENGTH; i++) Spells[i + 1] = null;
         }
+
+
+        public int Length => Spells.Count;
 
         public Spell FindInSlot(int Slot)
         {
@@ -28,15 +28,35 @@ namespace Darkages.Types
             return null;
         }
 
+        public void Assign(Spell spell)
+        {
+            Set(spell);
+        }
 
-        public int Length => Spells.Count;
-        public void Assign(Spell spell) => Set(spell);
-        public new Spell[] Get(Predicate<Spell> prediate) => this.Spells.Values.Where(i => i != null && prediate(i)).ToArray();
-        public void Swap(Spell A, Spell B) => A = Interlocked.Exchange<Spell>(ref B, A);
-        public void Set(Spell s) => Spells[s.Slot] = Clone<Spell>(s);
-        public void Set(Spell s, bool clone = false) => Spells[s.Slot] = (clone == true) ? Clone<Spell>(s) : s;
+        public new Spell[] Get(Predicate<Spell> prediate)
+        {
+            return Spells.Values.Where(i => i != null && prediate(i)).ToArray();
+        }
 
-        public void Clear(Spell s) => Spells[s.Slot] = null;
+        public void Swap(Spell A, Spell B)
+        {
+            A = Interlocked.Exchange(ref B, A);
+        }
+
+        public void Set(Spell s)
+        {
+            Spells[s.Slot] = Clone(s);
+        }
+
+        public void Set(Spell s, bool clone = false)
+        {
+            Spells[s.Slot] = clone ? Clone(s) : s;
+        }
+
+        public void Clear(Spell s)
+        {
+            Spells[s.Slot] = null;
+        }
 
         public Spell Remove(byte movingFrom)
         {
@@ -48,12 +68,8 @@ namespace Darkages.Types
         public int FindEmpty()
         {
             for (var i = 0; i < Length; i++)
-            {
                 if (Spells[i + 1] == null)
-                {
-                    return (i + 1);
-                }
-            }
+                    return i + 1;
 
             return -1;
         }

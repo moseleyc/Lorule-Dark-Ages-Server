@@ -16,9 +16,6 @@ namespace Darkages.Network.ClientFormats
             PaneType = (Pane) reader.ReadByte();
             MovingFrom = reader.ReadByte();
             MovingTo = reader.ReadByte();
-
-            if (MovingFrom < 1 || MovingTo < 1)
-                return;
         }
 
         public override void Serialize(NetworkPacketWriter writer)

@@ -1,0 +1,18 @@
+{
+  "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
+  "Icon": 48,
+  "MaxLevel": 100,
+  "ScriptKey": "Generic Elemental Single",
+  "MinLines": 1,
+  "MaxLines": 9,
+  "ManaCost": 1200,
+  "Text": "\u0000",
+  "TargetType": 2,
+  "BaseLines": 3,
+  "LevelRate": 0.03,
+  "Sound": 79,
+  "Animation": 9,
+  "DamageExponent": 0.1,
+  "ElementalProperty": 2,
+  "Name": "ard sal"
+}

@@ -91,47 +91,47 @@ namespace Darkages.Network.Object
                 ObjectService.Context.Insert(obj);
         }
 
-        public Sprite[] GetObjects(Predicate<Sprite> p, Get Selections)
+        public Sprite[] GetObjects(Predicate<Sprite> p, Get selections)
         {
             var bucket = new ArrayList();
 
-            if ((Selections & Get.All) == Get.All)
-                Selections = Get.Items | Get.Money | Get.Monsters | Get.Mundanes | Get.Aislings;
+            if ((selections & Get.All) == Get.All)
+                selections = Get.Items | Get.Money | Get.Monsters | Get.Mundanes | Get.Aislings;
 
-            if ((Selections & Get.Aislings) == Get.Aislings)
+            if ((selections & Get.Aislings) == Get.Aislings)
                 bucket.AddRange(GetObjects<Aisling>(p));
-            if ((Selections & Get.Monsters) == Get.Monsters)
+            if ((selections & Get.Monsters) == Get.Monsters)
                 bucket.AddRange(GetObjects<Monster>(p));
-            if ((Selections & Get.Mundanes) == Get.Mundanes)
+            if ((selections & Get.Mundanes) == Get.Mundanes)
                 bucket.AddRange(GetObjects<Mundane>(p));
-            if ((Selections & Get.Money) == Get.Money)
+            if ((selections & Get.Money) == Get.Money)
                 bucket.AddRange(GetObjects<Money>(p));
-            if ((Selections & Get.Items) == Get.Items)
+            if ((selections & Get.Items) == Get.Items)
                 bucket.AddRange(GetObjects<Item>(p));
 
             return bucket.Cast<Sprite>().ToArray();
         }
 
-        public Sprite GetObject(Predicate<Sprite> p, Get Selections)
+        public Sprite GetObject(Predicate<Sprite> p, Get selections)
         {
             var bucket = new ArrayList();
 
-            if ((Selections & Get.All) == Get.All)
-                Selections = Get.Items | Get.Money | Get.Monsters | Get.Mundanes | Get.Aislings;
+            if ((selections & Get.All) == Get.All)
+                selections = Get.Items | Get.Money | Get.Monsters | Get.Mundanes | Get.Aislings;
 
-            if ((Selections & Get.Aislings) == Get.Aislings)
+            if ((selections & Get.Aislings) == Get.Aislings)
                 bucket.AddRange(GetObjects<Aisling>(p));
 
-            if ((Selections & Get.Monsters) == Get.Monsters)
+            if ((selections & Get.Monsters) == Get.Monsters)
                 bucket.AddRange(GetObjects<Monster>(p));
 
-            if ((Selections & Get.Mundanes) == Get.Mundanes)
+            if ((selections & Get.Mundanes) == Get.Mundanes)
                 bucket.AddRange(GetObjects<Mundane>(p));
 
-            if ((Selections & Get.Money) == Get.Money)
+            if ((selections & Get.Money) == Get.Money)
                 bucket.AddRange(GetObjects<Money>(p));
 
-            if ((Selections & Get.Items) == Get.Items)
+            if ((selections & Get.Items) == Get.Items)
                 bucket.AddRange(GetObjects<Item>(p));
 
             return bucket.Cast<Sprite>().FirstOrDefault();

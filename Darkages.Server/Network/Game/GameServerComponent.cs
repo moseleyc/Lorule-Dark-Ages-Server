@@ -11,8 +11,7 @@ namespace Darkages.Network.Game
             Server = server;
         }
 
-        [JsonIgnore]
-        public GameServer Server { get; }
+        [JsonIgnore] public GameServer Server { get; }
 
         public abstract void Update(TimeSpan elapsedTime);
     }

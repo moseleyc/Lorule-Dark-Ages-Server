@@ -10,11 +10,15 @@ namespace Darkages
 
         [JsonProperty] public int AutoLootPickupDistance = 2;
 
+        [JsonProperty] public string BadRequestMessage = "(Invalid Request)";
+
         [JsonProperty]
         /// <summary>
         /// WHat is the starting base armor class?
         /// </summary>
         public sbyte BaseAC = 70;
+
+        [JsonProperty] public byte BaseMR = 70;
 
         [JsonProperty] public byte BaseStatAttribute = 3;
 
@@ -35,9 +39,11 @@ namespace Darkages
         ///     and then the server restarts or crashes, that item will be there when
         ///     it comes back online.
         /// </summary>
-        [JsonProperty] public bool CacheObjects = false;
+        [JsonProperty] public bool CacheObjects;
 
         [JsonProperty] public bool CancelCastingWhenWalking = true;
+
+        [JsonProperty] public string CantCarryMoreMsg = "You can't carry more.";
 
         [JsonProperty] public string CantDoThat = "You can't do that.";
 
@@ -70,6 +76,8 @@ namespace Darkages
         /// </summary>
         public double DayTimeInterval = 30.0;
 
+        [JsonProperty] public int DeathFreeLevelCap = 11;
+
         [JsonProperty]
         /// <summary>
         /// What is the Health Lost when restoring Life?
@@ -78,7 +86,15 @@ namespace Darkages
         /// </summary>
         public int DeathHPPenalty = 50;
 
-        [JsonProperty] public bool DebugMode = false;
+        [JsonProperty] public int DeathMap = 88888;
+
+        [JsonProperty] public bool DebugMode;
+
+        [JsonProperty] public ItemColor DefaultItemColor = ItemColor.blue;
+
+        [JsonProperty] public uint DefaultItemDurability = 1000;
+
+        [JsonProperty] public uint DefaultItemValue = 500;
 
         [JsonProperty]
         /// <summary>
@@ -105,6 +121,8 @@ namespace Darkages
         [JsonProperty] public bool DontTurnDuringRefresh;
 
         [JsonProperty] public double DropDecayInSeconds = 120;
+
+        [JsonProperty] public int DurabilityRolloverLimit = 10;
 
         [JsonProperty] public int ERRORCAP = 5;
 
@@ -153,6 +171,10 @@ namespace Darkages
         /// </summary>
         public double HealoutTolerance = 10;
 
+        [JsonProperty] public int HelperMenuId = -1;
+
+        [JsonProperty] public string HelperMenuTemplateKey = "Lorule Helper";
+
         [JsonProperty] public string IntAddedMessage = "Your mind expands.";
 
         [JsonProperty] public bool LimitWalkingWhenRefreshing;
@@ -171,7 +193,7 @@ namespace Darkages
         /// (for example, a mundane killed a monster object).
         /// By default, This is disabled.
         /// </summary>
-        public bool LogDestroyedObjects = false;
+        public bool LogDestroyedObjects;
 
         [JsonProperty] public int LOGIN_PORT = 2610;
 
@@ -179,13 +201,15 @@ namespace Darkages
         /// <summary>
         /// Log Gameserver Recv Packets?
         /// </summary>
-        public bool LogRecvPackets = false;
+        public bool LogRecvPackets;
 
         [JsonProperty]
         /// <summary>
         /// Log Gameserver Sent Packets?
         /// </summary>
-        public bool LogSentPackets = false;
+        public bool LogSentPackets;
+
+        [JsonProperty] public bool LootSingleMode = true;
 
         [JsonProperty] public double MapUpdateInterval = 1500;
 
@@ -199,6 +223,8 @@ namespace Darkages
         /// </summary>
         public double MessageClearInterval = 12;
 
+        [JsonProperty] public double MinimalLatency = 10;
+
         [JsonProperty]
         /// <summary>
         /// What is the Lowest HP an aisling can reach under any circumstances?
@@ -208,6 +234,8 @@ namespace Darkages
         [JsonProperty] public double MonsterDamageFactor = 1.58;
 
         [JsonProperty] public int MonsterDamageMultipler = 5;
+
+        [JsonProperty] public ushort MonsterDeathAnimationNumber = 350;
 
         [JsonProperty] public int MonsterSkillSuccessRate = 40;
 
@@ -283,6 +311,11 @@ namespace Darkages
         [JsonProperty] public string ServerTablePath = "server.tbl";
 
         [JsonProperty]
+        public string ServerWelcomeMessage = "Welcome to Lorule, If you need help, Please use The [F1] menu.";
+
+        [JsonProperty] public bool ShowMonsterDeathAnimation;
+
+        [JsonProperty]
         /// <summary>
         /// The Number of sprites to load in a batch 0x07 Packet.
         /// I would not change this setting if you don't know what it does!
@@ -293,8 +326,7 @@ namespace Darkages
 
         [JsonProperty] public int StartingMap = 100;
 
-        [JsonProperty]
-        public Position StartingPosition = new Position(5, 5);
+        [JsonProperty] public Position StartingPosition = new Position(5, 5);
 
         [JsonProperty]
         /// <summary>
@@ -313,13 +345,31 @@ namespace Darkages
         /// </summary>
         public double Timeout = 60;
 
+        [JsonProperty] public string ToWeakToLift = "You are to weak to even lift it.";
+
         [JsonProperty] public bool TransFormAsParallel = true;
 
-        [JsonProperty] public bool UseFastSqrtMethod = false;
+        [JsonProperty] public short TransitionPointX = 3;
+
+        [JsonProperty] public short TransitionPointY = 3;
+
+        [JsonProperty] public int TransitionZone = 9999;
+
+        [JsonProperty] public bool UseFastRandom = true;
+
+        [JsonProperty] public bool UseFastSqrtMethod;
+
+        [JsonProperty] public bool UseIncrementalSerials = true;
 
         [JsonProperty] public string UserDroppedGoldMsg = "noname has dropped some money nearby.";
 
+        [JsonProperty] public int Version = 718;
+
         [JsonProperty] public int VeryNearByProximity = 5;
+
+        [JsonProperty] public ushort WarpAnimationNumber = 214;
+
+        [JsonProperty] public double WarpUpdateTimer = 1.0;
 
         [JsonProperty] public double WeightIncreaseModifer = 3.5;
 
@@ -328,80 +378,6 @@ namespace Darkages
         [JsonProperty] public double WithinRangeProximity = 10.0;
 
         [JsonProperty] public string YouDroppedGoldMsg = "you dropped some gold.";
-
-        [JsonProperty]
-        public uint DefaultItemDurability = 1000;
-
-        [JsonProperty]
-        public uint DefaultItemValue = 500;
-
-        [JsonProperty]
-        public int DurabilityRolloverLimit = 10;
-
-        [JsonProperty]
-        public byte BaseMR = 70;
-
-        [JsonProperty]
-        public double WarpUpdateTimer = 1.0;
-
-        [JsonProperty]
-        public ushort WarpAnimationNumber = 214;
-
-        [JsonProperty]
-        public ushort MonsterDeathAnimationNumber = 350;
-
-        [JsonProperty]
-        public bool ShowMonsterDeathAnimation = false;
-
-        [JsonProperty] public int HelperMenuId = -1;
-
-        [JsonProperty]
-        public string HelperMenuTemplateKey = "Lorule Helper";
-
-        [JsonProperty]
-        public string ServerWelcomeMessage = "Welcome to Lorule, If you need help, Please use The [F1] menu.";
-
-        [JsonProperty]
-        public bool LootSingleMode = true;
-
-        [JsonProperty]
-        public bool UseIncrementalSerials = true;
-
-        [JsonProperty]
-        public bool UseFastRandom = true;
-
-        [JsonProperty]
-        public int DeathFreeLevelCap = 11;
-
-        [JsonProperty]
-        public int TransitionZone = 9999;
-
-        [JsonProperty]
-        public short TransitionPointX = 3;
-
-        [JsonProperty]
-        public short TransitionPointY = 3;
-
-        [JsonProperty]
-        public string BadRequestMessage = "(Invalid Request)";
-
-        [JsonProperty]
-        public string CantCarryMoreMsg = "You can't carry more.";
-
-        [JsonProperty]
-        public string ToWeakToLift = "You are to weak to even lift it.";
-
-        [JsonProperty]
-        public ItemColor DefaultItemColor = ItemColor.blue;
-
-        [JsonProperty]
-        public double MinimalLatency = 10;
-
-        [JsonProperty]
-        public int DeathMap = 88888;
-        
-        [JsonProperty]
-        public int Version = 718;
 
         public override string ToString()
         {

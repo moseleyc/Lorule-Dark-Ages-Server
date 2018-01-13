@@ -6,6 +6,6 @@ namespace Darkages.Types
     public enum ElementQualifer
     {
         Random = 1,
-        Defined = 2,        
+        Defined = 2
     }
 }

@@ -2,7 +2,7 @@
 {
     public enum ClassStage
     {
-        Class  = 0,
+        Class = 0,
         Master = 1
     }
 }

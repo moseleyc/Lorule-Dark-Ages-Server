@@ -1,28 +1,27 @@
-﻿using Darkages.Common;
+﻿using System;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
-using System;
 
 namespace Darkages.Types
 {
     public class Debuff
     {
+        public Debuff()
+        {
+            Timer = new GameServerTimer(TimeSpan.FromSeconds(1));
+        }
+
         public virtual string Name { get; set; }
         public virtual int Length { get; set; }
         public virtual byte Icon { get; set; }
 
-        [JsonIgnore]
-        public GameServerTimer Timer { get; set; }
+        [JsonIgnore] public GameServerTimer Timer { get; set; }
 
         public bool Has(string name)
         {
             return Name.Equals(name);
-        }
-
-        public Debuff()
-        {
-            Timer = new GameServerTimer(TimeSpan.FromSeconds(1));
         }
 
         public virtual void OnApplied(Sprite Affected, Debuff debuff)
@@ -39,11 +38,9 @@ namespace Darkages.Types
         public virtual void OnEnded(Sprite Affected, Debuff debuff)
         {
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
                     .Send(new ServerFormat3A(Icon, byte.MinValue));
-            }
 
             Affected.Debuffs.Remove(debuff);
         }
@@ -57,14 +54,10 @@ namespace Darkages.Types
 
             if (Timer.Elapsed)
             {
-                if ((Length - Timer.Tick) > 0)
-                {
+                if (Length - Timer.Tick > 0)
                     OnDurationUpdate(Affected, this);
-                }
                 else
-                {
                     OnEnded(Affected, this);
-                }
 
                 Timer.Tick++;
                 Timer.Reset();
@@ -89,11 +82,9 @@ namespace Darkages.Types
                 colorInt = 6;
 
             if (Affected is Aisling)
-            {
                 (Affected as Aisling)
                     .Client
-                    .Send(new ServerFormat3A(Icon, (byte)colorInt));
-            }
+                    .Send(new ServerFormat3A(Icon, (byte) colorInt));
         }
     }
 }

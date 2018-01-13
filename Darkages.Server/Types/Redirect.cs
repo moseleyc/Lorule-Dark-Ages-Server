@@ -6,8 +6,8 @@ namespace Darkages.Types
     {
         public int ID;
         public string Name;
-        public byte Seed;
         public byte[] Salt;
+        public byte Seed;
         public int Serial;
 
         public int Type { get; internal set; }

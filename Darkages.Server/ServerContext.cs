@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using Darkages.Network;
 using Darkages.Network.Game;
 using Darkages.Network.Login;
 using Darkages.Network.Object;
-using Darkages.Network.ServerFormats;
 using Darkages.Storage;
 using Darkages.Types;
 
@@ -15,10 +13,14 @@ namespace Darkages
 {
     public class ServerContext : ObjectManager
     {
+        public static int Errors;
+        public static int DefaultPort;
+        public static bool Running;
+        public static GameServer Game;
+        public static LoginServer Lobby;
         public static ServerConstants Config;
-        public static int ERRORS;
-        public static int DEFAULT_PORT;
-
+        public static IPAddress Ipaddress => IPAddress.Parse(File.ReadAllText("server.tbl"));
+        public static string StoragePath => @"..\..\..\Storage\Locales";        
         public static List<Redirect> GlobalRedirects = new List<Redirect>();
         public static List<Metafile> GlobalMetaCache = new List<Metafile>();
 
@@ -34,23 +36,18 @@ namespace Darkages
         public static Dictionary<string, SpellTemplate> GlobalSpellTemplateCache =
             new Dictionary<string, SpellTemplate>();
 
-        public static Dictionary<string, ItemTemplate> GlobalItemTemplateCache = new Dictionary<string, ItemTemplate>();
+        public static Dictionary<string, ItemTemplate> GlobalItemTemplateCache =
+            new Dictionary<string, ItemTemplate>();
 
         public static Dictionary<string, MundaneTemplate> GlobalMundaneTemplateCache =
             new Dictionary<string, MundaneTemplate>();
 
-        public static List<WarpTemplate> GlobalWarpTemplateCache
-            = new List<WarpTemplate>();
+        public static List<WarpTemplate> GlobalWarpTemplateCache =
+            new List<WarpTemplate>();
 
         public static Dictionary<int, WorldMapTemplate> GlobalWorldMapTemplateCache =
             new Dictionary<int, WorldMapTemplate>();
 
-        public static bool Running;
-        public static IPAddress IPADDRESS => IPAddress.Parse(File.ReadAllText("server.tbl"));
-        public static string STORAGE_PATH => @"..\..\..\Storage\Locales";
-
-        public static GameServer Game { get; set; }
-        public static LoginServer Lobby { get; set; }
 
         public static void LoadSkillTemplates()
         {
@@ -113,7 +110,7 @@ namespace Darkages
             Running = false;
 
             redo:
-            if (ERRORS > Config.ERRORCAP)
+            if (Errors > Config.ERRORCAP)
                 Process.GetCurrentProcess().Kill();
 
             try
@@ -121,14 +118,14 @@ namespace Darkages
                 Lobby = new LoginServer(Config.ConnectionCapacity);
                 Lobby.Start(Config.LOGIN_PORT);
                 Game = new GameServer(Config.ConnectionCapacity);
-                Game.Start(DEFAULT_PORT);
+                Game.Start(DefaultPort);
 
                 Running = true;
             }
             catch (Exception)
             {
-                ++DEFAULT_PORT;
-                ERRORS++;
+                ++DefaultPort;
+                Errors++;
                 goto redo;
             }
         }
@@ -168,6 +165,7 @@ namespace Darkages
             GlobalSkillTemplateCache = new Dictionary<string, SkillTemplate>();
             GlobalSpellTemplateCache = new Dictionary<string, SpellTemplate>();
             GlobalWarpTemplateCache = new List<WarpTemplate>();
+            GlobalWorldMapTemplateCache = new Dictionary<int, WorldMapTemplate>();
         }
 
         public static void LoadObjectCache()
@@ -201,10 +199,10 @@ namespace Darkages
 
         public static void InitFromConfig()
         {
-            DEFAULT_PORT = Config.SERVER_PORT;
+            DefaultPort = Config.SERVER_PORT;
 
-            if (!Directory.Exists(STORAGE_PATH))
-                Directory.CreateDirectory(STORAGE_PATH);
+            if (!Directory.Exists(StoragePath))
+                Directory.CreateDirectory(StoragePath);
         }
 
         public static void LoadMetaDatabase()
@@ -228,173 +226,6 @@ namespace Darkages
                 LoadWarpTemplates();
                 LoadWorldMapTemplates();
             }
-
-            //template examples.
-
-
-            GlobalSpellTemplateCache["deo saighead"] = new SpellTemplate()
-            {
-                Animation = 23,
-                Sound = 26,
-                BaseLines = 2,
-                Icon = 71,
-                ManaCost = 250,
-                LevelRate = 0.06,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 1,
-                Name = "deo saighead",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.5,
-                ElementalProperty = ElementManager.Element.Light
-            };
-
-            GlobalSpellTemplateCache["beag srad"] = new SpellTemplate()
-            {
-                Animation = 12,
-                Sound = 79,
-                BaseLines = 1,
-                Icon = 40,
-                ManaCost = 5,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "beag srad",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.02,
-                ElementalProperty = ElementManager.Element.Fire
-            };
-
-            GlobalSpellTemplateCache["srad"] = new SpellTemplate()
-            {
-                Animation = 12,
-                Sound = 79,
-                BaseLines = 1,
-                Icon = 40,
-                ManaCost = 50,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "srad",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.03,
-                ElementalProperty = ElementManager.Element.Fire
-            };
-
-            GlobalSpellTemplateCache["mor srad"] = new SpellTemplate()
-            {
-                Animation = 12,
-                Sound = 79,
-                BaseLines = 2,
-                Icon = 41,
-                ManaCost = 500,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "mor srad",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.05,
-                ElementalProperty = ElementManager.Element.Fire
-            };
-
-            GlobalSpellTemplateCache["ard srad"] = new SpellTemplate()
-            {
-                Animation = 12,
-                Sound = 79,
-                BaseLines = 3,
-                Icon = 42,
-                ManaCost = 1200,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 1,
-                Name = "ard srad",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.10,
-                ElementalProperty = ElementManager.Element.Fire
-            };
-
-            GlobalSpellTemplateCache["beag sal"] = new SpellTemplate()
-            {
-                Animation = 9,
-                Sound = 79,
-                BaseLines = 1,
-                Icon = 46,
-                ManaCost = 5,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "beag sal",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.02,
-                ElementalProperty = ElementManager.Element.Water
-            };
-
-            GlobalSpellTemplateCache["sal"] = new SpellTemplate()
-            {
-                Animation = 9,
-                Sound = 79,
-                BaseLines = 1,
-                Icon = 46,
-                ManaCost = 50,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "sal",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.03,
-                ElementalProperty = ElementManager.Element.Water
-            };
-
-            GlobalSpellTemplateCache["mor sal"] = new SpellTemplate()
-            {
-                Animation = 9,
-                Sound = 79,
-                BaseLines = 2,
-                Icon = 47,
-                ManaCost = 500,
-                LevelRate = 0.10,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 0,
-                Name = "mor sal",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.05,
-                ElementalProperty = ElementManager.Element.Water
-            };
-
-            GlobalSpellTemplateCache["ard sal"] = new SpellTemplate()
-            {
-                Animation = 9,
-                Sound = 79,
-                BaseLines = 3,
-                Icon = 48,
-                ManaCost = 1200,
-                LevelRate = 0.03,
-                MaxLevel = 100,
-                MaxLines = 9,
-                MinLines = 1,
-                Name = "ard sal",
-                ScriptKey = "Generic Elemental Single",
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                DamageExponent = 0.10,
-                ElementalProperty = ElementManager.Element.Water
-            };
-
-
 
             Console.WriteLine("\n");
         }

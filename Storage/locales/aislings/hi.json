@@ -3,7 +3,7 @@
   "CurrentWeight": 0,
   "MaximumWeight": 10,
   "Created": "2018-01-13T04:34:09.5614487Z",
-  "LastLogged": "2018-01-13T11:43:34.5194253Z",
+  "LastLogged": "2018-01-13T15:31:35.3979607Z",
   "Username": "hi",
   "Password": "hi",
   "AbpLevel": 0,
@@ -74,7 +74,7 @@
         "Icon": 12,
         "Level": 0,
         "ID": 845,
-        "NextAvailableUse": "2018-01-13T11:43:34.5179888Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -101,10 +101,10 @@
         "Icon": 1,
         "Level": 0,
         "ID": 846,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:41.8103704Z",
         "Ready": true,
         "InUse": false,
-        "Uses": 5
+        "Uses": 8
       },
       "3": {
         "$type": "Darkages.Types.Skill, Darkages.Server",
@@ -129,7 +129,7 @@
         "Icon": 21,
         "Level": 0,
         "ID": 847,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -156,7 +156,7 @@
         "Icon": 0,
         "Level": 0,
         "ID": 848,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -181,9 +181,9 @@
         },
         "Slot": 5,
         "Icon": 4,
-        "Level": 5,
+        "Level": 8,
         "ID": 849,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:41.8103704Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -210,7 +210,7 @@
         "Icon": 36,
         "Level": 0,
         "ID": 850,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -237,7 +237,7 @@
         "Icon": 32,
         "Level": 0,
         "ID": 851,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -264,7 +264,7 @@
         "Icon": 17,
         "Level": 0,
         "ID": 852,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -291,7 +291,7 @@
         "Icon": 51,
         "Level": 0,
         "ID": 853,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -319,7 +319,7 @@
         "Icon": 15,
         "Level": 0,
         "ID": 854,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -353,7 +353,7 @@
         "Icon": 60,
         "Level": 0,
         "ID": 855,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "Ready": true,
         "InUse": false,
         "Uses": 0
@@ -416,11 +416,15 @@
           "TargetType": 2,
           "BaseLines": 3,
           "LevelRate": 0.3,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "ard cradh"
         },
         "Level": 0,
         "Slot": 1,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "2": {
@@ -450,11 +454,15 @@
           "TargetType": 2,
           "BaseLines": 3,
           "LevelRate": 0.6,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "beag cradh"
         },
         "Level": 0,
         "Slot": 2,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "3": {
@@ -473,11 +481,15 @@
           "TargetType": 5,
           "BaseLines": 0,
           "LevelRate": 0.6,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "beag ioc fein"
         },
         "Level": 0,
         "Slot": 3,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "4": {
@@ -507,11 +519,15 @@
           "TargetType": 2,
           "BaseLines": 3,
           "LevelRate": 0.9,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "cradh"
         },
         "Level": 0,
         "Slot": 4,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "5": {
@@ -530,17 +546,21 @@
           "Buff": {
             "$type": "Darkages.Storage.locales.Buffs.buff_dion, Darkages.Server",
             "Name": "dion",
-            "Length": 6,
-            "Icon": 19
+            "Length": 7,
+            "Icon": 53
           },
           "TargetType": 5,
           "BaseLines": 0,
           "LevelRate": 0.9,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "dion"
         },
         "Level": 0,
         "Slot": 5,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "6": {
@@ -570,11 +590,15 @@
           "TargetType": 2,
           "BaseLines": 3,
           "LevelRate": 0.6,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "mor cradh"
         },
         "Level": 0,
         "Slot": 6,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "7": {
@@ -599,11 +623,15 @@
           "TargetType": 2,
           "BaseLines": 3,
           "LevelRate": 0.9,
+          "Sound": 0,
+          "Animation": 0,
+          "DamageExponent": 0.0,
+          "ElementalProperty": 0,
           "Name": "pramh"
         },
         "Level": 0,
         "Slot": 7,
-        "NextAvailableUse": "2018-01-13T11:43:34.5184844Z",
+        "NextAvailableUse": "2018-01-13T15:31:35.3974604Z",
         "InUse": false
       },
       "8": null,
@@ -778,13 +806,16 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 4406,
-  "X": 45,
-  "Y": 16,
-  "Direction": 1,
+  "Serial": 330,
+  "X": 42,
+  "Y": 15,
+  "Direction": 2,
   "CurrentMapId": 150,
   "OffenseElement": 0,
   "DefenseElement": 0,
+  "rnd": {
+    "$type": "System.Random, mscorlib"
+  },
   "CurrentHp": 739,
   "CurrentMp": 261,
   "_MaximumHp": 739,
@@ -797,8 +828,5 @@
   "_Ac": 70,
   "_Mr": 0,
   "_Dmg": 0,
-  "_Hit": 0,
-  "rnd": {
-    "$type": "System.Random, mscorlib"
-  }
+  "_Hit": 0
 }

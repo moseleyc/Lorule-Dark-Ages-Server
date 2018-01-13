@@ -1,19 +1,17 @@
-﻿using Darkages.Common;
+﻿using System;
+using System.ComponentModel;
+using Darkages.Common;
+using Darkages.Network.Game;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Storage.locales.debuffs;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel;
-using Darkages.Network.Game;
-using Darkages.Network.ServerFormats;
 
 namespace Darkages.Types
 {
-
     public class Skill
     {
-        [JsonIgnoreAttribute]
-        public SkillScript Script { get; set; }
+        [JsonIgnore] public SkillScript Script { get; set; }
 
         public SkillTemplate Template { get; set; }
 
@@ -21,16 +19,9 @@ namespace Darkages.Types
         public byte Icon { get; set; }
 
         [JsonIgnore]
-        [Browsable(false)]
-        public string Name
-        {
-            get
-            {
-                return string.Format("{0} (Lev:{1}/{2})",
-                    Template.Name,
-                    Level, Template.MaxLevel);
-            }
-        }
+        [Browsable(false)] public string Name => string.Format("{0} (Lev:{1}/{2})",
+            Template.Name,
+            Level, Template.MaxLevel);
 
         public int Level { get; set; }
         public int ID { get; set; }
@@ -42,7 +33,10 @@ namespace Darkages.Types
         public bool InUse { get; internal set; }
         public int Uses { get; set; }
 
-        public bool CanUse() => Ready;
+        public bool CanUse()
+        {
+            return Ready;
+        }
 
         public bool RollDice(Random rand)
         {
@@ -61,7 +55,8 @@ namespace Darkages.Types
             {
                 obj.ID = Generator.GenerateNumber();
             }
-            obj.Slot = (byte)slot;
+
+            obj.Slot = (byte) slot;
             obj.Icon = skillTemplate.Icon;
 
             AssignDebuffs(obj);
@@ -71,10 +66,7 @@ namespace Darkages.Types
 
         private static void AssignDebuffs(Skill obj)
         {
-            if (obj.Template.Name == "Wolf Fang Fist")
-            {
-                obj.Template.Debuff = new debuff_frozen();
-            }
+            if (obj.Template.Name == "Wolf Fang Fist") obj.Template.Debuff = new debuff_frozen();
         }
 
         public static bool GiveTo(GameClient client, string args)
@@ -85,7 +77,7 @@ namespace Darkages.Types
             if (slot <= 0)
                 return false;
 
-            var skill    = Skill.Create(slot, skillTemplate);
+            var skill = Create(slot, skillTemplate);
             skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
             client.Aisling.SkillBook.Assign(skill);
             client.Aisling.SkillBook.Set(skill, false);
@@ -102,11 +94,11 @@ namespace Darkages.Types
             if (slot <= 0)
                 return false;
 
-            var skill = Skill.Create(slot, skillTemplate);
+            var skill = Create(slot, skillTemplate);
             skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
             aisling.SkillBook.Assign(skill);
 
             return true;
         }
-    }    
+    }
 }

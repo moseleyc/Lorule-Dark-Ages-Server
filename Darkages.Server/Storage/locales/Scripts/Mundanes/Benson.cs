@@ -184,6 +184,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                             SequenceMenu.MoveNext(client);
                             SequenceMenu.Invoke(client);
                         }
+
                         ;
                         break;
                     case 0x0010:
@@ -209,6 +210,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
 
                             client.Send(new ServerFormat30(client, SequenceMenu));
                         }
+
                         break;
                 }
         }

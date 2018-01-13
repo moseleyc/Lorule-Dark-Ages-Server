@@ -11,11 +11,11 @@ namespace Darkages.Network.Game
     public partial class GameServer
     {
         public static object ServerSyncObj = new object();
+        public static TcpClient Proxy = null;
 
         private bool isRunning;
         private DateTime lastUpdate = DateTime.UtcNow;
         private Thread updateThread;
-        public static TcpClient Proxy = null;
 
         static GameServer()
         {
@@ -35,7 +35,9 @@ namespace Darkages.Network.Game
         public Collection<GameServerComponent> Components { get; }
         public TimeSpan UpdateSpan { get; }
 
-        public int Frames { get; set; } 
+        public int Frames { get; set; }
+
+        internal GameServerTimer ServerTimer { get; set; }
 
         private void AutoSave(GameClient client)
         {
@@ -86,8 +88,6 @@ namespace Darkages.Network.Game
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }
 
-        internal GameServerTimer ServerTimer { get; set; }
-
         public void Update(TimeSpan elapsedTime)
         {
             ServerTimer.Update(elapsedTime);
@@ -102,7 +102,7 @@ namespace Darkages.Network.Game
 
         private void UpdateComponents(TimeSpan elapsedTime)
         {
-            ThreadPool.QueueUserWorkItem((w) =>
+            ThreadPool.QueueUserWorkItem(w =>
             {
                 lock (Components)
                 {
@@ -114,7 +114,7 @@ namespace Darkages.Network.Game
 
         private static void UpdateAreas(TimeSpan elapsedTime)
         {
-            foreach (Area area in ServerContext.GlobalMapCache.Values)
+            foreach (var area in ServerContext.GlobalMapCache.Values)
             {
                 area.Update(elapsedTime);
 
@@ -152,7 +152,7 @@ namespace Darkages.Network.Game
             client.Aisling.LoggedIn = false;
 
             AutoSave(client);
-            client.Aisling.Remove(true, true);
+            client.Aisling.Remove(true);
 
             base.ClientDisconnected(client);
         }

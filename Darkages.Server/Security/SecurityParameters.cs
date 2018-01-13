@@ -1,42 +1,44 @@
-﻿using Darkages.Common;
-using Darkages.Network;
+﻿using System;
 using System.Text;
+using Darkages.Common;
+using Darkages.Network;
+using IFormattable = Darkages.Network.IFormattable;
 
 namespace Darkages.Security
 {
-    [System.Serializable]
+    [Serializable]
     public sealed class SecurityParameters : IFormattable
     {
-        public static readonly SecurityParameters Default 
+        public static readonly SecurityParameters Default
             = new SecurityParameters(0, Encoding.ASCII.GetBytes(ServerContext.Config?.DefaultKey ?? "NexonInc."));
-
-        public byte Seed { get; private set; }
-        public byte[] Salt { get; private set; }
 
         public SecurityParameters()
         {
-
-            this.Seed = (byte)Generator.Random.Next(0, 9);
-            this.Salt = Generator.GenerateString(9).ToByteArray();
+            Seed = (byte) Generator.Random.Next(0, 9);
+            Salt = Generator.GenerateString(9).ToByteArray();
         }
 
         public SecurityParameters(byte seed, byte[] key)
         {
-            this.Seed = seed;
-            this.Salt = key;
+            Seed = seed;
+            Salt = key;
         }
+
+        public byte Seed { get; private set; }
+        public byte[] Salt { get; private set; }
 
         public void Serialize(NetworkPacketReader reader)
         {
-            this.Seed = reader.ReadByte();
-            this.Salt = reader.ReadBytes(reader.ReadByte());
+            Seed = reader.ReadByte();
+            Salt = reader.ReadBytes(reader.ReadByte());
         }
+
         public void Serialize(NetworkPacketWriter writer)
         {
-            writer.Write(this.Seed);
+            writer.Write(Seed);
             writer.Write(
-                (byte)this.Salt.Length);
-            writer.Write(this.Salt);
+                (byte) Salt.Length);
+            writer.Write(Salt);
         }
     }
 }

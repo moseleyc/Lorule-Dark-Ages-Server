@@ -45,6 +45,7 @@ namespace Darkages.Network.ServerFormats
                         writer.Write(byte.MinValue);
                         writer.Write(byte.MinValue);
                     }
+
                     if (sprite is Item)
                     {
                         writer.Write((ushort) sprite.X);

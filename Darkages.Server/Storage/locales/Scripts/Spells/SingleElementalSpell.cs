@@ -1,7 +1,7 @@
-﻿using Darkages.Network.ServerFormats;
+﻿using System;
+using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Types;
-using System;
 
 namespace Darkages.Storage.locales.Scripts.Spells
 {
@@ -12,7 +12,6 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
         public Generic_Elemental_Single(Spell spell) : base(spell)
         {
-
         }
 
         public override void OnFailed(Sprite sprite, Sprite target)
@@ -48,7 +47,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                             string.Format("{0} Attacks you with {1}.", client.Aisling.Username,
                                 Spell.Template.Name));
 
-                var dmg = (int)((sprite.Int * Spell.Template.DamageExponent) * Spell.Level) * 100;
+                var dmg = (int) (sprite.Int * Spell.Template.DamageExponent * Spell.Level) * 100;
                 target.ApplyDamage(sprite, dmg, Spell.Template.ElementalProperty, Spell.Template.Sound);
 
                 client.SendMessage(0x02, string.Format("you cast {0}", Spell.Template.Name));
@@ -70,15 +69,15 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                 var client = (target as Aisling).Client;
 
-                var dmg = (int)((sprite.Int * Spell.Template.DamageExponent) * Spell.Level) * 100;
+                var dmg = (int) (sprite.Int * Spell.Template.DamageExponent * Spell.Level) * 100;
                 target.ApplyDamage(sprite, dmg, Spell.Template.ElementalProperty, Spell.Template.Sound);
 
                 (target as Aisling).Client
                     .SendMessage(0x02, string.Format("{0} Attacks you with {1}.",
-                                            (sprite is Monster
-                                                ? (sprite as Monster).Template.Name
-                                                : (sprite as Mundane).Template.Name) ?? "Monster",
-                                                    Spell.Template.Name));
+                        (sprite is Monster
+                            ? (sprite as Monster).Template.Name
+                            : (sprite as Mundane).Template.Name) ?? "Monster",
+                        Spell.Template.Name));
 
                 client.SendAnimation(Spell.Template.Animation, target, sprite);
 

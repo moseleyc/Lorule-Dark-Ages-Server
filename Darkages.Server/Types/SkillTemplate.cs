@@ -30,10 +30,5 @@
         public Debuff Debuff { get; set; }
 
         public Buff Buff { get; set; }
-
-        public SkillTemplate()
-        {
-
-        }
     }
 }

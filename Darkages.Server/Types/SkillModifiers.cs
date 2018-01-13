@@ -7,6 +7,6 @@ namespace Darkages.Types
     {
         Default = 0,
         Fixed = 1,
-        Custom = 2,
+        Custom = 2
     }
 }

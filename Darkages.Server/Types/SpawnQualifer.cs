@@ -7,6 +7,6 @@ namespace Darkages.Types
     {
         Random = 1,
         Defined = 2,
-        NearPlayers = 3,
+        NearPlayers = 3
     }
 }

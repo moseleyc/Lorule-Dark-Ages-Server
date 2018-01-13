@@ -76,6 +76,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                 {
                     client.SendMessage(0x02, "your will is to weak.");
                 }
+
                 client.SendStats(StatusFlags.StructB);
             }
             else

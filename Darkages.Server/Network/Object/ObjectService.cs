@@ -17,19 +17,18 @@ namespace Darkages.Network.Object
 
         [JsonIgnore] private readonly HashSet<Sprite> _aislings = new HashSet<Sprite>();
 
-        [JsonProperty] private HashSet<Sprite> _items = new HashSet<Sprite>();
-
-        [JsonProperty] private HashSet<Sprite> _money = new HashSet<Sprite>();
-
         [JsonIgnore] private readonly HashSet<Sprite> _monsters = new HashSet<Sprite>();
 
         [JsonIgnore] private readonly HashSet<Sprite> _mundanes = new HashSet<Sprite>();
 
+        [JsonProperty] private HashSet<Sprite> _items = new HashSet<Sprite>();
+
+        [JsonProperty] private HashSet<Sprite> _money = new HashSet<Sprite>();
+
         private bool disposedValue; // To detect redundant calls
 
 
-        [JsonIgnore]
-        private static bool CacheLoaded { get; set; }
+        [JsonIgnore] private static bool CacheLoaded { get; set; }
 
         [JsonIgnore]
         private HashSet<Sprite> Aislings
@@ -211,15 +210,13 @@ namespace Darkages.Network.Object
             return null;
         }
 
-        public void Save<T>(T reference, Predicate<T> predicate) where T : Sprite, new()
+        public void Save<T>(T reference, Predicate<T> predicate)
+            where T : Sprite
         {
             if (reference == null)
                 return;
 
-            var obj = Query(predicate);
-            obj = reference;
-
-            ObjectChanged?.Invoke(obj);
+            ObjectChanged?.Invoke(reference);
         }
 
         public void Insert<T>(T obj) where T : Sprite
@@ -312,6 +309,7 @@ namespace Darkages.Network.Object
                     _aislings?.Clear();
                     _mundanes?.Clear();
                 }
+
                 disposedValue = true;
             }
         }

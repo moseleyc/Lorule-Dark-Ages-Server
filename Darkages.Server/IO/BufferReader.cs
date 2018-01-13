@@ -6,7 +6,7 @@ namespace Darkages.IO
 {
     public class BufferReader : BinaryReader
     {
-        private Encoding encoding = Encoding.GetEncoding(949);
+        private readonly Encoding encoding = Encoding.GetEncoding(949);
 
         public BufferReader(Stream stream)
             : base(stream, Encoding.GetEncoding(949))
@@ -15,24 +15,26 @@ namespace Darkages.IO
 
         public IPAddress ReadIPAddress()
         {
-            byte[] ipBuffer = new byte[4];
+            var ipBuffer = new byte[4];
 
-            ipBuffer[3] = base.ReadByte();
-            ipBuffer[2] = base.ReadByte();
-            ipBuffer[1] = base.ReadByte();
-            ipBuffer[0] = base.ReadByte();
+            ipBuffer[3] = ReadByte();
+            ipBuffer[2] = ReadByte();
+            ipBuffer[1] = ReadByte();
+            ipBuffer[0] = ReadByte();
 
             return new IPAddress(ipBuffer);
         }
+
         public string ReadStringA()
         {
             return encoding.GetString(
-                base.ReadBytes(base.ReadByte()));
+                ReadBytes(ReadByte()));
         }
+
         public string ReadStringB()
         {
             return encoding.GetString(
-                base.ReadBytes(this.ReadUInt16()));
+                ReadBytes(ReadUInt16()));
         }
 
         public override string ReadString()
@@ -42,32 +44,34 @@ namespace Darkages.IO
 
             do
             {
-                text += (data = base.ReadChar());
-            }
-            while (data != '\0');
+                text += data = ReadChar();
+            } while (data != '\0');
 
             return text;
         }
 
         public override short ReadInt16()
         {
-            return (short)this.ReadUInt16();
+            return (short) ReadUInt16();
         }
+
         public override ushort ReadUInt16()
         {
-            return (ushort)((
-                base.ReadByte() << 8) |
-                base.ReadByte());
+            return (ushort) ((
+                                 ReadByte() << 8) |
+                             ReadByte());
         }
+
         public override int ReadInt32()
         {
-            return (int)this.ReadUInt32();
+            return (int) ReadUInt32();
         }
+
         public override uint ReadUInt32()
         {
-            return (uint)((
-                this.ReadUInt16() << 16) |
-                this.ReadUInt16());
+            return (uint) ((
+                               ReadUInt16() << 16) |
+                           ReadUInt16());
         }
     }
 }

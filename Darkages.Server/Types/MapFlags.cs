@@ -8,7 +8,7 @@
         CanTeleport = 1024,
         CanUseSkill = 2048,
         CanUseSpell = 4096,
-        Darkness = Snow | Rain,    
+        Darkness = Snow | Rain,
         Default = CanSummon | CanLocate | CanTeleport | CanUseSkill | CanUseSpell | SendToHell | ShouldComa,
         HasDayNight = 131072,
         NoMap = 64,
@@ -17,6 +17,6 @@
         SendToHell = 32768,
         ShouldComa = 65536,
         Snow = 1,
-        Winter = 128,
+        Winter = 128
     }
 }

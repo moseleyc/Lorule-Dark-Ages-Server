@@ -1,20 +1,33 @@
-﻿using Darkages.Compression;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using Darkages.Compression;
 using Darkages.IO;
 using Darkages.Network;
-using System.Collections.ObjectModel;
-using System.IO;
 
 namespace Darkages.Types
 {
     public class Metafile : CompressableObject, IFormattable
     {
-        public Collection<MetafileNode> Nodes { get; private set; }
+        public Metafile()
+        {
+            Nodes = new Collection<MetafileNode>();
+        }
+
+        public Collection<MetafileNode> Nodes { get; }
         public uint Hash { get; private set; }
         public string Name { get; private set; }
 
-        public Metafile()
+        public void Serialize(NetworkPacketReader reader)
         {
-            this.Nodes = new Collection<MetafileNode>();
+        }
+
+        public void Serialize(NetworkPacketWriter writer)
+        {
+            writer.WriteStringA(Name);
+            writer.Write(Hash);
+            writer.Write(
+                (ushort) DeflatedData.Length);
+            writer.Write(DeflatedData);
         }
 
         public override void Load(MemoryStream stream)
@@ -23,55 +36,39 @@ namespace Darkages.Types
             {
                 int length = reader.ReadUInt16();
 
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
                     var node = new MetafileNode(reader.ReadStringA());
                     var atomSize = reader.ReadUInt16();
 
-                    for (int j = 0; j < atomSize; j++)
-                    {
+                    for (var j = 0; j < atomSize; j++)
                         node.Atoms.Add(
                             reader.ReadStringB());
-                    }
 
-                    this.Nodes.Add(node);
+                    Nodes.Add(node);
                 }
             }
 
-            this.Hash = Crc32Provider.ComputeChecksum(base.InflatedData);
-            this.Name = Path.GetFileName(base.Filename);
+            Hash = Crc32Provider.ComputeChecksum(InflatedData);
+            Name = Path.GetFileName(Filename);
         }
+
         public override void Save(MemoryStream stream)
         {
             using (var writer = new BufferWriter(stream))
             {
                 writer.Write(
-                    (ushort)this.Nodes.Count);
+                    (ushort) Nodes.Count);
 
-                foreach (var node in this.Nodes)
+                foreach (var node in Nodes)
                 {
                     writer.WriteStringA(node.Name);
                     writer.Write(
-                        (ushort)node.Atoms.Count);
+                        (ushort) node.Atoms.Count);
 
-                    foreach (var atom in node.Atoms)
-                    {
-                        writer.WriteStringB(atom);
-                    }
+                    foreach (var atom in node.Atoms) writer.WriteStringB(atom);
                 }
             }
-        }
-
-        public void Serialize(NetworkPacketReader reader)
-        {
-        }
-        public void Serialize(NetworkPacketWriter writer)
-        {
-            writer.WriteStringA(this.Name);
-            writer.Write(this.Hash);
-            writer.Write(
-                (ushort)base.DeflatedData.Length);
-            writer.Write(base.DeflatedData);
         }
     }
 }

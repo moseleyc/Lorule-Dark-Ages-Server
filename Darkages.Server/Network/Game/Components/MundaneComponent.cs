@@ -40,7 +40,7 @@ namespace Darkages.Network.Game.Components
                     continue;
 
                 var npc = GetObject<Mundane>(i => i.CurrentMapId == map.ID && i.Template != null
-                                                  && i.Template.Name == mundane.Value.Name);
+                                                                           && i.Template.Name == mundane.Value.Name);
 
                 if (npc != null && npc.CurrentHp > 0)
                     continue;

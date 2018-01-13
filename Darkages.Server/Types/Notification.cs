@@ -1,20 +1,16 @@
-﻿using Darkages.Common;
+﻿using System.IO;
+using Darkages.Common;
 using Darkages.Compression;
 using Darkages.IO;
-using System.IO;
 
 namespace Darkages.Types
 {
     public class Notification : CompressableObject
     {
-        public byte[] Data
-        {
-            get { return base.DeflatedData; }
-        }
-        public ushort Size
-        {
-            get { return (ushort)base.DeflatedData.Length; }
-        }
+        public byte[] Data => DeflatedData;
+
+        public ushort Size => (ushort) DeflatedData.Length;
+
         public uint Hash { get; private set; }
 
         public static Notification FromFile(string filename)

@@ -1,5 +1,5 @@
-﻿using Darkages.Network;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Darkages.Network;
 
 namespace Darkages.Types
 {
@@ -9,6 +9,7 @@ namespace Darkages.Types
             : base(capacity)
         {
         }
+
         public MetafileCollection(IEnumerable<Metafile> collection)
             : base(collection)
         {
@@ -17,10 +18,11 @@ namespace Darkages.Types
         public void Serialize(NetworkPacketReader reader)
         {
         }
+
         public void Serialize(NetworkPacketWriter writer)
         {
             writer.Write(
-                (ushort)base.Count);
+                (ushort) Count);
 
             foreach (var metafile in this)
             {

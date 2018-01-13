@@ -1,42 +1,59 @@
-﻿using Darkages.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Darkages.Common;
 using Darkages.Network;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
     public abstract class Sprite : ObjectManager
     {
-        [JsonIgnore]
-        public int[][] facingTable = {
-                       new int[] { -1, +3, -1 },
-                       new int[] { +0, -1, +2 },
-                       new int[] { -1, +1, -1 },
+        private static readonly ThreadLocal<Random> _rnd
+            = new ThreadLocal<Random>(() => new Random());
+
+        [JsonIgnore] public int[][] Directions =
+        {
+            new[] {+0, -1},
+            new[] {+1, +0},
+            new[] {+0, +1},
+            new[] {-1, +0}
         };
 
-        [JsonIgnore]
-        public int[][] Directions = {
-                        new int[] { +0, -1 },
-                        new int[] { +1, +0 },
-                        new int[] { +0, +1 },
-                        new int[] { -1, +0 },
+        [JsonIgnore] public int[][] facingTable =
+        {
+            new[] {-1, +3, -1},
+            new[] {+0, -1, +2},
+            new[] {-1, +1, -1}
         };
 
-        [JsonIgnoreAttribute]
-        public GameClient Client { get; set; }
+        public Sprite()
+        {
+            if (this is Aisling)
+                Content = TileContent.Aisling;
+            if (this is Monster)
+                Content = TileContent.Monster;
+            if (this is Mundane)
+                Content = TileContent.Mundane;
+            if (this is Money)
+                Content = TileContent.None;
+            if (this is Item)
+                Content = TileContent.None;
 
-        [JsonIgnoreAttribute]
-        public Area Map { get; set; }
+            Buffs = new List<Buff>();
+            Debuffs = new List<Debuff>();
+        }
 
-        [JsonIgnoreAttribute]
-        public TileContent Content { get; set; }
+        [JsonIgnore] public GameClient Client { get; set; }
+
+        [JsonIgnore] public Area Map { get; set; }
+
+        [JsonIgnore] public TileContent Content { get; set; }
 
         public List<Debuff> Debuffs { get; set; }
 
@@ -56,99 +73,18 @@ namespace Darkages.Types
 
         public Element DefenseElement { get; set; }
 
-        #region Attributes
-        public int CurrentHp { get; set; }
+        [JsonIgnore] public Sprite Target { get; set; }
 
-        public int CurrentMp { get; set; }
+        public Random rnd => _rnd.Value;
 
-        public int _MaximumHp { get; set; }
 
-        public int _MaximumMp { get; set; }
+        [JsonIgnore] public Position Position => new Position(X, Y);
 
-        [JsonIgnore]
-        public int MaximumHp => _MaximumHp + BonusHp;
+        [JsonIgnore] public bool Attackable => this is Monster || this is Aisling || this is Mundane;
 
-        [JsonIgnore]
-        public int MaximumMp => _MaximumMp + BonusMp;
+        [JsonIgnore] public DateTime CreationDate { get; set; }
 
-        public byte  _Str { get; set; }
-
-        public byte  _Int { get; set; }
-
-        public byte  _Wis { get; set; }
-
-        public byte  _Con { get; set; }
-
-        public byte  _Dex { get; set; }
-
-        public sbyte _Ac { get; set; }
-
-        public byte  _Mr { get; set; }
-
-        public byte  _Dmg { get; set; }
-
-        public byte  _Hit { get; set; }
-
-        [JsonIgnore]
-        public byte Str => (byte)(_Str + BonusStr);
-        [JsonIgnore]
-        public byte Int => (byte)(_Int + BonusInt);
-        [JsonIgnore]
-        public byte Wis => (byte)(_Wis + BonusWis);
-        [JsonIgnore]
-        public byte Con => (byte)(_Con + BonusCon);
-        [JsonIgnore]
-        public byte Dex => (byte)(_Dex + BonusDex);
-        [JsonIgnore]
-        public byte Ac  => (byte)(_Ac  + BonusAc);
-        [JsonIgnore]
-        public byte Mr  => (byte)(_Mr  + BonusMr);
-        [JsonIgnore]
-        public byte Dmg => (byte)(_Dmg + BonusDmg);
-        [JsonIgnore]
-        public byte Hit => (byte)(_Hit + BonusHit);
-
-        [JsonIgnore]
-        public byte BonusStr { get; set; }
-        [JsonIgnore]
-        public byte BonusInt { get; set; }
-        [JsonIgnore]
-        public byte BonusWis { get; set; }
-        [JsonIgnore]
-        public byte BonusCon { get; set; }
-        [JsonIgnore]
-        public byte BonusDex { get; set; }
-        [JsonIgnore]
-        public byte BonusMr { get; set; }
-        [JsonIgnore]
-        public sbyte BonusAc { get; set; }
-        [JsonIgnore]
-        public byte BonusHit { get; set; }
-        [JsonIgnore]
-        public byte BonusDmg { get; set; }
-        [JsonIgnore]
-        public int BonusHp { get; set; }
-        [JsonIgnore]
-        public int BonusMp { get; set; }
-        #endregion
-
-        [JsonIgnore]
-        public Sprite Target { get; set; }
-
-        #region Status
-        [JsonIgnore]
-        public bool IsSleeping => HasDebuff("sleep");
-        [JsonIgnore]
-        public bool IsFrozen   => HasDebuff("frozen");
-        [JsonIgnore]
-        public bool IsPoisoned => HasDebuff("poison");
-        [JsonIgnore]
-        public bool IsBleeding => HasDebuff("bleeding");
-        [JsonIgnore]
-        public bool IsBlind    => HasDebuff("blind");
-        [JsonIgnore]
-        public bool IsConfused => HasDebuff("confused");
-        #endregion
+        [JsonIgnore] public DateTime LastUpdated { get; set; }
 
         public bool HasBuff(string buff)
         {
@@ -170,14 +106,17 @@ namespace Darkages.Types
         {
             if (HasBuff(buff))
             {
-                var idx     = Buffs.FindIndex(i => i.Has(buff));
+                var idx = Buffs.FindIndex(i => i.Has(buff));
                 var buffobj = Buffs[idx];
 
                 lock (Buffs)
+                {
                     buffobj.OnEnded(this, buffobj);
+                }
 
                 return true;
             }
+
             return false;
         }
 
@@ -185,26 +124,29 @@ namespace Darkages.Types
         {
             if (HasDebuff(debuff))
             {
-                var idx     = Debuffs.FindIndex(i => i.Has(debuff));
+                var idx = Debuffs.FindIndex(i => i.Has(debuff));
                 var buffobj = Debuffs[idx];
 
                 lock (Debuffs)
+                {
                     buffobj.OnEnded(this, buffobj);
+                }
 
                 return true;
             }
+
             return false;
         }
 
         public void RemoveAllBuffs()
         {
-            for (int i = 0; i < Buffs.Count; i++)
+            for (var i = 0; i < Buffs.Count; i++)
                 RemoveBuff(Buffs[i].Name);
         }
 
         public void RemoveAllDebuffs()
         {
-            for (int i = 0; i < Debuffs.Count; i++)
+            for (var i = 0; i < Debuffs.Count; i++)
                 RemoveDebuff(Debuffs[i].Name);
         }
 
@@ -214,40 +156,18 @@ namespace Darkages.Types
             RemoveAllDebuffs();
         }
 
-        public Sprite()
-        {
-            if (this is Aisling)
-                Content = TileContent.Aisling;
-            if (this is Monster)
-                Content = TileContent.Monster;
-            if (this is Mundane)
-                Content = TileContent.Mundane;
-            if (this is Money)
-                Content = TileContent.None;
-            if (this is Item)
-                Content = TileContent.None;
-
-            Buffs   = new List<Buff>();
-            Debuffs = new List<Debuff>();
-        }
-
-        private static readonly ThreadLocal<Random> _rnd
-             = new ThreadLocal<Random>(() => new Random());
-
-        public Random rnd => _rnd.Value;
-
-        public void ApplyDamage(Sprite source, 
-            int dmg, 
-            Element element, 
+        public void ApplyDamage(Sprite source,
+            int dmg,
+            Element element,
             byte sound = 1)
         {
-            var s = Clone<Sprite>(source);
+            var s = Clone(source);
             s.OffenseElement = element;
             ApplyDamage(source, dmg, false, sound);
         }
 
-        public void ApplyDamage(Sprite Source, int dmg, 
-            bool truedamage = false, 
+        public void ApplyDamage(Sprite Source, int dmg,
+            bool truedamage = false,
             byte sound = 1,
             Action<int> dmgcb = null)
         {
@@ -260,7 +180,7 @@ namespace Darkages.Types
 
             if (Source is Aisling)
             {
-                var client = (Source as Aisling);
+                var client = Source as Aisling;
                 if (client.EquipmentManager.Weapon != null
                     && client.EquipmentManager.Weapon.Item != null && client.Weapon > 0)
                 {
@@ -272,11 +192,9 @@ namespace Darkages.Types
 
             if (this is Aisling)
             {
-                var client = (this as Aisling);
-                if (client != null && (client.DamageCounter++ % 2) == 0 && dmg > 0)
-                {
+                var client = this as Aisling;
+                if (client != null && client.DamageCounter++ % 2 == 0 && dmg > 0)
                     client.EquipmentManager.DecreaseDurability();
-                }
             }
 
 
@@ -295,24 +213,23 @@ namespace Darkages.Types
                 {
                     var empty = new ServerFormat13
                     {
-                        Serial = this.Serial,
+                        Serial = Serial,
                         Health = byte.MaxValue,
                         Sound = sound
                     };
 
-                    this.Show(Scope.NearbyAislings, empty);
+                    Show(Scope.NearbyAislings, empty);
                 }
                 else
                 {
-
                     if (HasDebuff("sleep"))
                         dmg *= 2;
 
                     RemoveDebuff("sleep");
 
                     var amplifier = ElementTable[
-                        (int)Source.OffenseElement,
-                        (int)DefenseElement];
+                        (int) Source.OffenseElement,
+                        (int) DefenseElement];
 
 
                     dmg = ComputeDmgFromAc(dmg);
@@ -336,12 +253,12 @@ namespace Darkages.Types
                     var hpbar = new ServerFormat13
                     {
                         Serial = Serial,
-                        Health = (ushort) ((double) 100 * this.CurrentHp / (double) this.MaximumHp),
+                        Health = (ushort) ((double) 100 * CurrentHp / MaximumHp),
                         Sound = sound
                     };
 
                     //send hpbar to client
-                    this.Show(Scope.NearbyAislings, hpbar);
+                    Show(Scope.NearbyAislings, hpbar);
                 }
             }
 
@@ -350,29 +267,24 @@ namespace Darkages.Types
         }
 
         /// <summary>
-        /// Checks the source of damage and if it's a player, check if the target is a player.
-        /// is true, checks weather or not damage can be applied on the map they are on both on.
+        ///     Checks the source of damage and if it's a player, check if the target is a player.
+        ///     is true, checks weather or not damage can be applied on the map they are on both on.
         /// </summary>
         /// <param name="Source">Player applying damage.</param>
         /// <returns>true : false</returns>
         public bool CanBeAttackedHere(Sprite Source)
         {
             if (Source is Aisling && this is Aisling)
-            {
                 if (CurrentMapId > 0 && ServerContext.GlobalMapCache.ContainsKey(CurrentMapId))
-                {
                     if (!ServerContext.GlobalMapCache[CurrentMapId].Flags.HasFlag(MapFlags.PlayerKill))
                         return false;
-                }
-            }
 
             return true;
         }
 
         /// <summary>
-        /// Sends Format With Target Scope.
+        ///     Sends Format With Target Scope.
         /// </summary>
-        /// 
         public void Show<T>(Scope op, T format, Sprite[] definer = null) where T : NetworkFormat
         {
             switch (op)
@@ -381,199 +293,165 @@ namespace Darkages.Types
                     Client.Send(format);
                     break;
                 case Scope.NearbyAislingsExludingSelf:
-                    foreach (var gc in GetObjects<Aisling>(that => this.WithinRangeOf(that)))
-                    {
-                        if (gc.Serial != this.Serial)
+                    foreach (var gc in GetObjects<Aisling>(that => WithinRangeOf(that)))
+                        if (gc.Serial != Serial)
                         {
                             if (this is Aisling)
                             {
                                 if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                                {
                                     if (format is ServerFormat33)
                                         return;
-                                }
 
                                 if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                                {
                                     if (format is ServerFormat33)
                                         return;
-                                }
                             }
 
                             gc.Client.Send(format);
                         }
-                    }
+
                     break;
                 case Scope.NearbyAislings:
-                    foreach (var gc in GetObjects<Aisling>(that => this.WithinRangeOf(that)))
+                    foreach (var gc in GetObjects<Aisling>(that => WithinRangeOf(that)))
                     {
                         if (this is Aisling)
                         {
                             if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
 
                             if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
                         }
 
                         gc.Client.Send(format);
                     }
+
                     break;
                 case Scope.VeryNearbyAislings:
-                    foreach (var gc in GetObjects<Aisling>(that => this.WithinRangeOf(that, ServerContext.Config.VeryNearByProximity)))
+                    foreach (var gc in GetObjects<Aisling>(that =>
+                        WithinRangeOf(that, ServerContext.Config.VeryNearByProximity)))
                     {
                         if (this is Aisling)
                         {
                             if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
 
                             if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
                         }
 
                         gc.Client.Send(format);
                     }
+
                     break;
                 case Scope.AislingsOnSameMap:
-                    foreach (var gc in GetObjects<Aisling>(that => this.CurrentMapId == that.CurrentMapId))
+                    foreach (var gc in GetObjects<Aisling>(that => CurrentMapId == that.CurrentMapId))
                     {
                         if (this is Aisling)
                         {
                             if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
 
                             if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                            {
                                 if (format is ServerFormat33)
                                     return;
-                            }
                         }
 
                         gc.Client.Send(format);
                     }
+
                     break;
                 case Scope.GroupMembers:
-                    {
-                        if (this is Aisling)
+                {
+                    if (this is Aisling)
+                        foreach (var gc in GetObjects<Aisling>(that => (this as Aisling).GroupParty.Has(that)))
                         {
-                            foreach (var gc in GetObjects<Aisling>(that => (this as Aisling).GroupParty.Has(that)))
+                            if (this is Aisling)
                             {
-                                if (this is Aisling)
-                                {
-                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
+                                if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    if (format is ServerFormat33)
+                                        return;
 
-                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
-                                }
-
-                                gc.Client.Send(format);
+                                if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    if (format is ServerFormat33)
+                                        return;
                             }
+
+                            gc.Client.Send(format);
                         }
-                    }
+                }
                     break;
                 case Scope.NearbyGroupMembersExcludingSelf:
-                    {
-                        if (this is Aisling)
+                {
+                    if (this is Aisling)
+                        foreach (var gc in GetObjects<Aisling>(that =>
+                            that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that)))
                         {
-                            foreach (var gc in GetObjects<Aisling>(that => that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that)))
+                            if (this is Aisling)
                             {
-                                if (this is Aisling)
-                                {
-                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
+                                if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    if (format is ServerFormat33)
+                                        return;
 
-                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
-                                }
-
-                                gc.Client.Send(format);
+                                if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    if (format is ServerFormat33)
+                                        return;
                             }
+
+                            gc.Client.Send(format);
                         }
-                    }
+                }
                     break;
                 case Scope.NearbyGroupMembers:
-                    {
-                        if (this is Aisling)
+                {
+                    if (this is Aisling)
+                        foreach (var gc in GetObjects<Aisling>(that =>
+                            that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that, true)))
                         {
-                            foreach (var gc in GetObjects<Aisling>(that => that.WithinRangeOf(this) && (this as Aisling).GroupParty.Has(that, true)))
+                            if (this is Aisling)
                             {
-                                if (this is Aisling)
-                                {
-                                    if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
+                                if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
+                                    if (format is ServerFormat33)
+                                        return;
 
-                                    if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                                    {
-                                        if (format is ServerFormat33)
-                                            return;
-                                    }
-                                }
-
-                                gc.Client.Send(format);
+                                if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
+                                    if (format is ServerFormat33)
+                                        return;
                             }
+
+                            gc.Client.Send(format);
                         }
-                    }
+                }
                     break;
                 case Scope.DefinedAislings:
                     if (definer != null && definer.Length > 0)
-                    {
                         foreach (var gc in definer)
                         {
                             if (this is Aisling)
                             {
                                 if (!gc.Client.CanSeeHidden() && (this as Aisling).Invisible)
-                                {
                                     if (format is ServerFormat33)
                                         return;
-                                }
 
                                 if (!gc.Client.CanSeeGhosts() && (this as Aisling).Dead)
-                                {
                                     if (format is ServerFormat33)
                                         return;
-                                }
                             }
 
                             (gc as Aisling).Client.Send(format);
                         }
-                    }
+
                     break;
             }
         }
 
         /// <summary>
-        /// Formula : =B2 + (B2 * 10 / (B2 * 1 / A2))
+        ///     Formula : =B2 + (B2 * 10 / (B2 * 1 / A2))
         /// </summary>
         private int ComputeDmgFromAc(int dmg)
         {
@@ -581,31 +459,21 @@ namespace Darkages.Types
                 dmg = 5;
 
             var armor = Ac != 0 ? Ac : 1;
-            var dealt  = dmg;
+            var dealt = dmg;
             var newdmg = 0;
 
             checked
             {
-               newdmg = dealt + (int)(dmg * 1 / ((dmg * 0.5) / armor));
+                newdmg = dealt + (int) (dmg * 1 / (dmg * 0.5 / armor));
             }
 
             return newdmg;
         }
 
-
-        [JsonIgnore]
-        public Position Position => new Position(X, Y);
-
-        [JsonIgnore]
-        public bool Attackable => this is Monster || this is Aisling || this is Mundane;
-
-        [JsonIgnore]
-        public DateTime CreationDate { get; set; }
-
-        [JsonIgnore]
-        public DateTime LastUpdated { get; set; }
-
-        public Sprite GetSprite(int x, int y) => GetObject(i => i.X == x && i.Y == y, Get.All);
+        public Sprite GetSprite(int x, int y)
+        {
+            return GetObject(i => i.X == x && i.Y == y, Get.All);
+        }
 
         public List<Sprite> GetInfront(Sprite sprite, int tileCount = 1)
         {
@@ -614,10 +482,7 @@ namespace Darkages.Types
 
         public List<Sprite> GetInfront(int tileCount = 1)
         {
-            if (this is Aisling)
-            {
-                return _GetInfront(tileCount).Intersect((this as Aisling).ViewFrustrum).ToList();
-            }
+            if (this is Aisling) return _GetInfront(tileCount).Intersect((this as Aisling).ViewFrustrum).ToList();
 
             return _GetInfront(tileCount).ToList();
         }
@@ -625,16 +490,22 @@ namespace Darkages.Types
 
         private IEnumerable<Sprite> _GetInfront(int tileCount = 1)
         {
-            for (int i = 1; i <= tileCount; i++)
-            {
-                switch (this.Direction)
+            for (var i = 1; i <= tileCount; i++)
+                switch (Direction)
                 {
-                    case 0: yield return GetSprite(this.X, this.Y - i); break;
-                    case 1: yield return GetSprite(this.X + i, this.Y); break;
-                    case 2: yield return GetSprite(this.X, this.Y + i); break;
-                    case 3: yield return GetSprite(this.X - i, this.Y); break;
+                    case 0:
+                        yield return GetSprite(X, Y - i);
+                        break;
+                    case 1:
+                        yield return GetSprite(X + i, Y);
+                        break;
+                    case 2:
+                        yield return GetSprite(X, Y + i);
+                        break;
+                    case 3:
+                        yield return GetSprite(X - i, Y);
+                        break;
                 }
-            }
         }
 
 
@@ -647,43 +518,41 @@ namespace Darkages.Types
             var dmg = 0;
 
             if (this is Monster || this is Mundane)
-            {
                 if (this is Monster)
                 {
                     var obj = this as Monster;
 
-                    _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Str = (byte) (int) (obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * _Str  * (int)(ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
-                    _obj.ApplyDamage(this, dmg, false, 1, (applied) => { });
+                    dmg = obj.Template.Level * _Str *
+                          (int) (ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
+                    _obj.ApplyDamage(this, dmg, false, 1, applied => { });
                 }
                 else if (this is Mundane)
                 {
                     var obj = this as Mundane;
 
-                    _Str = (byte)(int)(obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
+                    _Str = (byte) (int) (obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
                     dmg = obj.Template.Level * Str * ServerContext.Config.MonsterDamageMultipler;
                     _obj.ApplyDamage(this, dmg, false, 1);
                 }
-            }
 
             var target = _obj;
 
             var action = new ServerFormat1A
             {
-                Serial = this.Serial,
+                Serial = Serial,
                 Number = 0x01,
                 Speed = 20
             };
 
             if (target.CurrentHp > 0)
             {
-
                 var hpbar = new ServerFormat13
                 {
                     Serial = target.Serial,
-                    Health = (ushort)(100 * target.CurrentHp / target.MaximumHp),
+                    Health = (ushort) (100 * target.CurrentHp / target.MaximumHp),
                     Sound = 1
                 };
 
@@ -698,23 +567,17 @@ namespace Darkages.Types
             else
             {
                 target.RemoveBuffsAndDebuffs();
-            }            
+            }
         }
 
         public void RemoveFrom(Aisling nearbyAisling)
         {
-            if (nearbyAisling != null)
-            {
-                nearbyAisling.Show(Scope.Self, new ServerFormat0E(this.Serial));
-            }
+            if (nearbyAisling != null) nearbyAisling.Show(Scope.Self, new ServerFormat0E(Serial));
         }
 
         public void ShowTo(Aisling nearbyAisling)
         {
-            if (nearbyAisling != null)
-            {
-                nearbyAisling.Show(Scope.Self, new ServerFormat07(new Sprite[] { this }));
-            }
+            if (nearbyAisling != null) nearbyAisling.Show(Scope.Self, new ServerFormat07(new[] {this}));
         }
 
         public bool WithinRangeOf(int x, int y, int distance)
@@ -734,7 +597,7 @@ namespace Darkages.Types
             if (CurrentMapId != other.CurrentMapId)
                 return false;
 
-            return WithinRangeOf(other, (int)ServerContext.Config.WithinRangeProximity);
+            return WithinRangeOf(other, (int) ServerContext.Config.WithinRangeProximity);
         }
 
         public bool WithinRangeOf(Sprite other, int distance)
@@ -742,46 +605,46 @@ namespace Darkages.Types
             if (other == null)
                 return false;
 
-            var xDist = Math.Abs(this.X - other.X);
-            var yDist = Math.Abs(this.Y - other.Y);
+            var xDist = Math.Abs(X - other.X);
+            var yDist = Math.Abs(Y - other.Y);
 
             if (xDist > distance ||
                 yDist > distance)
                 return false;
 
-            if (this.CurrentMapId != other.CurrentMapId)
+            if (CurrentMapId != other.CurrentMapId)
                 return false;
 
-            var dist = Extensions.Sqrt((float)(Math.Pow(xDist, 2) + Math.Pow(yDist, 2)));
+            var dist = Extensions.Sqrt((float) (Math.Pow(xDist, 2) + Math.Pow(yDist, 2)));
             return dist <= distance;
         }
 
         public bool WithinRangeOf(int x, int y)
         {
-            var xDist = Math.Abs(this.X - x);
-            var yDist = Math.Abs(this.Y - y);
+            var xDist = Math.Abs(X - x);
+            var yDist = Math.Abs(Y - y);
 
             if (xDist > ServerContext.Config.WithinRangeProximity ||
                 yDist > ServerContext.Config.WithinRangeProximity)
                 return false;
 
-            var dist = Extensions.Sqrt((float)(Math.Pow(xDist, 2) + Math.Pow(yDist, 2)));
+            var dist = Extensions.Sqrt((float) (Math.Pow(xDist, 2) + Math.Pow(yDist, 2)));
             return dist <= ServerContext.Config.WithinRangeProximity;
         }
 
 
         public bool Facing(int x, int y)
         {
-            switch ((Direction)this.Direction)
+            switch ((Direction) Direction)
             {
                 case Types.Direction.North:
-                    return ((this.X == x) && ((this.Y - 1) == y));
+                    return X == x && Y - 1 == y;
                 case Types.Direction.South:
-                    return ((this.X == x) && ((this.Y + 1) == y));
+                    return X == x && Y + 1 == y;
                 case Types.Direction.East:
-                    return (((this.X + 1) == x) && (this.Y == y));
+                    return X + 1 == x && Y == y;
                 case Types.Direction.West:
-                    return (((this.X - 1) == x) && (this.Y == y));
+                    return X - 1 == x && Y == y;
             }
 
             return false;
@@ -789,16 +652,16 @@ namespace Darkages.Types
 
         public bool Facing(Sprite other, out int direction)
         {
-            return this.Facing(other.X, other.Y, out direction);
+            return Facing(other.X, other.Y, out direction);
         }
 
         public bool Facing(int x, int y, out int direction)
         {
-            var xDist = (x - this.X).Clamp(-1, +1);
-            var yDist = (y - this.Y).Clamp(-1, +1);
+            var xDist = (x - X).Clamp(-1, +1);
+            var yDist = (y - Y).Clamp(-1, +1);
 
             direction = facingTable[xDist + 1][yDist + 1];
-            return (this.Direction == direction);
+            return Direction == direction;
         }
 
 
@@ -820,15 +683,26 @@ namespace Darkages.Types
                 Remove<Mundane>();
         }
 
-        public Aisling[] AislingsNearby() => GetObjects<Aisling>(i => i.WithinRangeOf(this));
-        public Monster[] MonstersNearby() => GetObjects<Monster>(i => i.WithinRangeOf(this));
-        public Mundane[] MundanesNearby() => GetObjects<Mundane>(i => i.WithinRangeOf(this));
+        public Aisling[] AislingsNearby()
+        {
+            return GetObjects<Aisling>(i => i.WithinRangeOf(this));
+        }
+
+        public Monster[] MonstersNearby()
+        {
+            return GetObjects<Monster>(i => i.WithinRangeOf(this));
+        }
+
+        public Mundane[] MundanesNearby()
+        {
+            return GetObjects<Mundane>(i => i.WithinRangeOf(this));
+        }
 
 
         /// <summary>
-        /// Use this to Remove Sprites 
-        /// It will remove them from ingame to who those effected.
-        /// and invoke the objectmanager.
+        ///     Use this to Remove Sprites
+        ///     It will remove them from ingame to who those effected.
+        ///     and invoke the objectmanager.
         /// </summary>
         public void Remove<T>() where T : Sprite, new()
         {
@@ -857,9 +731,11 @@ namespace Darkages.Types
             Buff[] buff_Copy;
 
             lock (Buffs)
+            {
                 buff_Copy = new List<Buff>(Buffs).ToArray();
+            }
 
-            for (int i = 0; i < buff_Copy.Length; i++)
+            for (var i = 0; i < buff_Copy.Length; i++)
                 buff_Copy[i].Update(this, elapsedTime);
         }
 
@@ -868,14 +744,16 @@ namespace Darkages.Types
             Debuff[] debuff_Copy;
 
             lock (Debuffs)
+            {
                 debuff_Copy = new List<Debuff>(Debuffs).ToArray();
+            }
 
-            for (int i = 0; i < debuff_Copy.Length; i++)
+            for (var i = 0; i < debuff_Copy.Length; i++)
                 debuff_Copy[i].Update(this, elapsedTime);
         }
 
         /// <summary>
-        /// Show all nearby aislings, this sprite has turned.
+        ///     Show all nearby aislings, this sprite has turned.
         /// </summary>
         public virtual void Turn()
         {
@@ -885,16 +763,14 @@ namespace Darkages.Types
             var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(this));
 
             foreach (var o in nearby)
-            {
                 o?.Client?.Send(new ServerFormat11
                 {
-                    Direction = this.Direction,
-                    Serial = this.Serial,
+                    Direction = Direction,
+                    Serial = Serial
                 });
-            }
 
             if (this is Aisling)
-                SaveObject<Aisling>(this as Aisling);
+                SaveObject(this as Aisling);
         }
 
         public void WalkTo(int x, int y)
@@ -910,8 +786,8 @@ namespace Darkages.Types
 
                 for (byte i = 0; i < 4; i++)
                 {
-                    var newX = (X + Directions[i][0]);
-                    var newY = (Y + Directions[i][1]);
+                    var newX = X + Directions[i][0];
+                    var newY = Y + Directions[i][1];
 
                     if (newX == x &&
                         newY == y)
@@ -920,8 +796,8 @@ namespace Darkages.Types
                     if (Map.IsWall(this, newX, newY))
                         continue;
 
-                    var xDist = (x - newX);
-                    var yDist = (y - newY);
+                    var xDist = x - newX;
+                    var yDist = y - newY;
                     var tDist = Extensions.Sqrt(xDist * xDist + yDist * yDist);
 
                     if (length < tDist)
@@ -937,6 +813,7 @@ namespace Darkages.Types
                     {
                         buffer[offset] = i;
                     }
+
                     offset++;
                 }
 
@@ -1015,15 +892,17 @@ namespace Darkages.Types
                             Y--;
                             goto step;
                         }
-                        else if (obj == null)
+
+                        if (obj == null)
                         {
                             Y--;
                             goto step;
-
                         }
                     }
+
                     return false;
                 }
+
                 Y--;
             }
 
@@ -1039,15 +918,17 @@ namespace Darkages.Types
                             X++;
                             goto step;
                         }
-                        else if (obj == null)
+
+                        if (obj == null)
                         {
                             X++;
                             goto step;
-
                         }
                     }
+
                     return false;
                 }
+
                 X++;
             }
 
@@ -1063,15 +944,17 @@ namespace Darkages.Types
                             Y++;
                             goto step;
                         }
-                        else if (obj == null)
+
+                        if (obj == null)
                         {
                             Y++;
                             goto step;
-
                         }
                     }
+
                     return false;
                 }
+
                 Y++;
             }
 
@@ -1087,19 +970,21 @@ namespace Darkages.Types
                             X--;
                             goto step;
                         }
-                        else if (obj == null)
+
+                        if (obj == null)
                         {
                             X--;
                             goto step;
-
                         }
                     }
+
                     return false;
                 }
+
                 X--;
             }
 
-            @step:
+            step:
             X = X.Clamp(X, Map.Cols - 1);
             Y = Y.Clamp(Y, Map.Rows - 1);
 
@@ -1115,50 +1000,42 @@ namespace Darkages.Types
 
             if (this is Aisling)
             {
-                Client.Send(new ServerFormat0B()
+                Client.Send(new ServerFormat0B
                 {
                     Direction = Direction,
-                    LastX = (ushort)savedX,
-                    LastY = (ushort)savedY,
+                    LastX = (ushort) savedX,
+                    LastY = (ushort) savedY
                 });
 
                 Client.Send(new ServerFormat32());
-                SaveObject<Aisling>(this as Aisling);
+                SaveObject(this as Aisling);
             }
 
             //create format to send to all nearby users.
-            var response = new ServerFormat0C()
+            var response = new ServerFormat0C
             {
-                Direction = this.Direction,
+                Direction = Direction,
                 Serial = Serial,
-                X = (short)savedX,
-                Y = (short)savedY,
+                X = (short) savedX,
+                Y = (short) savedY
             };
 
             if (this is Monster)
             {
-                var nearby = (GetObjects<Aisling>(i => i.WithinRangeOf(this) && i.InsideView(this)));
+                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(this) && i.InsideView(this));
                 if (nearby.Length > 0)
-                {
                     foreach (var obj in nearby)
-                    {
                         obj.Show(Scope.Self, response, nearby);
-                    }
-                }
-                SaveObject<Monster>(this as Monster);
+                SaveObject(this as Monster);
             }
 
             if (this is Mundane)
             {
-                var nearby = (GetObjects<Aisling>(i => i.WithinRangeOf(this) && i.InsideView(this)));
+                var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(this) && i.InsideView(this));
                 if (nearby.Length > 0)
-                {
                     foreach (var obj in nearby)
-                    {
                         obj.Show(Scope.Self, response, nearby);
-                    }
-                }
-                SaveObject<Mundane>(this as Mundane);
+                SaveObject(this as Mundane);
             }
 
 
@@ -1168,8 +1045,98 @@ namespace Darkages.Types
                     ? Scope.NearbyAislingsExludingSelf
                     : Scope.NearbyAislings, response);
 
-                SaveObject<Aisling>(this as Aisling);
+                SaveObject(this as Aisling);
             }
         }
+
+        #region Attributes
+
+        public int CurrentHp { get; set; }
+
+        public int CurrentMp { get; set; }
+
+        public int _MaximumHp { get; set; }
+
+        public int _MaximumMp { get; set; }
+
+        [JsonIgnore] public int MaximumHp => _MaximumHp + BonusHp;
+
+        [JsonIgnore] public int MaximumMp => _MaximumMp + BonusMp;
+
+        public byte _Str { get; set; }
+
+        public byte _Int { get; set; }
+
+        public byte _Wis { get; set; }
+
+        public byte _Con { get; set; }
+
+        public byte _Dex { get; set; }
+
+        public sbyte _Ac { get; set; }
+
+        public byte _Mr { get; set; }
+
+        public byte _Dmg { get; set; }
+
+        public byte _Hit { get; set; }
+
+        [JsonIgnore] public byte Str => (byte) (_Str + BonusStr);
+
+        [JsonIgnore] public byte Int => (byte) (_Int + BonusInt);
+
+        [JsonIgnore] public byte Wis => (byte) (_Wis + BonusWis);
+
+        [JsonIgnore] public byte Con => (byte) (_Con + BonusCon);
+
+        [JsonIgnore] public byte Dex => (byte) (_Dex + BonusDex);
+
+        [JsonIgnore] public byte Ac => (byte) (_Ac + BonusAc);
+
+        [JsonIgnore] public byte Mr => (byte) (_Mr + BonusMr);
+
+        [JsonIgnore] public byte Dmg => (byte) (_Dmg + BonusDmg);
+
+        [JsonIgnore] public byte Hit => (byte) (_Hit + BonusHit);
+
+        [JsonIgnore] public byte BonusStr { get; set; }
+
+        [JsonIgnore] public byte BonusInt { get; set; }
+
+        [JsonIgnore] public byte BonusWis { get; set; }
+
+        [JsonIgnore] public byte BonusCon { get; set; }
+
+        [JsonIgnore] public byte BonusDex { get; set; }
+
+        [JsonIgnore] public byte BonusMr { get; set; }
+
+        [JsonIgnore] public sbyte BonusAc { get; set; }
+
+        [JsonIgnore] public byte BonusHit { get; set; }
+
+        [JsonIgnore] public byte BonusDmg { get; set; }
+
+        [JsonIgnore] public int BonusHp { get; set; }
+
+        [JsonIgnore] public int BonusMp { get; set; }
+
+        #endregion
+
+        #region Status
+
+        [JsonIgnore] public bool IsSleeping => HasDebuff("sleep");
+
+        [JsonIgnore] public bool IsFrozen => HasDebuff("frozen");
+
+        [JsonIgnore] public bool IsPoisoned => HasDebuff("poison");
+
+        [JsonIgnore] public bool IsBleeding => HasDebuff("bleeding");
+
+        [JsonIgnore] public bool IsBlind => HasDebuff("blind");
+
+        [JsonIgnore] public bool IsConfused => HasDebuff("confused");
+
+        #endregion
     }
 }

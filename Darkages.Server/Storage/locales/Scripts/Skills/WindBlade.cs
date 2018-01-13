@@ -8,9 +8,8 @@ namespace Darkages.Scripting.Scripts.Skills
     [Script("Wind Blade", "Dean")]
     public class WindBlade : SkillScript
     {
-        public Skill _skill;
-
         private readonly Random rand = new Random();
+        public Skill _skill;
 
         public Sprite Target;
 
@@ -65,10 +64,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         i.Target = client.Aisling;
                         i.ApplyDamage(sprite, dmg, false, Skill.Template.Sound);
 
-                        if (i is Monster)
-                        {
-                            (i as Monster).Target = client.Aisling;
-                        }
+                        if (i is Monster) (i as Monster).Target = client.Aisling;
                         if (i is Aisling)
                         {
                             (i as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
@@ -82,6 +78,7 @@ namespace Darkages.Scripting.Scripts.Skills
                                 new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
                                     Skill.Template.TargetAnimation, 0, 100));
                     }
+
                     client.Aisling.Show(Scope.NearbyAislings, action);
                 }
             }
@@ -121,7 +118,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 if (target is Aisling)
                 {
                     (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
-                        new ServerFormat29((uint)target.Serial, (uint)target.Serial,
+                        new ServerFormat29((uint) target.Serial, (uint) target.Serial,
                             Skill.Template.TargetAnimation, 0, 100));
 
                     var dmg = 1 * sprite.Str * 20 * Skill.Level;

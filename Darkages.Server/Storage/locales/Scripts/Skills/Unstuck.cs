@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Darkages.Scripting;
+﻿using Darkages.Scripting;
 using Darkages.Types;
 
 namespace Darkages.Storage.locales.Scripts.Skills
@@ -13,7 +12,6 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
         public override void OnUse(Sprite sprite)
         {
-
             if (sprite is Aisling)
             {
                 var client = (sprite as Aisling).Client;

@@ -56,6 +56,7 @@
                 writer.Write(X);
                 writer.Write(Y);
             }
+
             if (CasterSerial != 0)
             {
                 writer.Write(TargetSerial);

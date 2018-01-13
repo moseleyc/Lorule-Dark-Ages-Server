@@ -1,17 +1,39 @@
-﻿using Darkages.Common;
-using Darkages.Network;
-using Darkages.Network.ServerFormats;
-using Darkages.Types;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Darkages.Network.ServerFormats;
+using Darkages.Types;
+using Newtonsoft.Json;
 
 namespace Darkages
 {
     public class Aisling : Sprite
     {
+        [JsonIgnore] public int DamageCounter = 0;
+
+        [JsonIgnore] public List<Sprite> ViewFrustrum = new List<Sprite>();
+
+        public Aisling()
+        {
+            OffenseElement = ElementManager.Element.None;
+            DefenseElement = ElementManager.Element.None;
+            Clan = "";
+            Nation = 3;
+            Flags = AislingFlags.Normal;
+            LegendBook = new Legend();
+            ClanTitle = string.Empty;
+            ClanRank = string.Empty;
+            ActiveSpellInfo = null;
+            LoggedIn = false;
+            ActiveStatus = ActivityStatus.Awake;
+            PortalSession = new PortalSession();
+            Quests = new List<Quest>();
+            PartyStatus = GroupStatus.AcceptingRequests;
+            InvitePrivleges = true;
+            LeaderPrivleges = false;
+        }
+
         public int CurrentWeight { get; set; }
         public int MaximumWeight { get; set; }
         public DateTime Created { get; set; }
@@ -57,12 +79,9 @@ namespace Darkages
         public byte Mounted { get; set; }
         public GroupStatus PartyStatus { get; set; }
 
-        [JsonIgnore]
-        public Party GroupParty { get; set; }
+        [JsonIgnore] public Party GroupParty { get; set; }
 
-        [JsonIgnore]
-        [Browsable(false)]
-        public bool IsCastingSpell { get; set; }
+        [JsonIgnore] [Browsable(false)] public bool IsCastingSpell { get; set; }
 
         public SkillBook SkillBook { get; set; }
 
@@ -74,31 +93,23 @@ namespace Darkages
 
         public ActivityStatus ActiveStatus { get; set; }
 
-        [JsonIgnore]
-        public bool Dead => Flags == AislingFlags.Dead;
+        [JsonIgnore] public bool Dead => Flags == AislingFlags.Dead;
 
-        [JsonIgnore]
-        public bool Invisible => Flags == AislingFlags.Invisible;
+        [JsonIgnore] public bool Invisible => Flags == AislingFlags.Invisible;
 
         public byte Blind { get; set; }
-
-        [JsonIgnore]
-        public List<Sprite> ViewFrustrum = new List<Sprite>();
 
         public byte HeadAccessory1 { get; set; }
 
         public byte HeadAccessory2 { get; set; }
 
-        [JsonIgnore]
-        [Browsable(false)]
-        public new Position Position => new Position(X, Y);
+        [JsonIgnore] [Browsable(false)] public new Position Position => new Position(X, Y);
 
         public ClassStage Stage { get; set; }
 
         public Class Path { get; set; }
 
-        [Browsable(false)]
-        public Legend LegendBook { get; set; }
+        [Browsable(false)] public Legend LegendBook { get; set; }
 
         public BodySprite Display { get; set; }
 
@@ -106,50 +117,24 @@ namespace Darkages
 
         public string ClanRank { get; set; }
 
-        [JsonIgnore]
-        public CastInfo ActiveSpellInfo { get; set; }
-
-        [JsonIgnore]
-        public int DamageCounter = 0;
+        [JsonIgnore] public CastInfo ActiveSpellInfo { get; set; }
 
         public List<Quest> Quests { get; set; }
 
-        [JsonIgnore]
-        public List<Aisling> PartyMembers => GroupParty?.Members;
+        [JsonIgnore] public List<Aisling> PartyMembers => GroupParty?.Members;
 
 
         public PortalSession PortalSession { get; set; }
         public Position LastPosition { get; set; }
         public int LastMapId { get; set; }
 
-        [JsonIgnore]
-        public bool LeaderPrivleges { get; set; }
+        [JsonIgnore] public bool LeaderPrivleges { get; set; }
 
-        [JsonIgnore]
-        public bool InvitePrivleges { get; set; }
+        [JsonIgnore] public bool InvitePrivleges { get; set; }
+
         public ushort HeadAccessory3 { get; set; }
         public byte BootColor { get; set; }
         public byte NameColor { get; set; }
-
-        public Aisling()
-        {
-            OffenseElement = ElementManager.Element.None;
-            DefenseElement = ElementManager.Element.None;
-            Clan = "";
-            Nation = 3;
-            Flags = AislingFlags.Normal;
-            LegendBook = new Legend();
-            ClanTitle = string.Empty;
-            ClanRank = string.Empty;
-            ActiveSpellInfo = null;
-            LoggedIn = false;
-            ActiveStatus = ActivityStatus.Awake;
-            PortalSession = new PortalSession();
-            Quests = new List<Quest>();
-            PartyStatus = GroupStatus.AcceptingRequests;
-            InvitePrivleges = true;
-            LeaderPrivleges = false;
-        }
 
         public bool InsideView(Sprite obj)
         {
@@ -166,10 +151,7 @@ namespace Darkages
                         .ToList();
                 }
 
-                if (_view.Where(t => t != null).Any(t => obj.Serial == t.Serial))
-                {
-                    return true;
-                }
+                if (_view.Where(t => t != null).Any(t => obj.Serial == t.Serial)) return true;
             }
             catch (ArgumentException)
             {
@@ -194,7 +176,7 @@ namespace Darkages
 
         public void GoHome()
         {
-            var DestinationMap = ServerContext.Config.TransitionZone; 
+            var DestinationMap = ServerContext.Config.TransitionZone;
 
             if (ServerContext.GlobalMapCache.ContainsKey(DestinationMap))
             {
@@ -213,10 +195,7 @@ namespace Darkages
 
         public void View(Sprite obj)
         {
-            if (!InsideView(obj))
-            {
-                ViewFrustrum.Add(obj);
-            }
+            if (!InsideView(obj)) ViewFrustrum.Add(obj);
         }
 
         public void CastSpell(Spell spell)
@@ -247,7 +226,9 @@ namespace Darkages
                         spell.Script.OnUse(this, target as Mundane);
                 }
                 else
+                {
                     spell.Script.OnUse(this, this);
+                }
             }
             else
             {
@@ -260,7 +241,7 @@ namespace Darkages
 
         public static Aisling Create()
         {
-            var result = new Aisling()
+            var result = new Aisling
             {
                 Created = DateTime.UtcNow,
                 LastLogged = DateTime.UtcNow,
@@ -284,8 +265,8 @@ namespace Darkages
                 ClassID = 0,
                 Stage = ClassStage.Class,
                 Path = Class.Peasant,
-                CurrentHp  = 60,
-                CurrentMp  = 30,
+                CurrentHp = 60,
+                CurrentMp = 30,
                 _MaximumHp = 60,
                 _MaximumMp = 30,
                 _Ac = ServerContext.Config.BaseAC,
@@ -315,7 +296,7 @@ namespace Darkages
                 Inventory = new Inventory(),
                 EquipmentManager = new EquipmentManager(null),
                 NameColor = 1,
-                BootColor = 0,
+                BootColor = 0
             };
 
             foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
@@ -324,42 +305,31 @@ namespace Darkages
             foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
                 Spell.GiveTo(result, spell);
 
-            result.LegendBook.AddLegend(new Legend.LegendItem()
+            result.LegendBook.AddLegend(new Legend.LegendItem
             {
                 Category = "Event",
-                Color = (byte)LegendColor.Green,
-                Icon = (byte)LegendIcon.Victory,
+                Color = (byte) LegendColor.Green,
+                Icon = (byte) LegendIcon.Victory,
                 Value = string.Format("Lorule: VIP {0}", DateTime.UtcNow.ToShortDateString())
             });
 
             if (ServerContext.GlobalMapCache.ContainsKey(result.AreaID))
-            {
                 result.Map = ServerContext.GlobalMapCache[result.AreaID];
-            }
 
             return result;
         }
 
         /// <summary>
-        /// Removes Aisling, Sends Remove packet to nearby aislings
-        /// and removes itself from the ObjectManager.
+        ///     Removes Aisling, Sends Remove packet to nearby aislings
+        ///     and removes itself from the ObjectManager.
         /// </summary>
         public void Remove(bool update = false, bool delete = true)
         {
-            if (Map != null)
-            {
-                Map.Update(X, Y, TileContent.None);
-            }
+            if (Map != null) Map.Update(X, Y, TileContent.None);
 
-            if (update)
-            {
-                Show(Scope.NearbyAislingsExludingSelf, new ServerFormat0E(this.Serial));
-            }
+            if (update) Show(Scope.NearbyAislingsExludingSelf, new ServerFormat0E(Serial));
 
-            if (delete)
-            {
-                DelObject<Aisling>(this);
-            }
+            if (delete) DelObject(this);
         }
 
         public bool HasSkill<T>(SkillScope scope) where T : Template, new()
@@ -367,28 +337,22 @@ namespace Darkages
             var obj = new T();
 
             if (obj is SkillTemplate)
-            {
                 if ((scope & SkillScope.Assail) == SkillScope.Assail)
-                {
                     return SkillBook.Get(i => i != null && i.Template != null
-                            && i.Template.Type == SkillScope.Assail).Length > 0;
-                }
-            }
+                                                        && i.Template.Type == SkillScope.Assail).Length > 0;
 
             return false;
         }
 
 
         /// <summary>
-        /// This Method will return all skills that are assail-like, Assail, Clobber, Ect.
+        ///     This Method will return all skills that are assail-like, Assail, Clobber, Ect.
         /// </summary>
         public Skill[] GetAssails(SkillScope scope)
         {
             if ((scope & SkillScope.Assail) == SkillScope.Assail)
-            {
                 return SkillBook.Get(i => i != null && i.Template != null
-                        && i.Template.Type == SkillScope.Assail).ToArray();
-            }
+                                                    && i.Template.Type == SkillScope.Assail).ToArray();
 
             return null;
         }

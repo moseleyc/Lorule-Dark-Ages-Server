@@ -25,14 +25,17 @@ namespace Darkages.Common
         {
             uint id = 0;
 
-            do
+            lock (Random)
             {
-                if (ServerContext.Config?.UseIncrementalSerials ?? false)
-                    Interlocked.Increment(ref SERIAL);
-                else
-                    id = (uint) Random.Next();
-            } while (GeneratedNumbers
-                .Contains(ServerContext.Config?.UseIncrementalSerials ?? false ? SERIAL : (int) id));
+                do
+                {
+                    if (ServerContext.Config?.UseIncrementalSerials ?? false)
+                        Interlocked.Increment(ref SERIAL);
+                    else
+                        id = (uint) Random.Next();
+                } while (GeneratedNumbers
+                    .Contains(ServerContext.Config?.UseIncrementalSerials ?? false ? SERIAL : (int) id));
+            }
 
             if (ServerContext.Config?.UseIncrementalSerials ?? false)
                 return SERIAL;

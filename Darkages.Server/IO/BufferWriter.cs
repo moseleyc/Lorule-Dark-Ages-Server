@@ -22,18 +22,20 @@ namespace Darkages.IO
             base.Write(ipBuffer[1]);
             base.Write(ipBuffer[0]);
         }
+
         public void WriteStringA(string value)
         {
-            var length = (byte)encoding.GetByteCount(value);
+            var length = (byte) encoding.GetByteCount(value);
 
             base.Write(length);
             base.Write(encoding.GetBytes(value));
         }
+
         public void WriteStringB(string value)
         {
-            var length = (ushort)encoding.GetByteCount(value);
+            var length = (ushort) encoding.GetByteCount(value);
 
-            this.Write(length);
+            Write(length);
             base.Write(encoding.GetBytes(value));
         }
 
@@ -41,40 +43,44 @@ namespace Darkages.IO
         {
             base.Write(encoding.GetBytes(value + '\0'));
         }
+
         public override void Write(short value)
         {
             base.Write(new[]
             {
-                (byte)(value >> 8),
-                (byte)(value)
+                (byte) (value >> 8),
+                (byte) value
             });
         }
+
         public override void Write(ushort value)
         {
             base.Write(new[]
             {
-                (byte)(value >> 8),
-                (byte)(value)
+                (byte) (value >> 8),
+                (byte) value
             });
         }
+
         public override void Write(int value)
         {
             base.Write(new[]
             {
-                (byte)(value >> 24),
-                (byte)(value >> 16),
-                (byte)(value >> 8),
-                (byte)(value)
+                (byte) (value >> 24),
+                (byte) (value >> 16),
+                (byte) (value >> 8),
+                (byte) value
             });
         }
+
         public override void Write(uint value)
         {
             base.Write(new[]
             {
-                (byte)(value >> 24),
-                (byte)(value >> 16),
-                (byte)(value >> 8),
-                (byte)(value)
+                (byte) (value >> 24),
+                (byte) (value >> 16),
+                (byte) (value >> 8),
+                (byte) value
             });
         }
     }

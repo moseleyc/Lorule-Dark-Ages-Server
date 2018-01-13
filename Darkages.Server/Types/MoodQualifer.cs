@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Darkages.Types
+﻿namespace Darkages.Types
 {
     public enum MoodQualifer
     {

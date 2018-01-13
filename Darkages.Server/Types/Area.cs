@@ -1,15 +1,14 @@
-﻿using Darkages.Common;
-using Darkages.Network.Game;
-using Darkages.Network.Object;
-using Darkages.Network.ServerFormats;
-using Darkages.Scripting;
-using Darkages.Types;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Darkages.Common;
+using Darkages.Network.Game;
+using Darkages.Network.Object;
+using Darkages.Network.ServerFormats;
+using Darkages.Types;
+using Newtonsoft.Json;
 
 namespace Darkages
 {
@@ -17,42 +16,36 @@ namespace Darkages
     {
         [JsonIgnore] private static readonly byte[] sotp = File.ReadAllBytes("sotp.dat");
 
-        [Browsable(false)]
-        public byte[] Data { get; set; }
+        [Browsable(false)] public ushort Hash;
 
-        [Browsable(false)]
-        public ushort Hash;
+        [JsonIgnore] [Browsable(false)] private TileContent[,] Tile;
 
-        [JsonIgnore]
-        [Browsable(false)]
-        private TileContent[,] Tile;
+        [JsonIgnore] [Browsable(false)] private readonly GameServerTimer WarpTimer =
+            new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.WarpUpdateTimer));
+
+        [Browsable(false)] public byte[] Data { get; set; }
 
         public int Music { get; set; }
 
-        [JsonIgnore]
-        [Browsable(false)]
-        public bool Ready { get; set; }
+        [JsonIgnore] [Browsable(false)] public bool Ready { get; set; }
 
-        [JsonRequired]
-        public ushort Rows { get; set; }
+        [JsonRequired] public ushort Rows { get; set; }
 
-        [JsonRequired]
-        public ushort Cols { get; set; }
+        [JsonRequired] public ushort Cols { get; set; }
 
-        [JsonRequired]
-        public int Number { get; set; }
+        [JsonRequired] public int Number { get; set; }
 
         public int ID { get; set; }
         public string Name { get; set; }
         public MapFlags Flags { get; set; }
 
-        [JsonIgnore]
-        [Browsable(false)]
-        public bool Sent { get; set; }
+        [JsonIgnore] [Browsable(false)] public bool Sent { get; set; }
 
-        [JsonIgnore] [Browsable(false)]
-        private GameServerTimer WarpTimer =
-            new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.WarpUpdateTimer));
+        public TileContent this[int x, int y]
+        {
+            get => Tile[x, y];
+            set => Update(x, y, value);
+        }
 
 
         public void Update(int x, int y, TileContent value)
@@ -61,12 +54,6 @@ namespace Darkages
             {
                 Tile[x, y] = value;
             }
-        }
-
-        public TileContent this[int x, int y]
-        {
-            get => Tile[x, y];
-            set => Update(x, y, value);
         }
 
         public static bool ParseSotp(short lWall, short rWall)
@@ -93,10 +80,7 @@ namespace Darkages
 
             if (obj is Aisling)
             {
-                if (((Aisling)obj).Flags.HasFlag(AislingFlags.GM))
-                {
-                    return false;
-                }
+                if (((Aisling) obj).Flags.HasFlag(AislingFlags.GM)) return false;
 
                 SetWarps();
 
@@ -105,7 +89,8 @@ namespace Darkages
 
                 var isobj = this[x, y];
 
-                if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(i => i != null && i.X == x && i.Y == y,
+                if (isobj == TileContent.Monster || isobj == TileContent.Aisling && GetObject(
+                        i => i != null && i.X == x && i.Y == y,
                         Get.Aislings | Get.Monsters | Get.Mundanes) == null)
                 {
                     this[x, y] = isobj == TileContent.Wall
@@ -121,10 +106,8 @@ namespace Darkages
             }
 
             if (obj is Monster)
-            {
-                if (((Monster)obj).Template.IgnoreCollision)
+                if (((Monster) obj).Template.IgnoreCollision)
                     return false;
-            }
 
 
             foreach (var nobj in GetObjects(i => i != null && i.X == x && i.Y == y,
@@ -209,7 +192,7 @@ namespace Darkages
                 if (!warp.Activations.Any())
                     continue;
 
-                var nearby = GetObjects<Aisling>(i => 
+                var nearby = GetObjects<Aisling>(i =>
                     i.LoggedIn && i.CurrentMapId == warp.ActivationMapId);
 
                 if (nearby.Length == 0)
@@ -217,17 +200,11 @@ namespace Darkages
 
 
                 foreach (var warpObj in warp.Activations)
-                {
-                    foreach (var obj in nearby)
-                    {
-                        if (obj.Position.WithinSquare(warpObj.Location, 10))
-                        {
-                            obj.Show(Scope.Self, new ServerFormat29(
-                                ServerContext.Config.WarpAnimationNumber, 
-                                warpObj.Location.X, warpObj.Location.Y));
-                        }
-                    }
-                }
+                foreach (var obj in nearby)
+                    if (obj.Position.WithinSquare(warpObj.Location, 10))
+                        obj.Show(Scope.Self, new ServerFormat29(
+                            ServerContext.Config.WarpAnimationNumber,
+                            warpObj.Location.X, warpObj.Location.Y));
             }
         }
 
@@ -308,53 +285,48 @@ namespace Darkages
             var result = new List<Position>();
 
             for (var j = 0; y < Rows; y++)
-                for (var i = 0; x < Cols; x++)
-                {
+            for (var i = 0; x < Cols; x++)
+            {
+                var xDist = Math.Abs(x - i);
+                var yDist = Math.Abs(y - j);
 
-                    var xDist = Math.Abs(x - i);
-                    var yDist = Math.Abs(y - j);
-
-                    if (xDist > radius || yDist > radius)
-                        continue;
-                    if (xDist > innerBound || yDist > innerBound)
-                        continue;
-                    if (IsWall(obj, i, j))
-                        continue;
-                    if (i == x && j == y)
-                        continue;
+                if (xDist > radius || yDist > radius)
+                    continue;
+                if (xDist > innerBound || yDist > innerBound)
+                    continue;
+                if (IsWall(obj, i, j))
+                    continue;
+                if (i == x && j == y)
+                    continue;
 
 
-                    if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
-                        && this[i, j] == TileContent.None)
-                        result.Add(new Position(i, j));
-                }
+                if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
+                    && this[i, j] == TileContent.None)
+                    result.Add(new Position(i, j));
+            }
 
             return result.ToArray();
         }
 
         public void OnLoaded()
         {
-
             Tile = new TileContent[Cols, Rows];
 
             using (var stream = new MemoryStream(Data))
             {
                 using (var reader = new BinaryReader(stream))
                 {
-                    for (int y = 0; y < Rows; y++)
+                    for (var y = 0; y < Rows; y++)
+                    for (var x = 0; x < Cols; x++)
                     {
-                        for (int x = 0; x < Cols; x++)
-                        {
+                        reader.BaseStream.Seek(2, SeekOrigin.Current);
 
-                            reader.BaseStream.Seek(2, SeekOrigin.Current);
-
-                            if (ParseSotp(reader.ReadInt16(), reader.ReadInt16()))
-                                this[x, y] = TileContent.Wall;
-                            else
-                                this[x, y] = TileContent.None;
-
-                        }
+                        if (ParseSotp(reader.ReadInt16(), reader.ReadInt16()))
+                            this[x, y] = TileContent.Wall;
+                        else
+                            this[x, y] = TileContent.None;
                     }
+
                     SetWarps();
                 }
             }
@@ -364,7 +336,6 @@ namespace Darkages
 
         private void SetWarps()
         {
-
             var warps = ServerContext.GlobalWarpTemplateCache
                 .Where(i => i.ActivationMapId == ID).ToArray();
 
@@ -372,35 +343,21 @@ namespace Darkages
                 return;
 
             foreach (var warp in warps)
-            {
-                foreach (var o in warp.Activations)
-                {
-                    if (warp.WarpType == WarpType.Map)
-                    {
-                        this[o.Location.X, o.Location.Y] = TileContent.Warp;
-                    }
-                }
-            }
-
+            foreach (var o in warp.Activations)
+                if (warp.WarpType == WarpType.Map)
+                    this[o.Location.X, o.Location.Y] = TileContent.Warp;
         }
 
         public Position FindNearestEmpty(Position aislingPosition)
         {
             var positions = new List<Position>();
 
-            for (int y = 0; y < Rows; y++)
-            {
-                for (int x = 0; x < Cols; x++)
-                {
-
-                    if (this[x, y] == TileContent.None
-                        || this[x, y] == TileContent.Money
-                        || this[x, y] == TileContent.Item)
-                    {
-                        positions.Add(new Position(x, y));
-                    }
-                }
-            }
+            for (var y = 0; y < Rows; y++)
+            for (var x = 0; x < Cols; x++)
+                if (this[x, y] == TileContent.None
+                    || this[x, y] == TileContent.Money
+                    || this[x, y] == TileContent.Item)
+                    positions.Add(new Position(x, y));
 
             return positions.OrderBy(i => i.DistanceFrom(aislingPosition))
                 .FirstOrDefault();

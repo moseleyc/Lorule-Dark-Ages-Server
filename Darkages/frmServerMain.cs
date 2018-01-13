@@ -1,13 +1,13 @@
-﻿using Darkages.Network.Game;
-using Darkages.Storage;
-using Darkages.Types;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Darkages.Storage;
+using Darkages.Types;
+using Newtonsoft.Json;
 using ZTn.Json.JsonTreeView;
 using ZTn.Json.JsonTreeView.Controls;
 using static Darkages.Network.Object.ObjectManager;
@@ -16,15 +16,15 @@ namespace Darkages
 {
     public partial class frmServerMain : Form
     {
-        private JTokenTreeUserControl _configtree;
         private static Instance _proxy = new Instance();
+        private JTokenTreeUserControl _configtree;
 
         public frmServerMain()
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
         }
-    
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -36,22 +36,20 @@ namespace Darkages
                 Enabled = true
             };
 
-            BackColor = System.Drawing.Color.White;
-            ForeColor = System.Drawing.Color.Blue;
+            BackColor = Color.White;
+            ForeColor = Color.Blue;
 
             foreach (Control c in Controls)
             {
-                c.BackColor = System.Drawing.Color.White;
-                c.ForeColor = System.Drawing.Color.Blue;
+                c.BackColor = Color.White;
+                c.ForeColor = Color.Blue;
 
                 if (c.Controls.Count > 0)
-                {
                     foreach (Control cc in c.Controls)
                     {
-                        cc.BackColor = System.Drawing.Color.White;
-                        cc.ForeColor = System.Drawing.Color.Blue;
+                        cc.BackColor = Color.White;
+                        cc.ForeColor = Color.Blue;
                     }
-                }
             }
 
             _configtree.AfterSelect += _configtree_AfterSelect;
@@ -73,8 +71,6 @@ namespace Darkages
 
             if (!textBox1.Focused)
                 textBox1.Text = eventArgs.GetJsonString();
-
-
         }
 
         private void monsterTemplateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -87,7 +83,7 @@ namespace Darkages
                         .ToList()),
 
                 SkillScripts = new Collection<string>(ServerContext.GlobalSkillTemplateCache.Keys
-                        .ToList()),
+                    .ToList())
             });
             objCreateWindow.ShowDialog();
         }
@@ -274,7 +270,6 @@ namespace Darkages
                 textBox1.Visible = false;
                 button4.Visible = false;
                 button3.Text = "Stop Server";
-
             }
             else
             {
@@ -348,19 +343,8 @@ namespace Darkages
             MessageBox.Show("Server must be running first.");
         }
 
-        public class Instance : ServerContext
-        {
-            public Instance()
-            {
-                LoadConstants();
-            }
-
-            public bool IsRunning => Running;
-        }
-
         private void loadTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -370,7 +354,6 @@ namespace Darkages
 
         private void button6_Click(object sender, EventArgs e)
         {
-
         }
 
         private void everythingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -378,9 +361,17 @@ namespace Darkages
             if (_proxy != null && _proxy.IsRunning)
             {
                 _proxy.Flush();
-                return;
+            }
+        }
+
+        public class Instance : ServerContext
+        {
+            public Instance()
+            {
+                LoadConstants();
             }
 
+            public bool IsRunning => Running;
         }
     }
 }

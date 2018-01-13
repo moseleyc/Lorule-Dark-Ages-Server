@@ -12,10 +12,10 @@ namespace Darkages.Storage
 
         static TemplateStorage()
         {
-            if (ServerContext.STORAGE_PATH == null)
+            if (ServerContext.StoragePath == null)
                 ServerContext.LoadConstants();
 
-            StoragePath = $@"{ServerContext.STORAGE_PATH}\templates";
+            StoragePath = $@"{ServerContext.StoragePath}\templates";
 
             var tmp = new T();
 
@@ -107,7 +107,6 @@ namespace Darkages.Storage
 
                     Console.WriteLine(" -> {0} Loaded From {1}", template.Name, Path.GetFileName(asset));
                 }
-
             }
         }
 
@@ -139,11 +138,11 @@ namespace Darkages.Storage
 
         public FileInfo MakeUnique(string path)
         {
-            string dir = Path.GetDirectoryName(path);
-            string fileName = Path.GetFileNameWithoutExtension(path);
-            string fileExt = Path.GetExtension(path);
+            var dir = Path.GetDirectoryName(path);
+            var fileName = Path.GetFileNameWithoutExtension(path);
+            var fileExt = Path.GetExtension(path);
 
-            for (int i = 1; ; ++i)
+            for (var i = 1;; ++i)
             {
                 if (!File.Exists(path))
                     return new FileInfo(path);

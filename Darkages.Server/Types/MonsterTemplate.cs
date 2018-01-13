@@ -1,13 +1,14 @@
-﻿using Darkages.Network.Game;
-using Newtonsoft.Json;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Darkages.Types
 {
     public class MonsterTemplate : Template
     {
+        [JsonProperty] [Description("What Drops?")]
+        public Collection<string> Drops = new Collection<string>();
+
         [Description("Template ID. Must be Unique.")]
         public int ID { get; set; }
 
@@ -26,8 +27,7 @@ namespace Darkages.Types
         [Description("Leave empty unless SpawnQualifer = Defined.")]
         public ushort DefinedY { get; set; }
 
-        [Description("Scaling Exponent")]
-        public double Exponent { get; set; }
+        [Description("Scaling Exponent")] public double Exponent { get; set; }
 
         public LootQualifer LootType { get; set; }
 
@@ -86,8 +86,5 @@ namespace Darkages.Types
         public ElementManager.Element DefenseElement { get; set; }
 
         public ElementManager.Element OffenseElement { get; set; }
-
-        [JsonProperty] [Description("What Drops?")]
-        public Collection<string> Drops = new Collection<string>();
     }
 }

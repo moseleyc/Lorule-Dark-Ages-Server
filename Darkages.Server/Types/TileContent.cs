@@ -9,6 +9,6 @@
         Wall,
         Warp,
         Item,
-        Money,
+        Money
     }
 }

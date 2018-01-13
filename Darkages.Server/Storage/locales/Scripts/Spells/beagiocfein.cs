@@ -56,7 +56,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                             var hpbar = new ServerFormat13
                             {
                                 Serial = obj.Serial,
-                                Health = (ushort)(100 * obj.CurrentHp / obj.MaximumHp),
+                                Health = (ushort) (100 * obj.CurrentHp / obj.MaximumHp),
                                 Sound = 8
                             };
                             obj.Show(Scope.NearbyAislings, hpbar);
@@ -64,7 +64,6 @@ namespace Darkages.Storage.locales.Scripts.Spells
 
                         obj.Client.SendStats(StatusFlags.StructB);
                         client.SendAnimation(0x04, obj, client.Aisling);
-
                     }
 
                     client.Aisling.Show(Scope.NearbyAislings, action);

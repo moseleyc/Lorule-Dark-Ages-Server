@@ -16,7 +16,7 @@ namespace Darkages.Scripting
         public Mundane Mundane { get; set; }
 
         public abstract void OnClick(GameServer server, GameClient client);
-        public abstract void OnResponse(GameServer server, GameClient client, ushort responseID, string  args);
+        public abstract void OnResponse(GameServer server, GameClient client, ushort responseID, string args);
         public abstract void OnGossip(GameServer server, GameClient client, string message);
         public abstract void TargetAcquired(Sprite Target);
     }

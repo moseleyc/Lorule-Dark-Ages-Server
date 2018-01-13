@@ -15,12 +15,8 @@ namespace Darkages.Storage
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             ObjectCreationHandling = ObjectCreationHandling.Auto,
             Formatting = Formatting.Indented,
-            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         };
-
-        static StorageManager()
-        {
-        }
 
         public static AislingStorage AislingBucket = new AislingStorage();
         public static AreaStorage AreaBucket = new AreaStorage();
@@ -32,6 +28,10 @@ namespace Darkages.Storage
         public static TemplateStorage<MonsterTemplate> MonsterBucket = new TemplateStorage<MonsterTemplate>();
         public static TemplateStorage<MundaneTemplate> MundaneBucket = new TemplateStorage<MundaneTemplate>();
         public static TemplateStorage<WorldMapTemplate> WorldMapBucket = new TemplateStorage<WorldMapTemplate>();
+
+        static StorageManager()
+        {
+        }
 
         public static T LoadFrom<T>(string path) where T : Template
         {
@@ -59,7 +59,7 @@ namespace Darkages.Storage
 
                 if (obj is ServerConstants)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\darkages_config";
+                    var StoragePath = $@"{ServerContext.StoragePath}\darkages_config";
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "global"));
 
                     if (!File.Exists(path))
@@ -74,7 +74,7 @@ namespace Darkages.Storage
 
                 if (obj is GameServer)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\context";
+                    var StoragePath = $@"{ServerContext.StoragePath}\context";
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "context"));
 
                     if (!File.Exists(path))
@@ -83,14 +83,14 @@ namespace Darkages.Storage
                     using (var s = File.OpenRead(path))
                     using (var f = new StreamReader(s))
                     {
-                        var objd = (GameServer)JsonConvert.DeserializeObject<GameServer>(f.ReadToEnd(), Settings);
+                        var objd = JsonConvert.DeserializeObject<GameServer>(f.ReadToEnd(), Settings);
                         return objd as T;
                     }
                 }
 
                 if (obj is ObjectService)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\states";
+                    var StoragePath = $@"{ServerContext.StoragePath}\states";
                     var path = Path.Combine(StoragePath, string.Format("{0}.json", "state_objcache"));
 
                     if (!File.Exists(path))
@@ -117,7 +117,7 @@ namespace Darkages.Storage
             {
                 if (obj is ServerConstants)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\darkages_config";
+                    var StoragePath = $@"{ServerContext.StoragePath}\darkages_config";
 
                     if (!Directory.Exists(StoragePath))
                         Directory.CreateDirectory(StoragePath);
@@ -131,7 +131,7 @@ namespace Darkages.Storage
 
                 if (obj is ObjectService)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\states";
+                    var StoragePath = $@"{ServerContext.StoragePath}\states";
 
                     if (!Directory.Exists(StoragePath))
                         Directory.CreateDirectory(StoragePath);
@@ -145,7 +145,7 @@ namespace Darkages.Storage
 
                 if (obj is GameServer)
                 {
-                    var StoragePath = $@"{ServerContext.STORAGE_PATH}\context";
+                    var StoragePath = $@"{ServerContext.StoragePath}\context";
 
                     if (!Directory.Exists(StoragePath))
                         Directory.CreateDirectory(StoragePath);

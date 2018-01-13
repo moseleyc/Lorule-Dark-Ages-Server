@@ -8,9 +8,8 @@ namespace Darkages.Scripting.Scripts.Skills
     [Script("Double Punch", "Dean")]
     public class DoublePunch : SkillScript
     {
-        public Skill _skill;
-
         private readonly Random rand = new Random();
+        public Skill _skill;
 
         public Sprite Target;
 
@@ -64,10 +63,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         var dmg = (client.Aisling.Str + client.Aisling.Dex) * Skill.Level;
                         i.ApplyDamage(sprite, dmg, false, Skill.Template.Sound);
 
-                        if (i is Monster)
-                        {
-                            (i as Monster).Target = client.Aisling;
-                        }
+                        if (i is Monster) (i as Monster).Target = client.Aisling;
 
                         if (i is Aisling)
                         {
@@ -76,11 +72,13 @@ namespace Darkages.Scripting.Scripts.Skills
                                     Skill.Template.TargetAnimation, 100));
                             (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                         }
+
                         if (i is Monster || i is Mundane || i is Aisling)
                             client.Aisling.Show(Scope.NearbyAislings,
                                 new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
                                     Skill.Template.TargetAnimation, 0, 100));
                     }
+
                 client.Aisling.Show(Scope.NearbyAislings, action);
             }
         }

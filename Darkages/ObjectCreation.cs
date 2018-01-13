@@ -49,10 +49,10 @@ namespace Darkages
 
                 try
                 {
-                    if (!Directory.Exists(ServerContext.STORAGE_PATH + "\\maps"))
-                        Directory.CreateDirectory(ServerContext.STORAGE_PATH + "\\maps");
+                    if (!Directory.Exists(ServerContext.StoragePath + "\\maps"))
+                        Directory.CreateDirectory(ServerContext.StoragePath + "\\maps");
 
-                    var mapFile = Directory.GetFiles($@"{ServerContext.STORAGE_PATH}\maps", $"lor{template.ID}.map",
+                    var mapFile = Directory.GetFiles($@"{ServerContext.StoragePath}\maps", $"lor{template.ID}.map",
                         SearchOption.TopDirectoryOnly).FirstOrDefault();
 
                     redo:
@@ -78,7 +78,7 @@ namespace Darkages
                             {
                                 mapFile = fod.FileName;
 
-                                var file = ServerContext.STORAGE_PATH + "\\maps\\" + Path.GetFileName(mapFile);
+                                var file = ServerContext.StoragePath + "\\maps\\" + Path.GetFileName(mapFile);
                                 if (!File.Exists(file))
                                 {
                                     Console.WriteLine("Copying over map file to storage....");

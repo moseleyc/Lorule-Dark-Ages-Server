@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Darkages.IO;
-using Darkages.Scripting;
-using Newtonsoft.Json;
+﻿using System.IO;
 using Darkages.Types;
+using Newtonsoft.Json;
 
 namespace Darkages.Storage
 {
@@ -14,10 +10,10 @@ namespace Darkages.Storage
 
         static WarpStorage()
         {
-            if (ServerContext.STORAGE_PATH == null)
+            if (ServerContext.StoragePath == null)
                 ServerContext.LoadConstants();
 
-            StoragePath = $@"{ServerContext.STORAGE_PATH}\templates\warps";
+            StoragePath = $@"{ServerContext.StoragePath}\templates\warps";
 
             if (!Directory.Exists(StoragePath))
                 Directory.CreateDirectory(StoragePath);
@@ -54,7 +50,7 @@ namespace Darkages.Storage
             foreach (var area in area_names)
             {
                 var obj = StorageManager.WarpBucket.Load(Path.GetFileNameWithoutExtension(area));
-                ServerContext.GlobalWarpTemplateCache.Add(obj);                
+                ServerContext.GlobalWarpTemplateCache.Add(obj);
             }
         }
     }

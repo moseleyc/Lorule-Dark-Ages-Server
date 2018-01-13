@@ -67,10 +67,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                         ((Aisling) sprite).Client.SendStats(StatusFlags.StructB);
 
 
-                        if (i is Monster)
-                        {
-                            (i as Monster).Target = client.Aisling;
-                        }
+                        if (i is Monster) (i as Monster).Target = client.Aisling;
 
                         if (i is Aisling)
                         {
@@ -79,11 +76,13 @@ namespace Darkages.Storage.locales.Scripts.Skills
                                     Skill.Template.TargetAnimation, 100));
                             (i as Aisling).Client.Send(new ServerFormat08(i as Aisling, StatusFlags.All));
                         }
+
                         if (i is Monster || i is Mundane || i is Aisling)
                             client.Aisling.Show(Scope.NearbyAislings,
                                 new ServerFormat29((uint) client.Aisling.Serial, (uint) i.Serial,
                                     Skill.Template.TargetAnimation, 0, 100));
                     }
+
                     client.Aisling.Show(Scope.NearbyAislings, action);
                 }
             }
@@ -123,7 +122,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                 if (target is Aisling)
                 {
                     (target as Aisling).Client.Aisling.Show(Scope.NearbyAislings,
-                        new ServerFormat29((uint)target.Serial, (uint)target.Serial,
+                        new ServerFormat29((uint) target.Serial, (uint) target.Serial,
                             Skill.Template.TargetAnimation, 0, 100));
 
                     var dmg = Convert.ToInt32(target.CurrentHp / 3);

@@ -1,9 +1,8 @@
-﻿using Darkages.Network.Object;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Darkages.Network.Game;
+using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 
 namespace Darkages.Types
@@ -16,22 +15,31 @@ namespace Darkages.Types
 
         public Inventory()
         {
-            for (int i = 0; i < LENGTH; i++)
-            {
-                Items[i + 1] = null;
-            }
+            for (var i = 0; i < LENGTH; i++) Items[i + 1] = null;
         }
+
+
+        public int Length => Items.Count;
 
         public Item FindInSlot(int Slot)
         {
             return Items[Slot];
         }
 
+        public void Assign(Item Item)
+        {
+            Set(Item);
+        }
 
-        public int Length => Items.Count;
-        public void Assign(Item Item) => Set(Item);
-        public new Item[] Get(Predicate<Item> prediate) => this.Items.Values.Where(i => i != null && prediate(i)).ToArray();
-        public void Set(Item s) => Items[s.Slot] = Clone<Item>(s);
+        public new Item[] Get(Predicate<Item> prediate)
+        {
+            return Items.Values.Where(i => i != null && prediate(i)).ToArray();
+        }
+
+        public void Set(Item s)
+        {
+            Items[s.Slot] = Clone(s);
+        }
 
         public byte FindEmpty()
         {
@@ -48,7 +56,10 @@ namespace Darkages.Types
             return 0;
         }
 
-        public void Set(Item s, bool clone = false) => Items[s.Slot] = (clone == true) ? Clone<Item>(s) : s;
+        public void Set(Item s, bool clone = false)
+        {
+            Items[s.Slot] = clone ? Clone(s) : s;
+        }
 
         public Item Remove(byte movingFrom)
         {
@@ -65,7 +76,7 @@ namespace Darkages.Types
             return items.Sum(i => i.Stacks);
         }
 
-        public void RemoveRange(GameClient client,  Item item, int range)
+        public void RemoveRange(GameClient client, Item item, int range)
         {
             var remaining = item.Stacks - range;
 
@@ -81,9 +92,9 @@ namespace Darkages.Types
 
                 client.SendStats(StatusFlags.StructA);
             }
-            else 
+            else
             {
-                item.Stacks = (byte)remaining;
+                item.Stacks = (byte) remaining;
                 client.Aisling.Inventory.Set(item, false);
 
                 client.Send(new ServerFormat0F(item));

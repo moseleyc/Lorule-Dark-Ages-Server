@@ -9,6 +9,6 @@ namespace Darkages.Types
         Int = 0x04,
         Wis = 0x08,
         Con = 0x10,
-        Dex = 0x02      
+        Dex = 0x02
     }
 }

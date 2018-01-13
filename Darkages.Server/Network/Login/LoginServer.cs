@@ -93,7 +93,6 @@ namespace Darkages.Network.Login
                         client.SendMessageBox(0x02, "Incorrect Password bud.");
                         return;
                     }
-                    _aisling = null;
                 }
                 else
                 {
@@ -127,7 +126,7 @@ namespace Darkages.Network.Login
             client.SendMessageBox(0x00, "\0");
             client.Send(new ServerFormat03
             {
-                EndPoint = new IPEndPoint(Address, ServerContext.DEFAULT_PORT),
+                EndPoint = new IPEndPoint(Address, ServerContext.DefaultPort),
                 Redirect = redirect
             });
         }
@@ -147,15 +146,14 @@ namespace Darkages.Network.Login
         {
             var redirect = ServerContext.GlobalRedirects.FirstOrDefault(o => o.Serial == format.Id);
 
-            if (redirect.Type == 2)
-                ServerContext.Game.RemoveClient(redirect.Client);
-
             if (redirect == null)
             {
                 ClientDisconnected(client);
                 return;
             }
 
+            if (redirect.Type == 2)
+                ServerContext.Game.RemoveClient(redirect.Client);
 
             client.Encryption.Parameters = new SecurityParameters(redirect.Seed, redirect.Salt);
             client.Send(new ServerFormat60
@@ -165,8 +163,10 @@ namespace Darkages.Network.Login
             });
             ServerContext.GlobalRedirects.Remove(redirect);
 
-            client.SendPacket(new byte[] {
-                    0x19, 0x00, 0xFF, 0x31 });
+            client.SendPacket(new byte[]
+            {
+                0x19, 0x00, 0xFF, 0x31
+            });
         }
 
         /// <summary>

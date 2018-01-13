@@ -47,8 +47,8 @@ namespace Darkages.Network.Game
 
         public bool IsDead()
         {
-            return Aisling != null && (Aisling.Flags.HasFlag(AislingFlags.Dead))
-                || (Aisling.CurrentHp == 0);
+            return Aisling != null && Aisling.Flags.HasFlag(AislingFlags.Dead)
+                   || Aisling.CurrentHp == 0;
         }
 
         public bool CanSeeGhosts()
@@ -79,7 +79,7 @@ namespace Darkages.Network.Game
 
                 if (Aisling.Map.ID != warps.To.AreaID)
                 {
-                    LeaveArea(true, false);
+                    LeaveArea(true);
                     Aisling.Map = ServerContext.GlobalMapCache[warps.To.AreaID];
                     Aisling.X = warps.To.Location.X;
                     Aisling.Y = warps.To.Location.Y;
@@ -90,7 +90,7 @@ namespace Darkages.Network.Game
                 }
                 else
                 {
-                    LeaveArea(true, false);
+                    LeaveArea(true);
                     Aisling.X = warps.To.Location.X;
                     Aisling.Y = warps.To.Location.Y;
                     EnterArea();
@@ -101,7 +101,7 @@ namespace Darkages.Network.Game
 
         public void CloseDialog()
         {
-            SendPacket(new byte[] { (byte)0x30, 0x00, 0x0A, 0x00 });
+            SendPacket(new byte[] {0x30, 0x00, 0x0A, 0x00});
         }
 
         public void Update(TimeSpan elapsedTime)
@@ -434,15 +434,15 @@ namespace Darkages.Network.Game
             SendLocation();
             UpdateDisplay();
             RefreshObjects();
-
-
         }
 
         public void SendMusic()
         {
-            Aisling.Client.SendPacket(new byte[] {
-                    0x19, 0x00, 0xFF,
-                    (byte)Aisling.Map.Music });
+            Aisling.Client.SendPacket(new byte[]
+            {
+                0x19, 0x00, 0xFF,
+                (byte) Aisling.Map.Music
+            });
         }
 
         public void Insert()
@@ -648,14 +648,14 @@ namespace Darkages.Network.Game
 
         public void SendProfileUpdate()
         {
-            SendPacket(new byte[] { 73, 0x00 });
+            SendPacket(new byte[] {73, 0x00});
         }
 
         public void TrainSpell(Spell spell)
         {
             if (spell.Level < spell.Template.MaxLevel)
             {
-                var toImprove = (int)(0.10 / spell.Template.LevelRate);
+                var toImprove = (int) (0.10 / spell.Template.LevelRate);
                 if (spell.Casts++ >= toImprove)
                 {
                     spell.Level++;
@@ -670,7 +670,7 @@ namespace Darkages.Network.Game
         {
             if (skill.Level < skill.Template.MaxLevel)
             {
-                var toImprove = (int)(0.10 / skill.Template.LevelRate);
+                var toImprove = (int) (0.10 / skill.Template.LevelRate);
                 if (skill.Uses++ >= toImprove)
                 {
                     skill.Level++;
@@ -678,18 +678,18 @@ namespace Darkages.Network.Game
                     Send(new ServerFormat2C(skill.Slot, skill.Icon, skill.Name));
 
                     SendMessage(0x02, string.Format("{0} has improved. (Lv. {1})",
-                        skill.Template.Name, 
+                        skill.Template.Name,
                         skill.Level));
                 }
 
-                Send(new ServerFormat3F((byte)skill.Template.Pane,
+                Send(new ServerFormat3F((byte) skill.Template.Pane,
                     skill.Slot,
                     skill.Template.Cooldown));
             }
         }
 
         /// <summary>
-        /// Stop and Interupt everything this client is doing.
+        ///     Stop and Interupt everything this client is doing.
         /// </summary>
         public void Interupt()
         {
