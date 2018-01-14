@@ -139,6 +139,7 @@
     <Compile Include="Network\Game\GameServerHandlers.cs" />
     <Compile Include="Network\Game\GameServerTimer.cs" />
     <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\ServerFormats\ServerFormat31.cs" />
     <Compile Include="ServerConstants.cs" />
     <Compile Include="Network\IFormattable.cs" />
     <Compile Include="Network\IPAttribute.cs" />
@@ -368,6 +369,7 @@
     <Compile Include="Types\ElementQualifer.cs" />
     <Compile Include="Types\EquipmentManager.cs" />
     <Compile Include="Types\EquipmentSlot.cs" />
+    <Compile Include="Types\Forum.cs" />
     <Compile Include="Types\Gender.cs" />
     <Compile Include="Types\GroupStatus.cs" />
     <Compile Include="Types\Inventory.cs" />

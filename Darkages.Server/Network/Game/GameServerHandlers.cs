@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Darkages.Common;
@@ -122,7 +123,7 @@ namespace Darkages.Network.Game
             client.Aisling._Ac = ServerContext.Config.BaseAC;
             client.Aisling.EquipmentManager.Client = client;
             client.Aisling.CurrentWeight = 0;
-            client.Aisling.MaximumWeight = (int) (client.Aisling.Str * ServerContext.Config.WeightIncreaseModifer);
+            client.Aisling.MaximumWeight = (int) (client.Aisling._Str * ServerContext.Config.WeightIncreaseModifer);
             client.Aisling.ActiveStatus = ActivityStatus.Awake;
             client.Aisling.InvitePrivleges = true;
             client.Aisling.LeaderPrivleges = false;
@@ -799,7 +800,30 @@ namespace Darkages.Network.Game
 
         protected override void Format3BHandler(GameClient client, ClientFormat3B format)
         {
-            client.SendMessageBox(0x00, "\0");
+            if (format.Type == 0x01)
+            {
+                client.Send(new ServerFormat31(ServerContext.GlobalBoardCache[0]));
+            }
+
+            if (format.Type == 0x02)
+            {
+                var postIdx = format.BoardIndex;
+                var topic = ServerContext.GlobalBoardCache[0].Topics.Find(i => i.Number == postIdx);
+
+                client.Send(new ServerFormat31(topic));
+                return;
+            }
+
+            if (format.Type == 0x03)
+            {
+                var Post_id   = format.TopicIndex;
+                var Topic_id  = format.BoardIndex;
+
+                //todo: display posts.
+
+                return;
+            }
+
         }
 
         /// <summary>
@@ -1397,7 +1421,7 @@ namespace Darkages.Network.Game
                 client.Aisling.StatPoints = 0;
 
 
-            client.Aisling.MaximumWeight = (int) (client.Aisling.Str * ServerContext.Config.WeightIncreaseModifer);
+            client.Aisling.MaximumWeight = (int) (client.Aisling._Str * ServerContext.Config.WeightIncreaseModifer);
             client.Aisling.Show(Scope.Self, new ServerFormat08(client.Aisling, StatusFlags.All));
         }
 

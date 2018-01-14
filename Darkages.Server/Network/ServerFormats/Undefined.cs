@@ -111,9 +111,7 @@
     //public class ServerFormat2E { } Added (Load Map/Image)
     //public class ServerFormat2F { } Added (Mundane Dialog A)
     //public class ServerFormat30 { }
-    public class ServerFormat31
-    {
-    }
+    //public class ServerFormat31 { } // Added Forum
 
     //public class ServerFormat32 { }
     //public class ServerFormat33 { } Added (Aisling)

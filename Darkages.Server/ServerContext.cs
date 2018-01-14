@@ -48,6 +48,9 @@ namespace Darkages
         public static Dictionary<int, WorldMapTemplate> GlobalWorldMapTemplateCache =
             new Dictionary<int, WorldMapTemplate>();
 
+        public static Dictionary<int, Forum> GlobalBoardCache =
+            new Dictionary<int, Forum>();
+
 
         public static void LoadSkillTemplates()
         {
@@ -226,6 +229,34 @@ namespace Darkages
                 LoadWarpTemplates();
                 LoadWorldMapTemplates();
             }
+
+            var board = new Board();
+            board.Constraint = ForumConstraints.Default;
+
+            board.Topics.Add(new Topic()
+            {
+                Number = 0,
+                Title = "Mail",
+                Posts = new List<Post>() {
+                    new Post() { DatePosted = DateTime.Now, Message = "test post 1", TopicNumber = 0, Author = "Lorule" },
+                    new Post() { DatePosted = DateTime.Now, Message = "another test post 2", TopicNumber = 1, Author = "Dean" },
+                    new Post() { DatePosted = DateTime.Now, Message = "another test post 3", TopicNumber = 2, Author = "Dean", Bold = true },
+                },
+            });
+
+            board.Topics.Add(new Topic()
+            {
+                Number = 1,
+                Title = "Events of Lorule",
+                Posts = new List<Post>() {
+                    new Post() { DatePosted = DateTime.Now, Message = "another test post 1", TopicNumber = 3, Author = "Dean", Bold = true },
+                    new Post() { DatePosted = DateTime.Now, Message = "another test post 2", TopicNumber = 4, Author = "Dean", Bold = true },
+                    new Post() { DatePosted = DateTime.Now, Message = "another test post 3", TopicNumber = 5, Author = "Dean" },
+                },
+
+            });
+
+            GlobalBoardCache[0] = board;
 
             Console.WriteLine("\n");
         }
