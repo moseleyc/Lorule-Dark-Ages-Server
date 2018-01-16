@@ -123,7 +123,7 @@ namespace Darkages.Network.Game
             client.Aisling._Ac = ServerContext.Config.BaseAC;
             client.Aisling.EquipmentManager.Client = client;
             client.Aisling.CurrentWeight = 0;
-            client.Aisling.MaximumWeight = (int) (client.Aisling._Str * ServerContext.Config.WeightIncreaseModifer);
+            client.Aisling.MaximumWeight = (int)(client.Aisling._Str * ServerContext.Config.WeightIncreaseModifer);
             client.Aisling.ActiveStatus = ActivityStatus.Awake;
             client.Aisling.InvitePrivleges = true;
             client.Aisling.LeaderPrivleges = false;
@@ -215,7 +215,7 @@ namespace Darkages.Network.Game
             {
                 var response = new ServerFormat3C
                 {
-                    Line = (ushort) i,
+                    Line = (ushort)i,
                     Data = client.Aisling.Map.GetRowData(i)
                 };
                 client.Send(response);
@@ -262,7 +262,7 @@ namespace Darkages.Network.Game
             {
                 if (client.Aisling.AreaID == ServerContext.Config.TransitionZone)
                 {
-                    client.Aisling.PortalSession = new PortalSession {FieldNumber = 1, IsMapOpen = false};
+                    client.Aisling.PortalSession = new PortalSession { FieldNumber = 1, IsMapOpen = false };
                     client.Aisling.PortalSession.TransitionToMap(client);
                     return;
                 }
@@ -324,8 +324,8 @@ namespace Darkages.Network.Game
                 return;
 
             client.Aisling.PortalSession.TransitionToMap(client,
-                (short) node.Destination.Location.X,
-                (short) node.Destination.Location.Y, node.Destination.AreaID);
+                (short)node.Destination.Location.X,
+                (short)node.Destination.Location.Y, node.Destination.AreaID);
         }
 
         /// <summary>
@@ -546,10 +546,10 @@ namespace Darkages.Network.Game
                 {
                     //clone and release item
                     var nitem = Clone(item);
-                    nitem.Stacks = (byte) format.ItemAmount;
+                    nitem.Stacks = (byte)format.ItemAmount;
                     nitem.Release(client.Aisling, new Position(format.X, format.Y));
 
-                    item.Stacks = (byte) remaining;
+                    item.Stacks = (byte)remaining;
                     client.Aisling.Inventory.Set(item, false);
 
                     //send remove packet.
@@ -806,110 +806,105 @@ namespace Darkages.Network.Game
         {
             try
             {
-                if ((DateTime.UtcNow - client.BoardOpened).TotalMinutes < 1)
+                if (format.Type == 0x01)
                 {
-                    client.BoardOpened = DateTime.UtcNow;
+                    client.Send(new BoardList(ServerContext.Community));                    
+                    return;
+                }
 
-                    if (format.Type == 0x01)
+                if (format.Type == 0x02)
+                {
+                    if (format.BoardIndex == 0)
                     {
-                        client.Send(new BoardList(ServerContext.Community));
-                        return;
-                    }
-
-                    if (format.Type == 0x02)
-                    {
-                        if (format.BoardIndex == 0)
+                        var clone = Clone<Board>(ServerContext.Community[format.BoardIndex]);
                         {
-                            var clone = Clone<Board>(ServerContext.Community[format.BoardIndex]);
-                            {
-                                clone.Client = client;
-                                client.Send(clone);
-                            }
-                            return;
+                            clone.Client = client;
+                            client.Send(clone);
                         }
-                        else
-                        {
-                            client.Send(ServerContext.Community[format.BoardIndex]);
-                            return;
-                        }
+                        return;
                     }
-
-                    if (format.Type == 0x03)
+                    else
                     {
-                        var index = format.TopicIndex - 1;
-                        if (ServerContext.Community[format.BoardIndex] != null &&
-                            ServerContext.Community[format.BoardIndex].Posts.Count > index)
-                        {
-                            var post = ServerContext.Community[format.BoardIndex].Posts[index];
-                            client.Send(post);
-                            return;
-                        }
+                        client.Send(ServerContext.Community[format.BoardIndex]);
+                        return;
+                    }
+                }
 
-                        client.Send(new ForumCallback("Unable to retrieve more.", 0x06, true));
+                if (format.Type == 0x03)
+                {
+                    var index = format.TopicIndex - 1;
+                    if (ServerContext.Community[format.BoardIndex] != null &&
+                        ServerContext.Community[format.BoardIndex].Posts.Count > index)
+                    {
+                        var post = ServerContext.Community[format.BoardIndex].Posts[index];
+                        client.Send(post);
                         return;
                     }
 
-                    if (format.Type == 0x06)
+                    client.Send(new ForumCallback("Unable to retrieve more.", 0x06, true));
+                    return;
+                }
+
+                if (format.Type == 0x06)
+                {
+                    var np = new PostFormat(format.BoardIndex, format.TopicIndex)
                     {
-                        var np = new PostFormat(format.BoardIndex, format.TopicIndex)
-                        {
-                            DatePosted = DateTime.UtcNow,
-                            Message = format.Message,
-                            Subject = format.Title,
-                            Read = false,
-                            Sender = client.Aisling.Username,
-                            Recipient = format.To,
-                            PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
-                        };
+                        DatePosted = DateTime.UtcNow,
+                        Message = format.Message,
+                        Subject = format.Title,
+                        Read = false,
+                        Sender = client.Aisling.Username,
+                        Recipient = format.To,
+                        PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
+                    };
 
-                        np.Associate(client.Aisling.Username);
-                        ServerContext.Community[format.BoardIndex].Posts.Add(np);
-                        ServerContext.SaveCommunityAssets();
-                        client.Send(new ForumCallback("Message Delivered.", 0x06, true));
-                        return;
-                    }
+                    np.Associate(client.Aisling.Username);
+                    ServerContext.Community[format.BoardIndex].Posts.Add(np);
+                    ServerContext.SaveCommunityAssets();
+                    client.Send(new ForumCallback("Message Delivered.", 0x06, true));
+                    return;
+                }
 
-                    if (format.Type == 0x04)
+                if (format.Type == 0x04)
+                {
+                    var np = new PostFormat(format.BoardIndex, format.TopicIndex)
                     {
-                        var np = new PostFormat(format.BoardIndex, format.TopicIndex)
-                        {
-                            DatePosted = DateTime.UtcNow,
-                            Message = format.Message,
-                            Subject = format.Title,
-                            Read = false,
-                            Sender = client.Aisling.Username,
-                            PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
-                        };
+                        DatePosted = DateTime.UtcNow,
+                        Message = format.Message,
+                        Subject = format.Title,
+                        Read = false,
+                        Sender = client.Aisling.Username,
+                        PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
+                    };
 
-                        np.Associate(client.Aisling.Username);
-                        ServerContext.Community[format.BoardIndex].Posts.Add(np);
-                        ServerContext.SaveCommunityAssets();
-                        client.Send(new ForumCallback("Post Added.", 0x06, true));
-                        return;
-                    }
+                    np.Associate(client.Aisling.Username);
+                    ServerContext.Community[format.BoardIndex].Posts.Add(np);
+                    ServerContext.SaveCommunityAssets();
+                    client.Send(new ForumCallback("Post Added.", 0x06, true));
+                    return;
+                }
 
-                    if (format.Type == 0x05)
+                if (format.Type == 0x05)
+                {
+                    var community = ServerContext.Community[format.BoardIndex];
+
+                    if (community != null && community.Posts.Count > 0)
                     {
-                        var community = ServerContext.Community[format.BoardIndex];
-
-                        if (community != null && community.Posts.Count > 0)
+                        if ((format.BoardIndex == 0
+                            ? (community.Posts[format.TopicIndex - 1].Recipient)
+                            : (community.Posts[format.TopicIndex - 1].Sender)
+                            ).Equals(client.Aisling.Username, StringComparison.OrdinalIgnoreCase))
                         {
-                            if ((format.BoardIndex == 0
-                                ? (community.Posts[format.TopicIndex - 1].Recipient)
-                                : (community.Posts[format.TopicIndex - 1].Sender)
-                                ).Equals(client.Aisling.Username, StringComparison.OrdinalIgnoreCase))
-                            {
-                                ServerContext.Community[format.BoardIndex].Posts.RemoveAt(format.TopicIndex - 1);
-                                ServerContext.SaveCommunityAssets();
-                                client.Send(new ForumCallback("Post has been deleted.", 0x07, true));
-                                return;
-                            }
-                            client.Send(new ForumCallback(ServerContext.Config.CantDoThat, 0x07, true));
+                            ServerContext.Community[format.BoardIndex].Posts.RemoveAt(format.TopicIndex - 1);
+                            ServerContext.SaveCommunityAssets();
+                            client.Send(new ForumCallback("Post has been deleted.", 0x07, true));
                             return;
                         }
                         client.Send(new ForumCallback(ServerContext.Config.CantDoThat, 0x07, true));
                         return;
                     }
+                    client.Send(new ForumCallback(ServerContext.Config.CantDoThat, 0x07, true));
+                    return;
                 }
             }
             catch (Exception)
@@ -917,6 +912,7 @@ namespace Darkages.Network.Game
                 //ignore
             }
         }
+
 
         /// <summary>
         ///     Emotions

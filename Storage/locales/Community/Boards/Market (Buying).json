@@ -15,7 +15,8 @@
         "Message": "yeah",
         "Subject": "me too",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       }
     ]
   },
@@ -24,5 +25,6 @@
   "Index": 4,
   "IsMail": false,
   "Subject": "Market (Buying)",
-  "LetterId": 4
+  "LetterId": 4,
+  "Delay": 0
 }

@@ -15,7 +15,8 @@
         "Message": "events.",
         "Subject": "some event.",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       }
     ]
   },
@@ -24,5 +25,6 @@
   "Index": 2,
   "IsMail": false,
   "Subject": "Events and Events",
-  "LetterId": 2
+  "LetterId": 2,
+  "Delay": 0
 }

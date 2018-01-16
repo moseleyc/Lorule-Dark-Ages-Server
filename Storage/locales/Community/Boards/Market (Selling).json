@@ -15,7 +15,8 @@
         "Message": "lol",
         "Subject": "well shit",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       },
       {
         "$type": "Darkages.Types.PostFormat, Darkages.Server",
@@ -29,7 +30,8 @@
         "Message": "",
         "Subject": "selling poop.",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       }
     ]
   },
@@ -38,5 +40,6 @@
   "Index": 5,
   "IsMail": false,
   "Subject": "Market (Selling)",
-  "LetterId": 5
+  "LetterId": 5,
+  "Delay": 0
 }

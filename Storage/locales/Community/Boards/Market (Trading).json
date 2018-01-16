@@ -9,5 +9,6 @@
   "Index": 6,
   "IsMail": false,
   "Subject": "Market (Trading)",
-  "LetterId": 6
+  "LetterId": 6,
+  "Delay": 0
 }

@@ -16,7 +16,8 @@
         "Recipient": "hi",
         "Subject": "hi",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       },
       {
         "$type": "Darkages.Types.PostFormat, Darkages.Server",
@@ -31,7 +32,8 @@
         "Recipient": "lol",
         "Subject": "to me",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       },
       {
         "$type": "Darkages.Types.PostFormat, Darkages.Server",
@@ -46,7 +48,8 @@
         "Recipient": "hi",
         "Subject": "hi you",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       },
       {
         "$type": "Darkages.Types.PostFormat, Darkages.Server",
@@ -60,7 +63,8 @@
         "Message": "lol",
         "Subject": "lol",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       },
       {
         "$type": "Darkages.Types.PostFormat, Darkages.Server",
@@ -75,7 +79,8 @@
         "Recipient": "lol",
         "Subject": "sup?",
         "Command": 49,
-        "Secured": true
+        "Secured": true,
+        "Delay": 0
       }
     ]
   },
@@ -84,5 +89,6 @@
   "Index": 0,
   "IsMail": true,
   "Subject": "Mail",
-  "LetterId": 0
+  "LetterId": 0,
+  "Delay": 0
 }

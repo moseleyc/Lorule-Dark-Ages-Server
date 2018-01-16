@@ -189,6 +189,10 @@ namespace Darkages.Network
 
         public void Send(NetworkFormat format)
         {
+            //Yes - you are right Justin :)
+            if (format.Delay != 0)
+                Thread.Sleep(format.Delay);
+
             SendAsync(format);
         }
 

@@ -9,5 +9,6 @@
   "Index": 3,
   "IsMail": false,
   "Subject": "Bug Report",
-  "LetterId": 3
+  "LetterId": 3,
+  "Delay": 0
 }
