@@ -77,6 +77,7 @@
     <Compile Include="Common\Generator.cs" />
     <Compile Include="Common\Predicate.cs" />
     <Compile Include="Common\Reflection.cs" />
+    <Compile Include="Common\SealedCounter.cs" />
     <Compile Include="Compression\CompressableObject.cs" />
     <Compile Include="Compression\CompressionProvider.cs" />
     <Compile Include="IO\BufferReader.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Network\Game\GameServerHandlers.cs" />
     <Compile Include="Network\Game\GameServerTimer.cs" />
     <Compile Include="Network\Client.cs" />
+    <Compile Include="Types\Board.cs" />
     <Compile Include="Network\ServerFormats\ServerFormat31.cs" />
     <Compile Include="ServerConstants.cs" />
     <Compile Include="Network\IFormattable.cs" />
@@ -369,7 +371,7 @@
     <Compile Include="Types\ElementQualifer.cs" />
     <Compile Include="Types\EquipmentManager.cs" />
     <Compile Include="Types\EquipmentSlot.cs" />
-    <Compile Include="Types\Forum.cs" />
+    <Compile Include="Types\BoardDescriptors.cs" />
     <Compile Include="Types\Gender.cs" />
     <Compile Include="Types\GroupStatus.cs" />
     <Compile Include="Types\Inventory.cs" />

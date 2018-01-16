@@ -1,0 +1,88 @@
+{
+  "$type": "Darkages.Types.Board, Darkages.Server",
+  "Posts": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.PostFormat, Darkages.Server]], mscorlib",
+    "$values": [
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 616,
+        "PostId": 1,
+        "BoardId": 0,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:26:23.4949793Z",
+        "Sender": "lol",
+        "Message": "hi",
+        "Recipient": "hi",
+        "Subject": "hi",
+        "Command": 49,
+        "Secured": true
+      },
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 876,
+        "PostId": 2,
+        "BoardId": 0,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:27:48.4857336Z",
+        "Sender": "lol",
+        "Message": "hi me",
+        "Recipient": "lol",
+        "Subject": "to me",
+        "Command": 49,
+        "Secured": true
+      },
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 616,
+        "PostId": 3,
+        "BoardId": 0,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:28:03.9991274Z",
+        "Sender": "lol",
+        "Message": "yerah mate",
+        "Recipient": "hi",
+        "Subject": "hi you",
+        "Command": 49,
+        "Secured": true
+      },
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "hi",
+        "TopicId": 876,
+        "PostId": 4,
+        "BoardId": 0,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:28:27.7019631Z",
+        "Sender": "hi",
+        "Message": "lol",
+        "Subject": "lol",
+        "Command": 49,
+        "Secured": true
+      },
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "hi",
+        "TopicId": 876,
+        "PostId": 5,
+        "BoardId": 0,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:28:40.0859379Z",
+        "Sender": "hi",
+        "Message": "from hi",
+        "Recipient": "lol",
+        "Subject": "sup?",
+        "Command": 49,
+        "Secured": true
+      }
+    ]
+  },
+  "Secured": true,
+  "Command": 49,
+  "Index": 0,
+  "IsMail": true,
+  "Subject": "Mail",
+  "LetterId": 0
+}

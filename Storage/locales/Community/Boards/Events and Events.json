@@ -1,0 +1,28 @@
+{
+  "$type": "Darkages.Types.Board, Darkages.Server",
+  "Posts": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.PostFormat, Darkages.Server]], mscorlib",
+    "$values": [
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 2931,
+        "PostId": 1,
+        "BoardId": 2,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:26:51.5340336Z",
+        "Sender": "lol",
+        "Message": "events.",
+        "Subject": "some event.",
+        "Command": 49,
+        "Secured": true
+      }
+    ]
+  },
+  "Secured": true,
+  "Command": 49,
+  "Index": 2,
+  "IsMail": false,
+  "Subject": "Events and Events",
+  "LetterId": 2
+}

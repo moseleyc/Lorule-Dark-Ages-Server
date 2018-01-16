@@ -798,32 +798,124 @@ namespace Darkages.Network.Game
             client.Aisling.Show(Scope.Self, new ServerFormat36(client));
         }
 
+        /// <summary>
+        ///     Board Handling
+        /// </summary>
+
         protected override void Format3BHandler(GameClient client, ClientFormat3B format)
         {
-            if (format.Type == 0x01)
+            try
             {
-                client.Send(new ServerFormat31(ServerContext.GlobalBoardCache[0]));
-            }
+                if ((DateTime.UtcNow - client.BoardOpened).TotalMinutes < 1)
+                {
+                    client.BoardOpened = DateTime.UtcNow;
 
-            if (format.Type == 0x02)
+                    if (format.Type == 0x01)
+                    {
+                        client.Send(new BoardList(ServerContext.Community));
+                        return;
+                    }
+
+                    if (format.Type == 0x02)
+                    {
+                        if (format.BoardIndex == 0)
+                        {
+                            var clone = Clone<Board>(ServerContext.Community[format.BoardIndex]);
+                            {
+                                clone.Client = client;
+                                client.Send(clone);
+                            }
+                            return;
+                        }
+                        else
+                        {
+                            client.Send(ServerContext.Community[format.BoardIndex]);
+                            return;
+                        }
+                    }
+
+                    if (format.Type == 0x03)
+                    {
+                        var index = format.TopicIndex - 1;
+                        if (ServerContext.Community[format.BoardIndex] != null &&
+                            ServerContext.Community[format.BoardIndex].Posts.Count > index)
+                        {
+                            var post = ServerContext.Community[format.BoardIndex].Posts[index];
+                            client.Send(post);
+                            return;
+                        }
+
+                        client.Send(new ForumCallback("Unable to retrieve more.", 0x06, true));
+                        return;
+                    }
+
+                    if (format.Type == 0x06)
+                    {
+                        var np = new PostFormat(format.BoardIndex, format.TopicIndex)
+                        {
+                            DatePosted = DateTime.UtcNow,
+                            Message = format.Message,
+                            Subject = format.Title,
+                            Read = false,
+                            Sender = client.Aisling.Username,
+                            Recipient = format.To,
+                            PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
+                        };
+
+                        np.Associate(client.Aisling.Username);
+                        ServerContext.Community[format.BoardIndex].Posts.Add(np);
+                        ServerContext.SaveCommunityAssets();
+                        client.Send(new ForumCallback("Message Delivered.", 0x06, true));
+                        return;
+                    }
+
+                    if (format.Type == 0x04)
+                    {
+                        var np = new PostFormat(format.BoardIndex, format.TopicIndex)
+                        {
+                            DatePosted = DateTime.UtcNow,
+                            Message = format.Message,
+                            Subject = format.Title,
+                            Read = false,
+                            Sender = client.Aisling.Username,
+                            PostId = (ushort)(ServerContext.Community[format.BoardIndex].Posts.Count + 1),
+                        };
+
+                        np.Associate(client.Aisling.Username);
+                        ServerContext.Community[format.BoardIndex].Posts.Add(np);
+                        ServerContext.SaveCommunityAssets();
+                        client.Send(new ForumCallback("Post Added.", 0x06, true));
+                        return;
+                    }
+
+                    if (format.Type == 0x05)
+                    {
+                        var community = ServerContext.Community[format.BoardIndex];
+
+                        if (community != null && community.Posts.Count > 0)
+                        {
+                            if ((format.BoardIndex == 0
+                                ? (community.Posts[format.TopicIndex - 1].Recipient)
+                                : (community.Posts[format.TopicIndex - 1].Sender)
+                                ).Equals(client.Aisling.Username, StringComparison.OrdinalIgnoreCase))
+                            {
+                                ServerContext.Community[format.BoardIndex].Posts.RemoveAt(format.TopicIndex - 1);
+                                ServerContext.SaveCommunityAssets();
+                                client.Send(new ForumCallback("Post has been deleted.", 0x07, true));
+                                return;
+                            }
+                            client.Send(new ForumCallback(ServerContext.Config.CantDoThat, 0x07, true));
+                            return;
+                        }
+                        client.Send(new ForumCallback(ServerContext.Config.CantDoThat, 0x07, true));
+                        return;
+                    }
+                }
+            }
+            catch (Exception)
             {
-                var postIdx = format.BoardIndex;
-                var topic = ServerContext.GlobalBoardCache[0].Topics.Find(i => i.Number == postIdx);
-
-                client.Send(new ServerFormat31(topic));
-                return;
+                //ignore
             }
-
-            if (format.Type == 0x03)
-            {
-                var Post_id   = format.TopicIndex;
-                var Topic_id  = format.BoardIndex;
-
-                //todo: display posts.
-
-                return;
-            }
-
         }
 
         /// <summary>

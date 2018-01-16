@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Darkages.Network.Game;
 using Darkages.Network.Login;
@@ -48,9 +49,7 @@ namespace Darkages
         public static Dictionary<int, WorldMapTemplate> GlobalWorldMapTemplateCache =
             new Dictionary<int, WorldMapTemplate>();
 
-        public static Dictionary<int, Forum> GlobalBoardCache =
-            new Dictionary<int, Forum>();
-
+        public static Board[] Community = new Board[7];
 
         public static void LoadSkillTemplates()
         {
@@ -215,6 +214,27 @@ namespace Darkages
             Console.WriteLine(" -> Building Meta Cache: {0} loaded.", GlobalMetaCache.Count);
         }
 
+        public static void SaveCommunityAssets()
+        {
+            List<Board> tmp;
+
+            lock (Community)
+            {
+                tmp = new List<Board>(Community);
+            }
+
+            foreach (var asset in tmp)
+            {
+                asset.Save();
+            }
+        }
+
+        public static void CacheCommunityAssets()
+        {
+            Community = 
+                Board.CacheFromStorage().OrderBy(i => i.Index).ToArray();
+        }
+
         public static void LoadAndCacheStorage()
         {
             EmptyCacheCollectors();
@@ -228,35 +248,8 @@ namespace Darkages
                 LoadMundaneTemplates();
                 LoadWarpTemplates();
                 LoadWorldMapTemplates();
+                CacheCommunityAssets();
             }
-
-            var board = new Board();
-            board.Constraint = ForumConstraints.Default;
-
-            board.Topics.Add(new Topic()
-            {
-                Number = 0,
-                Title = "Mail",
-                Posts = new List<Post>() {
-                    new Post() { DatePosted = DateTime.Now, Message = "test post 1", TopicNumber = 0, Author = "Lorule" },
-                    new Post() { DatePosted = DateTime.Now, Message = "another test post 2", TopicNumber = 1, Author = "Dean" },
-                    new Post() { DatePosted = DateTime.Now, Message = "another test post 3", TopicNumber = 2, Author = "Dean", Bold = true },
-                },
-            });
-
-            board.Topics.Add(new Topic()
-            {
-                Number = 1,
-                Title = "Events of Lorule",
-                Posts = new List<Post>() {
-                    new Post() { DatePosted = DateTime.Now, Message = "another test post 1", TopicNumber = 3, Author = "Dean", Bold = true },
-                    new Post() { DatePosted = DateTime.Now, Message = "another test post 2", TopicNumber = 4, Author = "Dean", Bold = true },
-                    new Post() { DatePosted = DateTime.Now, Message = "another test post 3", TopicNumber = 5, Author = "Dean" },
-                },
-
-            });
-
-            GlobalBoardCache[0] = board;
 
             Console.WriteLine("\n");
         }

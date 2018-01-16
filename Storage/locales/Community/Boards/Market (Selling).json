@@ -1,0 +1,42 @@
+{
+  "$type": "Darkages.Types.Board, Darkages.Server",
+  "Posts": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.PostFormat, Darkages.Server]], mscorlib",
+    "$values": [
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 2423,
+        "PostId": 1,
+        "BoardId": 5,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:27:31.6858862Z",
+        "Sender": "lol",
+        "Message": "lol",
+        "Subject": "well shit",
+        "Command": 49,
+        "Secured": true
+      },
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "hi",
+        "TopicId": 3443,
+        "PostId": 2,
+        "BoardId": 5,
+        "Read": false,
+        "DatePosted": "2018-01-16T15:29:06.6218446Z",
+        "Sender": "hi",
+        "Message": "",
+        "Subject": "selling poop.",
+        "Command": 49,
+        "Secured": true
+      }
+    ]
+  },
+  "Secured": true,
+  "Command": 49,
+  "Index": 5,
+  "IsMail": false,
+  "Subject": "Market (Selling)",
+  "LetterId": 5
+}

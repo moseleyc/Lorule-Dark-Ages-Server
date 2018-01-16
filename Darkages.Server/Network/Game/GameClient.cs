@@ -10,6 +10,7 @@ using Darkages.Scripting;
 using Darkages.Storage;
 using Darkages.Storage.locales.Scripts.Global;
 using Darkages.Types;
+using Newtonsoft.Json;
 
 namespace Darkages.Network.Game
 {
@@ -42,8 +43,10 @@ namespace Darkages.Network.Game
         public DateTime LastPingResponse { get; set; }
         public byte LastActivatedLost { get; set; }
 
-
         public DialogSession DlgSession { get; set; }
+        public DateTime BoardOpened { get; set; }
+
+        public ushort LastBoardActivated { get; set; }
 
         public bool IsDead()
         {
@@ -230,6 +233,7 @@ namespace Darkages.Network.Game
         public bool Load()
         {
             LastPingResponse = DateTime.UtcNow;
+            BoardOpened = DateTime.UtcNow;
 
             if (Aisling == null || Aisling.AreaID == 0)
                 return false;
@@ -515,6 +519,7 @@ namespace Darkages.Network.Game
 
             SaveObject(Aisling);
             StorageManager.AislingBucket.Save(Aisling);
+            ServerContext.SaveCommunityAssets();
             LastSave = DateTime.UtcNow;
         }
 

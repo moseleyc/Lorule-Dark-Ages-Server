@@ -1,0 +1,13 @@
+{
+  "$type": "Darkages.Types.Board, Darkages.Server",
+  "Posts": {
+    "$type": "System.Collections.Generic.List`1[[Darkages.Types.PostFormat, Darkages.Server]], mscorlib",
+    "$values": []
+  },
+  "Secured": true,
+  "Command": 49,
+  "Index": 3,
+  "IsMail": false,
+  "Subject": "Bug Report",
+  "LetterId": 3
+}
