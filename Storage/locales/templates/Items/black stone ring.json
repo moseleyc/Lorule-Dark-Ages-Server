@@ -35,7 +35,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 4189,
   "MaxDurability": 5000,
   "Value": 50000,
@@ -45,10 +45,9 @@
   "LevelRequired": 99,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.01,
+  "DropRate": 3.0,
   "StageRequired": 1,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Black Stone Ring"
 }

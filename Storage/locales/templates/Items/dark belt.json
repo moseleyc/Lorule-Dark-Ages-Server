@@ -10,7 +10,7 @@
   "OffenseElement": 0,
   "DefenseElement": 6,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 1117,
   "MaxDurability": 50000,
   "Value": 1000000,
@@ -19,10 +19,9 @@
   "LevelRequired": 11,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.03,
+  "DropRate": 4.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Dark Belt"
 }

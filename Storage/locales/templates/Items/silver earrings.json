@@ -15,7 +15,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 4189,
   "MaxDurability": 1000,
   "Value": 3000,
@@ -25,10 +25,9 @@
   "LevelRequired": 8,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.3,
+  "DropRate": 31.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Silver Earrings"
 }

@@ -85,7 +85,7 @@ namespace Darkages.Types
                 Remove(item.Slot);
                 client.Send(new ServerFormat10(item.Slot));
 
-                client.Aisling.CurrentWeight -= item.Template.Weight;
+                client.Aisling.CurrentWeight -= item.Template.CarryWeight;
 
                 if (client.Aisling.CurrentWeight < 0)
                     client.Aisling.CurrentWeight = 0;

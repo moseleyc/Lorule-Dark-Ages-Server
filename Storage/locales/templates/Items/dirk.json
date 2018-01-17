@@ -25,7 +25,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 0,
+  "CarryWeight": 0,
   "Flags": 77,
   "MaxDurability": 0,
   "Value": 500,
@@ -35,10 +35,9 @@
   "LevelRequired": 1,
   "DmgMin": 11,
   "DmgMax": 16,
-  "DropRate": 0.3,
+  "DropRate": 10.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Dirk"
 }

@@ -140,6 +140,19 @@
     <Compile Include="Network\Game\GameServerHandlers.cs" />
     <Compile Include="Network\Game\GameServerTimer.cs" />
     <Compile Include="Network\Client.cs" />
+    <Compile Include="Systems\Loot\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Systems\Loot\Interfaces\ILootDefinition.cs" />
+    <Compile Include="Systems\Loot\Interfaces\ILootDropper.cs" />
+    <Compile Include="Systems\Loot\Interfaces\ILootTable.cs" />
+    <Compile Include="Systems\Loot\Interfaces\IModifier.cs" />
+    <Compile Include="Systems\Loot\Interfaces\IModifierSet.cs" />
+    <Compile Include="Systems\Loot\Interfaces\IWeighable.cs" />
+    <Compile Include="Systems\Loot\LootDropper.cs" />
+    <Compile Include="Systems\Loot\LootModifierSet.cs" />
+    <Compile Include="Systems\Loot\LootTable.cs" />
+    <Compile Include="Systems\Loot\Modifiers\BaseModifier.cs" />
+    <Compile Include="Systems\Loot\Modifiers\NumericModifier.cs" />
+    <Compile Include="Systems\Loot\Modifiers\StringModifier.cs" />
     <Compile Include="Types\Board.cs" />
     <Compile Include="Network\ServerFormats\ServerFormat31.cs" />
     <Compile Include="ServerConstants.cs" />
@@ -382,7 +395,6 @@
     <Compile Include="Types\LegendColor.cs" />
     <Compile Include="Types\LegendIcon.cs" />
     <Compile Include="Types\LootQualifer.cs" />
-    <Compile Include="Types\LootTable.cs" />
     <Compile Include="Types\MapFlags.cs" />
     <Compile Include="Types\MapKeyPair.cs" />
     <Compile Include="Types\MetafileNode.cs" />

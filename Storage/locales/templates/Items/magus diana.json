@@ -18,7 +18,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 5,
+  "CarryWeight": 0,
   "Flags": 12381,
   "MaxDurability": 3000,
   "Value": 245000,
@@ -27,10 +27,9 @@
   "LevelRequired": 6,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.1,
+  "DropRate": 26.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Magus Diana"
 }

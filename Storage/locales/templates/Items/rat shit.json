@@ -9,7 +9,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 0,
+  "CarryWeight": 0,
   "Flags": 2236,
   "MaxDurability": 0,
   "Value": 500,
@@ -18,10 +18,9 @@
   "LevelRequired": 0,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.2,
+  "DropRate": 24.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "rat shit"
 }

@@ -36,7 +36,7 @@
   "DropDecayInSeconds": 120.0,
   "DurabilityRolloverLimit": 10,
   "ERRORCAP": 5,
-  "FRAMES": 120,
+  "FRAMES": 20,
   "GlobalBaseSkillDelay": 650.0,
   "GlobalSpawnTimer": 1000.0,
   "GroupedAlreadyMsg": "noname is already in a group.",
@@ -51,7 +51,7 @@
   "LingerState": 1000.0,
   "LogDestroyedObjects": false,
   "LOGIN_PORT": 2610,
-  "LogRecvPackets": true,
+  "LogRecvPackets": false,
   "LogSentPackets": false,
   "LootSingleMode": true,
   "MapUpdateInterval": 1500.0,
@@ -107,5 +107,6 @@
   "WeightIncreaseModifer": 3.5,
   "WisAddedMessage": "Your will increases.",
   "WithinRangeProximity": 10.0,
-  "YouDroppedGoldMsg": "you dropped some gold."
+  "YouDroppedGoldMsg": "you dropped some gold.",
+  "LootTableStackSize": 3
 }

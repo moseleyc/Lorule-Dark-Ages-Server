@@ -10,7 +10,7 @@
   "OffenseElement": 5,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 5213,
   "MaxDurability": 3000000,
   "Value": 100000000,
@@ -19,10 +19,9 @@
   "LevelRequired": 1,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.1,
+  "DropRate": 23.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Light Coral Necklace"
 }

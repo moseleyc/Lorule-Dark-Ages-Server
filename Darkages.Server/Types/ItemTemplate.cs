@@ -1,24 +1,12 @@
-﻿using static Darkages.Types.ElementManager;
+﻿using System.Collections.Generic;
+using Darkages.Systems.Loot;
+using Darkages.Systems.Loot.Interfaces;
+using Newtonsoft.Json;
+using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
-    public enum Variance
-    {
-        None,
-        Godly,
-        Enhanced
-    }
-
-    public enum Rarity
-    {
-        Common,
-        Uncommon,
-        Rare,
-        VeryRare,
-        Rarest
-    }
-
-    public class ItemTemplate : Template
+    public class ItemTemplate : Template, ILootDefinition
     {
         public int ID { get; set; }
 
@@ -64,7 +52,7 @@ namespace Darkages.Types
 
         public int Upgrades { get; set; }
 
-        public byte Weight { get; set; }
+        public byte CarryWeight { get; set; }
 
         public ItemFlags Flags { get; set; }
 
@@ -90,10 +78,12 @@ namespace Darkages.Types
 
         public bool HasPants { get; set; }
 
-        public Rarity ItemRarity { get; set; }
-
-        public Variance ItemVarience { get; set; }
-
         public ItemColor Color { get; set; }
+
+        [JsonIgnore]
+        public int Weight
+        {
+            get => (int)DropRate; set { }
+        }
     }
 }

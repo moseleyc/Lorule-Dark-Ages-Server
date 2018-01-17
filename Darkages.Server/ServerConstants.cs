@@ -381,6 +381,7 @@ namespace Darkages
 
         [JsonProperty] public string YouDroppedGoldMsg = "you dropped some gold.";
 
+        [JsonProperty] public int LootTableStackSize = 3;
 
         public override string ToString()
         {

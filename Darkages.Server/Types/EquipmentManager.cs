@@ -196,7 +196,7 @@ namespace Darkages.Types
 
             if (handleWeight)
             {
-                Client.Aisling.CurrentWeight -= item.Template.Weight;
+                Client.Aisling.CurrentWeight -= item.Template.CarryWeight;
                 if (Client.Aisling.CurrentWeight < 0)
                     Client.Aisling.CurrentWeight = 0;
             }

@@ -58,7 +58,6 @@ namespace Darkages.Network.Game
                     Update(delta);
                     lastUpdate = DateTime.UtcNow;
                 }
-
                 Thread.Sleep(UpdateSpan);
             }
         }

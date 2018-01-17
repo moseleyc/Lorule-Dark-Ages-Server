@@ -55,7 +55,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 4189,
   "MaxDurability": 2000,
   "Value": 2500000,
@@ -65,10 +65,9 @@
   "LevelRequired": 1,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.01,
+  "DropRate": 20.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Loures Signet Ring"
 }

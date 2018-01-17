@@ -37,7 +37,7 @@ namespace Darkages.Types
             if (sprite is Aisling)
             {
                 if (checkWeight)
-                    if (!((sprite as Aisling).CurrentWeight + Template.Weight < (sprite as Aisling).MaximumWeight))
+                    if (!((sprite as Aisling).CurrentWeight + Template.CarryWeight < (sprite as Aisling).MaximumWeight))
                     {
                         (sprite as Aisling).Client.SendMessage(Scope.Self, 0x02, ServerContext.Config.ToWeakToLift);
 
@@ -46,7 +46,7 @@ namespace Darkages.Types
                             //remove from inventory
                             (sprite as Aisling).Client.Aisling.Inventory.Remove(Slot);
                             (sprite as Aisling).Client.Send(new ServerFormat10(Slot));
-                            (sprite as Aisling).CurrentWeight -= Template.Weight;
+                            (sprite as Aisling).CurrentWeight -= Template.CarryWeight;
 
                             if ((sprite as Aisling).CurrentWeight < 0)
                                 (sprite as Aisling).CurrentWeight = 0;
@@ -64,7 +64,7 @@ namespace Darkages.Types
                         return false;
                     }
 
-                (sprite as Aisling).CurrentWeight += Template.Weight;
+                (sprite as Aisling).CurrentWeight += Template.CarryWeight;
 
 
                 if ((sprite as Aisling).CurrentWeight > (sprite as Aisling).MaximumWeight)

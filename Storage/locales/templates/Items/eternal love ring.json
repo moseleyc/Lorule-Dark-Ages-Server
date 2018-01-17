@@ -15,7 +15,7 @@
   "OffenseElement": 0,
   "DefenseElement": 0,
   "Upgrades": 0,
-  "Weight": 1,
+  "CarryWeight": 0,
   "Flags": 4189,
   "MaxDurability": 1000000,
   "Value": 1000000,
@@ -25,10 +25,9 @@
   "LevelRequired": 21,
   "DmgMin": 0,
   "DmgMax": 0,
-  "DropRate": 0.01,
+  "DropRate": 9.0,
   "StageRequired": 0,
   "HasPants": false,
-  "ItemRarity": 0,
-  "ItemVarience": 0,
+  "Color": 0,
   "Name": "Eternal Love Ring"
 }

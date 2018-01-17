@@ -1,6 +1,8 @@
-﻿namespace Darkages.Types
+﻿using Darkages.Systems.Loot.Interfaces;
+
+namespace Darkages.Types
 {
-    public class StatusOperator
+    public class StatusOperator 
     {
         public enum Operator
         {
@@ -16,5 +18,7 @@
 
         public Operator Option { get; set; }
         public int Value { get; set; }
+
+        public void Apply(object item) { }
     }
 }

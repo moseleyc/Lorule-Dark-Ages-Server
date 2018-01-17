@@ -535,7 +535,7 @@ namespace Darkages.Network.Game
                     //release this item.
                     item.Release(client.Aisling, new Position(format.X, format.Y));
 
-                    client.Aisling.CurrentWeight -= item.Template.Weight;
+                    client.Aisling.CurrentWeight -= item.Template.CarryWeight;
 
                     if (client.Aisling.CurrentWeight < 0)
                         client.Aisling.CurrentWeight = 0;
@@ -565,7 +565,7 @@ namespace Darkages.Network.Game
                 client.Aisling.Inventory.Remove(item.Slot);
                 client.Send(new ServerFormat10(item.Slot));
 
-                client.Aisling.CurrentWeight -= item.Template.Weight;
+                client.Aisling.CurrentWeight -= item.Template.CarryWeight;
 
                 if (client.Aisling.CurrentWeight < 0)
                     client.Aisling.CurrentWeight = 0;

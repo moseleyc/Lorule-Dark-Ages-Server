@@ -301,7 +301,7 @@ namespace Darkages.Network.Game
 
                 if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                 {
-                    Aisling.CurrentWeight += equipment.Item.Template.Weight;
+                    Aisling.CurrentWeight += equipment.Item.Template.CarryWeight;
                 }
                 //for some reason, Aisling is out of Weight!
                 else
@@ -374,7 +374,7 @@ namespace Darkages.Network.Game
 
                 if (item.Template != null)
                 {
-                    Aisling.CurrentWeight += item.Template.Weight;
+                    Aisling.CurrentWeight += item.Template.CarryWeight;
 
                     if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                     {

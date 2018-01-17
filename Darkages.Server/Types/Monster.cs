@@ -1,12 +1,14 @@
-﻿using System;
-using System.ComponentModel;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
+using Darkages.Systems.Loot;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using static Darkages.ServerContext;
-using System.Threading;
 
 namespace Darkages.Types
 {
@@ -48,6 +50,11 @@ namespace Darkages.Types
         [JsonIgnore]
         public Position CurrentWaypoint => Template.Waypoints[WaypointIndex] ?? null;
 
+        [JsonIgnore]
+        public LootTable LootTable { get; set; }
+
+        [JsonIgnore]
+        public LootDropper LootManager { get; set; }
 
         public bool NextTo(int x, int y)
         {
@@ -72,7 +79,6 @@ namespace Darkages.Types
 
             if (player.Client.Aisling == null)
                 return;
-
 
             GenerateExperience(player);
             GenerateGold();
@@ -101,16 +107,16 @@ namespace Darkages.Types
                 expGained = expToAward * (Math.Abs(p) + 3);
 
 
-            player.ExpTotal += (int) expGained;
-            player.ExpNext -= (int) expGained;
+            player.ExpTotal += (int)expGained;
+            player.ExpNext -= (int)expGained;
 
-            player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int) expGained));
+            player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)expGained));
 
             if (player.ExpNext <= 0)
             {
-                player.ExpNext = player.ExpTotal * (int) (player.ExpLevel * 0.45) / 6;
-                player._MaximumHp += (int) (50 * player.Con * 0.65);
-                player._MaximumMp += (int) (25 * player.Wis * 0.45);
+                player.ExpNext = player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6;
+                player._MaximumHp += (int)(50 * player.Con * 0.65);
+                player._MaximumMp += (int)(25 * player.Wis * 0.45);
                 player.StatPoints += 2;
                 player.ExpLevel++;
 
@@ -128,7 +134,7 @@ namespace Darkages.Types
 
                 player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
                 player.Show(Scope.NearbyAislings,
-                    new ServerFormat29((uint) player.Serial, (uint) player.Serial, 0x004F, 0x004F, 64));
+                    new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
             }
         }
 
@@ -150,11 +156,12 @@ namespace Darkages.Types
                 Money.Create(this, sum, new Position(X, Y));
         }
 
-        private void GenerateDrops()
-        {
-            if (!Template.LootType.HasFlag(LootQualifer.Table))
-                return;
+        private List<string> DetermineDrop()
+            => LootManager.Drop(LootTable, rnd.Next(ServerContext.Config.LootTableStackSize))
+                .Select(i => i.Name).ToList();
 
+        private void DetermineRandomDrop()
+        {
             int idx = 0;
             if (Template.Drops.Count > 0)
                 lock (rnd)
@@ -166,15 +173,35 @@ namespace Darkages.Types
             if (GlobalItemTemplateCache.ContainsKey(rndSelector))
             {
                 var item = Item.Create(this, GlobalItemTemplateCache[rndSelector], true);
-
                 var chance = 0.00;
-                lock (rnd) {
-                    chance = rnd.NextDouble();
-                }
-                if (chance <= item.Template.DropRate)
+
+                lock (rnd)
                 {
-                    item.Release(this, Position);
+                    chance = Math.Round(rnd.NextDouble(), 2);
                 }
+
+                if (chance <= item.Template.DropRate)
+                    item.Release(this, Position);
+            }
+        }
+
+        private void GenerateDrops()
+        {
+            if (Template.LootType.HasFlag(LootQualifer.Table))
+            {
+                if (LootTable == null || LootManager == null)
+                    return;
+
+                DetermineDrop().ForEach(i =>
+                {
+                    Item.Create(this, GlobalItemTemplateCache[i]).Release(this, Position);
+                });
+                return;
+            }
+            else if (Template.LootType.HasFlag(LootQualifer.Random))
+            {
+                DetermineRandomDrop();
+                return;
             }
         }
 
@@ -193,7 +220,7 @@ namespace Darkages.Types
             lock (Generator.Random)
             {
                 var v = Enum.GetValues(typeof(T));
-                return (T) v.GetValue(Generator.Random.Next(1, v.Length));
+                return (T)v.GetValue(Generator.Random.Next(1, v.Length));
             }
         }
 
@@ -227,11 +254,11 @@ namespace Darkages.Types
 
 
             //=E4 / 0.1 * E6 
-            obj.Template.MaximumHP = (int) (obj.Template.Level / 0.1 * 32);
-            obj.Template.MaximumMP = (int) (obj.Template.Level / 0.1 * 16);
+            obj.Template.MaximumHP = (int)(obj.Template.Level / 0.1 * 32);
+            obj.Template.MaximumMP = (int)(obj.Template.Level / 0.1 * 16);
 
             //calculate what ac to give depending on level.
-            obj.BonusAc = (sbyte) (70 - 101 / 70 * template.Level);
+            obj.BonusAc = (sbyte)(70 - 101 / 70 * template.Level);
 
             if (obj.BonusAc > Config.BaseAC)
                 obj.BonusAc = Config.BaseAC;
@@ -251,7 +278,7 @@ namespace Darkages.Types
                     : template.OffenseElement;
             }
 
-            obj.BonusMr = (byte) (10 * (template.Level / 10 * 100 / 100));
+            obj.BonusMr = (byte)(10 * (template.Level / 10 * 100 / 100));
 
             if (obj.BonusMr > Config.BaseMR)
                 obj.BonusMr = Config.BaseMR;
@@ -278,7 +305,7 @@ namespace Darkages.Types
                 var x = Generator.Random.Next(1, map.Cols);
                 var y = Generator.Random.Next(1, map.Rows);
 
-                var tries   = 0;
+                var tries = 0;
                 var success = false;
 
                 //let monters spawn on anything passable. 
@@ -332,11 +359,20 @@ namespace Darkages.Types
             {
                 obj.Image = template.ImageVarience
                             > 0
-                    ? (ushort) Generator.Random.Next(template.Image, template.Image + template.ImageVarience)
+                    ? (ushort)Generator.Random.Next(template.Image, template.Image + template.ImageVarience)
                     : template.Image;
             }
 
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
+
+            if (obj.Template.LootType.HasFlag(LootQualifer.Table))
+            {
+                obj.LootManager = new LootDropper();
+                obj.LootTable = new LootTable(template.Name);
+
+                foreach (var drop in obj.Template.Drops)
+                    obj.LootTable.Add(GlobalItemTemplateCache[drop]);
+            }
 
             return obj;
         }
@@ -355,7 +391,6 @@ namespace Darkages.Types
                 else
                     WaypointIndex = 0;
             }
-
         }
     }
 }
