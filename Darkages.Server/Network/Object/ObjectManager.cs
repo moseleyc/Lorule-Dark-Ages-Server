@@ -61,11 +61,6 @@ namespace Darkages.Network.Object
             return ObjectService.Context.QueryAll(p);
         }
 
-        public T Cast<T>() where T : Sprite
-        {
-            return this as T;
-        }
-
         public void Flush()
         {
             ObjectService.Context?.Dispose();

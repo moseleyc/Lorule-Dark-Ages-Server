@@ -1,5 +1,8 @@
 ﻿namespace Darkages.Types
 {
+    /// <summary>
+    /// CREDITS: Enum Borrowed from... i forgot where... the creator i guess.)
+    /// </summary>
     public enum MapFlags : uint
     {
         ArenaTeam = 8192,

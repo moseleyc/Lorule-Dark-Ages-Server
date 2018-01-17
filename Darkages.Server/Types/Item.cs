@@ -22,8 +22,6 @@ namespace Darkages.Types
 
         public string DisplayName { get; set; }
 
-        public int Value { get; set; }
-
         public ushort Stacks { get; set; }
 
         [JsonIgnore] public ItemScript Script { get; set; }

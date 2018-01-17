@@ -39,8 +39,6 @@ namespace Darkages
         public string Name { get; set; }
         public MapFlags Flags { get; set; }
 
-        [JsonIgnore] [Browsable(false)] public bool Sent { get; set; }
-
         public TileContent this[int x, int y]
         {
             get => Tile[x, y];

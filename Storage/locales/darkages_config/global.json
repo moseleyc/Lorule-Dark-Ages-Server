@@ -46,6 +46,7 @@
   "HelperMenuId": -1,
   "HelperMenuTemplateKey": "Lorule Helper",
   "IntAddedMessage": "Your mind expands.",
+  "LevelUpMessage": "You have reached level {0}",
   "LimitWalkingWhenRefreshing": false,
   "LingerState": 1000.0,
   "LogDestroyedObjects": false,

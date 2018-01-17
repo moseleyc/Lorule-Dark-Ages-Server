@@ -187,7 +187,18 @@ namespace Darkages.Storage.locales.Scripts.Monsters
             {
                 Monster.BashEnabled = false;
                 Monster.CastEnabled = false;
-                Monster.Wander();
+
+                if (Monster.Template.PathQualifer.HasFlag(PathQualifer.Patrol))
+                {
+                    if (Monster.Template.Waypoints.Count > 0)
+                        Monster.Patrol();
+                    else
+                        Monster.Wander();
+                }
+                else
+                {
+                    Monster.Wander();
+                }
             }
         }
 

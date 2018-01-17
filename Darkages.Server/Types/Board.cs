@@ -46,11 +46,6 @@ namespace Darkages.Types
                 Posts = Posts.Where(i => i.Recipient != null &&
                     i.Recipient.Equals(Client.Aisling.Username,
                     System.StringComparison.OrdinalIgnoreCase)).ToList();
-
-                if (Posts.Count > 0)
-                {
-
-                }
             }
 
             writer.Write((byte)Posts.Count);

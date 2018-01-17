@@ -134,7 +134,7 @@ namespace Darkages
         /// a visible delay. I don't recommend going lower then 20 frames per second.
         /// and i would not recommend going higher then 60 frames per second. unless you have a super duper computer!
         /// </summary>
-        public int FRAMES = 120;
+        public int FRAMES = 60;
 
         [JsonProperty]
         /// <summary>
@@ -176,6 +176,8 @@ namespace Darkages
         [JsonProperty] public string HelperMenuTemplateKey = "Lorule Helper";
 
         [JsonProperty] public string IntAddedMessage = "Your mind expands.";
+
+        [JsonProperty] public string LevelUpMessage = "You have reached level {0}";
 
         [JsonProperty] public bool LimitWalkingWhenRefreshing;
 
@@ -378,6 +380,7 @@ namespace Darkages
         [JsonProperty] public double WithinRangeProximity = 10.0;
 
         [JsonProperty] public string YouDroppedGoldMsg = "you dropped some gold.";
+
 
         public override string ToString()
         {

@@ -1,5 +1,8 @@
 ﻿namespace Darkages.Types
 {
+    /// <summary>
+    /// CREDITS: Enum Borrowed from Project hybrasyl (hybrasyl.com)
+    /// </summary>
     public enum LegendColor
     {
         White = 32,

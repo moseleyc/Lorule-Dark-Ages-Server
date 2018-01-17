@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Darkages.Types
 {
@@ -86,5 +87,8 @@ namespace Darkages.Types
         public ElementManager.Element DefenseElement { get; set; }
 
         public ElementManager.Element OffenseElement { get; set; }
+
+        [JsonProperty]
+        public List<Position> Waypoints { get; set; }
     }
 }

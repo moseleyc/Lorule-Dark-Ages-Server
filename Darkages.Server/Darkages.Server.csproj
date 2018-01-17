@@ -382,6 +382,7 @@
     <Compile Include="Types\LegendColor.cs" />
     <Compile Include="Types\LegendIcon.cs" />
     <Compile Include="Types\LootQualifer.cs" />
+    <Compile Include="Types\LootTable.cs" />
     <Compile Include="Types\MapFlags.cs" />
     <Compile Include="Types\MapKeyPair.cs" />
     <Compile Include="Types\MetafileNode.cs" />

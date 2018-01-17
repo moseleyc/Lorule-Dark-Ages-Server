@@ -1,5 +1,8 @@
 ﻿namespace Darkages.Types
 {
+    /// <summary>
+    /// CREDITS: Enum Borrowed from Project hybrasyl (hybrasyl.com)
+    /// </summary>
     public static class ItemSlots
     {
         public const int None = 0;
@@ -20,6 +23,5 @@
         public const int Trousers = 15;
         public const int Coat = 16;
         public const int SecondAcc = 17;
-        public const int ThirdAcc = 18;
     }
 }

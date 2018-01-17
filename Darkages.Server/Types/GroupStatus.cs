@@ -2,7 +2,6 @@
 
 namespace Darkages.Types
 {
-    [Flags]
     public enum GroupStatus
     {
         NotAcceptingRequests = 0,

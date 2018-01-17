@@ -76,7 +76,6 @@ namespace Darkages
         public byte Nation { get; set; }
         public string Clan { get; set; }
         public byte Resting { get; set; }
-        public byte Mounted { get; set; }
         public GroupStatus PartyStatus { get; set; }
 
         [JsonIgnore] public Party GroupParty { get; set; }
@@ -132,7 +131,6 @@ namespace Darkages
 
         [JsonIgnore] public bool InvitePrivleges { get; set; }
 
-        public ushort HeadAccessory3 { get; set; }
         public byte BootColor { get; set; }
         public byte NameColor { get; set; }
 

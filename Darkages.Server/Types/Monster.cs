@@ -6,16 +6,19 @@ using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Newtonsoft.Json;
 using static Darkages.ServerContext;
+using System.Threading;
 
 namespace Darkages.Types
 {
     public class Monster : Sprite
     {
+
         public Monster()
         {
             BashEnabled = false;
             CastEnabled = false;
             WalkEnabled = false;
+            WaypointIndex = 0;
         }
 
         [JsonIgnore] public MonsterScript Script { get; private set; }
@@ -24,8 +27,6 @@ namespace Darkages.Types
         public GameServerTimer CastTimer { get; set; }
         public GameServerTimer WalkTimer { get; set; }
         public MonsterTemplate Template { get; set; }
-
-        [JsonIgnore] public bool Attacked => CurrentHp < MaximumHp && IsAlive;
 
         [JsonIgnore] public bool IsAlive => CurrentHp > 0;
 
@@ -41,6 +42,13 @@ namespace Darkages.Types
 
         public bool Aggressive { get; set; }
 
+        [JsonIgnore]
+        public int WaypointIndex = 0;
+
+        [JsonIgnore]
+        public Position CurrentWaypoint => Template.Waypoints[WaypointIndex] ?? null;
+
+
         public bool NextTo(int x, int y)
         {
             var xDist = Math.Abs(x - X);
@@ -54,21 +62,6 @@ namespace Darkages.Types
             return NextTo(target.X, target.Y);
         }
 
-        public bool NextToTarget()
-        {
-            return NextTo(Target);
-        }
-
-        public void WalkToTarget()
-        {
-            WalkToTarget(Target);
-        }
-
-        public void WalkToTarget(Sprite target)
-        {
-            WalkTo(target.X, target.Y);
-        }
-
         public void GenerateRewards(Aisling player)
         {
             if (Rewarded)
@@ -80,11 +73,10 @@ namespace Darkages.Types
             if (player.Client.Aisling == null)
                 return;
 
-            {
-                GenerateExperience(player);
-                GenerateGold();
-                GenerateDrops();
-            }
+
+            GenerateExperience(player);
+            GenerateGold();
+            GenerateDrops();
 
             Rewarded = true;
             player.UpdateStats();
@@ -134,7 +126,7 @@ namespace Darkages.Types
                     player.GamePoints++;
                 }
 
-                player.Client.SendMessage(0x02, string.Format("You have reached level {0}!", player.ExpLevel));
+                player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
                 player.Show(Scope.NearbyAislings,
                     new ServerFormat29((uint) player.Serial, (uint) player.Serial, 0x004F, 0x004F, 64));
             }
@@ -142,31 +134,48 @@ namespace Darkages.Types
 
         private void GenerateGold()
         {
+            if (!Template.LootType.HasFlag(LootQualifer.Gold))
+                return;
+
+            int sum = 0;
+
             lock (rnd)
             {
-                if ((Template.LootType & LootQualifer.Gold) == LootQualifer.Gold)
-                    Money.Create(this, rnd.Next(
+                sum = rnd.Next(
                             Template.Level * 500,
-                            Template.Level * 1000),
-                        new Position(X, Y));
+                            Template.Level * 1000);
             }
+
+            if (sum > 0)
+                Money.Create(this, sum, new Position(X, Y));
         }
 
         private void GenerateDrops()
         {
+            if (!Template.LootType.HasFlag(LootQualifer.Table))
+                return;
+
+            int idx = 0;
             if (Template.Drops.Count > 0)
                 lock (rnd)
                 {
-                    var idx = rnd.Next(Template.Drops.Count);
-                    var rndSelector = Template.Drops[idx];
-
-                    if (GlobalItemTemplateCache.ContainsKey(rndSelector))
-                    {
-                        var item = Item.Create(this, GlobalItemTemplateCache[rndSelector], true);
-                        if (rnd.NextDouble() <= item.Template.DropRate)
-                            item.Release(this, Position);
-                    }
+                    idx = rnd.Next(Template.Drops.Count);
                 }
+
+            var rndSelector = Template.Drops[idx];
+            if (GlobalItemTemplateCache.ContainsKey(rndSelector))
+            {
+                var item = Item.Create(this, GlobalItemTemplateCache[rndSelector], true);
+
+                var chance = 0.00;
+                lock (rnd) {
+                    chance = rnd.NextDouble();
+                }
+                if (chance <= item.Template.DropRate)
+                {
+                    item.Release(this, Position);
+                }
+            }
         }
 
         public void Attack()
@@ -249,6 +258,11 @@ namespace Darkages.Types
 
             if ((template.PathQualifer & PathQualifer.Wander) == PathQualifer.Wander)
                 obj.WalkEnabled = true;
+            else if ((template.PathQualifer & PathQualifer.Fixed) == PathQualifer.Fixed)
+                obj.WalkEnabled = false;
+            else if ((template.PathQualifer & PathQualifer.Patrol) == PathQualifer.Patrol)
+                obj.WalkEnabled = true;
+
 
             if (template.MoodTyle == MoodQualifer.Aggressive)
                 obj.Aggressive = true;
@@ -264,12 +278,34 @@ namespace Darkages.Types
                 var x = Generator.Random.Next(1, map.Cols);
                 var y = Generator.Random.Next(1, map.Rows);
 
-                while (map.IsWall(obj, x, y) || map[x, y] != TileContent.None)
+                var tries   = 0;
+                var success = false;
+
+                //let monters spawn on anything passable. 
+                while ((map.IsWall(obj, x, y) || map[x, y] != TileContent.Aisling
+                    && map.IsWall(obj, x, y) || map[x, y] != TileContent.Monster
+                    && map.IsWall(obj, x, y) || map[x, y] != TileContent.Mundane
+                    && map.IsWall(obj, x, y) || map[x, y] != TileContent.Wall) && tries <= 256)
+                {
                     lock (Generator.Random)
                     {
                         x = Generator.Random.Next(1, map.Cols);
                         y = Generator.Random.Next(1, map.Rows);
                     }
+
+                    tries++;
+                }
+
+                success = (tries < 256);
+
+                if (!success)
+                {
+                    lock (Generator.Random)
+                    {
+                        x = Generator.Random.Next(1, map.Cols);
+                        y = Generator.Random.Next(1, map.Rows);
+                    }
+                }
 
                 obj.X = x;
                 obj.Y = y;
@@ -278,35 +314,6 @@ namespace Darkages.Types
             {
                 obj.X = template.DefinedX;
                 obj.Y = template.DefinedY;
-
-                var invalid = false;
-
-                //if not available. find a nearbly location nearby and try spawn it there.
-                while (map.IsWall(obj, obj.X, obj.Y) || map[obj.X, obj.Y] != TileContent.None)
-                {
-                    for (var i = 0; i < 4; i++)
-                    {
-                        var tiles = map.GetNearByTiles(obj, (short) obj.X, (short) obj.Y, 20);
-
-                        if (tiles.Length > 0)
-                        {
-                            var pos = tiles[i];
-                            if (pos != null)
-                            {
-                                obj.X = pos.X;
-                                obj.Y = pos.Y;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            invalid = true;
-                        }
-                    }
-
-                    if (invalid)
-                        break;
-                }
             }
 
             lock (Generator.Random)
@@ -331,11 +338,24 @@ namespace Darkages.Types
 
             obj.Script = ScriptManager.Load<MonsterScript>(template.ScriptName, obj, map);
 
-
-            //TODO apply formulas.
-
-
             return obj;
+        }
+
+        public void Patrol()
+        {
+            if (CurrentWaypoint != null)
+            {
+                WalkTo(CurrentWaypoint.X, CurrentWaypoint.Y);
+            }
+
+            if (Position.DistanceFrom(CurrentWaypoint) <= 3 || CurrentWaypoint == null)
+            {
+                if (WaypointIndex + 1 < Template.Waypoints.Count)
+                    WaypointIndex++;
+                else
+                    WaypointIndex = 0;
+            }
+
         }
     }
 }
