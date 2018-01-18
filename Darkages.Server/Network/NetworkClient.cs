@@ -134,24 +134,25 @@ namespace Darkages.Network
             if (format == null)
                 return;
 
+            if (!GetPacket(format))
+                return;
+
+            NetworkPacket packet;
+
             lock (Writer)
             {
-                if (!GetPacket(format))
-                    return;
-
-                var packet = Writer.ToPacket();
-                {
-                    if (ServerContext.Config.LogSentPackets)
-                        if (this is GameClient)
-                            Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
-
-                    if (format.Secured)
-                        Encryption.Transform(packet);
-
-                    var buffer = packet.ToArray();
-                    Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
-                }
+                packet = Writer.ToPacket();
             }
+
+            if (ServerContext.Config.LogSentPackets)
+                if (this is GameClient)
+                    Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
+
+            if (format.Secured)
+                Encryption.Transform(packet);
+
+            var buffer = packet.ToArray();
+            Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
         }
 
         private bool GetPacket(NetworkFormat format)

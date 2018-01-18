@@ -23,7 +23,7 @@
   "SpawnerID": 0,
   "AreaID": 151,
   "RegenSpeed": 0,
-  "MovementSpeed": 450,
+  "MovementSpeed": 1450,
   "CastSpeed": 500,
   "ArmorClass": 0,
   "MagicResist": 20,
@@ -47,7 +47,7 @@
       "beag ioc fein",
       "beag ioc fein",
       "dion",
-       
+
     ]
   },
   "Name": "Hagg (Cave Boss)"

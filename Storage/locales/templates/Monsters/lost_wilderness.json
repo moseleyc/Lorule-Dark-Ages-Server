@@ -19,7 +19,7 @@
   "SpawnerID": 0,
   "AreaID": 101,
   "RegenSpeed": 0,
-  "MovementSpeed": 1000,
+  "MovementSpeed": 2000,
   "CastSpeed": 1000,
   "ArmorClass": 0,
   "MagicResist": 4000,
@@ -29,7 +29,7 @@
   "AttackSpeed": 750,
   "ImageVarience": 5,
   "SpawnOnlyOnActiveMaps": false,
-  "UpdateMapWide": false,
+  "UpdateMapWide": true,
   "Grow": false,
   "SpellScripts": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",

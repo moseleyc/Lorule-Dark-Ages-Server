@@ -23,7 +23,7 @@
   "SpawnerID": 0,
   "AreaID": 151,
   "RegenSpeed": 0,
-  "MovementSpeed": 650,
+  "MovementSpeed": 1650,
   "CastSpeed": 2000,
   "ArmorClass": 0,
   "MagicResist": 20,
