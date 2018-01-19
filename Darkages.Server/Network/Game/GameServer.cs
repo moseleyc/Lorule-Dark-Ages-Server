@@ -10,18 +10,12 @@ namespace Darkages.Network.Game
     [Serializable]
     public partial class GameServer
     {
-        private readonly GameServerTimer ServerTimer;
         public static object ServerSyncObj = new object();
         public static TcpClient Proxy = null;
 
-        public Collection<GameServerComponent> Components;
-        public TimeSpan UpdateSpan, UpdateWorkerSpan;
-
-        private DateTime lastUpdate       = DateTime.UtcNow;
-        private DateTime lastworkerUpdate = DateTime.UtcNow;
-
-        public int Frames, Cycles;
         private bool isRunning;
+        private DateTime lastUpdate = DateTime.UtcNow;
+        private Thread updateThread;
 
         static GameServer()
         {
@@ -31,17 +25,19 @@ namespace Darkages.Network.Game
         public GameServer(int capacity)
             : base(capacity)
         {
-            Frames  = ServerContext.Config.FRAMES;
-            Cycles  = (2 + Frames) / 3;
+            Frames = ServerContext.Config.FRAMES;
 
-            Components       = new Collection<GameServerComponent>();
-            UpdateSpan       = TimeSpan.FromSeconds(1.0 / Frames);
-            UpdateWorkerSpan = TimeSpan.FromSeconds(1.0 / Cycles);
-
-            ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MinimalLatency));
-
+            Components = new Collection<GameServerComponent>();
+            UpdateSpan = TimeSpan.FromSeconds(1.0 / Frames);
             InitializeGameServer();
         }
+
+        public Collection<GameServerComponent> Components { get; }
+        public TimeSpan UpdateSpan { get; }
+
+        public int Frames { get; set; }
+
+        internal GameServerTimer ServerTimer { get; set; }
 
         private void AutoSave(GameClient client)
         {
@@ -66,25 +62,10 @@ namespace Darkages.Network.Game
             }
         }
 
-        private void DoWork()
-        {
-            isRunning = true;
-            lastworkerUpdate = DateTime.UtcNow;
-
-            while (isRunning)
-            {
-                var delta = DateTime.UtcNow - lastworkerUpdate;
-                {
-                    UpdateAreas(delta);
-                    UpdateComponents(delta);
-                    lastworkerUpdate = DateTime.UtcNow;
-                }
-                Thread.Sleep(UpdateWorkerSpan);
-            }
-        }
-
         public void InitializeGameServer()
         {
+            ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MinimalLatency));
+
             var daytimeComponent = new DaytimeComponent(this);
             Components.Add(daytimeComponent);
 
@@ -113,16 +94,21 @@ namespace Darkages.Network.Game
             if (ServerTimer.Elapsed)
             {
                 UpdateClients(elapsedTime);
+                UpdateAreas(elapsedTime);
+                UpdateComponents(elapsedTime);
             }
         }
 
         private void UpdateComponents(TimeSpan elapsedTime)
         {
-            lock (Components)
+            ThreadPool.QueueUserWorkItem(w =>
             {
-                for (var i = 0; i < Components.Count; i++)
-                    Components[i].Update(elapsedTime);
-            }
+                lock (Components)
+                {
+                    for (var i = 0; i < Components.Count; i++)
+                        Components[i].Update(elapsedTime);
+                }
+            });
         }
 
         private static void UpdateAreas(TimeSpan elapsedTime)
@@ -155,7 +141,6 @@ namespace Darkages.Network.Game
 
         public override void ClientConnected(GameClient client)
         {
-
         }
 
         public override void ClientDisconnected(GameClient client)
@@ -176,6 +161,13 @@ namespace Darkages.Network.Game
             base.Abort();
 
             isRunning = false;
+
+            if (updateThread != null)
+            {
+                updateThread.Abort();
+                updateThread.Join();
+                updateThread = null;
+            }
         }
 
         public override void Start(int port)
@@ -187,7 +179,6 @@ namespace Darkages.Network.Game
 
 
             new TaskFactory().StartNew(DoUpdate);
-            new TaskFactory().StartNew(DoWork);
 
             isRunning = true;
         }

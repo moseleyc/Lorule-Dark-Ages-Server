@@ -250,6 +250,37 @@ namespace Darkages
                 LoadWorldMapTemplates();
                 CacheCommunityAssets();
             }
+
+            GlobalItemTemplateCache["Holy Diana"] = new ItemTemplate()
+            {
+                Name = "Holy Diana",
+                ScriptName = "Weapon",
+                CanStack = false,
+                Class = Class.Priest,
+                SpellOperator = new SpellOperator(SpellOperator.SpellOperatorPolicy.Decrease, SpellOperator.SpellOperatorScope.all, 3, 0),
+                DisplayImage = 0x8000 + 185,
+                Image = 26,
+                Flags = ItemFlags.Bankable | ItemFlags.Elemental | ItemFlags.Equipable | ItemFlags.Perishable | ItemFlags.Repairable | ItemFlags.Sellable | ItemFlags.TwoHanded | ItemFlags.Dropable | ItemFlags.Upgradeable,
+                Value = 100000,
+                CarryWeight = 5,
+                StageRequired = ClassStage.Class,
+                LevelRequired = 11,
+                EquipmentSlot = ItemSlots.Weapon,
+                Gender = Gender.Both,
+                DmgMin = 13,
+                DmgMax = 19,
+                DropRate = 1,
+            };
+
+
+            //int i = 0;
+            //foreach (var obj in GlobalItemTemplateCache)
+            //{
+            //    obj.Value.DropRate = i++ ^ 2;
+
+            //    StorageManager.ItemBucket.Save(obj.Value);
+            //}
+
             Console.WriteLine("\n");
         }
     }
