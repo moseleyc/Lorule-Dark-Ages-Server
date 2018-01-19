@@ -177,6 +177,11 @@ namespace Darkages.Types
             if (!CanBeAttackedHere(Source))
                 return;
 
+            if (this is Monster)
+            {
+                (this as Monster)?.Script?.OnAttacked(Source?.Client);
+            }
+
 
             if (Source is Aisling)
             {

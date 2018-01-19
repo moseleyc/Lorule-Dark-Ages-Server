@@ -203,6 +203,7 @@ namespace Darkages
                         obj.Show(Scope.Self, new ServerFormat29(
                             ServerContext.Config.WarpAnimationNumber,
                             warpObj.Location.X, warpObj.Location.Y));
+                
             }
         }
 
@@ -220,6 +221,9 @@ namespace Darkages
                     obj.Script.Update(elapsedTime);
                     obj.UpdateBuffs(elapsedTime);
                     obj.UpdateDebuffs(elapsedTime);
+
+                    ServerContext.Game.ObjectPulseController?.OnObjectUpdate(obj);
+                    obj.LastUpdated = DateTime.UtcNow;
                 }
             }
         }
@@ -260,6 +264,9 @@ namespace Darkages
                 obj.UpdateBuffs(elapsedTime);
                 obj.UpdateDebuffs(elapsedTime);
                 obj.Update(elapsedTime);
+
+                ServerContext.Game.ObjectPulseController?.OnObjectUpdate(obj);
+                obj.LastUpdated = DateTime.UtcNow;
             }
         }
 
@@ -269,36 +276,6 @@ namespace Darkages
             var objs = GetObjects<T>(i => i != null && i.CurrentMapId == ID);
 
             return objs.Length > 0;
-        }
-
-        public Position[] GetNearByTiles(Sprite obj, short x, short y, double radius)
-        {
-            var innerBound = radius * (Math.Sqrt(2.0) / 2.0);
-            var radiusSq = radius * radius;
-            var result = new List<Position>();
-
-            for (var j = 0; y < Rows; y++)
-            for (var i = 0; x < Cols; x++)
-            {
-                var xDist = Math.Abs(x - i);
-                var yDist = Math.Abs(y - j);
-
-                if (xDist > radius || yDist > radius)
-                    continue;
-                if (xDist > innerBound || yDist > innerBound)
-                    continue;
-                if (IsWall(obj, i, j))
-                    continue;
-                if (i == x && j == y)
-                    continue;
-
-
-                if (new Position(x, y).DistanceFrom(new Position(i, j)) < radiusSq
-                    && this[i, j] == TileContent.None)
-                    result.Add(new Position(i, j));
-            }
-
-            return result.ToArray();
         }
 
         public void OnLoaded()
