@@ -170,14 +170,6 @@ namespace Darkages
             GlobalWorldMapTemplateCache = new Dictionary<int, WorldMapTemplate>();
         }
 
-        public static void LoadObjectCache()
-        {
-            var _cache_ = StorageManager.Load<ObjectService>();
-
-            if (_cache_ != null)
-                ObjectService.Set(_cache_);
-        }
-
         public static void LoadConstants()
         {
             var _config_ = StorageManager.Load<ServerConstants>();
@@ -192,9 +184,6 @@ namespace Darkages
             {
                 Config = StorageManager.Load<ServerConstants>();
             }
-
-            if (Config.CacheObjects)
-                LoadObjectCache();
 
             InitFromConfig();
         }

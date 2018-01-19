@@ -9,7 +9,6 @@ namespace Darkages.Network.Game.Components
 {
     public class ObjectComponent : GameServerComponent
     {
-        private readonly GameServerTimer _cacheEventScheduler;
         private readonly GameServerTimer _updateEventScheduler;
         private readonly GameServerTimer _updateMediatorScheduler;
 
@@ -18,19 +17,18 @@ namespace Darkages.Network.Game.Components
         {
             _updateEventScheduler =
                 new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectHandlerInterval));
-            _cacheEventScheduler = new GameServerTimer(TimeSpan.FromSeconds(ServerContext.Config.ObjectCacheInterval));
             _updateMediatorScheduler =
                 new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.ObjectGarbageCollectorInterval));
-            OnAdded(OnObjectAdded);
-            OnUpdated(OnObjectUpdate);
-            OnRemoved(OnObjectRemoved);
+
         }
 
-        private void OnObjectAdded(Sprite obj)
+        public void OnObjectAdded(Sprite obj)
         {
             var Map = ServerContext.GlobalMapCache[obj.CurrentMapId];
             if (Map == null)
                 return;
+
+            OnObjectUpdate(obj);
 
             if (obj.CurrentHp > 0)
                 Map.Update(obj.X, obj.Y, obj.Content);
@@ -44,6 +42,7 @@ namespace Darkages.Network.Game.Components
             if (!ServerContext.GlobalMapCache.ContainsKey(obj.CurrentMapId))
                 return;
 
+            OnObjectUpdate(obj);
             obj.Map?.Update(obj.X, obj.Y, TileContent.None);
 
             if (obj is Monster || obj is Mundane)
@@ -61,7 +60,7 @@ namespace Darkages.Network.Game.Components
             }
         }
 
-        private void OnObjectUpdate(Sprite obj)
+        public void OnObjectUpdate(Sprite obj)
         {
             if (!ServerContext.GlobalMapCache.ContainsKey(obj.CurrentMapId))
                 return;
@@ -203,17 +202,8 @@ namespace Darkages.Network.Game.Components
 
         public override void Update(TimeSpan elapsedTime)
         {
-            _cacheEventScheduler.Update(elapsedTime);
             _updateEventScheduler.Update(elapsedTime);
             _updateMediatorScheduler.Update(elapsedTime);
-
-            if (_cacheEventScheduler.Elapsed)
-            {
-                if (ServerContext.Config.CacheObjects)
-                    Cache();
-
-                _cacheEventScheduler.Reset();
-            }
 
             if (_updateMediatorScheduler.Elapsed)
             {

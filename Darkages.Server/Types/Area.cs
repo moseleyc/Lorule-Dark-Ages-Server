@@ -220,7 +220,6 @@ namespace Darkages
                     obj.Script.Update(elapsedTime);
                     obj.UpdateBuffs(elapsedTime);
                     obj.UpdateDebuffs(elapsedTime);
-                    SaveObject(obj);
                 }
             }
         }
@@ -236,11 +235,8 @@ namespace Darkages
 
                 if (obj != null)
                 {
-                    if (obj is Money)
-                        SaveObject(obj as Money);
-
-                    if (obj is Item)
-                        SaveObject(obj as Item);
+                    ServerContext.Game.ObjectPulseController?.OnObjectUpdate(obj);
+                    obj.LastUpdated = DateTime.UtcNow;
                 }
             }
         }
@@ -261,7 +257,6 @@ namespace Darkages
                 if (nearby == 0)
                     continue;
 
-                SaveObject(obj);
                 obj.UpdateBuffs(elapsedTime);
                 obj.UpdateDebuffs(elapsedTime);
                 obj.Update(elapsedTime);

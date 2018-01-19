@@ -129,13 +129,13 @@ namespace Darkages.Network.Game
 
             #endregion
 
+            Server.ObjectPulseController?.OnObjectUpdate(Aisling);
+
             UpdateGlobalScripts(elapsedTime);
 
             Regeneration(elapsedTime);
 
             UpdateStatusBar(elapsedTime);
-
-            SaveObject(Aisling);
         }
 
         private void UpdateStatusBar(TimeSpan elapsedTime)
@@ -485,17 +485,7 @@ namespace Darkages.Network.Game
                 if (obj is Aisling)
                     continue;
 
-                if (obj is Monster)
-                    SaveObject(obj as Monster);
-
-                if (obj is Money)
-                    SaveObject(obj as Money);
-
-                if (obj is Item)
-                    SaveObject(obj as Item);
-
-                if (obj is Mundane)
-                    SaveObject(obj as Mundane);
+                obj.ShowTo(Aisling);
             }
         }
 
@@ -517,7 +507,6 @@ namespace Darkages.Network.Game
             if (Aisling.AreaID != Aisling.CurrentMapId)
                 Aisling.AreaID = Aisling.CurrentMapId;
 
-            SaveObject(Aisling);
             StorageManager.AislingBucket.Save(Aisling);
             ServerContext.SaveCommunityAssets();
             LastSave = DateTime.UtcNow;

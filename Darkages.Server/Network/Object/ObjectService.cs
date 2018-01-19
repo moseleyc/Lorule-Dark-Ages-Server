@@ -1,331 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Darkages.Common;
-using Darkages.Storage;
+﻿using Darkages.Common;
 using Darkages.Types;
-using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Darkages.Network.Object
 {
-    [Serializable]
-    public sealed class ObjectService : IDisposable
+    public class SpriteCollection<T> : IEnumerable<T>, INotifyCollectionChanged
     {
-        [JsonIgnore] private static readonly object syncLock = new object();
+        private readonly ConcurrentList<T> _values;
 
-        [JsonIgnore] private static ObjectService context;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        [JsonIgnore] private readonly HashSet<Sprite> _aislings = new HashSet<Sprite>();
+        public SpriteCollection(IEnumerable<T> values) => _values = new ConcurrentList<T>(values);
 
-        [JsonIgnore] private readonly HashSet<Sprite> _monsters = new HashSet<Sprite>();
-
-        [JsonIgnore] private readonly HashSet<Sprite> _mundanes = new HashSet<Sprite>();
-
-        [JsonProperty] private HashSet<Sprite> _items = new HashSet<Sprite>();
-
-        [JsonProperty] private HashSet<Sprite> _money = new HashSet<Sprite>();
-
-        private bool disposedValue; // To detect redundant calls
-
-
-        [JsonIgnore] private static bool CacheLoaded { get; set; }
-
-        [JsonIgnore]
-        private HashSet<Sprite> Aislings
+        public T Query(Predicate<T> predicate)
         {
-            get
+            return _values.FirstOrDefault(i => predicate(i));
+        }
+
+        public T[] QueryAll(Predicate<T> predicate)
+        {
+            return _values.Where(i => predicate(i)).ToArray();
+        }
+
+        public void Add(T obj)
+        {
+            _values.Add(obj);
+            CollectionChanged?
+                .Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+        }
+
+        public void Delete(T obj)
+        {
+            if (_values.Remove(obj))
             {
-                lock (syncLock)
-                {
-                    return new HashSet<Sprite>(_aislings);
-                }
+                CollectionChanged?
+                    .Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
             }
         }
 
-        [JsonIgnore]
-        private HashSet<Sprite> Monsters
+        public IEnumerator<T> GetEnumerator() => _values.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public sealed class ObjectService
+    {
+        private readonly IDictionary<Type, object> _spriteCollections = new Dictionary<Type, object>
         {
-            get
-            {
-                lock (syncLock)
-                {
-                    return new HashSet<Sprite>(_monsters);
-                }
-            }
+            [typeof(Aisling)] = new SpriteCollection<Aisling>(Enumerable.Empty<Aisling>()),
+            [typeof(Monster)] = new SpriteCollection<Monster>(Enumerable.Empty<Monster>()),
+            [typeof(Mundane)] = new SpriteCollection<Mundane>(Enumerable.Empty<Mundane>()),
+            [typeof(Money)]   = new SpriteCollection<Money>(Enumerable.Empty<Money>()),
+            [typeof(Item)]    = new SpriteCollection<Item>(Enumerable.Empty<Item>()),
+        };
+
+        private Aisling[] Aislings => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Aisling)]).ToArray();
+        private Aisling[] Monsters => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Monster)]).ToArray();
+        private Aisling[] Mundanes => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Mundane)]).ToArray();
+        private Aisling[] Coins    => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Money)]).ToArray();
+        private Aisling[] Items    => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Item)]).ToArray();
+
+        public T Query<T>(Predicate<T> predicate) 
+        {
+            var obj = (SpriteCollection<T>)_spriteCollections[typeof(T)];
+            return obj.Query(predicate);
         }
 
-        [JsonIgnore]
-        private HashSet<Sprite> Mundanes
+        public T[] QueryAll<T>(Predicate<T> predicate) 
         {
-            get
-            {
-                lock (syncLock)
-                {
-                    return new HashSet<Sprite>(_mundanes);
-                }
-            }
+            var obj = (SpriteCollection<T>)_spriteCollections[typeof(T)];
+            return obj.QueryAll(predicate);
         }
-
-        [JsonIgnore]
-        private HashSet<Sprite> Money
-        {
-            get
-            {
-                lock (syncLock)
-                {
-                    return new HashSet<Sprite>(_money);
-                }
-            }
-        }
-
-        [JsonIgnore]
-        private HashSet<Sprite> Items
-        {
-            get
-            {
-                lock (syncLock)
-                {
-                    return new HashSet<Sprite>(_items);
-                }
-            }
-        }
-
-        [JsonIgnore]
-        public static ObjectService Context
-        {
-            get
-            {
-                if (context == null)
-                    context = new ObjectService();
-
-                return context;
-            }
-        }
-
-        public void Dispose()
-        {
-            disposedValue = !disposedValue;
-            Dispose(true);
-        }
-
-        public event ObjectEvent<Sprite> ObjectAdded;
-        public event ObjectEvent<Sprite> ObjectChanged;
-        public event ObjectEvent<Sprite> ObjectRemoved;
-
-
-        public T Query<T>(Predicate<T> predicate) where T : Sprite, new()
-        {
-            var obj = new T();
-
-
-            if (obj is Aisling)
-            {
-                if (Aislings == null)
-                    return null;
-
-                return Aislings.Cast<T>().FirstOrDefault(i => predicate(i));
-            }
-
-            if (obj is Monster)
-            {
-                if (Monsters == null)
-                    return null;
-
-                return Monsters.Cast<T>().FirstOrDefault(i => predicate(i));
-            }
-
-            if (obj is Mundane)
-            {
-                if (Mundanes == null)
-                    return null;
-
-                return Mundanes.Cast<T>().FirstOrDefault(i => predicate(i));
-            }
-
-            if (obj is Money)
-            {
-                if (Money == null)
-                    return null;
-
-                return Money.Cast<T>().FirstOrDefault(i => predicate(i));
-            }
-
-            if (obj is Item)
-            {
-                if (Items == null)
-                    return null;
-
-                return Items.Cast<T>().FirstOrDefault(i => predicate(i));
-            }
-
-
-            return null;
-        }
-
-        public T[] QueryAll<T>(Predicate<T> predicate) where T : Sprite, new()
-        {
-            var obj = new T();
-
-            if (obj is Aisling)
-            {
-                if (Aislings == null)
-                    return null;
-
-                return Aislings.Cast<T>().Where(i => predicate(i)).ToArray();
-            }
-
-            if (obj is Monster)
-            {
-                if (Monsters == null)
-                    return null;
-
-                return Monsters.Cast<T>().Where(i => predicate(i)).ToArray();
-            }
-
-            if (obj is Mundane)
-            {
-                if (Mundanes == null)
-                    return null;
-
-                return Mundanes.Cast<T>().Where(i => predicate(i)).ToArray();
-            }
-
-            if (obj is Money)
-            {
-                if (Money == null)
-                    return null;
-
-                return Money.Cast<T>().Where(i => predicate(i)).ToArray();
-            }
-
-            if (obj is Item)
-            {
-                if (Items == null)
-                    return null;
-
-                return Items.Cast<T>().Where(i => predicate(i)).ToArray();
-            }
-
-
-            return null;
-        }
-
-        public void Save<T>(T reference, Predicate<T> predicate)
-            where T : Sprite
-        {
-            if (reference == null)
-                return;
-
-            ObjectChanged?.Invoke(reference);
-        }
-
-        public void Insert<T>(T obj) where T : Sprite
-        {
-            if (obj == null)
-                return;
-
-            lock (Generator.Random)
-            {
-                obj.Serial = Generator.GenerateNumber();
-            }
-
-            lock (syncLock)
-            {
-                if (obj is Aisling)
-                    _aislings.Add(obj);
-
-                if (obj is Monster)
-                    _monsters.Add(obj);
-
-                if (obj is Mundane)
-                    _mundanes.Add(obj);
-
-                if (obj is Money)
-                    _money.Add(obj);
-
-                if (obj is Item)
-                    _items.Add(obj);
-
-                ObjectAdded?.Invoke(obj);
-            }
-        }
-
-        public void RemoveAll<T>(T[] objects) where T : Sprite
+      
+        public void RemoveAllGameObjects<T>(T[] objects) where T : Sprite
         {
             if (objects == null)
                 return;
 
             for (uint i = 0; i < objects.Length; i++)
-                Remove(objects[i]);
+                RemoveGameObject(objects[i]);
         }
 
-
-        public void Remove<T>(T obj) where T : Sprite
+        public void AddGameObject<T>(T obj) where T : Sprite
         {
-            if (obj == null)
-                return;
-
-            lock (syncLock)
-            {
-                if (obj is Aisling)
-                    _aislings.Remove(obj);
-
-                if (obj is Monster)
-                    _monsters.Remove(obj);
-
-                if (obj is Mundane)
-                    _mundanes.Remove(obj);
-
-                if (obj is Money)
-                    _money.Remove(obj);
-
-                if (obj is Item)
-                    _items.Remove(obj);
-
-                ObjectRemoved?.Invoke(obj);
-            }
+            var objCollection = (SpriteCollection<T>)_spriteCollections[typeof(T)];
+            objCollection.Add(obj);
         }
 
-        public void Cache()
+        public void RemoveGameObject<T>(T obj) where T : Sprite
         {
-            StorageManager.Save(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    var removables = Aislings.Concat(Money).Concat(Mundanes).Concat(Monsters).Concat(Items)
-                        .Reverse();
-
-                    foreach (var obj in removables)
-                        obj.Remove();
-
-                    _items?.Clear();
-                    _money?.Clear();
-                    _monsters?.Clear();
-                    _aislings?.Clear();
-                    _mundanes?.Clear();
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        internal static void Set(ObjectService cache_)
-        {
-            if (CacheLoaded)
-                return;
-
-            foreach (var obj in cache_.Items)
-                Context.Insert(obj);
-
-            foreach (var obj in cache_.Money)
-                Context.Insert(obj);
-
-            CacheLoaded = true;
-        }
+            var objCollection = (SpriteCollection<T>)_spriteCollections[typeof(T)];
+            objCollection.Delete(obj);
+        }             
     }
 }

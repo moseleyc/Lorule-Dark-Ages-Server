@@ -6,7 +6,6 @@ namespace Darkages.Systems.Loot
 {
     public class LootModifierSet : Template, IModifierSet
     {
-        public string Name { get; set; }
         public int Weight { get; set; }
         public ICollection<IModifier> Modifiers { get; }
 

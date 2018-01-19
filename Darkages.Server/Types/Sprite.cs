@@ -769,8 +769,7 @@ namespace Darkages.Types
                     Serial = Serial
                 });
 
-            if (this is Aisling)
-                SaveObject(this as Aisling);
+            ServerContext.Game.ObjectPulseController?.OnObjectUpdate(this);
         }
 
         public void WalkTo(int x, int y)
@@ -828,11 +827,6 @@ namespace Darkages.Types
                 if (!Walk())
                     return;
 
-                if (this is Monster)
-                    SaveObject(this as Monster);
-
-                if (this is Mundane)
-                    SaveObject(this as Mundane);
             }
             catch
             {
@@ -852,10 +846,7 @@ namespace Darkages.Types
 
             if (Walk())
             {
-                if (this is Monster)
-                    SaveObject(this as Monster);
-                if (this is Mundane)
-                    SaveObject(this as Mundane);
+
             }
         }
 
@@ -989,6 +980,7 @@ namespace Darkages.Types
             Y = Y.Clamp(Y, Map.Rows - 1);
 
             CompleteWalk(savedX, savedY);
+            ServerContext.Game.ObjectPulseController?.OnObjectUpdate(this);
 
             return true;
         }
@@ -1008,7 +1000,6 @@ namespace Darkages.Types
                 });
 
                 Client.Send(new ServerFormat32());
-                SaveObject(this as Aisling);
             }
 
             //create format to send to all nearby users.
@@ -1026,7 +1017,6 @@ namespace Darkages.Types
                 if (nearby.Length > 0)
                     foreach (var obj in nearby)
                         obj.Show(Scope.Self, response, nearby);
-                SaveObject(this as Monster);
             }
 
             if (this is Mundane)
@@ -1035,7 +1025,7 @@ namespace Darkages.Types
                 if (nearby.Length > 0)
                     foreach (var obj in nearby)
                         obj.Show(Scope.Self, response, nearby);
-                SaveObject(this as Mundane);
+
             }
 
 
@@ -1044,8 +1034,6 @@ namespace Darkages.Types
                 Client.Aisling.Show(this is Aisling
                     ? Scope.NearbyAislingsExludingSelf
                     : Scope.NearbyAislings, response);
-
-                SaveObject(this as Aisling);
             }
         }
 

@@ -84,7 +84,6 @@ namespace Darkages.Types
                 if (nearby.Target != null && nearby.Target.Serial == Serial)
                 {
                     nearby.Target = null;
-                    SaveObject(nearby);
                 }
         }
 
@@ -92,8 +91,6 @@ namespace Darkages.Types
         {
             if (Template == null)
                 return;
-
-            SaveObject(this);
 
             if (Template.ChatTimer != null)
             {

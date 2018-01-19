@@ -20,55 +20,24 @@ namespace Darkages.Network.Object
             All = Aislings | Items | Money | Monsters | Mundanes
         }
 
-
-        public void OnAdded(ObjectEvent<Sprite> p)
-        {
-            ObjectService.Context.ObjectAdded += p;
-        }
-
-        public void OnRemoved(ObjectEvent<Sprite> p)
-        {
-            ObjectService.Context.ObjectRemoved += p;
-        }
-
-        public void OnUpdated(ObjectEvent<Sprite> p)
-        {
-            ObjectService.Context.ObjectChanged += p;
-        }
-
         public void DelObject<T>(T obj) where T : Sprite
         {
-            ObjectService.Context.Remove(obj);
+            ServerContext.Game.ObjectFactory.RemoveGameObject(obj);
         }
 
         public void DelObjects<T>(T[] obj) where T : Sprite
         {
-            ObjectService.Context.RemoveAll(obj);
-        }
-
-        public void SaveObject<T>(T obj) where T : Sprite, new()
-        {
-            ObjectService.Context.Save(obj, i => i.Serial == obj.Serial);
+            ServerContext.Game.ObjectFactory.RemoveAllGameObjects(obj);
         }
 
         public T GetObject<T>(Predicate<T> p) where T : Sprite, new()
         {
-            return ObjectService.Context.Query(p);
+            return ServerContext.Game.ObjectFactory.Query(p);
         }
 
         public T[] GetObjects<T>(Predicate<T> p) where T : Sprite, new()
         {
-            return ObjectService.Context.QueryAll(p);
-        }
-
-        public void Flush()
-        {
-            ObjectService.Context?.Dispose();
-        }
-
-        public void Cache()
-        {
-            ObjectService.Context?.Cache();
+            return ServerContext.Game.ObjectFactory.QueryAll(p);
         }
 
         public static T Clone<T>(T source)
@@ -81,9 +50,12 @@ namespace Darkages.Network.Object
             where T : Sprite
         {
             if (p != null && p(obj))
-                ObjectService.Context.Insert(obj);
-            else
-                ObjectService.Context.Insert(obj);
+            {
+                ServerContext.Game.ObjectFactory.AddGameObject(obj);
+                return;
+            }
+
+            ServerContext.Game.ObjectFactory.AddGameObject(obj);
         }
 
         public Sprite[] GetObjects(Predicate<Sprite> p, Get selections)

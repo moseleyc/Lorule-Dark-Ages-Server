@@ -255,11 +255,7 @@ namespace Darkages
             if (_proxy == null)
                 _proxy = new Instance();
 
-            if (checkBox1.Checked)
-                _proxy.Flush();
-            else
-                _proxy.Cache();
-
+         
             if (!_proxy.IsRunning)
             {
                 _proxy = new Instance();
@@ -334,11 +330,6 @@ namespace Darkages
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (_proxy != null && _proxy.IsRunning)
-            {
-                _proxy.Flush();
-                return;
-            }
 
             MessageBox.Show("Server must be running first.");
         }
@@ -358,10 +349,7 @@ namespace Darkages
 
         private void everythingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_proxy != null && _proxy.IsRunning)
-            {
-                _proxy.Flush();
-            }
+
         }
 
         public class Instance : ServerContext
