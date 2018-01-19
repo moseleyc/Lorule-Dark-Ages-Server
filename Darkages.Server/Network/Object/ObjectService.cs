@@ -59,11 +59,6 @@ namespace Darkages.Network.Object
             [typeof(Item)]    = new SpriteCollection<Item>(Enumerable.Empty<Item>()),
         };
 
-        private Aisling[] Aislings => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Aisling)]).ToArray();
-        private Aisling[] Monsters => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Monster)]).ToArray();
-        private Aisling[] Mundanes => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Mundane)]).ToArray();
-        private Aisling[] Coins    => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Money)]).ToArray();
-        private Aisling[] Items    => ((SpriteCollection<Aisling>)_spriteCollections[typeof(Item)]).ToArray();
 
         public T Query<T>(Predicate<T> predicate) 
         {
