@@ -1,0 +1,37 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 125,
+  "DisplayImage": 34205,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 3,
+  "Flags": 4221,
+  "MaxDurability": 1000,
+  "Value": 0,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 1,
+  "DmgMin": 1,
+  "DmgMax": 1,
+  "DropRate": 1.0,
+  "StageRequired": 0,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Yellow Polyp Puppet"
+}

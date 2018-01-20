@@ -1,0 +1,67 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 285,
+  "DisplayImage": 46308,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "ManaModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 5500
+  },
+  "StrModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "IntModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "WisModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "ConModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "DexModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 7
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 12,
+  "Flags": 4221,
+  "MaxDurability": 1000000,
+  "Value": 500000,
+  "EquipmentSlot": 1,
+  "Class": 2,
+  "LevelRequired": 99,
+  "DmgMin": 1304,
+  "DmgMax": 1804,
+  "DropRate": 1.0,
+  "StageRequired": 1,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Wooden Bow"
+}

@@ -477,7 +477,7 @@ namespace Darkages.Types
 
         public Sprite GetSprite(int x, int y)
         {
-            return GetObject(i => i.X == x && i.Y == y, Get.All);
+            try { return GetObject(i => i.X == x && i.Y == y, Get.All); } catch { return null; };
         }
 
         public List<Sprite> GetInfront(Sprite sprite, int tileCount = 1)

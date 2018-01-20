@@ -1,0 +1,52 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 163,
+  "DisplayImage": 35431,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "StrModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "IntModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "DexModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 6,
+  "Flags": 4221,
+  "MaxDurability": 800000,
+  "Value": 1032000,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 99,
+  "DmgMin": 500,
+  "DmgMax": 705,
+  "DropRate": 1.0,
+  "StageRequired": 1,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Thunderfury"
+}

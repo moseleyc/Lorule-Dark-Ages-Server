@@ -1,0 +1,62 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 77,
+  "DisplayImage": 33642,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "ManaModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 500
+  },
+  "StrModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "WisModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "ConModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": -1
+  },
+  "DexModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 1
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 1
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 10,
+  "Flags": 4221,
+  "MaxDurability": 2600000,
+  "Value": 30000,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 99,
+  "DmgMin": 295,
+  "DmgMax": 320,
+  "DropRate": 1.0,
+  "StageRequired": 1,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Master Kris"
+}

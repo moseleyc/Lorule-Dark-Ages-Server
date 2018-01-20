@@ -1,0 +1,52 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 173,
+  "DisplayImage": 35139,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "ManaModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1500
+  },
+  "IntModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 2
+  },
+  "WisModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 2
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 7,
+  "Flags": 4221,
+  "MaxDurability": 40000,
+  "Value": 103200,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 99,
+  "DmgMin": 4,
+  "DmgMax": 150,
+  "DropRate": 1.0,
+  "StageRequired": 1,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Brute's Quill"
+}

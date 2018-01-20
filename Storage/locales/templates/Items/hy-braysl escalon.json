@@ -1,0 +1,47 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 20,
+  "DisplayImage": 32947,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "ManaModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1000
+  },
+  "DexModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 1
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 7,
+  "Flags": 4221,
+  "MaxDurability": 3000000,
+  "Value": 3500000,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 99,
+  "DmgMin": 674,
+  "DmgMax": 834,
+  "DropRate": 1.0,
+  "StageRequired": 1,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Hy-Braysl Escalon"
+}

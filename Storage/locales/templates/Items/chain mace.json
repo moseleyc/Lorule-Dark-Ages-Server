@@ -1,0 +1,37 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 47,
+  "DisplayImage": 33287,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 0,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 10,
+  "Flags": 4221,
+  "MaxDurability": 10000,
+  "Value": 21000,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 36,
+  "DmgMin": 30,
+  "DmgMax": 50,
+  "DropRate": 1.0,
+  "StageRequired": 0,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Chain Mace"
+}

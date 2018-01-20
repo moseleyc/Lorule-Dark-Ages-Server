@@ -1,0 +1,37 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 19,
+  "DisplayImage": 32946,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 40,
+  "Flags": 4221,
+  "MaxDurability": 70000,
+  "Value": 49000,
+  "EquipmentSlot": 1,
+  "Class": 4,
+  "LevelRequired": 99,
+  "DmgMin": 82,
+  "DmgMax": 122,
+  "DropRate": 1.0,
+  "StageRequired": 0,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Staff of Ages"
+}

@@ -1,0 +1,37 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 36,
+  "DisplayImage": 33276,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 30,
+  "Flags": 4221,
+  "MaxDurability": 400000,
+  "Value": 100000,
+  "EquipmentSlot": 1,
+  "Class": 0,
+  "LevelRequired": 75,
+  "DmgMin": 90,
+  "DmgMax": 120,
+  "DropRate": 1.0,
+  "StageRequired": 0,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Giant Club"
+}

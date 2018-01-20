@@ -1,0 +1,37 @@
+{
+  "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
+  "ID": 0,
+  "CanStack": false,
+  "MaxStack": 0,
+  "Image": 52,
+  "DisplayImage": 33292,
+  "ScriptName": "Weapon",
+  "Gender": 255,
+  "HitModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "DmgModifer": {
+    "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+    "Option": 1,
+    "Value": 0
+  },
+  "OffenseElement": 0,
+  "DefenseElement": 0,
+  "Upgrades": 0,
+  "CarryWeight": 20,
+  "Flags": 4221,
+  "MaxDurability": 40000,
+  "Value": 70100,
+  "EquipmentSlot": 1,
+  "Class": 4,
+  "LevelRequired": 80,
+  "DmgMin": 105,
+  "DmgMax": 181,
+  "DropRate": 1.0,
+  "StageRequired": 0,
+  "HasPants": false,
+  "Color": 0,
+  "Name": "Holy Hermes"
+}
