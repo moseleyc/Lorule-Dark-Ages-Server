@@ -30,11 +30,10 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spells/Skills
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Equipment
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Shops, Dialogs, Pursuits
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Maps, Zones
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Death Handling, you can die, revive. ect
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elements, Fire, Water, Earth, Wind, Dark, Light
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Regen
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working with a NPC for reviving.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Regen, Stats, AC and other Attributes implemented.
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Player PVP, Arena is working, Similar to USDA.
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Assails, Ambush, Crasher, Kelb, Wff, pramh - all working
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Spell Bars, Buffs, Debuffs
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests, Examples can be found in gos/benson templates.
@@ -43,7 +42,6 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) World Maps, World Portals, Warps
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Grouping
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Community States, Awake, daydreaming ect.
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) In-Game Boards
 
 
