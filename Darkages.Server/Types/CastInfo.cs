@@ -8,7 +8,8 @@ namespace Darkages.Types
         public byte SpellLines;
         public DateTime Started;
 
-        public uint Target { get; internal set; }
-        public Position Position { get; internal set; }
+        public uint Target { get; set; }
+        public Position Position { get; set; }
+        public string Data { get; set; }
     }
 }

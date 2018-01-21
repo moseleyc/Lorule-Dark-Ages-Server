@@ -20,25 +20,10 @@ namespace Darkages.Network.Object
             All = Aislings | Items | Money | Monsters | Mundanes
         }
 
-        public void DelObject<T>(T obj) where T : Sprite
-        {
-            ServerContext.Game.ObjectFactory.RemoveGameObject(obj);
-        }
-
-        public void DelObjects<T>(T[] obj) where T : Sprite
-        {
-            ServerContext.Game.ObjectFactory.RemoveAllGameObjects(obj);
-        }
-
-        public T GetObject<T>(Predicate<T> p) where T : Sprite, new()
-        {
-            return ServerContext.Game.ObjectFactory.Query(p);
-        }
-
-        public T[] GetObjects<T>(Predicate<T> p) where T : Sprite, new()
-        {
-            return ServerContext.Game.ObjectFactory.QueryAll(p);
-        }
+        public void DelObject<T>(T obj) where T : Sprite => ServerContext.Game.ObjectFactory.RemoveGameObject(obj);
+        public void DelObjects<T>(T[] obj) where T : Sprite => ServerContext.Game.ObjectFactory.RemoveAllGameObjects(obj);
+        public T GetObject<T>(Predicate<T> p) where T : Sprite => ServerContext.Game.ObjectFactory.Query(p);
+        public T[] GetObjects<T>(Predicate<T> p) where T : Sprite => ServerContext.Game.ObjectFactory.QueryAll(p);
 
         public static T Clone<T>(T source)
         {

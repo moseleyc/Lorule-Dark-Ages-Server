@@ -2,7 +2,23 @@
   "$type": "Darkages.Types.Board, Darkages.Server",
   "Posts": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.PostFormat, Darkages.Server]], mscorlib",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Darkages.Types.PostFormat, Darkages.Server",
+        "Owner": "lol",
+        "TopicId": 1911,
+        "PostId": 1,
+        "BoardId": 3,
+        "Read": false,
+        "DatePosted": "2018-01-20T16:21:59.577855Z",
+        "Sender": "lol",
+        "Message": "not all work\r",
+        "Subject": "weapons",
+        "Command": 49,
+        "Secured": true,
+        "Delay": 0
+      }
+    ]
   },
   "Secured": true,
   "Command": 49,

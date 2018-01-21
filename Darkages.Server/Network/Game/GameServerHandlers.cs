@@ -667,6 +667,7 @@ namespace Darkages.Network.Game
                 client.Aisling.ActiveSpellInfo.Slot = format.Index;
                 client.Aisling.ActiveSpellInfo.Target = format.Serial;
                 client.Aisling.ActiveSpellInfo.Position = format.Point;
+                client.Aisling.ActiveSpellInfo.Data = format.Data;
 
                 var spell = client.Aisling.SpellBook.Get(i => i != null &&
                                                               i.Slot == client.Aisling.ActiveSpellInfo.Slot)
@@ -686,7 +687,8 @@ namespace Darkages.Network.Game
                     Slot = format.Index,
                     SpellLines = 0,
                     Started = DateTime.UtcNow,
-                    Target = format.Serial
+                    Target = format.Serial,
+                    Data = format.Data
                 };
 
                 var spell = client.Aisling.SpellBook.Get(i =>

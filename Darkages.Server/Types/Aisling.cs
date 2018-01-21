@@ -211,6 +211,9 @@ namespace Darkages
 
             if (info != null)
             {
+                if (!string.IsNullOrEmpty(info.Data))
+                    spell.Script.Arguments = info.Data;
+
                 var target = GetObject(i => i.Serial == info.Target, Get.Monsters | Get.Aislings | Get.Mundanes);
                 spell.InUse = true;
 
@@ -233,7 +236,7 @@ namespace Darkages
                 spell.Script.OnUse(this, this);
             }
 
-            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.5);
+            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.2);
             spell.InUse = false;
         }
 

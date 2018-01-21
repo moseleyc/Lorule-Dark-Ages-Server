@@ -240,6 +240,16 @@ namespace Darkages
                 CacheCommunityAssets();
             }
 
+
+            GlobalSpellTemplateCache["Create"] = new SpellTemplate()
+            {
+                ScriptKey = "Create",
+                TargetType = SpellTemplate.SpellUseType.Prompt,
+                Name = "Create",
+                Icon = 255,
+                Text = "Create: ",
+            };
+
             Console.WriteLine("\n");
         }
     }

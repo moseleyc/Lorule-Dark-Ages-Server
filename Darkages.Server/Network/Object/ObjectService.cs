@@ -1,45 +1,56 @@
-﻿using Darkages.Common;
-using Darkages.Types;
+﻿using Darkages.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 
 namespace Darkages.Network.Object
 {
     public class SpriteCollection<T> : IEnumerable<T>, INotifyCollectionChanged
     {
-        private readonly ConcurrentList<T> _values;
+        private readonly ISet<T> _values;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public SpriteCollection(IEnumerable<T> values) => _values = new ConcurrentList<T>(values);
+        public SpriteCollection(IEnumerable<T> values) => _values = new HashSet<T>(values);
 
         public T Query(Predicate<T> predicate)
         {
-            return _values.FirstOrDefault(i => predicate(i));
+            lock (_values)
+            {
+                return _values.FirstOrDefault(i => predicate(i));
+            }
         }
 
         public T[] QueryAll(Predicate<T> predicate)
         {
-            return _values.Where(i => predicate(i)).ToArray();
+            lock (_values)
+            {
+                return _values.Where(i => predicate(i)).ToArray();
+            }
         }
 
         public void Add(T obj)
         {
-            _values.Add(obj);
+            lock (_values)
+            {
+                _values.Add(obj);
+            }
+
             CollectionChanged?
                 .Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
         }
 
         public void Delete(T obj)
         {
-            if (_values.Remove(obj))
+            lock (_values)
             {
-                CollectionChanged?
-                    .Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+                if (_values.Remove(obj))
+                {
+                    CollectionChanged?
+                        .Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+                }
             }
         }
 
