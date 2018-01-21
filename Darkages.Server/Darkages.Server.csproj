@@ -140,6 +140,10 @@
     <Compile Include="Network\Game\GameServerHandlers.cs" />
     <Compile Include="Network\Game\GameServerTimer.cs" />
     <Compile Include="Network\Client.cs" />
+    <Compile Include="Storage\locales\Scripts\Monsters\TowerDefense.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Storage\locales\Scripts\Mundanes\TowerDefenseHandler.cs" />
     <Compile Include="Storage\locales\Scripts\Spells\Create.cs" />
     <Compile Include="Systems\Loot\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Systems\Loot\Interfaces\ILootDefinition.cs" />

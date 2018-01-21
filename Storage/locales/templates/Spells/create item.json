@@ -1,0 +1,18 @@
+{
+  "$type": "Darkages.Types.SpellTemplate, Darkages.Server",
+  "Icon": 152,
+  "MaxLevel": 0,
+  "ScriptKey": "Create",
+  "MinLines": 0,
+  "MaxLines": 0,
+  "ManaCost": 0,
+  "Text": "Enter Item Name ->",
+  "TargetType": 1,
+  "BaseLines": 0,
+  "LevelRate": 0.0,
+  "Sound": 0,
+  "Animation": 0,
+  "DamageExponent": 0.0,
+  "ElementalProperty": 0,
+  "Name": "Create Item"
+}

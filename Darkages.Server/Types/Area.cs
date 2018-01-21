@@ -158,11 +158,12 @@ namespace Darkages
 
         public void Update(TimeSpan elapsedTime)
         {
-            if (!Has<Aisling>())
-                return;
 
             if (Has<Monster>())
                 UpdateMonsters(elapsedTime);
+
+            if (!Has<Aisling>())
+                return;
 
             if (Has<Mundane>())
                 UpdateMundanes(elapsedTime);
@@ -213,7 +214,7 @@ namespace Darkages
             {
                 var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(obj) && i.CurrentMapId == ID).Length;
 
-                if (nearby == 0)
+                if (nearby == 0 && !obj.Template.UpdateMapWide)
                     continue;
 
                 if (obj != null && obj.Map != null && obj.Script != null)

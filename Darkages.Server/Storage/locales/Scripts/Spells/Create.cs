@@ -37,6 +37,7 @@ namespace Darkages.Storage.locales.Scripts.Spells
                 if (exists != null)
                 {
                     var template = ServerContext.GlobalItemTemplateCache[exists];
+                    var offset = template.DisplayImage - 0x8000;
                     var item = Item.Create(sprite, template, false);
 
                     item.Release(sprite, sprite.Position);

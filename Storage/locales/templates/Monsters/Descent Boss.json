@@ -27,7 +27,7 @@
   "CastSpeed": 500,
   "ArmorClass": 0,
   "MagicResist": 20,
-  "SpawnMax": 1,
+  "SpawnMax": 3,
   "SpawnRate": 60,
   "SpawnSize": 1,
   "AttackSpeed": 650,
@@ -47,7 +47,7 @@
       "beag ioc fein",
       "beag ioc fein",
       "dion",
-       
+
     ]
   },
   "Name": "Hagg (Cave Boss)"

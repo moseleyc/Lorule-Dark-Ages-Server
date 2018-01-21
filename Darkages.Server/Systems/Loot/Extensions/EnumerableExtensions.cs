@@ -8,11 +8,6 @@ namespace Darkages.Systems.Loot.Extensions
     {
         private static readonly Random Random = new Random();
 
-        /// <summary>
-        /// Pseudo-randomly picks an item based on its <see cref="IWeighable.Weight"/>.
-        /// </summary>
-        /// <param name="items">The items to pick from.</param>
-        /// <param name="sum">The sum of the list of items.</param>
         public static T WeightedChoice<T>(this IEnumerable<T> items, int sum) where T : IWeighable
         {
             var randomNumber = Random.Next(0, sum + 1);

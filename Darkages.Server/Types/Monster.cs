@@ -91,17 +91,33 @@ namespace Darkages.Types
         private void GenerateExperience(Aisling player)
         {
             var percent = 0.3;
-            var poly = 9;
-            var coponent = poly + player.ExpLevel / Template.Level + 99 * 2;
-            var expToAward = Math.Round(coponent / percent * (player.ExpLevel * 0.30));
-            var expGained = Math.Round(player.ExpLevel * expToAward);
+            var poly    = 9;
 
+            var coponent   = poly + player.ExpLevel / Template.Level + 99 * 2;
+            var expToAward = Math.Round(coponent / percent * (player.ExpLevel * 0.30));
+            var expGained  = Math.Round(player.ExpLevel * expToAward);
+
+            unchecked
+            {
+                expGained = (expGained / player.GroupParty.Length);
+            }
+
+            DistributeExperience(player, expGained, expToAward);
+
+            foreach (var party in player.PartyMembers.Where(i => i.Serial != player.Serial))
+            {
+                if (party.WithinRangeOf(player))
+                    DistributeExperience(party, expGained, expToAward);
+            }
+        }
+
+        private void DistributeExperience(Aisling player, double expGained, double expToAward)
+        {
             var p = player.ExpLevel - Template.Level;
 
             if (p / 10 > 0)
                 expGained = 1;
-            else
-                expGained = Math.Abs(expToAward);
+
 
             if (p < 0)
                 expGained = expToAward * (Math.Abs(p) + 3);
@@ -384,7 +400,7 @@ namespace Darkages.Types
                 WalkTo(CurrentWaypoint.X, CurrentWaypoint.Y);
             }
 
-            if (Position.DistanceFrom(CurrentWaypoint) <= 3 || CurrentWaypoint == null)
+            if (Position.DistanceFrom(CurrentWaypoint) <= 1 || CurrentWaypoint == null)
             {
                 if (WaypointIndex + 1 < Template.Waypoints.Count)
                     WaypointIndex++;

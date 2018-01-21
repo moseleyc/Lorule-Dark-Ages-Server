@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System;
 
 namespace Darkages.Types
 {
@@ -90,5 +91,23 @@ namespace Darkages.Types
 
         [JsonProperty]
         public List<Position> Waypoints { get; set; }
+
+        public bool UpdateMapWide { get; set; }
+
+        [JsonIgnore]
+        public DateTime NextAvailableSpawn { get; set; }
+
+        [JsonIgnore]
+        public bool Ready => DateTime.UtcNow > NextAvailableSpawn;
+
+        public bool ReadyToSpawn()
+        {
+            if (Ready)
+            {
+                NextAvailableSpawn = DateTime.UtcNow.AddSeconds(SpawnRate);
+                return true;
+            }
+            return false;
+        }
     }
 }

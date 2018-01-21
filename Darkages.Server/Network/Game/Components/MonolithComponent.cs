@@ -17,11 +17,11 @@ namespace Darkages.Network.Game.Components
             : base(server)
         {
             _timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
-            var spawnThread = new Thread(SpawnConsumer) {IsBackground = true};
+            var spawnThread = new Thread(SpawnEmitter) {IsBackground = true};
             spawnThread.Start();
         }
 
-        private void SpawnConsumer()
+        private void SpawnEmitter()
         {
             while (true)
             {
@@ -59,6 +59,9 @@ namespace Darkages.Network.Game.Components
                     foreach (var template in temps)
                     {
                         if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
+                            continue;
+
+                        if (!template.ReadyToSpawn())
                             continue;
 
                         var spawn = new Spawn

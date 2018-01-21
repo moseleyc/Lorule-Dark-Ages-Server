@@ -82,14 +82,7 @@ namespace Darkages.Network.Game
 
                 if (Aisling.Map.ID != warps.To.AreaID)
                 {
-                    LeaveArea(true);
-                    Aisling.Map = ServerContext.GlobalMapCache[warps.To.AreaID];
-                    Aisling.X = warps.To.Location.X;
-                    Aisling.Y = warps.To.Location.Y;
-                    Aisling.CurrentMapId = warps.To.AreaID;
-                    Aisling.AreaID = Aisling.CurrentMapId;
-                    EnterArea();
-                    Aisling.Client.CloseDialog();
+                    TransitionToMap(warps.To.AreaID, warps.To.Location);
                 }
                 else
                 {
@@ -102,9 +95,36 @@ namespace Darkages.Network.Game
             }
         }
 
+        public void TransitionToMap(Area area, Position position)
+        {
+            if (area == null)
+                return;
+
+            LeaveArea(true);
+            Aisling.Map = area;
+            Aisling.X = position.X;
+            Aisling.Y = position.Y;
+            Aisling.CurrentMapId = area.ID;
+            Aisling.AreaID = Aisling.CurrentMapId;
+            EnterArea();
+            Aisling.Client.CloseDialog();
+        }
+
+        public void TransitionToMap(int area, Position position)
+        {
+            if (ServerContext.GlobalMapCache.ContainsKey(area))
+            {
+                var target = ServerContext.GlobalMapCache[area];
+                if (target != null)
+                {
+                    TransitionToMap(target, position);
+                }
+            }
+        }
+
         public void CloseDialog()
         {
-            SendPacket(new byte[] {0x30, 0x00, 0x0A, 0x00});
+            SendPacket(new byte[] { 0x30, 0x00, 0x0A, 0x00 });
         }
 
         public void Update(TimeSpan elapsedTime)

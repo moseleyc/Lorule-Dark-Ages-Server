@@ -361,5 +361,12 @@ namespace Darkages
 
             public bool IsRunning => Running;
         }
+
+        private void mapToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            var objCreateWindow = new ObjectCreation();
+            objCreateWindow.SetObject(new Area());
+            objCreateWindow.ShowDialog();
+        }
     }
 }

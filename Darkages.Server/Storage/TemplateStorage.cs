@@ -80,6 +80,7 @@ namespace Darkages.Storage
                     var template =
                         StorageManager.MonsterBucket.Load<MonsterTemplate>(Path.GetFileNameWithoutExtension(asset));
                     ServerContext.GlobalMonsterTemplateCache[template.Name] = template;
+                    template.NextAvailableSpawn = DateTime.UtcNow;
 
                     Console.WriteLine(" -> {0} Loaded From {1}", template.Name, Path.GetFileName(asset));
                 }

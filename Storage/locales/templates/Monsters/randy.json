@@ -29,7 +29,7 @@
   "ArmorClass": 0,
   "MagicResist": 0,
   "SpawnMax": 1,
-  "SpawnRate": 1,
+  "SpawnRate": 120,
   "SpawnSize": 1,
   "AttackSpeed": 0,
   "IgnoreCollision": false,

@@ -8,13 +8,7 @@ namespace Darkages.Systems.Loot
 {
     public class LootDropper : ILootDropper
     {
-        /// <summary>
-        /// Event that fires before an item has been dropped
-        /// </summary>
         public event EventHandler<EventArgs> OnDropStarted;
-        /// <summary>
-        /// Event that fires after an item has been dropped
-        /// </summary>
         public event EventHandler<EventArgs> OnDropCompleted;
         
         public ILootDefinition Drop(ILootTable lootTable, string name)
@@ -71,9 +65,6 @@ namespace Darkages.Systems.Loot
             return item;
         }
 
-        /// <summary>
-        /// Pick an item based on weight
-        /// </summary>
         public static T Pick<T>(IEnumerable<T> items) where T : class, IWeighable
         {
             var itemList = items as IList<T> ?? items.ToList();
