@@ -5,8 +5,6 @@
 
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
-![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule1.png?raw=true "Server")
-
 ![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/pictures/lorule2.png?raw=true "In Game")
 
 
@@ -17,15 +15,14 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 
 ## Project Design Overview.
 - Json based storage and cache
-- SingleInstance Object Manager Service
+- ~~SingleInstance~~ Object Manager Service
 - Configurable From UI
 - Scriptable Storage System/Content
 - Component driven design pattern.
 - Component Proxy Service to support server transitions and multiple servers.
 
-
 ## Server Development Status:
-- Server is currently about ~~92%~~ 94% percent completed until it is content ready.
+- Server is currently about ~~94%~~ 95% percent completed until it is content ready.
 - Expect Glithes! Help by testing and reporting them!
 
 ## Working Features
@@ -46,21 +43,19 @@ A Darkages Server Project - For client **7.18** Only. (Customized Client will be
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) World Maps, World Portals, Warps
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Grouping
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Community States, Awake, daydreaming ect.
-- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Elementals
 - [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) Quests
+- [x] ![#eeeccc](https://placehold.it/15/ecceee/000000?text=+) In-Game Boards
 
 
 
 ## What is missing?
-- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Exchanging
-- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) In-game Boards
 - [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Whispering, Ignore
+- [ ] ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Meta Database (Will be Last to Do.)
 
 
-
-## Progress Map 09/01/2018
-- Exchanging
+## Progress Map 22/01/2018
+- Exchanging Is Up Next.
 
 ## Building & Compiling
 - This was developed using Visual Studio 2017 Community (https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15#)
@@ -93,15 +88,6 @@ Lorule Client Launcher Download:
             -- The rest of the information can be set yourself, IP, port, Ect.
 
 One more thing, run launcher as administrator if it fails, darkages will also need to run as **administrator**.
-
-
-## Formulas
-
-Formulas are in the works, but contributes are welcome! Please see the formulas directory as part of this project.
-
-Example of Supported Excel Template:
-![Alt text](https://github.com/wren11/Lorule-Dark-Ages-Server/blob/master/GitStuff/formulas/items.png?raw=true "Items Template")
-
 
 ## Projects
 
@@ -162,7 +148,7 @@ This would allow you to interface to the object service from an independant serv
 and be able to handle packets send and received from a running lorule server.
         
 An example use for this would be a messaging proxy, for relaying communication between aislings across different servers.
-Accessing objects Across Multple Servers, ect
+Accessing objects Across Multple Servers, ect.
         
         
         
