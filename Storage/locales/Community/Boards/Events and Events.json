@@ -16,7 +16,8 @@
         "Subject": "some event.",
         "Command": 49,
         "Secured": true,
-        "Delay": 0
+        "Delay": 0,
+        "Throttle": false
       }
     ]
   },
@@ -26,5 +27,6 @@
   "IsMail": false,
   "Subject": "Events and Events",
   "LetterId": 2,
-  "Delay": 0
+  "Delay": 0,
+  "Throttle": false
 }

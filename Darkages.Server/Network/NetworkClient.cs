@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
@@ -15,6 +16,7 @@ namespace Darkages.Network
         : ObjectManager
     {
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
+
         private byte _lastFormat;
         private int _matches;
         private bool _sending;
@@ -189,7 +191,6 @@ namespace Darkages.Network
 
         public void Send(NetworkFormat format)
         {
-            //Yes - you are right Justin :)
             if (format.Delay != 0)
                 Thread.Sleep(format.Delay);
 

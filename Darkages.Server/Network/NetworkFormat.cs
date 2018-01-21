@@ -9,5 +9,6 @@ namespace Darkages.Network
         public abstract void Serialize(NetworkPacketReader reader);
         public abstract void Serialize(NetworkPacketWriter writer);
         public virtual int Delay => 0;
+        public virtual bool Throttle { get; }
     }
 }

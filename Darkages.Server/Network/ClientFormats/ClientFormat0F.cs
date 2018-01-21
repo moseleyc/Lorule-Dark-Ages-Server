@@ -16,6 +16,22 @@ namespace Darkages.Network.ClientFormats
 
         public override void Serialize(NetworkPacketReader reader)
         {
+            string data = CHeckData(reader);
+
+            reader.Position = 0;
+            Index = reader.ReadByte();
+            if (reader.CanRead)
+                Serial = reader.ReadUInt32();
+
+            if (reader.CanRead)
+                Point = reader.ReadPosition();
+
+            Data = data.Trim('\0');
+
+        }
+
+        private string CHeckData(NetworkPacketReader reader)
+        {
             Index = reader.ReadByte();
 
             var @data = "";
@@ -27,15 +43,7 @@ namespace Darkages.Network.ClientFormats
                 data += new string(@char, 1);
             }
             while (@char != Char.Parse("\0"));
-
-            reader.Position = 2;
-            if (reader.CanRead)
-                Serial = reader.ReadUInt32();
-
-            if (reader.CanRead)
-                Point = reader.ReadPosition();
-
-            Data = data.Trim('\0');
+            return data;
         }
 
         public override void Serialize(NetworkPacketWriter writer)

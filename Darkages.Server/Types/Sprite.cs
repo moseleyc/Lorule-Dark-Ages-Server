@@ -214,7 +214,7 @@ namespace Darkages.Types
             {
                 Target = Source;
 
-                if (HasBuff("dion"))
+                if (HasBuff("dion") || HasBuff("mor dion"))
                 {
                     var empty = new ServerFormat13
                     {
@@ -558,7 +558,8 @@ namespace Darkages.Types
                 {
                     Serial = target.Serial,
                     Health = (ushort) (100 * target.CurrentHp / target.MaximumHp),
-                    Sound = 1
+                    Sound = 1,
+                    Source =  _obj.Serial,
                 };
 
                 var nearby = GetObjects<Aisling>(i => i.WithinRangeOf(this));

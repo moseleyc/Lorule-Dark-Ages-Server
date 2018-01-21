@@ -16,7 +16,8 @@
         "Subject": "me too",
         "Command": 49,
         "Secured": true,
-        "Delay": 0
+        "Delay": 0,
+        "Throttle": false
       }
     ]
   },
@@ -26,5 +27,6 @@
   "IsMail": false,
   "Subject": "Market (Buying)",
   "LetterId": 4,
-  "Delay": 0
+  "Delay": 0,
+  "Throttle": false
 }
