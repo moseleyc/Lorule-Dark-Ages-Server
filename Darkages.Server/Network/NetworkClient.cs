@@ -43,10 +43,10 @@ namespace Darkages.Network
 
         private static void TransFormDialog(NetworkPacket value)
         {
-            value.Data[2] ^= (byte) (P(value) + 0x72);
-            value.Data[3] ^= (byte) (((byte) (P(value) + 0x72) + 1) % 256);
-            value.Data[4] ^= (byte) (P(value) + 0x28);
-            value.Data[5] ^= (byte) (((byte) (P(value) + 0x28) + 1) % 256);
+            value.Data[2] ^= (byte)(P(value) + 0x73);
+            value.Data[3] ^= (byte)(P(value) + 0x73);
+            value.Data[4] ^= (byte)(P(value) + 0x28);
+            value.Data[5] ^= (byte)(P(value) + 0x29);
 
             For(0, value.Data.Length - 6, i => value.Data[6 + i] ^= (byte) (((byte) (P(value) + 0x28) + i + 2) % 256));
         }

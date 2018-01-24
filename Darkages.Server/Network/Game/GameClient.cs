@@ -156,6 +156,7 @@ namespace Darkages.Network.Game
             Regeneration(elapsedTime);
 
             UpdateStatusBar(elapsedTime);
+
         }
 
         private void UpdateStatusBar(TimeSpan elapsedTime)
