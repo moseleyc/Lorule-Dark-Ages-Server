@@ -97,7 +97,7 @@ namespace Darkages.Network
 
         private void SendBuffers(object state)
         {
-            while (true)
+            while (_sending)
             {
                 NetworkFormat format;
 
@@ -165,20 +165,7 @@ namespace Darkages.Network
                 Writer.Write(Ordinal++);
 
             format.Serialize(Writer);
-
-            if (_lastFormat == format.Command)
-            {
-                ++_matches;
-            }
-            else
-            {
-                _lastFormat = format.Command;
-                _matches = 0;
-            }
-
-            return _matches < (format is ServerFormat3C
-                       ? ServerContext.Config.PacketOverflowLimit
-                       : ServerContext.Config.ServerOverflowTolerate);
+            return true;
         }
 
         private void SendCallback(IAsyncResult ar)

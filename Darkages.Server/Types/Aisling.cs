@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,7 +13,26 @@ namespace Darkages
     {
         [JsonIgnore] public int DamageCounter = 0;
 
-        [JsonIgnore] public List<Sprite> ViewFrustrum = new List<Sprite>();
+        [JsonIgnore]
+        public ConcurrentDictionary<int, Sprite> ViewFrustrum
+            = new ConcurrentDictionary<int, Sprite>();
+
+
+        public List<Sprite> ViewableObjects
+        {
+            get
+            {
+                List<Sprite> cache;
+
+                lock (ViewFrustrum)
+                {
+                    cache = new List<Sprite>(ViewFrustrum.Select(i => i.Value));
+                }
+
+                return cache;
+            }
+        }
+
 
         public Aisling()
         {
@@ -139,37 +159,12 @@ namespace Darkages
             if (ViewFrustrum.Count == 0)
                 return false;
 
-            try
-            {
-                List<Sprite> _view;
-
-                lock (ViewFrustrum)
-                {
-                    _view = new List<Sprite>(ViewFrustrum)
-                        .ToList();
-                }
-
-                if (_view.Where(t => t != null).Any(t => obj.Serial == t.Serial)) return true;
-            }
-            catch (ArgumentException)
-            {
-                obj.Remove<Monster>();
-                return true;
-            }
-
-            return false;
+            return ViewFrustrum.ContainsKey(obj.Serial);
         }
 
         public void RemoveFromView(Sprite obj)
         {
-            lock (ViewFrustrum)
-            {
-                if (ViewFrustrum.Count == 0)
-                    return;
-
-                if (ViewFrustrum.Contains(obj))
-                    ViewFrustrum.Remove(obj);
-            }
+            ViewFrustrum.TryRemove(obj.Serial, out var removed);
         }
 
         public void GoHome()
@@ -193,7 +188,8 @@ namespace Darkages
 
         public void View(Sprite obj)
         {
-            if (!InsideView(obj)) ViewFrustrum.Add(obj);
+            if (!InsideView(obj))
+                ViewFrustrum.TryAdd(obj.Serial, obj);
         }
 
         public void CastSpell(Spell spell)

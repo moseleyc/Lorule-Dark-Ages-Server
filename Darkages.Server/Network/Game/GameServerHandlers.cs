@@ -326,6 +326,8 @@ namespace Darkages.Network.Game
             client.Aisling.PortalSession.TransitionToMap(client,
                 (short)node.Destination.Location.X,
                 (short)node.Destination.Location.Y, node.Destination.AreaID);
+
+            client.Aisling.PortalSession.IsMapOpen = false;
         }
 
         /// <summary>

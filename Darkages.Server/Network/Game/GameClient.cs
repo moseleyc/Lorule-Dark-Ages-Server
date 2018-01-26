@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Storage;
 using Darkages.Storage.locales.Scripts.Global;
 using Darkages.Types;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Darkages.Network.Game
 {
@@ -157,6 +156,22 @@ namespace Darkages.Network.Game
 
             UpdateStatusBar(elapsedTime);
 
+            HandleTimeOuts();
+        }
+
+        private void HandleTimeOuts()
+        {
+            if (Aisling.PortalSession == null)
+                return;
+
+            if (Aisling.PortalSession.IsMapOpen)
+            {
+                if ((DateTime.UtcNow - Aisling.PortalSession.DateOpened).TotalSeconds > 10)
+                {
+                    Aisling.GoHome();
+                    Aisling.PortalSession = null;
+                }
+            }        
         }
 
         private void UpdateStatusBar(TimeSpan elapsedTime)
@@ -255,6 +270,7 @@ namespace Darkages.Network.Game
         {
             LastPingResponse = DateTime.UtcNow;
             BoardOpened = DateTime.UtcNow;
+            Aisling.PortalSession = null;
 
             if (Aisling == null || Aisling.AreaID == 0)
                 return false;
@@ -492,7 +508,7 @@ namespace Darkages.Network.Game
 
             if (ShouldUpdateMap)
             {
-                Aisling.ViewFrustrum = new List<Sprite>();
+                //Maybe Clear view frustrum.
                 Send(new ServerFormat15(Aisling.Map));
             }
         }

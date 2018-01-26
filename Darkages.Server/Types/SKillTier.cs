@@ -3,7 +3,7 @@
 namespace Darkages.Types
 {
     [Flags]
-    public enum SKillTier
+    public enum SkillTier
     {
         Tier10,
         Tier9,

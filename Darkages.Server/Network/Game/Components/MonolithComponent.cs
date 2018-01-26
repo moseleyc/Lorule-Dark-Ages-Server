@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using Darkages.Types;
+using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
-using Darkages.Types;
 
 namespace Darkages.Network.Game.Components
 {
@@ -10,14 +11,15 @@ namespace Darkages.Network.Game.Components
     {
         private readonly GameServerTimer _timer;
 
-        public Queue<Spawn> SpawnQueue = new Queue<Spawn>();
+        public readonly BlockingCollection<Spawn> SpawnQueue = new BlockingCollection<Spawn>();
+
         public object SyncObj = new object();
 
         public MonolithComponent(GameServer server)
             : base(server)
         {
             _timer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.GlobalSpawnTimer));
-            var spawnThread = new Thread(SpawnEmitter) {IsBackground = true};
+            var spawnThread = new Thread(SpawnEmitter) { IsBackground = true };
             spawnThread.Start();
         }
 
@@ -25,16 +27,18 @@ namespace Darkages.Network.Game.Components
         {
             while (true)
             {
-                Spawn spawnObj = null;
+                if (SpawnQueue.Count > 0)
+                    ConsumeSpawns();
 
-                lock (SyncObj)
-                {
-                    if (SpawnQueue.Count > 0) spawnObj = SpawnQueue.Dequeue();
-                }
+                Thread.Sleep(1000);
+            }
+        }
 
-                if (spawnObj != null) SpawnOn(spawnObj.Template, spawnObj.Map);
-
-                Thread.Sleep(100);
+        private void ConsumeSpawns()
+        {
+            foreach (var spawnObj in SpawnQueue.GetConsumingEnumerable())
+            {
+                SpawnOn(spawnObj.Template, spawnObj.Map);
             }
         }
 
@@ -61,18 +65,18 @@ namespace Darkages.Network.Game.Components
                         if (template.SpawnOnlyOnActiveMaps && !map.Has<Aisling>())
                             continue;
 
-                        if (!template.ReadyToSpawn())
-                            continue;
-
-                        var spawn = new Spawn
+                        if (template.ReadyToSpawn())
                         {
-                            Template = template,
-                            Map = map
-                        };
+                            var spawn = new Spawn
+                            {
+                                Template = template,
+                                Map = map
+                            };
 
-                        lock (SyncObj)
-                        {
-                            SpawnQueue.Enqueue(spawn);
+                            if (!SpawnQueue.TryAdd(spawn))
+                            {
+
+                            }
                         }
                     }
                 }
@@ -85,26 +89,16 @@ namespace Darkages.Network.Game.Components
 
             if (count < template.SpawnMax)
                 if ((template.SpawnType & SpawnQualifer.Random) == SpawnQualifer.Random)
-                    CreateFromTemplate<Monster>(template, map);
+                    CreateFromTemplate(template, map, count);
                 else if ((template.SpawnType & SpawnQualifer.Defined) == SpawnQualifer.Defined)
-                    CreateFromTemplate<Monster>(template, map);
+                    CreateFromTemplate(template, map, count);
         }
 
 
-        public bool CreateFromTemplate<T>(Template template, Area map) where T : Sprite, new()
+        public bool CreateFromTemplate(MonsterTemplate template, Area map, int count)
         {
-            var obj = new T();
-
-            if (obj is Monster)
-            {
-                var newObj = Monster.Create(template as MonsterTemplate, map);
-
-                if (GetObject<Monster>(i => i.Serial == newObj.Serial) == null)
-                {
-                    AddObject(newObj);
-                    return true;
-                }
-            }
+            var newObj = Monster.Create(template as MonsterTemplate, map);
+            AddObject(newObj);
 
             return false;
         }
@@ -117,3 +111,4 @@ namespace Darkages.Network.Game.Components
         }
     }
 }
+

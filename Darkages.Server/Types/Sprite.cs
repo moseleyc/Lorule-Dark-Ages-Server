@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
     public abstract class Sprite : ObjectManager
     {
-        private static readonly ThreadLocal<Random> _rnd
-            = new ThreadLocal<Random>(() => new Random());
+        public readonly Random rnd = new Random();
 
         [JsonIgnore] public int[][] Directions =
         {
@@ -74,9 +72,6 @@ namespace Darkages.Types
         public Element DefenseElement { get; set; }
 
         [JsonIgnore] public Sprite Target { get; set; }
-
-        public Random rnd => _rnd.Value;
-
 
         [JsonIgnore] public Position Position => new Position(X, Y);
 
@@ -487,7 +482,9 @@ namespace Darkages.Types
 
         public List<Sprite> GetInfront(int tileCount = 1)
         {
-            if (this is Aisling) return _GetInfront(tileCount).Intersect((this as Aisling).ViewFrustrum).ToList();
+            if (this is Aisling)
+                return _GetInfront(tileCount).Intersect(
+                    (this as Aisling).ViewableObjects).ToList();
 
             return _GetInfront(tileCount).ToList();
         }
@@ -845,14 +842,26 @@ namespace Darkages.Types
             if (!CanUpdate())
                 return;
 
+            var savedDirection = (byte)((object)(Direction));
+            var update         = false;
+
             lock (rnd)
             {
                 Direction = (byte) rnd.Next(0, 4);
+
+                if (Direction != savedDirection)
+                {
+                    update = true;
+                }
             }
 
-            if (Walk())
+            if (!Walk() && update)
             {
-
+                Show(Scope.NearbyAislings, new ServerFormat11()
+                {
+                    Direction = this.Direction,
+                    Serial = this.Serial
+                });
             }
         }
 

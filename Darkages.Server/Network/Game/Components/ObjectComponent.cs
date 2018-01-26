@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Darkages.Network.ServerFormats;
+﻿using Darkages.Network.ServerFormats;
 using Darkages.Types;
+using System;
+using System.Collections.Generic;
 
 namespace Darkages.Network.Game.Components
 {
@@ -139,65 +137,26 @@ namespace Darkages.Network.Game.Components
                         }
 
                         nearbyAisling.View(obj);
-                        //it's still in range.
-                        //check if there are any other monsters around this object.
-                        //that are also in range of this aisling.
-
-                        var nearParentObj = nearbyAisling.GetObjects(
-                            i => i.Serial != obj.Serial // not the same object
-                                 && obj.WithinRangeOf(i) //is within range of parent obj
-                                 && nearbyAisling.WithinRangeOf(i),
-                            Get.Monsters | Get.Mundanes | Get.Items | Get.Money); //also in range of nearbly aisling
-
-
-                        //any objects to display in batch?
-                        if (nearParentObj.Length > 0)
-                            foreach (var nobj in nearParentObj)
-                            {
-                                if (nobj is Aisling)
-                                    continue;
-
-                                if (nearbyAisling.InsideView(nobj)
-                                    && !nearbyAisling.WithinRangeOf(nobj))
-                                {
-                                    nobj.RemoveFrom(nearbyAisling);
-                                    continue;
-                                }
-
-                                if (!nearbyAisling.InsideView(nobj)
-                                    && nearbyAisling.WithinRangeOf(nobj))
-                                    if (spriteBatch.FirstOrDefault(i => i.Serial == nobj.Serial) == null)
-                                        spriteBatch.Add(nobj);
-                            }
-
 
                         //check how much packets we need to send.
                         //this makes sure we don't overflow the client
                         //sending to much display packets at once.
                         //so we chunk them up.
-                        var blocks = Split(spriteBatch).ToArray();
+                        // var blocks = Split(spriteBatch).ToArray();
 
-                        foreach (var block in blocks)
+                        var payLoad = new ServerFormat07(spriteBatch.ToArray());
+
+                        nearbyAisling.Show(
+                            Scope.DefinedAislings,
+                            payLoad,
+                            nearByAislings);
+
+                        foreach (var block in spriteBatch)
                         {
-                            block.ForEach(i => nearbyAisling.View(i));
-
-                            var payLoad = new ServerFormat07(block.ToArray());
-
-                            nearbyAisling.Show(
-                                Scope.DefinedAislings,
-                                payLoad,
-                                nearByAislings);
+                            nearbyAisling.View(block);
                         }
                     }
             }
-        }
-
-        public static IEnumerable<List<T>> Split<T>(List<T> locations)
-        {
-            var nSize = ServerContext.Config.SpriteBatchSize;
-
-            for (var i = 0; i < locations.Count; i += nSize)
-                yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
         }
 
         public override void Update(TimeSpan elapsedTime)
@@ -215,11 +174,8 @@ namespace Darkages.Network.Game.Components
 
         public void InvokeMediators(Area area = null)
         {
-            new TaskFactory().StartNew(() =>
-            {
-                MonsterMediator(area);
-                ItemMediator(area);
-            });
+            MonsterMediator(area);
+            ItemMediator(area);
         }
 
         private void MonsterMediator(Area area = null)
@@ -236,8 +192,8 @@ namespace Darkages.Network.Game.Components
                     {
                         if (ServerContext.Config.ShowMonsterDeathAnimation)
                             obj.Show(Scope.NearbyAislings,
-                                new ServerFormat29(ServerContext.Config.MonsterDeathAnimationNumber, (ushort) obj.X,
-                                    (ushort) obj.Y));
+                                new ServerFormat29(ServerContext.Config.MonsterDeathAnimationNumber, (ushort)obj.X,
+                                    (ushort)obj.Y));
                         OnObjectRemoved(obj);
                         c++;
                     }
@@ -263,3 +219,15 @@ namespace Darkages.Network.Game.Components
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
