@@ -124,20 +124,7 @@ namespace Darkages.Network.Game
             foreach (var area in ServerContext.GlobalMapCache.Values)
             {
                 area.Update(elapsedTime);
-
-                UpdateGroundItems(area);
             }
-        }
-
-        private static void UpdateGroundItems(Area area)
-        {
-            var objects = area?.GetObjects(i => i != null && i.CurrentMapId == area.ID, Get.Items | Get.Money);
-
-            if (objects != null)
-                foreach (var obj in objects)
-                    if (obj != null)
-                        if (obj.AislingsNearby().Length > 0)
-                            obj.AbandonedDate = DateTime.UtcNow;
         }
 
         private void UpdateClients(TimeSpan elapsedTime)

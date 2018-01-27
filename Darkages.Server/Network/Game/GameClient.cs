@@ -271,6 +271,7 @@ namespace Darkages.Network.Game
             LastPingResponse = DateTime.UtcNow;
             BoardOpened = DateTime.UtcNow;
             Aisling.PortalSession = null;
+            Aisling.LastMapId = short.MaxValue;
 
             if (Aisling == null || Aisling.AreaID == 0)
                 return false;
@@ -463,7 +464,11 @@ namespace Darkages.Network.Game
 
         public void LeaveArea(bool update = false, bool delete = false)
         {
-            Aisling.LastMapId = Aisling.CurrentMapId;
+            if (Aisling.LastMapId == short.MaxValue)
+            {
+                Aisling.LastMapId = Aisling.CurrentMapId;
+            }
+
             Aisling.Remove(update, delete);
         }
 
@@ -510,7 +515,6 @@ namespace Darkages.Network.Game
             {
                 Aisling.ViewFrustrum.Clear();
                 Send(new ServerFormat15(Aisling.Map));
-                ShouldUpdateMap = false;
             }
         }
 
@@ -608,7 +612,7 @@ namespace Darkages.Network.Game
 
         public void SendAnimation(ushort Animation, Sprite To, Sprite From, byte speed = 100, bool repeat = false)
         {
-            var format = new ServerFormat29((uint) From.Serial, (uint) To.Serial, Animation, 0, speed);
+            var format = new ServerFormat29((uint)From.Serial, (uint)To.Serial, Animation, 0, speed);
 
             if (!repeat)
             {
@@ -616,19 +620,25 @@ namespace Darkages.Network.Game
                 return;
             }
 
-            if (To is Aisling)
-                new TaskFactory().StartNew(() =>
+            new TaskFactory().StartNew(() =>
+            {
+                while (true)
                 {
-                    while (true)
-                    {
-                        if (!Aisling.InsideView(To))
-                            break;
+                    if (To == null)
+                        break;
 
-                        (To as Aisling).Show(Scope.NearbyAislings, format);
+                    if (From == null)
+                        break;
 
-                        Thread.Sleep(1000);
-                    }
-                });
+                    if (!Aisling.WithinRangeOf(To, 6))
+                        break;
+
+
+                    To?.Show(Scope.NearbyAislings, format);
+
+                    Thread.Sleep(1000);
+                }
+            });
         }
 
         public void SendItemShopDialog(Mundane mundane, string text, ushort step, IEnumerable<ItemTemplate> items)

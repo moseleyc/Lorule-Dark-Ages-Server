@@ -66,27 +66,7 @@ namespace Darkages.Network.Object
 
         public Sprite GetObject(Predicate<Sprite> p, Get selections)
         {
-            var bucket = new ArrayList();
-
-            if ((selections & Get.All) == Get.All)
-                selections = Get.Items | Get.Money | Get.Monsters | Get.Mundanes | Get.Aislings;
-
-            if ((selections & Get.Aislings) == Get.Aislings)
-                bucket.AddRange(GetObjects<Aisling>(p));
-
-            if ((selections & Get.Monsters) == Get.Monsters)
-                bucket.AddRange(GetObjects<Monster>(p));
-
-            if ((selections & Get.Mundanes) == Get.Mundanes)
-                bucket.AddRange(GetObjects<Mundane>(p));
-
-            if ((selections & Get.Money) == Get.Money)
-                bucket.AddRange(GetObjects<Money>(p));
-
-            if ((selections & Get.Items) == Get.Items)
-                bucket.AddRange(GetObjects<Item>(p));
-
-            return bucket.Cast<Sprite>().FirstOrDefault();
+            return GetObjects(p, selections).LastOrDefault();
         }
     }
 }

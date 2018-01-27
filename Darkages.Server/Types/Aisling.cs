@@ -145,6 +145,8 @@ namespace Darkages
 
         public PortalSession PortalSession { get; set; }
         public Position LastPosition { get; set; }
+
+        [JsonIgnore]
         public int LastMapId { get; set; }
 
         [JsonIgnore] public bool LeaderPrivleges { get; set; }

@@ -74,12 +74,19 @@ namespace Darkages.Network.Game.Components
                 Get.Aislings | Get.Monsters | Get.Mundanes | Get.Items | Get.Money);
 
             foreach (var dObj in distantObjs)
+            {
                 if (obj is Aisling)
                     if ((obj as Aisling).InsideView(dObj))
                     {
                         (obj as Aisling).RemoveFromView(dObj);
                         dObj.RemoveFrom(obj as Aisling);
                     }
+
+                if (dObj is Item || dObj is Money)
+                {
+                    dObj.AbandonedDate = DateTime.UtcNow;
+                }
+            }
         }
 
         private static void UpdateMonsterViewFrustrum(Sprite obj)

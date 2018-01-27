@@ -7,14 +7,14 @@
   "ID": 152,
   "Image": 0x4035,
   "ScriptName": "Common Monster",
-  "DefinedX": 0,
-  "DefinedY": 0,
+  "DefinedX": 33,
+  "DefinedY": 13,
   "Exponent": 0.0,
   "Coponent": 0.0,
   "Factor": 0.0,
-  "LootType": 8,
+  "LootType": 36,
   "MoodTyle": 1,
-  "SpawnType": 1,
+  "SpawnType": 2,
   "ElementType": 2,
   "PathQualifer": 1,
   "Level": 4,
@@ -28,7 +28,7 @@
   "ArmorClass": 0,
   "MagicResist": 0,
   "SpawnMax": 1500,
-  "SpawnRate": 5,
+  "SpawnRate": 0,
   "SpawnSize": 9,
   "AttackSpeed": 1000,
   "IgnoreCollision": false,
@@ -48,7 +48,9 @@
  "Drops": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [
-        "Light Belt",
+	"Eppe",
+        "Black Death",
+	"Light Belt"
     ]
   },
 }

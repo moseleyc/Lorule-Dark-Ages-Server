@@ -481,6 +481,12 @@ namespace Darkages.Types
             return GetObject(i => i.X == x && i.Y == y, Get.All);
         }
 
+        public Sprite[] GetSprites(int x, int y)
+        {
+            return GetObjects(i => i.X == x && i.Y == y, Get.All);
+        }
+
+
         public List<Sprite> GetInfront(Sprite sprite, int tileCount = 1)
         {
             return _GetInfront(tileCount).Where(i => i != null && i.Serial != sprite.Serial).ToList();
@@ -496,24 +502,30 @@ namespace Darkages.Types
         }
 
 
-        private IEnumerable<Sprite> _GetInfront(int tileCount = 1)
+        private List<Sprite> _GetInfront(int tileCount = 1)
         {
+            List<Sprite> results = new List<Sprite>();
+
             for (var i = 1; i <= tileCount; i++)
+            {
                 switch (Direction)
                 {
                     case 0:
-                        yield return GetSprite(X, Y - i);
+                        results.AddRange(GetSprites(X, Y - i));
                         break;
                     case 1:
-                        yield return GetSprite(X + i, Y);
+                        results.AddRange(GetSprites(X + i, Y));
                         break;
                     case 2:
-                        yield return GetSprite(X, Y + i);
+                        results.AddRange(GetSprites(X, Y + i));
                         break;
                     case 3:
-                        yield return GetSprite(X - i, Y);
+                        results.AddRange(GetSprites(X - i, Y));
                         break;
                 }
+            }
+
+            return results;
         }
 
 

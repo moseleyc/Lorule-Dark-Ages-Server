@@ -43,7 +43,7 @@
  "Drops": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [
-	      "Dark Belt",
+	"Dark Belt",
         "Dark Bone Necklace",
         "Light Coral Necklace",
         "Dirk",
@@ -52,8 +52,8 @@
         "Dobok",
         "Shirt",
         "Blouse",
-	      "Silver Earrings",
-	      "Gold Earrings",
+	"Silver Earrings",
+	"Gold Earrings",
         "Gardcorp",
         "Black Stone Ring",
         "Ancuisa Ceir",

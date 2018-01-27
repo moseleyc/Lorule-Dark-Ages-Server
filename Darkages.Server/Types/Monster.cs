@@ -232,21 +232,20 @@ namespace Darkages.Types
                         rolled_item.AuthenticatedAislings = GetTaggedAislings();
                         rolled_item.Release(this, this.Position);
 
-
-
-                        if (rolled_item.Upgrades > 3)
+                        if (rolled_item.Upgrades > 2)
                         {
-                            this.Show(Scope.DefinedAislings, new ServerFormat0D() {
-                                Serial = rolled_item.Serial,
-                                Text = string.Format("{0}!!", upgrade?.Name),
-                                Type = 0x02 }, this.GetTaggedAislings() ?? AislingsNearby().Cast<Sprite>().ToArray());
-                        }
+                            var users = this.GetTaggedAislings();
+                            foreach (var user in users)
+                            {
+                                var msg = string.Format("{0} Drop!!! ({1})", upgrade?.Name, rolled_item.DisplayName);
+                                user.Client.SendMessage(3, msg);
 
+                                //TODO: implement more rarity animations to display.
+                                user.Client.SendAnimation(341, rolled_item, rolled_item, 0x64, true);
+                            }
+                        }
                     });
                 }
-
-
-
                 return;
             }
             else if (Template.LootType.HasFlag(LootQualifer.Random))

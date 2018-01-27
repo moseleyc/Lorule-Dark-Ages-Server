@@ -50,7 +50,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 {
                     client.Aisling.Show(Scope.VeryNearbyAislings, new ServerFormat13(0, 0, Skill.Template.Sound));
 
-                    foreach (var i in enemy.Cast<Sprite>())
+                    foreach (var i in enemy)
                     {
                         if (i == null)
                             continue;
@@ -60,9 +60,8 @@ namespace Darkages.Scripting.Scripts.Skills
                         if (i is Money)
                             continue;
 
-                        if (!i.Attackable)
+                        if (i is Item)
                             continue;
-                        ;
 
                         Target = i;
 
