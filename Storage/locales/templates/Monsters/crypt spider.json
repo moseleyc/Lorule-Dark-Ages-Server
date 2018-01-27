@@ -27,12 +27,12 @@
   "CastSpeed": 4000,
   "ArmorClass": 0,
   "MagicResist": 0,
-  "SpawnMax": 2500,
+  "SpawnMax": 1500,
   "SpawnRate": 5,
   "SpawnSize": 9,
   "AttackSpeed": 1000,
   "IgnoreCollision": false,
-  "ImageVarience": 0,
+  "ImageVarience": 3,
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": false,
@@ -44,5 +44,11 @@
   },
   "DefenseElement": 1,
   "OffenseElement": 0,
-  "Name": "Crypt Spider"
+  "Name": "Crypt Spider",
+ "Drops": {
+    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
+    "$values": [
+        "Light Belt",
+    ]
+  },
 }

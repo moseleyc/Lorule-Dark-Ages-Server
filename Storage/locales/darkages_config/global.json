@@ -98,7 +98,7 @@
   "TransitionZone": 9999,
   "UseFastRandom": true,
   "UseFastSqrtMethod": false,
-  "UseIncrementalSerials": true,
+  "UseIncrementalSerials": false,
   "UserDroppedGoldMsg": "noname has dropped some money nearby.",
   "Version": 718,
   "VeryNearByProximity": 5,

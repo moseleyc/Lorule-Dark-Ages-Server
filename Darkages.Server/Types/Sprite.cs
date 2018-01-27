@@ -77,6 +77,8 @@ namespace Darkages.Types
 
         [JsonIgnore] public bool Attackable => this is Monster || this is Aisling || this is Mundane;
 
+        [JsonIgnore] public DateTime AbandonedDate { get; set; }
+
         [JsonIgnore] public DateTime CreationDate { get; set; }
 
         [JsonIgnore] public DateTime LastUpdated { get; set; }
@@ -174,6 +176,7 @@ namespace Darkages.Types
 
             if (this is Monster)
             {
+                (this as Monster)?.AppendTags(Source);
                 (this as Monster)?.Script?.OnAttacked(Source?.Client);
             }
 
@@ -186,7 +189,10 @@ namespace Darkages.Types
                 {
                     var weapon = client.EquipmentManager.Weapon.Item;
 
-                    dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 5) * client.BonusDmg;
+                    lock (rnd)
+                    {
+                        dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 5) * client.BonusDmg;
+                    }
                 }
             }
 

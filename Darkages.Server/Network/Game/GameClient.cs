@@ -508,14 +508,14 @@ namespace Darkages.Network.Game
 
             if (ShouldUpdateMap)
             {
-                //Maybe Clear view frustrum.
+                Aisling.ViewFrustrum.Clear();
                 Send(new ServerFormat15(Aisling.Map));
+                ShouldUpdateMap = false;
             }
         }
 
         public void RefreshObjects()
         {
-            //Show Nearby Objects to self.
             var nearbyobjs = GetObjects(i => i.WithinRangeOf(Aisling), Get.All);
             foreach (var obj in nearbyobjs)
             {
@@ -545,7 +545,6 @@ namespace Darkages.Network.Game
                 Aisling.AreaID = Aisling.CurrentMapId;
 
             StorageManager.AislingBucket.Save(Aisling);
-            ServerContext.SaveCommunityAssets();
             LastSave = DateTime.UtcNow;
         }
 

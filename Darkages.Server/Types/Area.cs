@@ -242,6 +242,15 @@ namespace Darkages
                 {
                     ServerContext.Game.ObjectPulseController?.OnObjectUpdate(obj);
                     obj.LastUpdated = DateTime.UtcNow;
+
+                    if (obj is Item)
+                    {
+                        if ((DateTime.UtcNow - obj.CreationDate).TotalMinutes > 3)
+                        {
+                            (obj as Item).AuthenticatedAislings = null;
+                            (obj as Item).Cursed = false;
+                        }
+                    }
                 }
             }
         }

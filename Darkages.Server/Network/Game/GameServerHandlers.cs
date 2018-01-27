@@ -358,12 +358,24 @@ namespace Darkages.Network.Game
                     if (obj?.CurrentMapId != client.Aisling.CurrentMapId)
                         continue;
 
+
+
                     if (obj is Money)
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
 
                     if (obj is Item)
+                    {
+                        if ((obj as Item).Cursed)
+                        {
+                            if ((obj as Item).AuthenticatedAislings.FirstOrDefault(i => i.Serial == client.Aisling.Serial) == null)
+                            {
+                                client.SendMessage(0x02, "You reach for it, But something holds you back.");
+                                continue;
+                            }
+                        }
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+                    }
 
                     if (ServerContext.Config.LootSingleMode)
                         break;
@@ -390,8 +402,18 @@ namespace Darkages.Network.Game
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
 
                     if (obj is Item)
+                    {
+                        if ((obj as Item).Cursed)
+                        {
+                            if ((obj as Item).AuthenticatedAislings.FirstOrDefault(i => i.Serial == client.Aisling.Serial) == null)
+                            {
+                                client.SendMessage(0x02, "You reach for it, But something holds you back.");
+                                continue;
+                            }
+                        }
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+                    }
 
                     if (ServerContext.Config.LootSingleMode)
                         break;

@@ -90,6 +90,7 @@ namespace Darkages.Network.Game
             Components[typeof(MessageComponent)] = new MessageComponent(this);
             Components[typeof(ObjectComponent)] = new ObjectComponent(this);
             Components[typeof(PingComponent)] = new PingComponent(this);
+            Components[typeof(ServerCacheComponent)] = new ServerCacheComponent(this);
 
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }
@@ -136,7 +137,7 @@ namespace Darkages.Network.Game
                 foreach (var obj in objects)
                     if (obj != null)
                         if (obj.AislingsNearby().Length > 0)
-                            obj.CreationDate = DateTime.UtcNow;
+                            obj.AbandonedDate = DateTime.UtcNow;
         }
 
         private void UpdateClients(TimeSpan elapsedTime)

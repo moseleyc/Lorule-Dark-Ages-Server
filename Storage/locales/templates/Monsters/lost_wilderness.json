@@ -23,7 +23,7 @@
   "CastSpeed": 1000,
   "ArmorClass": 0,
   "MagicResist": 400,
-  "SpawnMax": 5000,
+  "SpawnMax": 1000,
   "SpawnRate": 1,
   "SpawnSize": 10,
   "AttackSpeed": 750,
@@ -60,7 +60,8 @@
         "Leather Tunic",
         "Cotte",
         "Eternal Love Ring",
-        "Orc Helmet"
+        "Orc Helmet",
+	"Light Belt"
     ]
   },
 }

@@ -17,8 +17,6 @@ namespace Darkages.Network
     {
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
 
-        private byte _lastFormat;
-        private int _matches;
         private bool _sending;
         public int Errors;
 
@@ -133,26 +131,33 @@ namespace Darkages.Network
 
         private void SendFormat(NetworkFormat format)
         {
-            if (format == null)
-                return;
-
-            lock (Writer)
+            try
             {
-                if (!GetPacket(format))
+                if (format == null)
                     return;
 
-                var packet = Writer.ToPacket();
+                lock (Writer)
                 {
-                    if (ServerContext.Config.LogSentPackets)
-                        if (this is GameClient)
-                            Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
+                    if (!GetPacket(format))
+                        return;
 
-                    if (format.Secured)
-                        Encryption.Transform(packet);
+                    var packet = Writer.ToPacket();
+                    {
+                        if (ServerContext.Config.LogSentPackets)
+                            if (this is GameClient)
+                                Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
 
-                    var buffer = packet.ToArray();
-                    Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
+                        if (format.Secured)
+                            Encryption.Transform(packet);
+
+                        var buffer = packet.ToArray();
+                        Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                //ignore
             }
         }
 

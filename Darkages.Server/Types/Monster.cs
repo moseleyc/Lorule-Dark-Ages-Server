@@ -5,6 +5,7 @@ using Darkages.Scripting;
 using Darkages.Systems.Loot;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -52,6 +53,13 @@ namespace Darkages.Types
 
         [JsonIgnore]
         public LootTable LootTable { get; set; }
+
+        [JsonIgnore]
+        public ConcurrentDictionary<int, Sprite> TaggedAislings { get; set; }
+
+        [JsonIgnore]
+        public LootTable UpgradeTable { get; set; }
+
 
         [JsonIgnore]
         public LootDropper LootManager { get; set; }
@@ -176,6 +184,9 @@ namespace Darkages.Types
             => LootManager.Drop(LootTable, rnd.Next(ServerContext.Config.LootTableStackSize))
                 .Select(i => i.Name).ToList();
 
+        private ItemUpgrade DetermineQuality()
+            => (ItemUpgrade)LootManager.Drop(UpgradeTable, 1).FirstOrDefault();
+
         private void DetermineRandomDrop()
         {
             int idx = 0;
@@ -208,10 +219,34 @@ namespace Darkages.Types
                 if (LootTable == null || LootManager == null)
                     return;
 
-                DetermineDrop().ForEach(i =>
+                lock (rnd)
                 {
-                    Item.Create(this, GlobalItemTemplateCache[i]).Release(this, Position);
-                });
+                    DetermineDrop().ForEach(i =>
+                    {
+                        var rolled_item = Item.Create(this, GlobalItemTemplateCache[i]);
+                        var upgrade = DetermineQuality();
+                        rolled_item.Upgrades = upgrade?.Upgrade ?? 0;
+                        Item.ApplyQuality(rolled_item);
+
+                        rolled_item.Cursed = true;
+                        rolled_item.AuthenticatedAislings = GetTaggedAislings();
+                        rolled_item.Release(this, this.Position);
+
+
+
+                        if (rolled_item.Upgrades > 3)
+                        {
+                            this.Show(Scope.DefinedAislings, new ServerFormat0D() {
+                                Serial = rolled_item.Serial,
+                                Text = string.Format("{0}!!", upgrade?.Name),
+                                Type = 0x02 }, this.GetTaggedAislings() ?? AislingsNearby().Cast<Sprite>().ToArray());
+                        }
+
+                    });
+                }
+
+
+
                 return;
             }
             else if (Template.LootType.HasFlag(LootQualifer.Random))
@@ -221,6 +256,12 @@ namespace Darkages.Types
             }
         }
 
+        private Sprite[] GetTaggedAislings()
+        {
+            var tagged = TaggedAislings.Select(i => i.Value).ToArray();
+            return tagged;
+        }
+
         public void Attack()
         {
             var target = Target;
@@ -228,7 +269,30 @@ namespace Darkages.Types
             if (target == null)
                 return;
 
+            AppendTags(target);
             Attack(target);
+        }
+
+        public void AppendTags(Sprite target)
+        {
+            TaggedAislings = new ConcurrentDictionary<int, Sprite>();
+
+            if (target is Aisling)
+            {
+                var aisling = target as Aisling;
+
+                if (!TaggedAislings.ContainsKey(aisling.Serial))
+                    TaggedAislings.TryAdd(aisling.Serial, aisling);
+
+                if (aisling.GroupParty.LengthExcludingSelf > 0)
+                {
+                    foreach (var member in aisling.GroupParty.MembersExcludingSelf)
+                    {
+                        if (!TaggedAislings.ContainsKey(member.Serial))
+                            TaggedAislings.TryAdd(member.Serial, member);
+                    }
+                }
+            }
         }
 
         private static T RandomEnumValue<T>()
@@ -261,6 +325,7 @@ namespace Darkages.Types
             obj.BashTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.AttackSpeed));
             obj.WalkTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.MovementSpeed));
             obj.CastEnabled = template.MaximumMP > 0;
+            obj.TaggedAislings = new ConcurrentDictionary<int, Sprite>();
 
             if (obj.Template.Grow)
                 obj.Template.Level++;
@@ -369,7 +434,7 @@ namespace Darkages.Types
             obj.CurrentMp = template.MaximumMP;
             obj._MaximumHp = template.MaximumHP;
             obj._MaximumMp = template.MaximumMP;
-            obj.CreationDate = DateTime.UtcNow;
+            obj.AbandonedDate = DateTime.UtcNow;
 
             lock (Generator.Random)
             {
@@ -385,9 +450,19 @@ namespace Darkages.Types
             {
                 obj.LootManager = new LootDropper();
                 obj.LootTable = new LootTable(template.Name);
+                obj.UpgradeTable = new LootTable("Probabilities");
 
                 foreach (var drop in obj.Template.Drops)
                     obj.LootTable.Add(GlobalItemTemplateCache[drop]);
+
+                obj.UpgradeTable.Add(new Common());
+                obj.UpgradeTable.Add(new Uncommon());
+                obj.UpgradeTable.Add(new Rare());
+                obj.UpgradeTable.Add(new Epic());
+                obj.UpgradeTable.Add(new Legendary());
+                obj.UpgradeTable.Add(new Mythical());
+                obj.UpgradeTable.Add(new Godly());
+                obj.UpgradeTable.Add(new Forsaken());
             }
 
             return obj;

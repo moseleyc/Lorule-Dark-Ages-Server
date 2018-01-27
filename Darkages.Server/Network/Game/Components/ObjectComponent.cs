@@ -208,7 +208,7 @@ namespace Darkages.Network.Game.Components
 
             var removes = 0;
             foreach (var obj in objects)
-                if ((DateTime.UtcNow - obj.CreationDate).TotalSeconds > ServerContext.Config.DropDecayInSeconds)
+                if ((DateTime.UtcNow - obj.AbandonedDate).TotalSeconds > ServerContext.Config.DropDecayInSeconds)
                 {
                     obj.Remove();
                     removes++;

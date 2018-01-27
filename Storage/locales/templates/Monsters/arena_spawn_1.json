@@ -21,7 +21,7 @@
   "CastSpeed": 0,
   "ArmorClass": 0,
   "MagicResist": 0,
-  "SpawnMax": 4000,
+  "SpawnMax": 1000,
   "SpawnRate":1,
   "SpawnSize": 20,
   "AttackSpeed": 750,

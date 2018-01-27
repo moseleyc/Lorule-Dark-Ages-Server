@@ -1,11 +1,66 @@
-﻿using System.Collections.Generic;
-using Darkages.Systems.Loot;
-using Darkages.Systems.Loot.Interfaces;
+﻿using Darkages.Systems.Loot.Interfaces;
 using Newtonsoft.Json;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
+    public class ItemUpgrade : ILootDefinition
+    {
+        public virtual string Name { get; set; }
+        public virtual int Weight { get; set; }
+        public virtual int Upgrade { get; set; }
+    }
+
+    public class Common : ItemUpgrade
+    {
+        public override string Name => "Upgraded";
+        public override int Weight => 90;
+        public override int Upgrade => 1;
+    }
+
+    public class Uncommon : ItemUpgrade
+    {
+        public override string Name => "Enhanced";
+        public override int Weight => 85;
+        public override int Upgrade => 2;
+    }
+    public class Rare : ItemUpgrade
+    {
+        public override string Name => "Rare";
+        public override int Weight => 15;
+        public override int Upgrade => 3;
+    }
+    public class Epic : ItemUpgrade
+    {
+        public override string Name => "Epic";
+        public override int Weight => 10;
+        public override int Upgrade => 4;
+    }
+    public class Legendary : ItemUpgrade
+    {
+        public override string Name => "Legendary";
+        public override int Weight => 4;
+        public override int Upgrade => 5;
+    }
+    public class Mythical : ItemUpgrade
+    {
+        public override string Name => "Mythical";
+        public override int Weight => 3;
+        public override int Upgrade => 6;
+    }
+    public class Godly : ItemUpgrade
+    {
+        public override string Name => "Godly";
+        public override int Weight => 2;
+        public override int Upgrade => 7;
+    }
+    public class Forsaken : ItemUpgrade
+    {
+        public override string Name => "Forsaken";
+        public override int Weight => 1;
+        public override int Upgrade => 8;
+    }
+
     public class ItemTemplate : Template, ILootDefinition
     {
         public int ID { get; set; }
@@ -49,8 +104,6 @@ namespace Darkages.Types
         public Element OffenseElement { get; set; }
 
         public Element DefenseElement { get; set; }
-
-        public int Upgrades { get; set; }
 
         public byte CarryWeight { get; set; }
 
