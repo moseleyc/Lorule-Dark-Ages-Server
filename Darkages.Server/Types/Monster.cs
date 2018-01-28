@@ -136,30 +136,36 @@ namespace Darkages.Types
 
             player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)expGained));
 
-            if (player.ExpNext <= 0)
+            while (player.ExpNext <= 0)
             {
-                player.ExpNext = player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6;
-                player._MaximumHp += (int)(50 * player.Con * 0.65);
-                player._MaximumMp += (int)(25 * player.Wis * 0.45);
-                player.StatPoints += 2;
-                player.ExpLevel++;
+                player.ExpNext = (int)(player.ExpLevel * (1 + (player.ExpLevel * (3 + 2 * player.ExpLevel)) / 6 + expGained));
 
-                if (player.ExpLevel > 99)
-                {
-                    player.AbpLevel++;
-                    player.ExpLevel = 99;
-                }
-
-                if (player.AbpLevel > 99)
-                {
-                    player.AbpLevel = 99;
-                    player.GamePoints++;
-                }
-
-                player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
-                player.Show(Scope.NearbyAislings,
-                    new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
+                Levelup(player);
             }
+        }
+
+        private static void Levelup(Aisling player)
+        {
+            player._MaximumHp += (int)(50 * player.Con * 0.65);
+            player._MaximumMp += (int)(25 * player.Wis * 0.45);
+            player.StatPoints += 2;
+            player.ExpLevel++;
+
+            if (player.ExpLevel > 99)
+            {
+                player.AbpLevel++;
+                player.ExpLevel = 99;
+            }
+
+            if (player.AbpLevel > 99)
+            {
+                player.AbpLevel = 99;
+                player.GamePoints++;
+            }
+
+            player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
+            player.Show(Scope.NearbyAislings,
+                new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
         }
 
         private void GenerateGold()

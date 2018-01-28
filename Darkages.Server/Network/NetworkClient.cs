@@ -81,16 +81,7 @@ namespace Darkages.Network
 
         public void SendAsync(NetworkFormat format)
         {
-            lock (_sendBuffers)
-            {
-                _sendBuffers.Enqueue(format);
-
-                if (_sending)
-                    return;
-
-                _sending = true;
-                ThreadPool.QueueUserWorkItem(SendBuffers);
-            }
+            SendFormat(format);
         }
 
         private void SendBuffers(object state)
@@ -178,6 +169,7 @@ namespace Darkages.Network
             var client = (Socket) ar.AsyncState;
             {
                 client.EndSend(ar);
+                _sending = false;
             }
         }
 

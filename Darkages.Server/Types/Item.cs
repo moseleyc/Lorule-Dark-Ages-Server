@@ -42,42 +42,42 @@ namespace Darkages.Types
             {
                 if (Upgrades == 1)
                 {
-                    return string.Format("{0}", Template.Name);
+                    return "{=a" + Template.Name;
                 }
 
                 if (Upgrades == 2)
                 {
-                    return string.Format("Uncommon {0}", Template.Name);
+                    return "{=a" + Template.Name;
                 }
 
                 if (Upgrades == 3)
                 {
-                    return string.Format("Rare Empowered {0}", Template.Name);
+                    return "{=qUncommon " + Template.Name;
                 }
 
                 if (Upgrades == 4)
                 {
-                    return string.Format("Epic {0}", Template.Name);
+                    return "{=fRare " + Template.Name;
                 }
 
                 if (Upgrades == 5)
                 {
-                    return string.Format("Legendary {0}", Template.Name);
+                    return "{=pEpic " + Template.Name;
                 }
 
                 if (Upgrades == 6)
                 {
-                    return string.Format("Mythical {0}", Template.Name);
+                    return "{=sLegendary " + Template.Name;
                 }
 
                 if (Upgrades == 7)
                 {
-                    return string.Format("Godly {0}", Template.Name);
+                    return "{=bGodly" + Template.Name;
                 }
 
                 if (Upgrades == 8)
                 {
-                    return string.Format("Forsaken {0}", Template.Name);
+                    return "{=uForsaken" + Template.Name;
                 }
 
 

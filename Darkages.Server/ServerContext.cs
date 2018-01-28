@@ -240,6 +240,19 @@ namespace Darkages
                 CacheCommunityAssets();
             }
 
+            GlobalSpellTemplateCache["armachd"] = new SpellTemplate()
+            {
+                Icon = 0,
+                Animation = 20,
+                BaseLines = 2,
+                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
+                LevelRate = 0.4,
+                Name = "armachd",
+                ScriptKey = "armachd",
+                Sound = 1,                 
+            };
+
+
             Console.WriteLine("\n");
         }
     }

@@ -229,7 +229,7 @@ namespace Darkages.Types
                 else
                 {
                     if (HasDebuff("sleep"))
-                        dmg *= 2;
+                        dmg <<= 1;
 
                     RemoveDebuff("sleep");
 
@@ -456,24 +456,15 @@ namespace Darkages.Types
             }
         }
 
-        /// <summary>
-        ///     Formula : =B2 + (B2 * 10 / (B2 * 1 / A2))
-        /// </summary>
         private int ComputeDmgFromAc(int dmg)
         {
-            if (dmg <= 0)
-                dmg = 5;
+            var hi = Ac + 95 - 100;
+            var lo = Ac - 95 - 100;
 
-            var armor = Ac != 0 ? Ac : 1;
-            var dealt = dmg;
-            var newdmg = 0;
+            var accumulator = Math.Abs(hi) + Math.Abs(lo) / 10;
+            dmg = dmg * accumulator / 100;
 
-            checked
-            {
-                newdmg = dealt + (int) (dmg * 1 / (dmg * 0.5 / armor));
-            }
-
-            return newdmg;
+            return dmg;
         }
 
         public Sprite GetSprite(int x, int y)

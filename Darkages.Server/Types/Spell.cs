@@ -4,6 +4,7 @@ using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
+using Darkages.Storage.locales.buffs;
 using Darkages.Storage.locales.Buffs;
 using Darkages.Storage.locales.debuffs;
 using Newtonsoft.Json;
@@ -66,6 +67,9 @@ namespace Darkages.Types
 
             if (obj.Template.Name == "mor dion")
                 obj.Template.Buff = new buff_mordion();
+
+            if (obj.Template.Name == "armachd")
+                obj.Template.Buff = new buff_armachd();
 
             if (obj.Template.Name == "pramh")
                 obj.Template.Debuff = new debuff_sleep();

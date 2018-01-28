@@ -60,19 +60,14 @@ namespace Darkages.Scripting.Scripts.Skills
                         if (i is Money)
                             continue;
 
-                        if (i is Item)
+                        if (!i.Attackable)
                             continue;
 
                         Target = i;
 
-                        //=INT(F5 * ($D$5 * $D$7 + $D$6 * $D$6) * ($D$7 + 1*F5))
 
-                        var percent = 0;
-
-                        if (Target is Monster)
-                            percent = Math.Abs((Target as Monster).Template.Level - client.Aisling.ExpLevel) * 99 / 100;
-
-                        var dmg = (Skill.Level + client.Aisling.Str) * percent;
+                        var dmg = (client.Aisling.Str + client.Aisling.Dex) * Skill.Level;
+                        dmg >>= 1;
 
                         i.ApplyDamage(sprite, dmg);
 

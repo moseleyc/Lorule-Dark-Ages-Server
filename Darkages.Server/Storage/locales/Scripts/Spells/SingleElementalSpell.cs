@@ -47,7 +47,9 @@ namespace Darkages.Storage.locales.Scripts.Spells
                             string.Format("{0} Attacks you with {1}.", client.Aisling.Username,
                                 Spell.Template.Name));
 
-                var dmg = (int) (sprite.Int * Spell.Template.DamageExponent * Spell.Level) * 100;
+                var d = 75 + (Spell.Level * 25 / 100);
+
+                var dmg = (int)(sprite.Int * d);
                 target.ApplyDamage(sprite, dmg, Spell.Template.ElementalProperty, Spell.Template.Sound);
 
                 client.SendMessage(0x02, string.Format("you cast {0}", Spell.Template.Name));
