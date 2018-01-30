@@ -24,5 +24,6 @@
   "PreQualifers": 4,
   "PostQualifers": 3,
   "Sound": 0,
-  "Name": "Unstuck"
+  "Name": "Unstuck",
+  "Pane": 3,
 }

@@ -17,19 +17,14 @@ namespace Darkages
         public ConcurrentDictionary<int, Sprite> ViewFrustrum
             = new ConcurrentDictionary<int, Sprite>();
 
+        [JsonIgnore]
+        public bool HadDeathExperience { get; set; }
 
         public List<Sprite> ViewableObjects
         {
             get
             {
-                List<Sprite> cache;
-
-                lock (ViewFrustrum)
-                {
-                    cache = new List<Sprite>(ViewFrustrum.Select(i => i.Value));
-                }
-
-                return cache;
+                return ViewFrustrum.Select(i => i.Value).ToList();
             }
         }
 
@@ -202,6 +197,7 @@ namespace Darkages
                 return;
             }
 
+
             if (spell.InUse)
                 return;
 
@@ -209,6 +205,7 @@ namespace Darkages
 
             if (info != null)
             {
+
                 if (!string.IsNullOrEmpty(info.Data))
                     spell.Script.Arguments = info.Data;
 
@@ -234,7 +231,7 @@ namespace Darkages
                 spell.Script.OnUse(this, this);
             }
 
-            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.2);
+            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(info.SpellLines > 0 ? 0.5 : 0.2);
             spell.InUse = false;
         }
 
@@ -298,11 +295,42 @@ namespace Darkages
                 BootColor = 0
             };
 
+
             foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            {
+                if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+                    continue;
+
                 Skill.GiveTo(result, skill);
+            }
+
+            int idx = 1;
+            foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            {
+                if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+                {
+                    Skill.GiveTo(result, skill, (byte)(72 + idx));
+                    idx++;
+                }
+            }
 
             foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
+            {
+                if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
+                    continue;
+
                 Spell.GiveTo(result, spell);
+            }
+
+            idx = 1;
+            foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
+            {
+                if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
+                {
+                    Spell.GiveTo(result, spell, (byte)(72 + idx));
+                    idx++;
+                }
+            }
 
             result.LegendBook.AddLegend(new Legend.LegendItem
             {

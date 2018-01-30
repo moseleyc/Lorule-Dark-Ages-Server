@@ -8,7 +8,7 @@ namespace Darkages.Types
 {
     public class SkillBook : ObjectManager
     {
-        public static readonly int SKILLLENGTH = 35;
+        public static readonly int SKILLLENGTH = 35 * 3;
 
         public Dictionary<int, Skill> Skills = new Dictionary<int, Skill>();
 
@@ -65,8 +65,11 @@ namespace Darkages.Types
         public int FindEmpty()
         {
             for (var i = 0; i < Length; i++)
+            {
+
                 if (Skills[i + 1] == null)
                     return i + 1;
+            }
             return -1;
         }
     }

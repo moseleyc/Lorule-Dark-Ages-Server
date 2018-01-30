@@ -21,7 +21,7 @@
 
         public SkillScope Type { get; set; }
 
-        public SkillPane Pane { get; set; }
+        public Pane Pane { get; set; }
 
         public PostQualifer PostQualifers { get; set; }
 

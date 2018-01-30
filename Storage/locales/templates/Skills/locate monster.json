@@ -25,5 +25,6 @@
   "PreQualifers": 4,
   "PostQualifers": 3,
   "Sound": 0,
-  "Name": "Locate Monster"
+  "Name": "Locate Monster",
+  "Pane": 3,
 }

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Darkages.Network.Game.Components;
+using Darkages.Network.Object;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Darkages.Network.Game.Components;
-using Darkages.Network.Object;
 
 namespace Darkages.Network.Game
 {
@@ -83,14 +81,16 @@ namespace Darkages.Network.Game
             ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MinimalLatency));
             ObjectFactory = new ObjectService();
 
-            Components = new Dictionary<Type, GameServerComponent>();
-            Components[typeof(MonolithComponent)] = new MonolithComponent(this);
-            Components[typeof(DaytimeComponent)] = new DaytimeComponent(this);
-            Components[typeof(MundaneComponent)] = new MundaneComponent(this);
-            Components[typeof(MessageComponent)] = new MessageComponent(this);
-            Components[typeof(ObjectComponent)] = new ObjectComponent(this);
-            Components[typeof(PingComponent)] = new PingComponent(this);
-            Components[typeof(ServerCacheComponent)] = new ServerCacheComponent(this);
+            Components = new Dictionary<Type, GameServerComponent>
+            {
+                [typeof(MonolithComponent)] = new MonolithComponent(this),
+                [typeof(DaytimeComponent)] = new DaytimeComponent(this),
+                [typeof(MundaneComponent)] = new MundaneComponent(this),
+                [typeof(MessageComponent)] = new MessageComponent(this),
+                [typeof(ObjectComponent)] = new ObjectComponent(this),
+                [typeof(PingComponent)] = new PingComponent(this),
+                [typeof(ServerCacheComponent)] = new ServerCacheComponent(this)
+            };
 
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }

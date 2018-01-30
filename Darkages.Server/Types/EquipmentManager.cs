@@ -144,13 +144,14 @@ namespace Darkages.Types
                 if (itemObj.Durability <= 0 || itemObj.Durability > itemObj.Template.MaxDurability)
                     returntouser = false;
 
+            RemoveFromSlot(displayslot);
+
             //give this item back to the inventory.
             if (displayslot == ItemSlots.Weapon)
                 success = itemObj.GiveTo(Client.Aisling, false, 1);
             else
                 success = itemObj.GiveTo(Client.Aisling, false);
 
-            RemoveFromSlot(displayslot);
             if (!returntouser)
             {
                 RemoveFromInventory(itemObj, true);

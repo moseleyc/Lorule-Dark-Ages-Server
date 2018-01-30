@@ -240,18 +240,20 @@ namespace Darkages
                 CacheCommunityAssets();
             }
 
-            GlobalSpellTemplateCache["armachd"] = new SpellTemplate()
-            {
-                Icon = 0,
-                Animation = 20,
-                BaseLines = 2,
-                TargetType = SpellTemplate.SpellUseType.ChooseTarget,
-                LevelRate = 0.4,
-                Name = "armachd",
-                ScriptKey = "armachd",
-                Sound = 1,                 
-            };
 
+            GlobalSkillTemplateCache["Test Tool"] = new SkillTemplate()
+            {
+                Cooldown = 2,
+                Pane = Pane.Tools,
+                Icon = 1,
+                MaxLevel = 100,
+                LevelRate = 0.08,
+                Name = "Test Tool",
+                ScriptName = "Assail",
+                Type = SkillScope.Tool,
+                Sound = 3,
+                TargetAnimation = 0x01,
+            };
 
             Console.WriteLine("\n");
         }

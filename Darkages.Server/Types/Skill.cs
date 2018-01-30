@@ -86,6 +86,16 @@ namespace Darkages.Types
             return true;
         }
 
+        public static bool GiveTo(Aisling aisling, string args, byte slot)
+        {
+            var skillTemplate = ServerContext.GlobalSkillTemplateCache[args];
+            var skill = Create(slot, skillTemplate);
+            skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
+            aisling.SkillBook.Assign(skill);
+
+            return true;
+        }
+
         public static bool GiveTo(Aisling aisling, string args)
         {
             var skillTemplate = ServerContext.GlobalSkillTemplateCache[args];

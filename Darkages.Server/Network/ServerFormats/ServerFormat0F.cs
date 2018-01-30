@@ -24,7 +24,7 @@ namespace Darkages.Network.ServerFormats
         {
             writer.Write(Item.Slot);
             writer.Write((ushort) Item.DisplayImage);
-            writer.Write((byte)0x02);
+            writer.Write((byte)Item.Color);
             writer.WriteStringA(Item.DisplayName);
             writer.Write((uint) Item.Stacks);
             writer.Write((byte) Item.Stacks > 1);

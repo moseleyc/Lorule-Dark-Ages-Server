@@ -17,6 +17,8 @@ namespace Darkages.Network
     {
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
 
+        private byte _lastFormat;
+        private int _matches;
         private bool _sending;
         public int Errors;
 
@@ -81,7 +83,16 @@ namespace Darkages.Network
 
         public void SendAsync(NetworkFormat format)
         {
-            SendFormat(format);
+            lock (_sendBuffers)
+            {
+                _sendBuffers.Enqueue(format);
+
+                if (_sending)
+                    return;
+
+                _sending = true;
+                ThreadPool.QueueUserWorkItem(SendBuffers);
+            }
         }
 
         private void SendBuffers(object state)
@@ -122,33 +133,26 @@ namespace Darkages.Network
 
         private void SendFormat(NetworkFormat format)
         {
-            try
+            if (format == null)
+                return;
+
+            lock (Writer)
             {
-                if (format == null)
+                if (!GetPacket(format))
                     return;
 
-                lock (Writer)
+                var packet = Writer.ToPacket();
                 {
-                    if (!GetPacket(format))
-                        return;
+                    if (ServerContext.Config.LogSentPackets)
+                        if (this is GameClient)
+                            Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
 
-                    var packet = Writer.ToPacket();
-                    {
-                        if (ServerContext.Config.LogSentPackets)
-                            if (this is GameClient)
-                                Console.WriteLine("{0}: {1}", (this as GameClient)?.Aisling?.Username, packet);
+                    if (format.Secured)
+                        Encryption.Transform(packet);
 
-                        if (format.Secured)
-                            Encryption.Transform(packet);
-
-                        var buffer = packet.ToArray();
-                        Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
-                    }
+                    var buffer = packet.ToArray();
+                    Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
                 }
-            }
-            catch (Exception)
-            {
-                //ignore
             }
         }
 
@@ -169,7 +173,6 @@ namespace Darkages.Network
             var client = (Socket) ar.AsyncState;
             {
                 client.EndSend(ar);
-                _sending = false;
             }
         }
 

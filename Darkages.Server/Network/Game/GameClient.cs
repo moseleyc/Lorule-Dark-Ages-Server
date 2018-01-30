@@ -38,11 +38,15 @@ namespace Darkages.Network.Game
         public Aisling Aisling { get; set; }
 
         public bool ShouldUpdateMap { get; set; }
+
         public DateTime LastMessageSent { get; set; }
+
         public DateTime LastPingResponse { get; set; }
+
         public byte LastActivatedLost { get; set; }
 
         public DialogSession DlgSession { get; set; }
+
         public DateTime BoardOpened { get; set; }
 
         public ushort LastBoardActivated { get; set; }
@@ -325,6 +329,8 @@ namespace Darkages.Network.Game
 
         private void LoadEquipment()
         {
+            var formats = new List<NetworkFormat>();
+
             foreach (var item in Aisling.EquipmentManager.Equipment)
             {
                 var equipment = item.Value;
@@ -332,13 +338,14 @@ namespace Darkages.Network.Game
                 if (equipment == null || equipment.Item == null || equipment.Item.Template == null)
                     continue;
 
-                Send(new ServerFormat37(equipment.Item, (byte) equipment.Slot));
+
                 equipment.Item.Script =
                     ScriptManager.Load<ItemScript>(equipment.Item.Template.ScriptName, equipment.Item);
                 equipment.Item.Script?.Equipped(Aisling, (byte) equipment.Slot);
 
                 if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                 {
+                    formats.Add(new ServerFormat37(equipment.Item, (byte)equipment.Slot));
                     Aisling.CurrentWeight += equipment.Item.Template.CarryWeight;
                 }
                 //for some reason, Aisling is out of Weight!
@@ -362,6 +369,9 @@ namespace Darkages.Network.Game
                             equipment.Item.UpdateSpellSlot(this, spell.Slot);
                     }
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadSpellBook()
@@ -369,16 +379,23 @@ namespace Darkages.Network.Game
             var spells_Available = Aisling.SpellBook.Spells.Values
                 .Where(i => i != null && i.Template != null).ToArray();
 
+            var formats = new List<NetworkFormat>();
+
             for (var i = 0; i < spells_Available.Length; i++)
             {
                 var spell = spells_Available[i];
                 spell.InUse = false;
                 spell.NextAvailableUse = DateTime.UtcNow;
-                Send(new ServerFormat17(spell));
+
                 spell.Lines = spell.Template.BaseLines;
                 spell.Script = ScriptManager.Load<SpellScript>(spell.Template.ScriptKey, spell);
                 Aisling.SpellBook.Set(spell, false);
+
+                formats.Add(new ServerFormat17(spell));
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadSkillBook()
@@ -386,24 +403,34 @@ namespace Darkages.Network.Game
             var skills_Available = Aisling.SkillBook.Skills.Values
                 .Where(i => i != null && i.Template != null).ToArray();
 
+            var formats = new List<NetworkFormat>();
+
             for (var i = 0; i < skills_Available.Length; i++)
             {
                 var skill = skills_Available[i];
                 skill.InUse = false;
                 skill.NextAvailableUse = DateTime.UtcNow;
-                Send(new ServerFormat2C(skill.Slot,
+
+                formats.Add(new ServerFormat2C(skill.Slot,
                     skill.Icon,
                     skill.Name));
+
 
                 skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
                 Aisling.SkillBook.Set(skill, false);
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadInventory()
         {
             var items_Available = Aisling.Inventory.Items.Values
                 .Where(i => i != null && i.Template != null).ToArray();
+
+            var formats = new List<NetworkFormat>();
+
 
             for (var i = 0; i < items_Available.Length; i++)
             {
@@ -417,7 +444,7 @@ namespace Darkages.Network.Game
                     if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                     {
                         var format = new ServerFormat0F(item);
-                        Send(format);
+                        formats.Add(format);
                         Aisling.Inventory.Set(item, false);
                     }
                     //for some reason, Aisling is out of Weight!
@@ -432,6 +459,10 @@ namespace Darkages.Network.Game
                     }
                 }
             }
+
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         public void UpdateDisplay()

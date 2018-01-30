@@ -20,14 +20,23 @@ namespace Darkages.Network.ClientFormats
 
             reader.Position = 0;
             Index = reader.ReadByte();
-            if (reader.CanRead)
-                Serial = reader.ReadUInt32();
 
-            if (reader.CanRead)
-                Point = reader.ReadPosition();
+            try
+            {
+                if (reader.CanRead)
+                    Serial = reader.ReadUInt32();
 
-            Data = data.Trim('\0');
-
+                if (reader.Position + 4 < reader.Packet.Data.Length)
+                    Point = reader.ReadPosition();
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+            finally
+            {
+                Data = data.Trim('\0');
+            }
         }
 
         private string CHeckData(NetworkPacketReader reader)

@@ -87,19 +87,17 @@ namespace Darkages.Types
                 obj.Template.Debuff = new debuff_ardcradh();
         }
 
-        public static bool GiveTo(GameClient client, string spellname)
+
+        public static bool GiveTo(Aisling Aisling, string spellname, byte slot)
         {
             var spellTemplate = ServerContext.GlobalSpellTemplateCache[spellname];
-            var slot = client.Aisling.SpellBook.FindEmpty();
 
             if (slot <= 0)
                 return false;
 
             var spell = Create(slot, spellTemplate);
             spell.Script = ScriptManager.Load<SpellScript>(spell.Template.ScriptKey, spell);
-            client.Aisling.SpellBook.Assign(spell);
-            client.Aisling.SpellBook.Set(spell, false);
-            client.Send(new ServerFormat2C(spell.Slot, spell.Template.Icon, spell.Name));
+            Aisling.SpellBook.Assign(spell);
 
             return true;
         }

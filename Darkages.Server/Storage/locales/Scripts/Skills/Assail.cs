@@ -66,7 +66,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         Target = i;
 
 
-                        var dmg = (client.Aisling.Str + client.Aisling.Dex) * Skill.Level;
+                        var dmg = (15 + client.Aisling.Str + client.Aisling.Dex + 8) * Skill.Level;
                         dmg >>= 1;
 
                         i.ApplyDamage(sprite, dmg);
@@ -106,7 +106,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         client.Refresh();
                     }
 
-                    client.Send(new ServerFormat3F((byte) SkillPane.Default, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte)Skill.Template.Pane, Skill.Slot, Skill.Template.Cooldown));
 
                     OnSuccess(sprite);
                 }

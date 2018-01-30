@@ -14,7 +14,7 @@ namespace Darkages.Network.Login
             : base(capacity)
         {
             MServerTable = MServerTable.FromFile("MServerTable.xml");
-            Notification = Notification.FromFile("Notification.txt");
+            Notification = Notification.FromFile("notification.txt");
         }
 
         public MServerTable MServerTable { get; set; }

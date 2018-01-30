@@ -238,9 +238,9 @@ namespace Darkages.Types
                         rolled_item.AuthenticatedAislings = GetTaggedAislings();
                         rolled_item.Release(this, this.Position);
 
-                        if (rolled_item.Upgrades > 2)
+                        if (rolled_item.Upgrades > 3)
                         {
-                            var users = this.GetTaggedAislings();
+                            var users = GetTaggedAislings();
                             foreach (var user in users)
                             {
                                 var msg = string.Format("{0} Drop!!! ({1})", upgrade?.Name, rolled_item.DisplayName);
@@ -348,6 +348,15 @@ namespace Darkages.Types
 
             if (obj.BonusAc > Config.BaseAC)
                 obj.BonusAc = Config.BaseAC;
+
+
+            var modExp = 0.01;
+
+            if (obj.Template.Exponent == 0)
+            {
+                obj.Template.Exponent = 150  * (modExp / obj.Template.Level);
+            }
+
 
             if (obj.Template.ElementType == ElementQualifer.Random)
             {

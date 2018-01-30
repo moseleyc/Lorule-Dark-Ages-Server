@@ -14,5 +14,6 @@
   "Animation": 0,
   "DamageExponent": 0.0,
   "ElementalProperty": 0,
-  "Name": "Create Item"
+  "Name": "Create Item",
+  "Pane": 3,
 }

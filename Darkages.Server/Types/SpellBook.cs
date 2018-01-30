@@ -8,7 +8,7 @@ namespace Darkages.Types
 {
     public class SpellBook : ObjectManager
     {
-        public static readonly int SPELLLENGTH = 35;
+        public static readonly int SPELLLENGTH = 35 * 3;
 
         public Dictionary<int, Spell> Spells = new Dictionary<int, Spell>();
 

@@ -40,21 +40,6 @@ namespace Darkages.Types
         {
             get
             {
-                if (Upgrades == 1)
-                {
-                    return "{=a" + Template.Name;
-                }
-
-                if (Upgrades == 2)
-                {
-                    return "{=a" + Template.Name;
-                }
-
-                if (Upgrades == 3)
-                {
-                    return "{=qUncommon " + Template.Name;
-                }
-
                 if (Upgrades == 4)
                 {
                     return "{=fRare " + Template.Name;
@@ -72,12 +57,12 @@ namespace Darkages.Types
 
                 if (Upgrades == 7)
                 {
-                    return "{=bGodly" + Template.Name;
+                    return "{=bGodly " + Template.Name;
                 }
 
                 if (Upgrades == 8)
                 {
-                    return "{=uForsaken" + Template.Name;
+                    return "{=uForsaken " + Template.Name;
                 }
 
 
@@ -715,7 +700,9 @@ namespace Darkages.Types
                 if (obj.Template.AcModifer != null)
                 {
                     if (obj.Template.AcModifer.Option == StatusOperator.Operator.Remove)
-                        obj.Template.AcModifer.Value += obj.Upgrades;
+                    {
+                        obj.Template.AcModifer.Value -= -(obj.Upgrades);
+                    }
                 }
 
                 if (obj.Template.MrModifer != null)
@@ -777,17 +764,12 @@ namespace Darkages.Types
                         obj.Template.HitModifer.Value += obj.Upgrades;
                 }
 
-                obj.Template.CarryWeight -= (byte)obj.Upgrades;
                 obj.Template.LevelRequired -= (byte)obj.Upgrades;
                 obj.Template.Value *= (byte)obj.Upgrades;
                 obj.Template.MaxDurability += (byte)(1500 * obj.Upgrades);
                 obj.Template.DmgMax += (100 * obj.Upgrades);
                 obj.Template.DmgMin += ( 20 * obj.Upgrades);
 
-                if (obj.Template.CarryWeight <= 0 || obj.Template.CarryWeight > 56)
-                {
-                    obj.Template.CarryWeight = 1;
-                }
 
                 if (obj.Template.LevelRequired <= 0 || obj.Template.LevelRequired > 99)
                 {

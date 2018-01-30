@@ -420,7 +420,6 @@
     <Compile Include="Types\MServer.cs" />
     <Compile Include="Types\Mundane.cs" />
     <Compile Include="Types\MundaneTemplate.cs" />
-    <Compile Include="Types\Pane.cs" />
     <Compile Include="Types\Party.cs" />
     <Compile Include="Types\PartyMember.cs" />
     <Compile Include="Types\PathQualifer.cs" />
@@ -474,14 +473,14 @@
     <Content Include="include\Newtonsoft.Json.dll" />
     <Content Include="include\Newtonsoft.Json.xml" />
     <Content Include="include\zlib.net.dll" />
-    <None Include="include\ZTn.Json.JsonTreeView.dll">
+    <Content Include="MServerTable.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="MServerTable.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Notification.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="include\ZTn.Json.JsonTreeView.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Storage\locales\metafile\ItemInfo0">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

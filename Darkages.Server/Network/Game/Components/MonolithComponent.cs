@@ -13,8 +13,6 @@ namespace Darkages.Network.Game.Components
 
         public readonly BlockingCollection<Spawn> SpawnQueue = new BlockingCollection<Spawn>();
 
-        public object SyncObj = new object();
-
         public MonolithComponent(GameServer server)
             : base(server)
         {
