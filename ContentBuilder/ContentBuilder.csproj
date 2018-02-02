@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ContentBuilder</RootNamespace>
     <AssemblyName>ContentBuilder</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -34,25 +34,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="devDept.Eyeshot.Control.v10, Version=10.0.1050.0, Culture=neutral, PublicKeyToken=5385d83d2fb4d7d9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>include\Bin\devDept.Eyeshot.Control.v10.dll</HintPath>
+    <Reference Include="devDept.Eyeshot.Control.v10">
+      <HintPath>include\devDept.Eyeshot.Control.v10.dll</HintPath>
     </Reference>
-    <Reference Include="devDept.Eyeshot.Dicom.v10, Version=10.0.1050.0, Culture=neutral, PublicKeyToken=7de2103b168f3266, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>include\Bin\devDept.Eyeshot.Dicom.v10.dll</HintPath>
+    <Reference Include="devDept.Geometry.v10">
+      <HintPath>include\devDept.Geometry.v10.dll</HintPath>
     </Reference>
-    <Reference Include="devDept.Geometry.v10, Version=10.0.1050.0, Culture=neutral, PublicKeyToken=9440825e8b4733bc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>include\Bin\devDept.Geometry.v10.dll</HintPath>
+    <Reference Include="devDept.Graphics.Shaders.v10">
+      <HintPath>include\devDept.Graphics.Shaders.v10.dll</HintPath>
     </Reference>
-    <Reference Include="devDept.Graphics.Shaders.v10, Version=10.0.1050.0, Culture=neutral, PublicKeyToken=54ce5f5f803e4b42, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>include\Bin\devDept.Graphics.Shaders.v10.dll</HintPath>
+    <Reference Include="devDept.Graphics.v10">
+      <HintPath>include\devDept.Graphics.v10.dll</HintPath>
     </Reference>
-    <Reference Include="devDept.Graphics.v10, Version=10.0.1050.0, Culture=neutral, PublicKeyToken=f3cd437f0d8061b5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>include\Bin\devDept.Graphics.v10.dll</HintPath>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>include\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="netDxf">
+      <HintPath>include\netDxf.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,14 +93,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="include\Bin\x64\AcIdViewObj_4.02_11.tx" />
-    <None Include="include\Bin\x64\ModelerGeometry_4.02_11.tx" />
-    <None Include="include\Bin\x64\RecomputeDimBlock_4.02_11.tx" />
-    <None Include="include\Bin\x64\TD_DynBlocks_4.02_11.tx" />
-    <None Include="include\Bin\x86\AcIdViewObj_4.02_11.tx" />
-    <None Include="include\Bin\x86\ModelerGeometry_4.02_11.tx" />
-    <None Include="include\Bin\x86\RecomputeDimBlock_4.02_11.tx" />
-    <None Include="include\Bin\x86\TD_DynBlocks_4.02_11.tx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -117,71 +107,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Darkages.Server\Darkages.Server.csproj">
-      <Project>{12bab501-ffc0-45d7-bf79-c9e52488f7d4}</Project>
-      <Name>Darkages.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="include\Bin\Design\devDept.Eyeshot.Control.v10.Design.dll" />
-    <Content Include="include\Bin\Design\devDept.Eyeshot.Control.Wpf.v10.Design.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Control.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Control.v10.xml" />
-    <Content Include="include\Bin\devDept.Eyeshot.Control.Wpf.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Control.Wpf.v10.xml" />
-    <Content Include="include\Bin\devDept.Eyeshot.Dicom.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Dicom.v10.xml" />
-    <Content Include="include\Bin\devDept.Eyeshot.Dicom.Wpf.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Dicom.Wpf.v10.xml" />
-    <Content Include="include\Bin\devDept.Eyeshot.Kinect.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Kinect.v10.xml" />
-    <Content Include="include\Bin\devDept.Eyeshot.Kinect.Wpf.v10.dll" />
-    <Content Include="include\Bin\devDept.Eyeshot.Kinect.Wpf.v10.xml" />
-    <Content Include="include\Bin\devDept.Geometry.v10.dll" />
-    <Content Include="include\Bin\devDept.Geometry.v10.xml" />
-    <Content Include="include\Bin\devDept.Graphics.Shaders.v10.dll" />
-    <Content Include="include\Bin\devDept.Graphics.v10.dll" />
-    <Content Include="include\Bin\devDept.Graphics.v10.xml" />
-    <Content Include="include\Bin\devDept.Graphics.Wpf.v10.dll" />
-    <Content Include="include\Bin\devDept.Graphics.Wpf.v10.xml" />
-    <Content Include="include\Bin\x64\CopyModules.dll" />
-    <Content Include="include\Bin\x64\devDept.Eyeshot.Control.Wpf.x64.v10.dll" />
-    <Content Include="include\Bin\x64\devDept.Eyeshot.Control.Wpf.x64.v10.xml" />
-    <Content Include="include\Bin\x64\devDept.Eyeshot.Control.x64.v10.dll" />
-    <Content Include="include\Bin\x64\devDept.Eyeshot.Control.x64.v10.xml" />
-    <Content Include="include\Bin\x64\sisl.dll" />
-    <Content Include="include\Bin\x64\TD_AcisBuilder_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Alloc_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_BrepRenderer_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Br_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_DbRoot_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Db_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Ge_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Gi_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Gs_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_MgdBrep_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Mgd_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_Root_4.02_11.dll" />
-    <Content Include="include\Bin\x64\TD_SpatialIndex_4.02_11.dll" />
-    <Content Include="include\Bin\x86\CopyModules.dll" />
-    <Content Include="include\Bin\x86\devDept.Eyeshot.Control.Wpf.x86.v10.dll" />
-    <Content Include="include\Bin\x86\devDept.Eyeshot.Control.Wpf.x86.v10.xml" />
-    <Content Include="include\Bin\x86\devDept.Eyeshot.Control.x86.v10.dll" />
-    <Content Include="include\Bin\x86\devDept.Eyeshot.Control.x86.v10.xml" />
-    <Content Include="include\Bin\x86\sisl.dll" />
-    <Content Include="include\Bin\x86\TD_AcisBuilder_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Alloc_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_BrepRenderer_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Br_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_DbRoot_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Db_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Ge_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Gi_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Gs_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_MgdBrep_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Mgd_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_Root_4.02_11.dll" />
-    <Content Include="include\Bin\x86\TD_SpatialIndex_4.02_11.dll" />
+    <None Include="wasp_F1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

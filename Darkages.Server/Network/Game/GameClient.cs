@@ -133,6 +133,8 @@ namespace Darkages.Network.Game
         public void Update(TimeSpan elapsedTime)
         {
             #region Sanity Checks
+            if (Server == null)
+                return;
 
             if (Aisling == null)
                 return;

@@ -92,6 +92,10 @@ namespace Darkages.Types
             if (Template == null)
                 return;
 
+            X = 13;
+            Y = 35;
+
+
             if (Template.ChatTimer != null)
             {
                 Template.ChatTimer.Update(update);
