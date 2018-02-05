@@ -1,7 +1,7 @@
 {
   "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
   "ID": 0,
-  "Image": 0x4001,
+  "Image": 0x4003,
   "ScriptName": "Common Monster",
   "DefinedX": 31,
   "DefinedY": 25,
@@ -27,7 +27,7 @@
   "SpawnRate": 1,
   "SpawnSize": 1,
   "AttackSpeed": 750,
-  "ImageVarience": 2,
+  "ImageVarience": 0,
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": false,

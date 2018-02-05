@@ -44,7 +44,7 @@ namespace Darkages.Network
             if (bytes == 0 ||
                 error != SocketError.Success)
             {
-                Socket.Disconnect(false);
+                Socket.Disconnect(true);
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace Darkages.Network
             if (bytes == 0 ||
                 error != SocketError.Success)
             {
-                Socket.Disconnect(false);
+                Socket.Disconnect(true);
                 return;
             }
 
