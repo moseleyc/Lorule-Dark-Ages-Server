@@ -36,6 +36,9 @@ namespace Darkages.Types
         public Sprite[] AuthenticatedAislings { get; set; }
 
         [JsonIgnore]
+        public Type Type { get; set; }
+
+        [JsonIgnore]
         public string DisplayName
         {
             get

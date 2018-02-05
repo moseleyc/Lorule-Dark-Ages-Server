@@ -184,6 +184,7 @@ namespace Darkages.Types
             if (Source is Aisling)
             {
                 var client = Source as Aisling;
+
                 if (client.EquipmentManager.Weapon != null
                     && client.EquipmentManager.Weapon.Item != null && client.Weapon > 0)
                 {
@@ -1004,7 +1005,6 @@ namespace Darkages.Types
             Y = Y.Clamp(Y, Map.Rows - 1);
 
             CompleteWalk(savedX, savedY);
-            ServerContext.Game.ObjectPulseController?.OnObjectUpdate(this);
 
             return true;
         }
@@ -1059,6 +1059,8 @@ namespace Darkages.Types
                     ? Scope.NearbyAislingsExludingSelf
                     : Scope.NearbyAislings, response);
             }
+
+            ServerContext.Game.ObjectPulseController?.OnObjectUpdate(this);
         }
 
         #region Attributes
