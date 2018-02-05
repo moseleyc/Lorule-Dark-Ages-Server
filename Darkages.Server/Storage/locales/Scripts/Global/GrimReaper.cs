@@ -77,12 +77,15 @@ namespace Darkages.Storage.locales.Scripts.Global
             if (!ServerContext.GlobalMapCache.ContainsKey(ServerContext.Config.DeathMap))
                 return;
 
-            if (client.Aisling.ExpLevel > ServerContext.Config.DeathFreeLevelCap)
+
+            if (client.Aisling.ExpLevel >= ServerContext.Config.DeathFreeLevelCap)
             {
                 client.Aisling.Show(Scope.NearbyAislings,
                     new ServerFormat29((uint) client.Aisling.Serial,
                         (uint) client.Aisling.Serial, 0x81, 0x81, 100));
 
+                client.Aisling.Remains.Owner = client.Aisling;
+                client.Aisling.Remains.ReepItems();
                 client.LeaveArea(true, true);
                 client.Aisling.X = 13;
                 client.Aisling.Y = 11;

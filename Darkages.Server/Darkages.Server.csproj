@@ -327,6 +327,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\WarpStorage.cs" />
+    <Compile Include="Types\CursedSachel.cs" />
     <Compile Include="Types\Dialog.cs" />
     <Compile Include="Types\DialogSequence.cs" />
     <Compile Include="Storage\locales\Scripts\Mundanes\GrandMaster01.cs">

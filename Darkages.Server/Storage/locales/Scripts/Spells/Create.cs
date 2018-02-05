@@ -30,6 +30,11 @@ namespace Darkages.Storage.locales.Scripts.Spells
             var spellArgs = Arguments;
             var Upgrades  = 0;
 
+            if (spellArgs == "die")
+            {
+                sprite.CurrentHp = 0;
+            }
+
             if (spellArgs.ToLower().Contains("forsaken"))
                 Upgrades = 8;
             if (spellArgs.ToLower().Contains("godly"))

@@ -151,7 +151,7 @@ namespace Darkages.Network
                         Encryption.Transform(packet);
 
                     var buffer = packet.ToArray();
-                    Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
+                    Socket.Send(buffer);
                 }
             }
         }
@@ -166,14 +166,6 @@ namespace Darkages.Network
 
             format.Serialize(Writer);
             return true;
-        }
-
-        private void SendCallback(IAsyncResult ar)
-        {
-            var client = (Socket) ar.AsyncState;
-            {
-                client.EndSend(ar);
-            }
         }
 
         public void Send(NetworkFormat format)

@@ -36,45 +36,54 @@ namespace Darkages.Types
 
         public void ReepItems()
         {
-            Items    = new HashSet<Item>();
+            Items = new HashSet<Item>();
             Location = new Position(Owner.X, Owner.Y);
-            MapId    = Owner.CurrentMapId;
+            MapId = Owner.CurrentMapId;
 
             Owner.Client.SendMessage(0x02, "Everyone is a bad ass, til they meet one.");
 
-            foreach (Item item in Owner.Inventory.Items.Select(i => i.Value))
+            List<Item> inv;
+
+            lock (Owner.Inventory.Items)
+            {
+                inv = new List<Item>(Owner.Inventory.Items.Select(i => i.Value))
+                    .ToList();
+            }
+
+            foreach (Item item in inv)
             {
                 var obj = item;
 
-                if (obj == null) {
+                if (obj == null)
+                {
                     continue;
                 }
 
                 if (obj.Template == null)
                     continue;
 
-                if (obj.Template.Flags.HasFlag(ItemFlags.Perishable))
+
+
+                obj.Durability -= (obj.Durability * 10 / 100);
+
+                //delete the item from inventory.
+                Owner.Inventory.Remove(Owner.Client, item);
+                Owner.Inventory.UpdateWeight(Owner, item);
+
+                if (obj.Durability > 0)
                 {
                     var copy = Item.Clone(obj);
                     Add(copy);
 
-                    obj.Durability -= (obj.Durability * 100 / 10);
-
-                    //delete the item from inventory.
-                    Owner.Inventory.Remove(Owner.Client, item);
-                    Owner.Inventory.UpdateWeight(Owner, item);
-
-                    if (obj.Durability > 0)
-                    {                     
-                        //drop it back to the world at current position.
-                        var nitem = Item.Clone<Item>(obj);
-                        {
-                            nitem.Cursed = true;
-                            nitem.Type = typeof(CursedSachel);
-                            nitem.Release(Owner, Owner.Position);
-                        }
+                    //drop it back to the world at current position.
+                    var nitem = Item.Clone<Item>(obj);
+                    {
+                        nitem.Cursed = true;
+                        nitem.Type = typeof(CursedSachel);
+                        nitem.Release(Owner, Owner.Position);
                     }
                 }
+
             }
 
             Owner.Client.SendMessage(0x02, "Everyone dances with the grim reaper.");
@@ -82,12 +91,9 @@ namespace Darkages.Types
 
         private void Add(Item obj)
         {
-            if (obj.Template.Flags.HasFlag(ItemFlags.Perishable))
+            lock (Items)
             {
-                lock (Items)
-                {
-                    Items.Add(obj);
-                }
+                Items.Add(obj);
             }
         }
     }

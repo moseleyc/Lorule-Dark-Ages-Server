@@ -10,6 +10,7 @@ namespace Darkages.Types
 {
     public class Item : Sprite
     {
+
         public ItemTemplate Template { get; set; }
 
         public bool Cursed { get; set; }
@@ -31,6 +32,8 @@ namespace Darkages.Types
         public byte Color { get; set; }
 
         public int Upgrades { get; set; }
+
+        public Type Type { get; set; }
 
         [JsonIgnore]
         public Sprite[] AuthenticatedAislings { get; set; }

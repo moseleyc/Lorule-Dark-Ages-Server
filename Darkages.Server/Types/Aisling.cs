@@ -20,6 +20,8 @@ namespace Darkages
         [JsonIgnore]
         public bool HadDeathExperience { get; set; }
 
+        public CursedSachel Remains { get; set; }
+
         public List<Sprite> ViewableObjects
         {
             get
@@ -47,6 +49,7 @@ namespace Darkages
             PartyStatus = GroupStatus.AcceptingRequests;
             InvitePrivleges = true;
             LeaderPrivleges = false;
+            Remains = new CursedSachel(this);
         }
 
         public int CurrentWeight { get; set; }
