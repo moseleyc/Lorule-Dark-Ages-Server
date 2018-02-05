@@ -30,15 +30,6 @@ namespace Darkages.Storage.locales.Scripts.Spells
             var spellArgs = Arguments;
             var Upgrades  = 0;
 
-            if (spellArgs == "die")
-                sprite.CurrentHp = 0;
-
-
-            if (spellArgs.Contains("gold"))
-            {
-                (sprite as Aisling).GoldPoints += 1000000;
-                (sprite as Aisling).Client.SendStats(StatusFlags.All);
-            }
             if (spellArgs.ToLower().Contains("forsaken"))
                 Upgrades = 8;
             if (spellArgs.ToLower().Contains("godly"))

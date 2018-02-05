@@ -14,7 +14,7 @@ namespace Darkages.Types
     public class Common : ItemUpgrade
     {
         public override string Name => "Upgraded";
-        public override int Weight => 95;
+        public override int Weight => 90;
         public override int Upgrade => 1;
     }
 
@@ -27,19 +27,19 @@ namespace Darkages.Types
     public class Rare : ItemUpgrade
     {
         public override string Name => "Rare";
-        public override int Weight => 10;
+        public override int Weight => 15;
         public override int Upgrade => 3;
     }
     public class Epic : ItemUpgrade
     {
         public override string Name => "Epic";
-        public override int Weight => 5;
+        public override int Weight => 10;
         public override int Upgrade => 4;
     }
     public class Legendary : ItemUpgrade
     {
         public override string Name => "Legendary";
-        public override int Weight => 4;
+        public override int Weight => 5;
         public override int Upgrade => 5;
     }
     public class Mythical : ItemUpgrade

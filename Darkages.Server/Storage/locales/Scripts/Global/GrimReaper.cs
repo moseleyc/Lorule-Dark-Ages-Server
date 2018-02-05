@@ -79,9 +79,6 @@ namespace Darkages.Storage.locales.Scripts.Global
 
             if (client.Aisling.ExpLevel > ServerContext.Config.DeathFreeLevelCap)
             {
-                client.Aisling.Remains.Owner = client.Aisling;
-                client.Aisling.Remains.ReepItems();
-
                 client.Aisling.Show(Scope.NearbyAislings,
                     new ServerFormat29((uint) client.Aisling.Serial,
                         (uint) client.Aisling.Serial, 0x81, 0x81, 100));
