@@ -152,7 +152,7 @@ namespace Darkages.Network.Game
 
             #endregion
 
-            Server.ObjectPulseController?.OnObjectUpdate(Aisling);
+            Server?.ObjectPulseController?.OnObjectUpdate(Aisling);
 
             UpdateGlobalScripts(elapsedTime);
 
@@ -625,6 +625,13 @@ namespace Darkages.Network.Game
                     foreach (var obj in nearby)
                         obj.Client.SendMessage(type, text);
                 }
+                    break;
+                case Scope.All:
+                    {
+                        var nearby = GetObjects<Aisling>(i => i.LoggedIn);
+                        foreach (var obj in nearby)
+                            obj.Client.SendMessage(type, text);
+                    }
                     break;
             }
         }

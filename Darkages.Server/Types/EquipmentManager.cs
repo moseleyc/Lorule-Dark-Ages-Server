@@ -126,7 +126,7 @@ namespace Darkages.Types
                 AddEquipment(displayslot, item);
         }
 
-        public bool RemoveFromExisting(int displayslot)
+        public bool RemoveFromExisting(int displayslot, bool returnit = true)
         {
             if (Equipment[displayslot] == null)
                 return true;
@@ -146,19 +146,26 @@ namespace Darkages.Types
 
             RemoveFromSlot(displayslot);
 
-            //give this item back to the inventory.
-            if (displayslot == ItemSlots.Weapon)
-                success = itemObj.GiveTo(Client.Aisling, false, 1);
-            else
-                success = itemObj.GiveTo(Client.Aisling, false);
-
-            if (!returntouser)
+            if (returnit)
             {
-                RemoveFromInventory(itemObj, true);
-                success = true;
-            }
+                //give this item back to the inventory.
+                if (displayslot == ItemSlots.Weapon)
+                    success = itemObj.GiveTo(Client.Aisling, false, 1);
+                else
+                    success = itemObj.GiveTo(Client.Aisling, false);
 
-            return success;
+                if (!returntouser)
+                {
+                    RemoveFromInventory(itemObj, true);
+                    success = true;
+                }
+
+                return success;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void RemoveFromSlot(int displayslot)

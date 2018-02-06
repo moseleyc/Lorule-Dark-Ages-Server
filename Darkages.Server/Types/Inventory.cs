@@ -36,6 +36,11 @@ namespace Darkages.Types
             return Items.Values.Where(i => i != null && prediate(i)).ToArray();
         }
 
+        public new Item Return(Predicate<Item> prediate)
+        {
+            return Items.Values.Where(i => i != null && prediate(i)).FirstOrDefault();
+        }
+
         public void Set(Item s)
         {
             Items[s.Slot] = Clone(s);
