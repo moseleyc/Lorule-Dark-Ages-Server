@@ -36,5 +36,9 @@
         public double DamageExponent { get; set; }
         public Pane Pane { get; set; }
         public ElementManager.Element ElementalProperty { get; set; }
+
+        public LearningPredicate Prerequisites { get; set; }
+
+        public string NpcKey { get; set; }
     }
 }

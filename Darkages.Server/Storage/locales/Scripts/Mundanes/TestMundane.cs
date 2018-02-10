@@ -45,11 +45,35 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                     break;
                 // Skill Acquire
                 case 0x0005:
-                    Skill.GiveTo(client, args);
 
-                    client.SendOptionsDialog(Mundane, "Use this new skill wisely.");
-                    client.Aisling.Show(Scope.NearbyAislings,
-                        new ServerFormat29((uint) client.Aisling.Serial, (uint) Mundane.Serial, 0, 124, 64));
+                    var subject = ServerContext.GlobalSkillTemplateCache[args];
+                    if (subject == null)
+                        return;
+
+                    if (subject.Prerequisites == null)
+                    {
+                        Skill.GiveTo(client, args);
+                        client.SendOptionsDialog(Mundane, "Use this new skill wisely.");
+                        client.Aisling.Show(Scope.NearbyAislings,
+                            new ServerFormat29((uint)client.Aisling.Serial, (uint)Mundane.Serial, 0, 124, 64));
+                    }
+                    else
+                    {
+                        if (subject.Prerequisites.IsMet(client.Aisling))
+                        {
+                            Skill.GiveTo(client, args);
+
+                            client.SendOptionsDialog(Mundane, "Use this new skill wisely.");
+                            client.Aisling.Show(Scope.NearbyAislings,
+                                new ServerFormat29((uint)client.Aisling.Serial, (uint)Mundane.Serial, 0, 124, 64));
+                        }
+                        else
+                        {
+                            client.SendOptionsDialog(Mundane, "You don't have what it takes.");
+                            client.SendOptionsDialog(Mundane, string.Format("Requirements: {0}", subject.Prerequisites.ToString()));
+                            client.CloseDialog();
+                        }
+                    }
 
                     break;
             }

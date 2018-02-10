@@ -3,6 +3,7 @@
     public class SkillTemplate : Template
     {
         public int ID { get; set; }
+
         public byte Icon { get; set; }
 
         public string ScriptName { get; set; }
@@ -30,5 +31,9 @@
         public Debuff Debuff { get; set; }
 
         public Buff Buff { get; set; }
+
+        public LearningPredicate Prerequisites { get; set; }
+
+        public string NpcKey { get; set; }
     }
 }

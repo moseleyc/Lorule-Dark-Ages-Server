@@ -454,15 +454,14 @@
     <Compile Include="Types\SkillBook.cs" />
     <Compile Include="Types\SkillModifiers.cs" />
     <Compile Include="Types\SkillPane.cs" />
-    <Compile Include="Types\SkillPredicate.cs" />
+    <Compile Include="Types\LearningPredicate.cs" />
     <Compile Include="Types\SkillScope.cs" />
     <Compile Include="Types\SkillTemplate.cs" />
-    <Compile Include="Types\SKillTier.cs" />
+    <Compile Include="Types\Tier.cs" />
     <Compile Include="Types\SpawnQualifer.cs" />
     <Compile Include="Types\Spell.cs" />
     <Compile Include="Types\SpellBook.cs" />
     <Compile Include="Types\SpellOperator.cs" />
-    <Compile Include="Types\SpellPredicate.cs" />
     <Compile Include="Types\SpellTemplate.cs" />
     <Compile Include="Types\Sprite.cs" />
     <Compile Include="Types\Stat.cs" />
