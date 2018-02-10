@@ -1,6 +1,6 @@
 {
   "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
-  "Image": 0x4001,
+  "Image": 0x43C1,
   "Level": 99,
   "ScriptKey": "repairsell",
   "EnableWalking": false,
