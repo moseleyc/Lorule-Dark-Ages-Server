@@ -336,7 +336,7 @@
     <Compile Include="Storage\locales\Scripts\Mundanes\GrandMaster01.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Storage\locales\Scripts\Mundanes\TestMundane.cs">
+    <Compile Include="Storage\locales\Scripts\Mundanes\LearkSkills.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Storage\locales\Scripts\Mundanes\shop1.cs">

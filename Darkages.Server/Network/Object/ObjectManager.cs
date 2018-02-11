@@ -15,8 +15,8 @@ namespace Darkages.Network.Object
             Aislings = 1,
             Monsters = 2,
             Mundanes = 4,
-            Items = 8,
-            Money = 16,
+            Items    = 8,
+            Money    = 16,
             All = Aislings | Items | Money | Monsters | Mundanes
         }
 

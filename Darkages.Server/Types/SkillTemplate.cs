@@ -35,5 +35,7 @@
         public LearningPredicate Prerequisites { get; set; }
 
         public string NpcKey { get; set; }
+
+        public Tier TierLevel { get; set; }
     }
 }

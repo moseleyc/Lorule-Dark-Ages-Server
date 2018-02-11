@@ -19,10 +19,19 @@ namespace Darkages.Types
         public int Dex_Required           { get; set; }
         public int Con_Required           { get; set; }
         public int Gold_Required          { get; set; }
+        public ClassStage Stage_Required  { get; set; }
+        public Class Class_Required       { get; set; }
 
         public List<ItemPredicate> Item_Requirements = new List<ItemPredicate>();
+
         public SkillTemplate Skill_Required { get; set; }
         public int Skill_Level_Required { get; set; }
+        public int Skill_Tier_Required { get; set; }
+
+        public SpellTemplate Spell_Required { get; set; }
+        public int Spell_Level_Required { get; set; }
+        public int Spell_Tier_Required { get; set; }
+
         public List<string> Quests_Completed_Required = new List<string>();
 
 
@@ -31,8 +40,20 @@ namespace Darkages.Types
             Dictionary<int, bool> result = new Dictionary<int, bool>();
             int n = 0;
 
-            result[n++] = (player.SkillBook.Get(i => i.Template.Name.Equals(Skill_Required.Name)
-                && i.Level >= Skill_Level_Required) != null);
+            if (Skill_Required != null)
+            {
+                result[n++] = (player.SkillBook.Get(i => i.Template.Name.Equals(Skill_Required.Name)
+                    && i.Level >= Skill_Level_Required
+                    && (int)i.Template.TierLevel >= Skill_Tier_Required) != null);
+            }
+
+            if (Spell_Required != null)
+            {
+                result[n++] = (player.SpellBook.Get(i => i.Template.Name.Equals(Spell_Required.Name)
+                    && i.Level >= Spell_Level_Required
+                    && (int)i.Template.TierLevel >= Spell_Tier_Required) != null);
+            }
+
             result[n++] = player.ExpLevel >= ExpLevel_Required;
             result[n++] = player.Str >= Str_Required;
             result[n++] = player.Int >= Int_Required;
@@ -40,6 +61,8 @@ namespace Darkages.Types
             result[n++] = player.Con >= Con_Required;
             result[n++] = player.Dex >= Dex_Required;
             result[n++] = player.GoldPoints >= Gold_Required;
+            result[n++] = player.Stage == Stage_Required;
+            result[n++] = player.Path == Class_Required;
 
             foreach (var ir in Item_Requirements)
             {

@@ -6,9 +6,9 @@ using Darkages.Types;
 namespace Darkages.Storage.locales.Scripts.Mundanes
 {
     [Script("Learn Skills")]
-    public class TestMundane : MundaneScript
+    public class LearkSkills : MundaneScript
     {
-        public TestMundane(GameServer server, Mundane mundane)
+        public LearkSkills(GameServer server, Mundane mundane)
             : base(server, mundane)
         {
         }
