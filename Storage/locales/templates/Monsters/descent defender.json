@@ -30,7 +30,7 @@
   "SpawnMax": 6000,
   "SpawnRate": 30,
   "SpawnSize": 32,
-  "AttackSpeed": 650,
+  "AttackSpeed": 2350,
   "IgnoreCollision": false,
   "ImageVarience": 0,
   "SpawnOnlyOnActiveMaps": false,

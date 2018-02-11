@@ -535,8 +535,7 @@ namespace Darkages.Types
 
                     _Str = (byte) (int) (obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * _Str *
-                          (int) (ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
+                    dmg = obj.Template.Level * _Str + 5;
                     _obj.ApplyDamage(this, dmg, false, 1, applied => { });
                 }
                 else if (this is Mundane)

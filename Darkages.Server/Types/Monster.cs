@@ -24,7 +24,7 @@ namespace Darkages.Types
             WaypointIndex = 0;
         }
 
-        [JsonIgnore] public MonsterScript Script { get; private set; }
+        [JsonIgnore] public MonsterScript Script { get; set; }
 
         public GameServerTimer BashTimer { get; set; }
         public GameServerTimer CastTimer { get; set; }
@@ -77,7 +77,7 @@ namespace Darkages.Types
             return NextTo(target.X, target.Y);
         }
 
-        public void GenerateRewards(Aisling player)
+        public void GenerateRewards(Aisling player, bool TestingMode = false)
         {
             if (Rewarded)
                 return;
@@ -88,9 +88,13 @@ namespace Darkages.Types
             if (player.Client.Aisling == null)
                 return;
 
-            GenerateExperience(player);
-            GenerateGold();
-            GenerateDrops();
+            if (!TestingMode)
+            {
+                GenerateExperience(player);
+                GenerateGold();
+            }
+
+            GenerateDrops(TestingMode);
 
             Rewarded = true;
             player.UpdateStats();
@@ -188,7 +192,7 @@ namespace Darkages.Types
 
         private List<string> DetermineDrop()
             => LootManager.Drop(LootTable, rnd.Next(ServerContext.Config.LootTableStackSize))
-                .Select(i => i.Name).ToList();
+                .Select(i => i?.Name).ToList();
 
         private ItemUpgrade DetermineQuality()
             => (ItemUpgrade)LootManager.Drop(UpgradeTable, 1).FirstOrDefault();
@@ -218,7 +222,7 @@ namespace Darkages.Types
             }
         }
 
-        private void GenerateDrops()
+        private void GenerateDrops(bool TestMode = false)
         {
             if (Template.LootType.HasFlag(LootQualifer.Table))
             {
@@ -229,25 +233,34 @@ namespace Darkages.Types
                 {
                     DetermineDrop().ForEach(i =>
                     {
-                        var rolled_item = Item.Create(this, GlobalItemTemplateCache[i]);
-                        var upgrade = DetermineQuality();
-                        rolled_item.Upgrades = upgrade?.Upgrade ?? 0;
-                        Item.ApplyQuality(rolled_item);
-
-                        rolled_item.Cursed = true;
-                        rolled_item.AuthenticatedAislings = GetTaggedAislings();
-                        rolled_item.Release(this, this.Position);
-
-                        if (rolled_item.Upgrades > 3)
+                        if (i != null)
                         {
-                            var users = GetTaggedAislings();
-                            foreach (var user in users)
-                            {
-                                var msg = string.Format("{0} Drop!!! ({1})", upgrade?.Name, rolled_item.DisplayName);
-                                user.Client.SendMessage(3, msg);
 
-                                //TODO: implement more rarity animations to display.
-                                user.Client.SendAnimation(341, rolled_item, rolled_item, 0x64, true);
+                            var rolled_item = Item.Create(this, GlobalItemTemplateCache[i]);
+                            var upgrade = DetermineQuality();
+                            rolled_item.Upgrades = upgrade?.Upgrade ?? 0;
+                            Item.ApplyQuality(rolled_item);
+
+#warning  TODO: remove later. testing roll systems.
+                            if (TestMode)
+                                return;
+
+
+                            rolled_item.Cursed = true;
+                            rolled_item.AuthenticatedAislings = GetTaggedAislings();
+                            rolled_item.Release(this, this.Position);
+
+                            if (rolled_item.Upgrades > 3)
+                            {
+                                var users = GetTaggedAislings();
+                                foreach (var user in users)
+                                {
+                                    var msg = string.Format("{0} Drop!!! ({1})", upgrade?.Name, rolled_item.DisplayName);
+                                    user.Client.SendMessage(3, msg);
+
+                                    //TODO: implement more rarity animations to display.
+                                    user.Client.SendAnimation(341, rolled_item, rolled_item, 0x64, true);
+                                }
                             }
                         }
                     });
@@ -340,8 +353,8 @@ namespace Darkages.Types
 
 
             //=E4 / 0.1 * E6 
-            obj.Template.MaximumHP = (int)(obj.Template.Level / 0.1 * 32);
-            obj.Template.MaximumMP = (int)(obj.Template.Level / 0.1 * 16);
+            obj.Template.MaximumHP = (int)(obj.Template.Level / 0.1 * 3);
+            obj.Template.MaximumMP = (int)(obj.Template.Level / 0.1 * 2);
 
             //calculate what ac to give depending on level.
             obj.BonusAc = (sbyte)(70 - 101 / 70 * template.Level);
@@ -349,16 +362,11 @@ namespace Darkages.Types
             if (obj.BonusAc > Config.BaseAC)
                 obj.BonusAc = Config.BaseAC;
 
-
-            var modExp = 0.01;
-
-            if (obj.Template.Exponent == 0)
-            {
-                obj.Template.Exponent = 150  * (modExp / obj.Template.Level);
-            }
+            obj.DefenseElement = ElementManager.Element.None;
+            obj.OffenseElement = ElementManager.Element.None;
 
 
-            if (obj.Template.ElementType == ElementQualifer.Random)
+            if (obj.Template.ElementType == ElementQualifer.Random && obj.Template.Level > 3)
             {
                 obj.DefenseElement = RandomEnumValue<ElementManager.Element>();
                 obj.OffenseElement = RandomEnumValue<ElementManager.Element>();

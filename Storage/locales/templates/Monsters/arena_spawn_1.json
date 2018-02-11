@@ -9,7 +9,7 @@
   "LootType": 0,
   "MoodTyle": 2,
   "SpawnType": 1,
-  "ElementType": 0,
+  "ElementType": 1,
   "PathQualifer": 3,
   "Level": 50,
   "MaximumHP": 1000,
@@ -29,7 +29,7 @@
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": false,
-  "Name": "Bee",
+  "Name": "Image of Chaos",
   "Drops": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [

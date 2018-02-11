@@ -98,6 +98,17 @@ namespace Darkages.Network.Game
             }
         }
 
+        public void LearnSkill(Mundane Source, SkillTemplate subject, string message)
+        {
+            Skill.GiveTo(this, subject.Name);
+            SendOptionsDialog(Source, message);
+
+            Aisling.Show(Scope.NearbyAislings,
+                new ServerFormat29((uint)Aisling.Serial, (uint)Source.Serial, 
+                subject?.TargetAnimation ?? 124, 
+                subject?.TargetAnimation ?? 124, 100));
+        }
+
         public void TransitionToMap(Area area, Position position)
         {
             if (area == null)

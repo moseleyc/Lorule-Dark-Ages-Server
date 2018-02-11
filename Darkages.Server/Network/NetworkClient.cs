@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
@@ -16,9 +17,6 @@ namespace Darkages.Network
         : ObjectManager
     {
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
-
-        private byte _lastFormat;
-        private int _matches;
         private bool _sending;
         public int Errors;
 
@@ -91,11 +89,11 @@ namespace Darkages.Network
                     return;
 
                 _sending = true;
-                ThreadPool.QueueUserWorkItem(SendBuffers);
+                Task.Run(() => SendBuffers());
             }
         }
 
-        private void SendBuffers(object state)
+        private void SendBuffers()
         {
             while (_sending)
             {

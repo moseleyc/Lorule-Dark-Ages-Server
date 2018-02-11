@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Darkages.Systems.Loot.Interfaces;
 
 namespace Darkages.Systems.Loot.Extensions
@@ -7,22 +8,34 @@ namespace Darkages.Systems.Loot.Extensions
     public static class EnumerableExtensions
     {
         private static readonly Random Random = new Random();
+        private static Dictionary<double, long> GlobalDraws = new Dictionary<double, long>();
 
-        public static T WeightedChoice<T>(this IEnumerable<T> items, int sum) where T : IWeighable
+        static float NextFloat(Random random)
         {
-            var randomNumber = Random.Next(0, sum + 1);
+            double mantissa = (random.NextDouble() * 2.0) - 1.0;
+            double exponent = Math.Pow(2.0, random.Next(-126, 128));
+            return (float)(mantissa * exponent);
+        }
+
+        public static T WeightedChoice<T>(this IEnumerable<T> items, double sum) where T : IWeighable
+        {
+            var randomNumber = Random.Next(0, items.Count());
+            var objs = items.ToArray();
 
             foreach (var item in items)
             {
-                randomNumber -= item.Weight;
+                lock (Random)
+                {
+                    short luck   = (short)Math.Abs(NextFloat(Random));
 
-                if (!(randomNumber <= 0))
-                    continue;
-
-                return item;
+                    if (luck <= -19000)
+                    {
+                        return objs[randomNumber];
+                    }
+                }
             }
 
-            throw new NullReferenceException($"Unable to get an item from the list of items.");
+            return default(T);
         }
     }
 }

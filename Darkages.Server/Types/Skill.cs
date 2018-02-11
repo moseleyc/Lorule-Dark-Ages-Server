@@ -105,6 +105,7 @@ namespace Darkages.Types
                 return false;
 
             var skill = Create(slot, skillTemplate);
+            skill.Level = 1;
             skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
             aisling.SkillBook.Assign(skill);
 

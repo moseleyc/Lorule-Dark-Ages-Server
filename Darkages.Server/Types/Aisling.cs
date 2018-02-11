@@ -298,34 +298,35 @@ namespace Darkages
                 BootColor = 0
             };
 
+            Skill.GiveTo(result, "Assail");
 
-            foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
-            {
-                if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
-                    continue;
+            //foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+            //        continue;
 
-                Skill.GiveTo(result, skill);
-            }
+            //    Skill.GiveTo(result, skill);
+            //}
+
+
+            //foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+            //    {
+            //        Skill.GiveTo(result, skill, (byte)(72 + idx));
+            //        idx++;
+            //    }
+            //}
+
+            //foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
+            //        continue;
+
+            //    Spell.GiveTo(result, spell);
+            //}
 
             int idx = 1;
-            foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
-            {
-                if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
-                {
-                    Skill.GiveTo(result, skill, (byte)(72 + idx));
-                    idx++;
-                }
-            }
-
-            foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
-            {
-                if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
-                    continue;
-
-                Spell.GiveTo(result, spell);
-            }
-
-            idx = 1;
             foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
             {
                 if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)

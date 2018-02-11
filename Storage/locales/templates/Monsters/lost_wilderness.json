@@ -1,7 +1,7 @@
 {
   "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
   "ID": 0,
-  "Image": 0x4003,
+  "Image": 0x4002,
   "ScriptName": "Common Monster",
   "DefinedX": 31,
   "DefinedY": 25,
@@ -10,8 +10,8 @@
   "Factor": 0.0,
   "LootType": 36,
   "MoodTyle": 3,
-  "SpawnType": 2,
-  "ElementType": 2,
+  "SpawnType": 1,
+  "ElementType": 0,
   "PathQualifer": 1,
   "Level": 1,
   "MaximumHP": 200,
@@ -20,32 +20,21 @@
   "AreaID": 101,
   "RegenSpeed": 0,
   "MovementSpeed": 2000,
-  "CastSpeed": 1000,
+  "CastSpeed": 5000,
   "ArmorClass": 0,
   "MagicResist": 400,
-  "SpawnMax": 5,
+  "SpawnMax": 2000,
   "SpawnRate": 1,
-  "SpawnSize": 1,
-  "AttackSpeed": 750,
+  "SpawnSize": 129,
+  "AttackSpeed": 2000,
   "ImageVarience": 0,
   "SpawnOnlyOnActiveMaps": false,
   "UpdateMapWide": false,
   "Grow": false,
-  "SpellScripts": {
-    "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-    "$values": [
-      "beag cradh",
-      "beag ioc fein",
-      "dion"
-    ]
-  },
-  "Name": "Bee",
+  "Name": "Lorule Common Wolf",
  "Drops": {
     "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
     "$values": [
-	"Dark Belt",
-        "Dark Bone Necklace",
-        "Light Coral Necklace",
         "Dirk",
         "Wooden Shield",
         "Boots",
@@ -55,13 +44,9 @@
 	"Silver Earrings",
 	"Gold Earrings",
         "Gardcorp",
-        "Black Stone Ring",
         "Ancuisa Ceir",
         "Leather Tunic",
         "Cotte",
-        "Eternal Love Ring",
-        "Orc Helmet",
-	"Light Belt"
     ]
   },
 }

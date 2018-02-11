@@ -8,7 +8,7 @@ namespace Darkages.Systems.Loot
     public class LootTable : ILootTable
     {
         public string Name { get; set; }
-        public int Weight  { get; set; } = 1;
+        public double Weight  { get; set; } 
 
         public ICollection<ILootDefinition> Children { get; }
 

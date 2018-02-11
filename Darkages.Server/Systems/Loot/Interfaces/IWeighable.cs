@@ -8,6 +8,6 @@
         /// <summary>
         /// The weight of this item.
         /// </summary>
-        int Weight { get; set; }
+        double Weight { get; set; }
     }
 }
