@@ -77,21 +77,50 @@ namespace Darkages.Types
             if (Skill_Required != null)
             {
                 var skill = ServerContext.GlobalSkillTemplateCache[Skill_Required];
-                result[n++] = new Tuple<bool, object>(skill == null ? false 
-                    : (player.SkillBook.Get(i => i.Template.Name.Equals(skill.Name)
-                    && i.Level >= Skill_Level_Required
-                    && (int)i.Template.TierLevel >= Skill_Tier_Required) != null),
-                    "You don't have the skills required.");
+                var skill_retainer = player.SkillBook.Get(i => i.Template.Name.Equals(skill.Name)).FirstOrDefault();
+
+                if (skill_retainer == null)
+                {
+                    result[n++] = new Tuple<bool, object>(false, 
+                        string.Format("You don't have the skill required. ({0})", Skill_Required));
+                }
+
+                if (skill_retainer != null && skill_retainer.Level >= Skill_Level_Required)
+                {
+                    result[n++] = new Tuple<bool, object>(true,
+                        "Skills Required.");
+
+                }
+                else
+                {
+                    result[n++] = new Tuple<bool, object>(false,
+                        string.Format("{0} Must be level {1} - Go get {2} more levels.",
+                        skill.Name, Skill_Level_Required, Math.Abs(skill_retainer.Level - Skill_Level_Required)));
+                }
             }
 
             if (Spell_Required != null)
             {
-                var spell = ServerContext.GlobalSkillTemplateCache[Spell_Required];
-                result[n++] = new Tuple<bool, object>(spell == null ? false 
-                    : (player.SpellBook.Get(i => i.Template.Name.Equals(spell.Name)
-                    && i.Level >= Spell_Level_Required
-                    && (int)i.Template.TierLevel >= Spell_Tier_Required) != null),
-                    "You lack the spells required to proceed.");
+                var spell = ServerContext.GlobalSpellTemplateCache[Spell_Required];
+                var spell_retainer = player.SpellBook.Get(i => i.Template.Name.Equals(spell.Name)).FirstOrDefault();
+
+                if (spell_retainer == null)
+                {
+                    result[n++] = new Tuple<bool, object>(false,
+                        string.Format("You don't have the spell required. ({0})", Spell_Required));
+                }
+
+                if (spell_retainer != null & spell_retainer.Level >= Spell_Level_Required)
+                {
+                    result[n++] = new Tuple<bool, object>(true,
+                        "Spells Required.");
+                }
+                else
+                {
+                    result[n++] = new Tuple<bool, object>(false,
+                        string.Format("{0} Must be level {1} - Go get {2} more levels.",
+                        spell.Name, Skill_Level_Required, Math.Abs(spell_retainer.Level - Spell_Level_Required)));
+                }
             }
 
             return n;
@@ -99,14 +128,14 @@ namespace Darkages.Types
 
         private int CHeckAttributePredicates(Aisling player, Dictionary<int, Tuple<bool, object>> result, int n)
         {
-            result[n++] = new Tuple<bool, object>(player.ExpLevel >= ExpLevel_Required, "You can't learn this yet. Go level more.");
-            result[n++] = new Tuple<bool, object>(player.Str >= Str_Required, "You are not strong enough.");
-            result[n++] = new Tuple<bool, object>(player.Int >= Int_Required, "You are not smart enough.");
-            result[n++] = new Tuple<bool, object>(player.Wis >= Wis_Required, "You are not wise enough.");
-            result[n++] = new Tuple<bool, object>(player.Con >= Con_Required, "You lack stamina.");
-            result[n++] = new Tuple<bool, object>(player.Dex >= Dex_Required, "You are not nimble enough.");
-            result[n++] = new Tuple<bool, object>(player.GoldPoints >= Gold_Required, "You best come back when you got the cash.");
-            result[n++] = new Tuple<bool, object>(player.Stage == Stage_Required, "You must transcend further first.");
+            result[n++] = new Tuple<bool, object>(player.ExpLevel >= ExpLevel_Required, string.Format("Go level more. (Level {0} Required.)", Spell_Level_Required));
+            result[n++] = new Tuple<bool, object>(player.Str >= Str_Required, string.Format("You are not strong enough. ({0} Str Required.).", Str_Required));
+            result[n++] = new Tuple<bool, object>(player.Int >= Int_Required, string.Format("You are not smart enough.  ({0} Int Required.).", Int_Required));
+            result[n++] = new Tuple<bool, object>(player.Wis >= Wis_Required, string.Format("You are not wise enough. ({0} Wis Required.).", Wis_Required));
+            result[n++] = new Tuple<bool, object>(player.Con >= Con_Required, string.Format("You lack stamina. ({0} Con Required.).", Con_Required));
+            result[n++] = new Tuple<bool, object>(player.Dex >= Dex_Required, string.Format("You are not nimble enough. ({0} Dex Required.).", Dex_Required));
+            result[n++] = new Tuple<bool, object>(player.GoldPoints >= Gold_Required, string.Format("You best come back when you got the cash. ({0} Gold Required.).", Gold_Required));
+            result[n++] = new Tuple<bool, object>(player.Stage == Stage_Required, "You must transcend further first");
             result[n++] = new Tuple<bool, object>(player.Path == Class_Required, "You should not be here, " + player.Path.ToString());
 
             return n;
@@ -122,7 +151,10 @@ namespace Darkages.Types
 
                     if (item == null)
                     {
-                        result[n] = new Tuple<bool, object>(false, "You lack the items required.");
+                        result[n] = new Tuple<bool, object>(false,
+                                string.Format("You don't have enough {0}'s. You have {1} of {2} required.",
+                                ir.Item, "none of ", ir.AmountRequired));
+
                         break;
                     }
 
@@ -130,7 +162,8 @@ namespace Darkages.Types
 
                     if (item_obtained == null || item_obtained.Length == 0)
                     {
-                        result[n] = new Tuple<bool, object>(false, "You lack the items required.");
+                        result[n] = new Tuple<bool, object>(false,
+                            string.Format("You lack the items required. (One {0} Required)", ir.Item));
                         break;
                     }
                     else
@@ -143,7 +176,9 @@ namespace Darkages.Types
                             }
                             else
                             {
-                                result[n] = new Tuple<bool, object>(false, "You don't have the correct amount i need.");
+                                result[n] = new Tuple<bool, object>(false,
+                                    string.Format("You don't have enough {0}'s. You have {1} of {2} required.",
+                                    ir.Item, item_obtained.Length + 1, ir.AmountRequired));
                             }
                         }
                         else

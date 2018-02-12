@@ -12,1817 +12,15 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Sprite, Darkages.Server]], mscorlib",
     "$values": [
       {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17172,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 281976142,
-        "X": 10,
-        "Y": 10,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17153,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1423197669,
-        "X": 12,
-        "Y": 12,
-        "Direction": 3,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 1,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17148,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 60124802,
-        "X": 10,
-        "Y": 1,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 4,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:01",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.2000000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.5000000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": []
-          },
-          "ID": 16731,
-          "Image": 17356,
-          "ScriptName": "Common Monster",
-          "DefinedX": 2,
-          "DefinedY": 2,
-          "Exponent": 0.0,
-          "LootType": 32,
-          "MoodTyle": 0,
-          "SpawnType": 2,
-          "ElementType": 2,
-          "PathQualifer": 2,
-          "Level": 4,
-          "MaximumHP": 120,
-          "MaximumMP": 80,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 500,
-          "CastSpeed": 200,
-          "SpawnMax": 1,
-          "SpawnRate": 120,
-          "SpawnSize": 1,
-          "AttackSpeed": 1000,
-          "IgnoreCollision": false,
-          "ImageVarience": 0,
-          "SpawnOnlyOnActiveMaps": true,
-          "Grow": true,
-          "SpellScripts": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "beag ioc fein",
-              "dion",
-              "beag ioc fein",
-              "dion",
-              "ard cradh"
-            ]
-          },
-          "SkillScripts": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Kelberoth Strike",
-              "Wolf Fang Fist",
-              "Crasher",
-              "Wind Blade"
-            ]
-          },
-          "DefenseElement": 6,
-          "OffenseElement": 1,
-          "UpdateMapWide": false,
-          "Name": "Randy"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17356,
-        "Aggressive": true,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 2051542281,
-        "X": 4,
-        "Y": 4,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 1,
-        "DefenseElement": 6,
-        "CurrentHp": 120,
-        "CurrentMp": 80,
-        "_MaximumHp": 120,
-        "_MaximumMp": 80,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17140,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1709336697,
-        "X": 9,
-        "Y": 13,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 1,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.7048761",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.1070723",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17147,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 139412329,
-        "X": 4,
-        "Y": 6,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 5,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17166,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 549345513,
-        "X": 14,
-        "Y": 12,
-        "Direction": 3,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 2,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.8054551",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17156,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1533548172,
-        "X": 2,
-        "Y": 6,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.7048761",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.5097428",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17141,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 2038604569,
-        "X": 10,
-        "Y": 4,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 2,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17138,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 383320297,
-        "X": 4,
-        "Y": 7,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17160,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 2059452557,
-        "X": 3,
-        "Y": 4,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.6101997",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.2012502",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17159,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1897418959,
-        "X": 12,
-        "Y": 7,
-        "Direction": 3,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17161,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1795159974,
-        "X": 3,
-        "Y": 6,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17146,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 908017023,
-        "X": 1,
-        "Y": 5,
-        "Direction": 3,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.2012502",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.6043113",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.2012502",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17152,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 598686641,
-        "X": 15,
-        "Y": 7,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 1,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.3017649",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.9122474",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.3017649",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17156,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 430168147,
-        "X": 8,
-        "Y": 10,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 1,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17145,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1734452544,
-        "X": 7,
-        "Y": 13,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 5,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
         "$type": "Darkages.Types.Mundane, Darkages.Server",
         "rnd": {
           "$type": "System.Random, mscorlib"
         },
         "Template": {
           "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
-          "Image": 16417,
+          "Image": 17357,
           "Level": 99,
-          "ScriptKey": "Arena Master",
+          "ScriptKey": "Learn Skills",
           "EnableWalking": false,
           "EnableTurning": false,
           "EnableAttacking": false,
@@ -1831,13 +29,14 @@
             "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
             "$values": []
           },
-          "X": 12,
+          "X": 27,
           "Y": 12,
-          "AreaID": 509,
-          "Direction": 3,
+          "AreaID": 150,
+          "Direction": 2,
           "MaximumHp": 31680,
           "MaximumMp": 15840,
-          "Name": "Arena Combatant"
+          "QuestKey": "Wren",
+          "Name": "Wren"
         },
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
@@ -1847,11 +46,11 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1113057672,
-        "X": 12,
+        "Serial": 19840578,
+        "X": 27,
         "Y": 12,
-        "Direction": 3,
-        "CurrentMapId": 509,
+        "Direction": 2,
+        "CurrentMapId": 150,
         "OffenseElement": 0,
         "DefenseElement": 0,
         "CurrentHp": 31680,
@@ -1869,81 +68,35 @@
         "_Hit": 0
       },
       {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
+        "$type": "Darkages.Types.Mundane, Darkages.Server",
         "rnd": {
           "$type": "System.Random, mscorlib"
         },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.3017649",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.3017649",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
         "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
+          "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
+          "Image": 17356,
+          "Level": 99,
+          "ScriptKey": "Learn Skills",
+          "EnableWalking": false,
+          "EnableTurning": false,
+          "EnableAttacking": false,
+          "EnableSpeech": true,
+          "Speech": {
             "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
             "$values": [
-              "Dark Bone Necklace"
+              "Hey Mate!",
+              "There is a crazy bitch in here, watch out!"
             ]
           },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
+          "X": 33,
+          "Y": 7,
+          "AreaID": 150,
+          "Direction": 2,
+          "MaximumHp": 31680,
+          "MaximumMp": 15840,
+          "QuestKey": "Dean",
+          "Name": "Dean"
         },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17150,
-        "Aggressive": false,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -1952,1487 +105,17 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 1571425154,
-        "X": 8,
-        "Y": 2,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.6043113",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.2012502",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17148,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1465402369,
-        "X": 10,
-        "Y": 13,
-        "Direction": 3,
-        "CurrentMapId": 509,
-        "OffenseElement": 5,
-        "DefenseElement": 4,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.6101997",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17162,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 413445544,
-        "X": 5,
-        "Y": 1,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 2,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17156,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1059628377,
-        "X": 11,
-        "Y": 11,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 5,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17161,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 910551291,
-        "X": 13,
-        "Y": 2,
+        "Serial": 2092664074,
+        "X": 33,
+        "Y": 7,
         "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 4,
-        "DefenseElement": 3,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17166,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1512967966,
-        "X": 13,
-        "Y": 4,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17160,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1460031029,
-        "X": 9,
-        "Y": 2,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 1,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.7048761",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.7048761",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17138,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 806941757,
-        "X": 11,
-        "Y": 14,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.6101997",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17163,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 599686241,
-        "X": 7,
-        "Y": 3,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 3,
-        "CurrentHp": 1092,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 79,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17143,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 1668171984,
-        "X": 8,
-        "Y": 14,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 4,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.9060393",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17158,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 553752206,
-        "X": 13,
-        "Y": 13,
-        "Direction": 0,
-        "CurrentMapId": 509,
-        "OffenseElement": 2,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17143,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 547848740,
-        "X": 16,
-        "Y": 8,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 5,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17135,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 948816644,
-        "X": 14,
-        "Y": 11,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 3,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.1007904",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.3086345",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.5033329",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17166,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 29642271,
-        "X": 17,
-        "Y": 4,
-        "Direction": 2,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 5,
-        "CurrentHp": 1497,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
-        "_Str": 79,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      {
-        "$type": "Darkages.Types.Monster, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "BashTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.2012502",
-          "Delay": "00:00:00.7500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "CastTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:01.4091897",
-          "Delay": "00:00:02",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "WalkTimer": {
-          "$type": "Darkages.Network.Game.GameServerTimer, Darkages.Server",
-          "Timer": "00:00:00.4027780",
-          "Delay": "00:00:00.5500000",
-          "Elapsed": false,
-          "Disabled": false,
-          "Interval": 0,
-          "Tick": 0
-        },
-        "Template": {
-          "$type": "Darkages.Types.MonsterTemplate, Darkages.Server",
-          "Drops": {
-            "$type": "System.Collections.ObjectModel.Collection`1[[System.String, mscorlib]], mscorlib",
-            "$values": [
-              "Dark Bone Necklace"
-            ]
-          },
-          "ID": 0,
-          "Image": 17134,
-          "ScriptName": "Common Monster",
-          "DefinedX": 0,
-          "DefinedY": 0,
-          "Exponent": 0.0,
-          "LootType": 0,
-          "MoodTyle": 2,
-          "SpawnType": 1,
-          "ElementType": 1,
-          "PathQualifer": 3,
-          "Level": 50,
-          "MaximumHP": 1500,
-          "MaximumMP": 1000,
-          "SpawnerID": 0,
-          "AreaID": 509,
-          "MovementSpeed": 550,
-          "CastSpeed": 2000,
-          "SpawnMax": 1000,
-          "SpawnRate": 1,
-          "SpawnSize": 20,
-          "AttackSpeed": 750,
-          "IgnoreCollision": false,
-          "ImageVarience": 39,
-          "SpawnOnlyOnActiveMaps": false,
-          "Grow": false,
-          "DefenseElement": 0,
-          "OffenseElement": 0,
-          "UpdateMapWide": false,
-          "Name": "Image of Chaos"
-        },
-        "BashEnabled": false,
-        "CastEnabled": false,
-        "WalkEnabled": true,
-        "Image": 17157,
-        "Aggressive": false,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 666912300,
-        "X": 12,
-        "Y": 12,
-        "Direction": 1,
-        "CurrentMapId": 509,
-        "OffenseElement": 6,
-        "DefenseElement": 6,
-        "CurrentHp": 1500,
-        "CurrentMp": 1000,
-        "_MaximumHp": 1500,
-        "_MaximumMp": 1000,
+        "CurrentMapId": 150,
+        "OffenseElement": 0,
+        "DefenseElement": 0,
+        "CurrentHp": 23313,
+        "CurrentMp": 15840,
+        "_MaximumHp": 31680,
+        "_MaximumMp": 15840,
         "_Str": 0,
         "_Int": 0,
         "_Wis": 0,
@@ -3446,25 +129,25 @@
     ]
   },
   "CurrentWeight": 0,
-  "MaximumWeight": 54,
+  "MaximumWeight": 60,
   "Created": "2018-02-11T15:41:56.1955385Z",
-  "LastLogged": "2018-02-11T16:14:18.9657895Z",
+  "LastLogged": "2018-02-12T16:21:08.2937492Z",
   "Username": "lol",
   "Password": "lol",
   "AbpLevel": 0,
   "AbpTotal": 0,
   "AbpNext": 0,
   "ExpLevel": 18,
-  "ExpTotal": 4276272,
-  "ExpNext": 2155413,
+  "ExpTotal": 4276278,
+  "ExpNext": 2155407,
   "Gender": 2,
   "Title": 0,
-  "Flags": 4,
-  "AreaID": 509,
-  "ClassID": 0,
+  "Flags": 0,
+  "AreaID": 150,
+  "ClassID": 5,
   "GamePoints": 0,
-  "GoldPoints": 23851,
-  "StatPoints": 2,
+  "GoldPoints": 3851,
+  "StatPoints": 0,
   "Medal": 0,
   "LIcon": 0,
   "RIcon": 0,
@@ -3477,8 +160,8 @@
   "Boots": 1,
   "Helmet": 0,
   "Shield": 0,
-  "Weapon": 0,
-  "Armor": 1,
+  "Weapon": 6,
+  "Armor": 0,
   "OverCoat": 0,
   "Pants": 0,
   "PictureData": {
@@ -3516,17 +199,269 @@
         },
         "Slot": 1,
         "Icon": 1,
-        "Level": 74,
+        "Level": 100,
         "ID": 2124235576,
-        "NextAvailableUse": "2018-02-11T16:25:22.5153714Z",
-        "Ready": true,
+        "NextAvailableUse": "2018-02-12T16:22:12.6229535Z",
+        "Ready": false,
         "InUse": false,
-        "Uses": 5
+        "Uses": 0
       },
-      "2": null,
-      "3": null,
-      "4": null,
-      "5": null,
+      "2": {
+        "$type": "Darkages.Types.Skill, Darkages.Server",
+        "Template": {
+          "$type": "Darkages.Types.SkillTemplate, Darkages.Server",
+          "ID": 3,
+          "Icon": 4,
+          "ScriptName": "Double Punch",
+          "LevelRate": 0.02,
+          "Cooldown": 0,
+          "MaxLevel": 100,
+          "MissAnimation": 0,
+          "TargetAnimation": 0,
+          "Type": 0,
+          "Pane": 1,
+          "PostQualifers": 0,
+          "Sound": 16,
+          "Prerequisites": {
+            "$type": "Darkages.Types.LearningPredicate, Darkages.Server",
+            "Quests_Completed_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Areas_Visited_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.UInt16, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Items_Required": {
+              "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemPredicate, Darkages.Server]], mscorlib",
+              "$values": [
+                {
+                  "$type": "Darkages.Types.ItemPredicate, Darkages.Server",
+                  "Item": "Dirk",
+                  "AmountRequired": 1
+                }
+              ]
+            },
+            "Stage_Required": 0,
+            "Class_Required": 5,
+            "ExpLevel_Required": 9,
+            "Str_Required": 6,
+            "Int_Required": 0,
+            "Wis_Required": 0,
+            "Dex_Required": 5,
+            "Con_Required": 4,
+            "Gold_Required": 5000,
+            "Skill_Required": "Assail",
+            "Skill_Level_Required": 100,
+            "Skill_Tier_Required": 0,
+            "Spell_Level_Required": 0,
+            "Spell_Tier_Required": 0
+          },
+          "NpcKey": "Dean",
+          "TierLevel": 0,
+          "Name": "Double Punch"
+        },
+        "Slot": 2,
+        "Icon": 4,
+        "Level": 5,
+        "ID": 995483547,
+        "NextAvailableUse": "2018-02-12T16:22:12.6229535Z",
+        "Ready": false,
+        "InUse": false,
+        "Uses": 3
+      },
+      "3": {
+        "$type": "Darkages.Types.Skill, Darkages.Server",
+        "Template": {
+          "$type": "Darkages.Types.SkillTemplate, Darkages.Server",
+          "ID": 3,
+          "Icon": 4,
+          "ScriptName": "Double Punch",
+          "LevelRate": 0.02,
+          "Cooldown": 0,
+          "MaxLevel": 100,
+          "MissAnimation": 0,
+          "TargetAnimation": 0,
+          "Type": 0,
+          "Pane": 1,
+          "PostQualifers": 0,
+          "Sound": 16,
+          "Prerequisites": {
+            "$type": "Darkages.Types.LearningPredicate, Darkages.Server",
+            "Quests_Completed_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Areas_Visited_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.UInt16, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Items_Required": {
+              "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemPredicate, Darkages.Server]], mscorlib",
+              "$values": [
+                {
+                  "$type": "Darkages.Types.ItemPredicate, Darkages.Server",
+                  "Item": "Dirk",
+                  "AmountRequired": 1
+                }
+              ]
+            },
+            "Stage_Required": 0,
+            "Class_Required": 5,
+            "ExpLevel_Required": 9,
+            "Str_Required": 6,
+            "Int_Required": 0,
+            "Wis_Required": 0,
+            "Dex_Required": 5,
+            "Con_Required": 4,
+            "Gold_Required": 5000,
+            "Skill_Required": "Assail",
+            "Skill_Level_Required": 100,
+            "Skill_Tier_Required": 0,
+            "Spell_Level_Required": 0,
+            "Spell_Tier_Required": 0
+          },
+          "NpcKey": "Dean",
+          "TierLevel": 0,
+          "Name": "Double Punch"
+        },
+        "Slot": 3,
+        "Icon": 4,
+        "Level": 5,
+        "ID": 1386395544,
+        "NextAvailableUse": "2018-02-12T16:22:12.6229535Z",
+        "Ready": false,
+        "InUse": false,
+        "Uses": 1
+      },
+      "4": {
+        "$type": "Darkages.Types.Skill, Darkages.Server",
+        "Template": {
+          "$type": "Darkages.Types.SkillTemplate, Darkages.Server",
+          "ID": 3,
+          "Icon": 4,
+          "ScriptName": "Double Punch",
+          "LevelRate": 0.02,
+          "Cooldown": 0,
+          "MaxLevel": 100,
+          "MissAnimation": 0,
+          "TargetAnimation": 0,
+          "Type": 0,
+          "Pane": 1,
+          "PostQualifers": 0,
+          "Sound": 16,
+          "Prerequisites": {
+            "$type": "Darkages.Types.LearningPredicate, Darkages.Server",
+            "Quests_Completed_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Areas_Visited_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.UInt16, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Items_Required": {
+              "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemPredicate, Darkages.Server]], mscorlib",
+              "$values": [
+                {
+                  "$type": "Darkages.Types.ItemPredicate, Darkages.Server",
+                  "Item": "Dirk",
+                  "AmountRequired": 1
+                }
+              ]
+            },
+            "Stage_Required": 0,
+            "Class_Required": 5,
+            "ExpLevel_Required": 9,
+            "Str_Required": 6,
+            "Int_Required": 0,
+            "Wis_Required": 0,
+            "Dex_Required": 5,
+            "Con_Required": 4,
+            "Gold_Required": 5000,
+            "Skill_Required": "Assail",
+            "Skill_Level_Required": 100,
+            "Skill_Tier_Required": 0,
+            "Spell_Level_Required": 0,
+            "Spell_Tier_Required": 0
+          },
+          "NpcKey": "Dean",
+          "TierLevel": 0,
+          "Name": "Double Punch"
+        },
+        "Slot": 4,
+        "Icon": 4,
+        "Level": 5,
+        "ID": 1771489970,
+        "NextAvailableUse": "2018-02-12T16:22:12.6229535Z",
+        "Ready": false,
+        "InUse": false,
+        "Uses": 0
+      },
+      "5": {
+        "$type": "Darkages.Types.Skill, Darkages.Server",
+        "Template": {
+          "$type": "Darkages.Types.SkillTemplate, Darkages.Server",
+          "ID": 3,
+          "Icon": 4,
+          "ScriptName": "Double Punch",
+          "LevelRate": 0.02,
+          "Cooldown": 0,
+          "MaxLevel": 100,
+          "MissAnimation": 0,
+          "TargetAnimation": 0,
+          "Type": 0,
+          "Pane": 1,
+          "PostQualifers": 0,
+          "Sound": 16,
+          "Prerequisites": {
+            "$type": "Darkages.Types.LearningPredicate, Darkages.Server",
+            "Quests_Completed_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Areas_Visited_Required": {
+              "$type": "System.Collections.Generic.List`1[[System.UInt16, mscorlib]], mscorlib",
+              "$values": []
+            },
+            "Items_Required": {
+              "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemPredicate, Darkages.Server]], mscorlib",
+              "$values": [
+                {
+                  "$type": "Darkages.Types.ItemPredicate, Darkages.Server",
+                  "Item": "Dirk",
+                  "AmountRequired": 1
+                }
+              ]
+            },
+            "Stage_Required": 0,
+            "Class_Required": 5,
+            "ExpLevel_Required": 9,
+            "Str_Required": 6,
+            "Int_Required": 0,
+            "Wis_Required": 0,
+            "Dex_Required": 5,
+            "Con_Required": 4,
+            "Gold_Required": 5000,
+            "Skill_Required": "Assail",
+            "Skill_Level_Required": 100,
+            "Skill_Tier_Required": 0,
+            "Spell_Level_Required": 0,
+            "Spell_Tier_Required": 0
+          },
+          "NpcKey": "Dean",
+          "TierLevel": 0,
+          "Name": "Double Punch"
+        },
+        "Slot": 5,
+        "Icon": 4,
+        "Level": 4,
+        "ID": 1773775963,
+        "NextAvailableUse": "2018-02-12T16:22:12.6229535Z",
+        "Ready": false,
+        "InUse": false,
+        "Uses": 3
+      },
       "6": null,
       "7": null,
       "8": null,
@@ -3732,7 +667,7 @@
         },
         "Level": 0,
         "Slot": 73,
-        "NextAvailableUse": "2018-02-11T16:23:56.7089148Z",
+        "NextAvailableUse": "2018-02-12T16:21:08.283247Z",
         "InUse": false
       },
       "74": null,
@@ -3774,171 +709,8 @@
     "$type": "Darkages.Types.Inventory, Darkages.Server",
     "Items": {
       "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Darkages.Types.Item, Darkages.Server]], mscorlib",
-      "1": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 1,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 6,
-          "DisplayImage": 32859,
-          "ScriptName": "Weapon",
-          "Gender": 255,
-          "HealthModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 4150
-          },
-          "HitModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 13
-          },
-          "DmgModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 13
-          },
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CarryWeight": 0,
-          "Flags": 77,
-          "MaxDurability": 1224,
-          "Value": 4000,
-          "EquipmentSlot": 1,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 171,
-          "DmgMax": 816,
-          "DropRate": 0.075628596612079338,
-          "StageRequired": 0,
-          "HasPants": false,
-          "Color": 0,
-          "Name": "Dirk"
-        },
-        "Cursed": false,
-        "Owner": 1658219771,
-        "Image": 6,
-        "DisplayImage": 32859,
-        "Stacks": 0,
-        "Slot": 1,
-        "Durability": 988,
-        "Color": 13,
-        "Upgrades": 8,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 721327370,
-        "X": 41,
-        "Y": 15,
-        "Direction": 0,
-        "CurrentMapId": 150,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
-      "2": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 1,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 1,
-          "DisplayImage": 32860,
-          "ScriptName": "Shield",
-          "Gender": 255,
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 18
-          },
-          "MrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 110
-          },
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CarryWeight": 0,
-          "Flags": 77,
-          "MaxDurability": 1224,
-          "Value": 4000,
-          "EquipmentSlot": 3,
-          "NpcKey": "shop1",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 160,
-          "DmgMax": 800,
-          "DropRate": 0.76460163445891893,
-          "StageRequired": 0,
-          "HasPants": false,
-          "Color": 0,
-          "Name": "Wooden Shield"
-        },
-        "Cursed": false,
-        "Owner": 1658219771,
-        "Image": 1,
-        "DisplayImage": 32860,
-        "Stacks": 0,
-        "Slot": 2,
-        "Durability": 988,
-        "Color": 13,
-        "Upgrades": 8,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 181103375,
-        "X": 44,
-        "Y": 13,
-        "Direction": 0,
-        "CurrentMapId": 150,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      },
+      "1": null,
+      "2": null,
       "3": null,
       "4": null,
       "5": null,
@@ -4003,10 +775,9 @@
     "$type": "Darkages.Types.EquipmentManager, Darkages.Server",
     "Equipment": {
       "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Darkages.Types.EquipmentSlot, Darkages.Server]], mscorlib",
-      "1": null,
-      "2": {
+      "1": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-        "Slot": 2,
+        "Slot": 1,
         "Item": {
           "$type": "Darkages.Types.Item, Darkages.Server",
           "rnd": {
@@ -4015,44 +786,54 @@
           "Template": {
             "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
             "ID": 1,
-            "CanStack": false,
-            "MaxStack": 0,
-            "Image": 1,
-            "DisplayImage": 32883,
-            "ScriptName": "Armor",
-            "Gender": 2,
-            "AcModifer": {
+            "CanStack": true,
+            "MaxStack": 255,
+            "Image": 6,
+            "DisplayImage": 32859,
+            "ScriptName": "Weapon",
+            "Gender": 255,
+            "HealthModifer": {
               "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 13
+              "Option": 0,
+              "Value": 150
+            },
+            "HitModifer": {
+              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+              "Option": 0,
+              "Value": 5
+            },
+            "DmgModifer": {
+              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+              "Option": 0,
+              "Value": 5
             },
             "OffenseElement": 0,
             "DefenseElement": 0,
             "CarryWeight": 0,
-            "Flags": 77,
-            "MaxDurability": 1224,
-            "Value": 800,
-            "EquipmentSlot": 2,
+            "Flags": 205,
+            "MaxDurability": 1000,
+            "Value": 500,
+            "EquipmentSlot": 1,
             "NpcKey": "shop1",
             "Class": 0,
             "LevelRequired": 1,
-            "DmgMin": 160,
-            "DmgMax": 800,
-            "DropRate": 0.179515922744533,
+            "DmgMin": 11,
+            "DmgMax": 16,
+            "DropRate": 0.81605156850351557,
             "StageRequired": 0,
             "HasPants": false,
             "Color": 0,
-            "Name": "Blouse"
+            "Name": "Dirk"
           },
           "Cursed": false,
-          "Owner": 1658219771,
-          "Image": 1,
-          "DisplayImage": 32883,
-          "Stacks": 0,
+          "Owner": 1484612658,
+          "Image": 6,
+          "DisplayImage": 32859,
+          "Stacks": 1,
           "Slot": 1,
-          "Durability": 982,
+          "Durability": 1000,
           "Color": 13,
-          "Upgrades": 8,
+          "Upgrades": 0,
           "Debuffs": {
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
             "$values": []
@@ -4061,9 +842,9 @@
             "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
             "$values": []
           },
-          "Serial": 777035950,
-          "X": 44,
-          "Y": 17,
+          "Serial": 788266977,
+          "X": 37,
+          "Y": 11,
           "Direction": 0,
           "CurrentMapId": 150,
           "OffenseElement": 0,
@@ -4083,87 +864,10 @@
           "_Hit": 0
         }
       },
+      "2": null,
       "3": null,
       "4": null,
-      "5": {
-        "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-        "Slot": 5,
-        "Item": {
-          "$type": "Darkages.Types.Item, Darkages.Server",
-          "rnd": {
-            "$type": "System.Random, mscorlib"
-          },
-          "Template": {
-            "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-            "ID": 0,
-            "CanStack": false,
-            "MaxStack": 0,
-            "Image": 231,
-            "DisplayImage": 32999,
-            "ScriptName": "Earring",
-            "Gender": 255,
-            "StrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 10
-            },
-            "OffenseElement": 0,
-            "DefenseElement": 0,
-            "CarryWeight": 0,
-            "Flags": 4189,
-            "MaxDurability": 2224,
-            "Value": 80000,
-            "EquipmentSlot": 5,
-            "NpcKey": "Scroll Merchant",
-            "Class": 0,
-            "LevelRequired": 1,
-            "DmgMin": 160,
-            "DmgMax": 800,
-            "DropRate": 0.22742994361903052,
-            "StageRequired": 0,
-            "HasPants": false,
-            "Color": 0,
-            "Name": "Gold Earrings"
-          },
-          "Cursed": false,
-          "Owner": 1658219771,
-          "Image": 231,
-          "DisplayImage": 32999,
-          "Stacks": 0,
-          "Slot": 6,
-          "Durability": 1982,
-          "Color": 13,
-          "Upgrades": 8,
-          "Debuffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Buffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Serial": 914048801,
-          "X": 44,
-          "Y": 13,
-          "Direction": 0,
-          "CurrentMapId": 150,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CurrentHp": 0,
-          "CurrentMp": 0,
-          "_MaximumHp": 0,
-          "_MaximumMp": 0,
-          "_Str": 0,
-          "_Int": 0,
-          "_Wis": 0,
-          "_Con": 0,
-          "_Dex": 0,
-          "_Ac": 0,
-          "_Mr": 0,
-          "_Dmg": 0,
-          "_Hit": 0
-        }
-      },
+      "5": null,
       "6": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
         "Slot": 6,
@@ -4203,8 +907,8 @@
           "Image": 951,
           "DisplayImage": 33719,
           "Stacks": 0,
-          "Slot": 3,
-          "Durability": 2999645,
+          "Slot": 13,
+          "Durability": 2997600,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4240,125 +944,6 @@
       "7": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
         "Slot": 7,
-        "Item": {
-          "$type": "Darkages.Types.Item, Darkages.Server",
-          "rnd": {
-            "$type": "System.Random, mscorlib"
-          },
-          "Template": {
-            "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-            "ID": 0,
-            "CanStack": false,
-            "MaxStack": 0,
-            "Image": 207,
-            "DisplayImage": 32975,
-            "ScriptName": "Generic",
-            "Gender": 255,
-            "HealthModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 4100
-            },
-            "ManaModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 2500
-            },
-            "StrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 9
-            },
-            "IntModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 9
-            },
-            "WisModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 9
-            },
-            "ConModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 9
-            },
-            "DexModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 9
-            },
-            "AcModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 1,
-              "Value": 9
-            },
-            "MrModifer": {
-              "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-              "Option": 0,
-              "Value": 90
-            },
-            "OffenseElement": 0,
-            "DefenseElement": 0,
-            "CarryWeight": 0,
-            "Flags": 4189,
-            "MaxDurability": 2224,
-            "Value": 20000000,
-            "EquipmentSlot": 7,
-            "NpcKey": "Scroll Merchant",
-            "Class": 0,
-            "LevelRequired": 1,
-            "DmgMin": 160,
-            "DmgMax": 800,
-            "DropRate": 0.71591956503033616,
-            "StageRequired": 0,
-            "HasPants": false,
-            "Color": 0,
-            "Name": "Loures Signet Ring"
-          },
-          "Cursed": false,
-          "Owner": 1658219771,
-          "Image": 207,
-          "DisplayImage": 32975,
-          "Stacks": 0,
-          "Slot": 6,
-          "Durability": 1982,
-          "Color": 13,
-          "Upgrades": 8,
-          "Debuffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Buffs": {
-            "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-            "$values": []
-          },
-          "Serial": 442294271,
-          "X": 44,
-          "Y": 13,
-          "Direction": 0,
-          "CurrentMapId": 150,
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CurrentHp": 0,
-          "CurrentMp": 0,
-          "_MaximumHp": 0,
-          "_MaximumMp": 0,
-          "_Str": 0,
-          "_Int": 0,
-          "_Wis": 0,
-          "_Con": 0,
-          "_Dex": 0,
-          "_Ac": 0,
-          "_Mr": 0,
-          "_Dmg": 0,
-          "_Hit": 0
-        }
-      },
-      "8": {
-        "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-        "Slot": 8,
         "Item": {
           "$type": "Darkages.Types.Item, Darkages.Server",
           "rnd": {
@@ -4424,7 +1009,7 @@
             "Flags": 4189,
             "MaxDurability": 2448,
             "Value": 160000000,
-            "EquipmentSlot": 8,
+            "EquipmentSlot": 7,
             "NpcKey": "Scroll Merchant",
             "Class": 0,
             "LevelRequired": 1,
@@ -4441,8 +1026,8 @@
           "Image": 207,
           "DisplayImage": 32975,
           "Stacks": 0,
-          "Slot": 6,
-          "Durability": 2206,
+          "Slot": 1,
+          "Durability": 176,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4475,6 +1060,7 @@
           "_Hit": 0
         }
       },
+      "8": null,
       "9": {
         "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
         "Slot": 9,
@@ -4520,8 +1106,8 @@
           "Image": 227,
           "DisplayImage": 32995,
           "Stacks": 0,
-          "Slot": 6,
-          "Durability": 2982,
+          "Slot": 10,
+          "Durability": 937,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4600,7 +1186,7 @@
           "DisplayImage": 32995,
           "Stacks": 0,
           "Slot": 6,
-          "Durability": 3206,
+          "Durability": 1161,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4672,8 +1258,8 @@
           "Image": 383,
           "DisplayImage": 33667,
           "Stacks": 0,
-          "Slot": 6,
-          "Durability": 49982,
+          "Slot": 4,
+          "Durability": 47937,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4756,8 +1342,8 @@
           "Image": 238,
           "DisplayImage": 33006,
           "Stacks": 0,
-          "Slot": 6,
-          "Durability": 2982,
+          "Slot": 7,
+          "Durability": 937,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4831,7 +1417,7 @@
           "DisplayImage": 32844,
           "Stacks": 0,
           "Slot": 6,
-          "Durability": 2982,
+          "Durability": 937,
           "Color": 13,
           "Upgrades": 8,
           "Debuffs": {
@@ -4869,9 +1455,9 @@
       "16": null,
       "17": null
     },
-    "Armor": {
+    "Weapon": {
       "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-      "Slot": 2,
+      "Slot": 1,
       "Item": {
         "$type": "Darkages.Types.Item, Darkages.Server",
         "rnd": {
@@ -4880,44 +1466,54 @@
         "Template": {
           "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
           "ID": 1,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 1,
-          "DisplayImage": 32883,
-          "ScriptName": "Armor",
-          "Gender": 2,
-          "AcModifer": {
+          "CanStack": true,
+          "MaxStack": 255,
+          "Image": 6,
+          "DisplayImage": 32859,
+          "ScriptName": "Weapon",
+          "Gender": 255,
+          "HealthModifer": {
             "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 13
+            "Option": 0,
+            "Value": 150
+          },
+          "HitModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 5
+          },
+          "DmgModifer": {
+            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
+            "Option": 0,
+            "Value": 5
           },
           "OffenseElement": 0,
           "DefenseElement": 0,
           "CarryWeight": 0,
-          "Flags": 77,
-          "MaxDurability": 1224,
-          "Value": 800,
-          "EquipmentSlot": 2,
+          "Flags": 205,
+          "MaxDurability": 1000,
+          "Value": 500,
+          "EquipmentSlot": 1,
           "NpcKey": "shop1",
           "Class": 0,
           "LevelRequired": 1,
-          "DmgMin": 160,
-          "DmgMax": 800,
-          "DropRate": 0.179515922744533,
+          "DmgMin": 11,
+          "DmgMax": 16,
+          "DropRate": 0.81605156850351557,
           "StageRequired": 0,
           "HasPants": false,
           "Color": 0,
-          "Name": "Blouse"
+          "Name": "Dirk"
         },
         "Cursed": false,
-        "Owner": 1658219771,
-        "Image": 1,
-        "DisplayImage": 32883,
-        "Stacks": 0,
+        "Owner": 1484612658,
+        "Image": 6,
+        "DisplayImage": 32859,
+        "Stacks": 1,
         "Slot": 1,
-        "Durability": 982,
+        "Durability": 1000,
         "Color": 13,
-        "Upgrades": 8,
+        "Upgrades": 0,
         "Debuffs": {
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
           "$values": []
@@ -4926,88 +1522,9 @@
           "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
           "$values": []
         },
-        "Serial": 777035950,
-        "X": 44,
-        "Y": 17,
-        "Direction": 0,
-        "CurrentMapId": 150,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      }
-    },
-    "Earring": {
-      "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-      "Slot": 5,
-      "Item": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 231,
-          "DisplayImage": 32999,
-          "ScriptName": "Earring",
-          "Gender": 255,
-          "StrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 10
-          },
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CarryWeight": 0,
-          "Flags": 4189,
-          "MaxDurability": 2224,
-          "Value": 80000,
-          "EquipmentSlot": 5,
-          "NpcKey": "Scroll Merchant",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 160,
-          "DmgMax": 800,
-          "DropRate": 0.22742994361903052,
-          "StageRequired": 0,
-          "HasPants": false,
-          "Color": 0,
-          "Name": "Gold Earrings"
-        },
-        "Cursed": false,
-        "Owner": 1658219771,
-        "Image": 231,
-        "DisplayImage": 32999,
-        "Stacks": 0,
-        "Slot": 6,
-        "Durability": 1982,
-        "Color": 13,
-        "Upgrades": 8,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 914048801,
-        "X": 44,
-        "Y": 13,
+        "Serial": 788266977,
+        "X": 37,
+        "Y": 11,
         "Direction": 0,
         "CurrentMapId": 150,
         "OffenseElement": 0,
@@ -5066,8 +1583,8 @@
         "Image": 951,
         "DisplayImage": 33719,
         "Stacks": 0,
-        "Slot": 3,
-        "Durability": 2999645,
+        "Slot": 13,
+        "Durability": 2997600,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5103,125 +1620,6 @@
     "LRing": {
       "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
       "Slot": 7,
-      "Item": {
-        "$type": "Darkages.Types.Item, Darkages.Server",
-        "rnd": {
-          "$type": "System.Random, mscorlib"
-        },
-        "Template": {
-          "$type": "Darkages.Types.ItemTemplate, Darkages.Server",
-          "ID": 0,
-          "CanStack": false,
-          "MaxStack": 0,
-          "Image": 207,
-          "DisplayImage": 32975,
-          "ScriptName": "Generic",
-          "Gender": 255,
-          "HealthModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 4100
-          },
-          "ManaModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 2500
-          },
-          "StrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 9
-          },
-          "IntModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 9
-          },
-          "WisModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 9
-          },
-          "ConModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 9
-          },
-          "DexModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 9
-          },
-          "AcModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 1,
-            "Value": 9
-          },
-          "MrModifer": {
-            "$type": "Darkages.Types.StatusOperator, Darkages.Server",
-            "Option": 0,
-            "Value": 90
-          },
-          "OffenseElement": 0,
-          "DefenseElement": 0,
-          "CarryWeight": 0,
-          "Flags": 4189,
-          "MaxDurability": 2224,
-          "Value": 20000000,
-          "EquipmentSlot": 7,
-          "NpcKey": "Scroll Merchant",
-          "Class": 0,
-          "LevelRequired": 1,
-          "DmgMin": 160,
-          "DmgMax": 800,
-          "DropRate": 0.71591956503033616,
-          "StageRequired": 0,
-          "HasPants": false,
-          "Color": 0,
-          "Name": "Loures Signet Ring"
-        },
-        "Cursed": false,
-        "Owner": 1658219771,
-        "Image": 207,
-        "DisplayImage": 32975,
-        "Stacks": 0,
-        "Slot": 6,
-        "Durability": 1982,
-        "Color": 13,
-        "Upgrades": 8,
-        "Debuffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Debuff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Buffs": {
-          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
-          "$values": []
-        },
-        "Serial": 442294271,
-        "X": 44,
-        "Y": 13,
-        "Direction": 0,
-        "CurrentMapId": 150,
-        "OffenseElement": 0,
-        "DefenseElement": 0,
-        "CurrentHp": 0,
-        "CurrentMp": 0,
-        "_MaximumHp": 0,
-        "_MaximumMp": 0,
-        "_Str": 0,
-        "_Int": 0,
-        "_Wis": 0,
-        "_Con": 0,
-        "_Dex": 0,
-        "_Ac": 0,
-        "_Mr": 0,
-        "_Dmg": 0,
-        "_Hit": 0
-      }
-    },
-    "RRing": {
-      "$type": "Darkages.Types.EquipmentSlot, Darkages.Server",
-      "Slot": 8,
       "Item": {
         "$type": "Darkages.Types.Item, Darkages.Server",
         "rnd": {
@@ -5287,7 +1685,7 @@
           "Flags": 4189,
           "MaxDurability": 2448,
           "Value": 160000000,
-          "EquipmentSlot": 8,
+          "EquipmentSlot": 7,
           "NpcKey": "Scroll Merchant",
           "Class": 0,
           "LevelRequired": 1,
@@ -5304,8 +1702,8 @@
         "Image": 207,
         "DisplayImage": 32975,
         "Stacks": 0,
-        "Slot": 6,
-        "Durability": 2206,
+        "Slot": 1,
+        "Durability": 176,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5383,8 +1781,8 @@
         "Image": 227,
         "DisplayImage": 32995,
         "Stacks": 0,
-        "Slot": 6,
-        "Durability": 2982,
+        "Slot": 10,
+        "Durability": 937,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5463,7 +1861,7 @@
         "DisplayImage": 32995,
         "Stacks": 0,
         "Slot": 6,
-        "Durability": 3206,
+        "Durability": 1161,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5535,8 +1933,8 @@
         "Image": 383,
         "DisplayImage": 33667,
         "Stacks": 0,
-        "Slot": 6,
-        "Durability": 49982,
+        "Slot": 4,
+        "Durability": 47937,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5619,8 +2017,8 @@
         "Image": 238,
         "DisplayImage": 33006,
         "Stacks": 0,
-        "Slot": 6,
-        "Durability": 2982,
+        "Slot": 7,
+        "Durability": 937,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5694,7 +2092,7 @@
         "DisplayImage": 32844,
         "Stacks": 0,
         "Slot": 6,
-        "Durability": 2982,
+        "Durability": 937,
         "Color": 13,
         "Upgrades": 8,
         "Debuffs": {
@@ -5733,7 +2131,7 @@
   "HeadAccessory1": 0,
   "HeadAccessory2": 0,
   "Stage": 0,
-  "Path": 0,
+  "Path": 5,
   "LegendBook": {
     "$type": "Darkages.Types.Legend, Darkages.Server",
     "LegendMarks": {
@@ -5745,6 +2143,13 @@
           "Color": 128,
           "Category": "Event",
           "Value": "Lorule: VIP 11/02/2018"
+        },
+        {
+          "$type": "Darkages.Types.Legend+LegendItem, Darkages.Server",
+          "Icon": 1,
+          "Color": 3,
+          "Category": "Class",
+          "Value": "Walks the path of the Monk - 12/02/2018"
         }
       ]
     }
@@ -5754,13 +2159,44 @@
   "ClanRank": "",
   "Quests": {
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Quest, Darkages.Server]], mscorlib",
-    "$values": []
-  },
-  "PortalSession": {
-    "$type": "Darkages.PortalSession, Darkages.Server",
-    "IsMapOpen": false,
-    "FieldNumber": 1,
-    "DateOpened": "2018-02-11T16:24:24.5666461Z"
+    "$values": [
+      {
+        "$type": "Darkages.Types.Quest, Darkages.Server",
+        "ItemRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.ItemTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "LegendRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.Legend+LegendItem, Darkages.Server]], mscorlib",
+          "$values": [
+            {
+              "$type": "Darkages.Types.Legend+LegendItem, Darkages.Server",
+              "Icon": 7,
+              "Color": 88,
+              "Category": "Quest",
+              "Value": "Helped Gos kill some rats."
+            }
+          ]
+        },
+        "SkillRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.SkillTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "SpellRewards": {
+          "$type": "System.Collections.Generic.List`1[[Darkages.Types.SpellTemplate, Darkages.Server]], mscorlib",
+          "$values": []
+        },
+        "Name": "gos_quest",
+        "Started": true,
+        "Completed": false,
+        "TimeStarted": "2018-02-12T13:05:14.3264545Z",
+        "TimeCompleted": "0001-01-01T00:00:00",
+        "ExpReward": 0,
+        "GoldReward": 0,
+        "StageIndex": 0,
+        "Rewarded": false
+      }
+    ]
   },
   "LastPosition": {
     "$type": "Darkages.Types.Position, Darkages.Server",
@@ -5777,18 +2213,18 @@
     "$type": "System.Collections.Generic.List`1[[Darkages.Types.Buff, Darkages.Server]], mscorlib",
     "$values": []
   },
-  "Serial": 1658219771,
-  "X": 8,
-  "Y": 5,
-  "Direction": 3,
-  "CurrentMapId": 509,
+  "Serial": 598775310,
+  "X": 32,
+  "Y": 7,
+  "Direction": 1,
+  "CurrentMapId": 150,
   "OffenseElement": 5,
   "DefenseElement": 5,
-  "CurrentHp": 0,
+  "CurrentHp": 11194,
   "CurrentMp": 8402,
   "_MaximumHp": 2944,
   "_MaximumMp": 952,
-  "_Str": 18,
+  "_Str": 20,
   "_Int": 5,
   "_Wis": 5,
   "_Con": 7,

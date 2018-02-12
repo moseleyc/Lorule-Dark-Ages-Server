@@ -42,7 +42,7 @@
     "Con_Required": 4,
     "Gold_Required": 5000,
     "Skill_Required": "Assail",
-    "Skill_Level_Required": 30,
+    "Skill_Level_Required": 100,
     "Skill_Tier_Required": 0,
     "Spell_Level_Required": 0,
     "Spell_Tier_Required": 0

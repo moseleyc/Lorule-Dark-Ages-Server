@@ -265,6 +265,11 @@ namespace Darkages
                 s.DropRate = Generator.Random.NextDouble() + (s.LevelRequired * 100 / 100 * 0.01);
             }
 
+            GlobalItemTemplateCache["Dirk"].Flags |= ItemFlags.Stackable;
+            GlobalItemTemplateCache["Dirk"].CanStack = true;
+            GlobalItemTemplateCache["Dirk"].MaxStack = byte.MaxValue;
+
+
             Console.WriteLine("\n");
         }
     }

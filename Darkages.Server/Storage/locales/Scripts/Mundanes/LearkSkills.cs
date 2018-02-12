@@ -36,7 +36,8 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                 // Skill Learn
                 case 0x0001:
                     var skills = ServerContext.GlobalSkillTemplateCache.Select(i => i.Value)
-                        .Where(i => i.Prerequisites != null && i.NpcKey.Equals(this.Mundane.Template.Name)).ToList();
+                        .Where(i => i.Prerequisites != null && i.NpcKey.Equals(this.Mundane.Template.Name)
+                        && i.Prerequisites.Class_Required == client.Aisling.Path).ToList();
                     var learned_skills = client.Aisling.SkillBook.Skills.Where(i => i.Value != null).Select(i => i.Value.Template)
                         .ToList();
 
@@ -46,7 +47,7 @@ namespace Darkages.Storage.locales.Scripts.Mundanes
                         {
                             client.CloseDialog();
                             client.SendMessage(0x02, "Nothing available to learn right now.");
-                            return;
+                           // return;
                         }
                     }
 

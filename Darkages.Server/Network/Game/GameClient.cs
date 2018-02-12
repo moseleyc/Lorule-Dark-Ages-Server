@@ -100,13 +100,83 @@ namespace Darkages.Network.Game
 
         public void LearnSkill(Mundane Source, SkillTemplate subject, string message)
         {
-            Skill.GiveTo(this, subject.Name);
-            SendOptionsDialog(Source, message);
+            if (PayPrerequisites(subject.Prerequisites))
+            {
+                Skill.GiveTo(this, subject.Name);
+                SendOptionsDialog(Source, message);
 
-            Aisling.Show(Scope.NearbyAislings,
-                new ServerFormat29((uint)Aisling.Serial, (uint)Source.Serial, 
-                subject?.TargetAnimation ?? 124, 
-                subject?.TargetAnimation ?? 124, 100));
+                Aisling.Show(Scope.NearbyAislings,
+                    new ServerFormat29((uint)Aisling.Serial, (uint)Source.Serial,
+                    subject?.TargetAnimation ?? 124,
+                    subject?.TargetAnimation ?? 124, 100));
+            }
+        }
+
+        public bool PayPrerequisites(LearningPredicate prerequisites)
+        {
+            if (prerequisites == null)
+            {
+                return false;
+            }
+
+            if (prerequisites.Gold_Required > 0)
+            {
+                Aisling.GoldPoints -= prerequisites.Gold_Required;
+                if (Aisling.GoldPoints <= 0)
+                    Aisling.GoldPoints = 0;
+            }
+
+            PayItemPrerequisites(prerequisites);
+            {
+                SendStats(StatusFlags.All);
+                return true;
+            }
+        }
+
+        private void PayItemPrerequisites(LearningPredicate prerequisites)
+        {
+            if (prerequisites.Items_Required != null && prerequisites.Items_Required.Count > 0)
+            {
+                foreach (var retainer in prerequisites.Items_Required)
+                {
+                    var item = Aisling.Inventory.Get(i => i.Template.Name == retainer.Item);
+
+                    if (item.FirstOrDefault().Stacks == retainer.AmountRequired
+                        || item.Length + 1 >= retainer.AmountRequired)
+                    {
+                        var taken       = 0;
+                        var BatchToTake = new List<Item>();
+                        foreach (var i in item)
+                        {
+                            if (taken <= retainer.AmountRequired)
+                            {
+                                if (i.Stacks >= retainer.AmountRequired)
+                                {
+                                    i.Stacks -= (byte)retainer.AmountRequired;
+                                    {
+                                        Send(new ServerFormat0F(i));
+                                    }
+
+                                    if (i.Stacks <= 0)
+                                        BatchToTake.Add(i);
+
+                                    taken = retainer.AmountRequired;
+                                    break;
+                                }
+                                else
+                                {
+                                    taken++;
+                                    BatchToTake.Add(i);
+                                }
+                            }
+                        }
+                        BatchToTake.ForEach(i =>
+                        {
+                            Aisling.EquipmentManager.RemoveFromInventory(i, i.Template.CarryWeight > 0);
+                        });
+                    }
+                }
+            }
         }
 
         public void TransitionToMap(Area area, Position position)
