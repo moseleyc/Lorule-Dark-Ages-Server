@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.Login;
 using Darkages.Network.Object;
@@ -239,6 +240,35 @@ namespace Darkages
                 LoadWorldMapTemplates();
                 CacheCommunityAssets();
             }
+
+
+            //var s = GlobalSkillTemplateCache["Double Punch"];
+            //s.Prerequisites = new LearningPredicate();
+            //s.Prerequisites.Skill_Level_Required = 30;
+            //s.Prerequisites.Skill_Required = "Assail";
+            //s.Prerequisites.Skill_Tier_Required = 0;
+            //s.Prerequisites.Str_Required = 12;
+            //s.Prerequisites.Dex_Required = 8;
+            //s.Prerequisites.Con_Required = 19;
+            //s.Prerequisites.Class_Required = Class.Monk;
+            //s.Prerequisites.Stage_Required = ClassStage.Class;
+            //s.Prerequisites.ExpLevel_Required = 9;
+            //s.Prerequisites.Gold_Required = 5000;
+            //s.Prerequisites.Items_Required.Add(new ItemPredicate() { Item = "Dirk", AmountRequired = 1 });
+
+            //s.NpcKey = "Learn Skills";
+
+            //StorageManager.SKillBucket.Save(s, true);
+
+            foreach (var s in GlobalItemTemplateCache.Values)
+            {
+                s.DropRate = Generator.Random.NextDouble() + (s.LevelRequired * 100 / 100 * 0.01);
+            }
+
+            GlobalItemTemplateCache["Dirk"].Flags |= ItemFlags.Stackable;
+            GlobalItemTemplateCache["Dirk"].CanStack = true;
+            GlobalItemTemplateCache["Dirk"].MaxStack = byte.MaxValue;
+
 
             Console.WriteLine("\n");
         }

@@ -36,6 +36,11 @@ namespace Darkages.Types
             return Items.Values.Where(i => i != null && prediate(i)).ToArray();
         }
 
+        public new Item Return(Predicate<Item> prediate)
+        {
+            return Items.Values.Where(i => i != null && prediate(i)).FirstOrDefault();
+        }
+
         public void Set(Item s)
         {
             Items[s.Slot] = Clone(s);
@@ -61,6 +66,12 @@ namespace Darkages.Types
             Items[s.Slot] = clone ? Clone(s) : s;
         }
 
+        public void Remove(GameClient client, Item item)
+        {
+            Remove(item.Slot);
+            client.Send(new ServerFormat10(item.Slot));
+        }
+
         public Item Remove(byte movingFrom)
         {
             var copy = Items[movingFrom];
@@ -74,6 +85,14 @@ namespace Darkages.Types
                 .Select(i => i.Value).ToList();
 
             return items.Sum(i => i.Stacks);
+        }
+
+        public void UpdateWeight(Aisling owner, Item item)
+        {
+            owner.CurrentWeight -= item.Template.CarryWeight;
+
+            if (owner.CurrentWeight < 0)
+                owner.CurrentWeight = 0;
         }
 
         public void RemoveRange(GameClient client, Item item, int range)

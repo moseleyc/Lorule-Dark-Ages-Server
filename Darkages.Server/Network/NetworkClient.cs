@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
@@ -16,9 +17,6 @@ namespace Darkages.Network
         : ObjectManager
     {
         private readonly Queue<NetworkFormat> _sendBuffers = new Queue<NetworkFormat>();
-
-        private byte _lastFormat;
-        private int _matches;
         private bool _sending;
         public int Errors;
 
@@ -91,13 +89,13 @@ namespace Darkages.Network
                     return;
 
                 _sending = true;
-                ThreadPool.QueueUserWorkItem(SendBuffers);
+                Task.Run(() => SendBuffers());
             }
         }
 
-        private void SendBuffers(object state)
+        private void SendBuffers()
         {
-            while (true)
+            while (_sending)
             {
                 NetworkFormat format;
 
@@ -151,7 +149,7 @@ namespace Darkages.Network
                         Encryption.Transform(packet);
 
                     var buffer = packet.ToArray();
-                    Socket.BeginSend(buffer, 0, buffer.Length, 0, SendCallback, Socket);
+                    Socket.Send(buffer);
                 }
             }
         }
@@ -165,28 +163,7 @@ namespace Darkages.Network
                 Writer.Write(Ordinal++);
 
             format.Serialize(Writer);
-
-            if (_lastFormat == format.Command)
-            {
-                ++_matches;
-            }
-            else
-            {
-                _lastFormat = format.Command;
-                _matches = 0;
-            }
-
-            return _matches < (format is ServerFormat3C
-                       ? ServerContext.Config.PacketOverflowLimit
-                       : ServerContext.Config.ServerOverflowTolerate);
-        }
-
-        private void SendCallback(IAsyncResult ar)
-        {
-            var client = (Socket) ar.AsyncState;
-            {
-                client.EndSend(ar);
-            }
+            return true;
         }
 
         public void Send(NetworkFormat format)

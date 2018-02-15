@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Darkages.Network.Game.Components;
+using Darkages.Network.Object;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Darkages.Network.Game.Components;
-using Darkages.Network.Object;
 
 namespace Darkages.Network.Game
 {
@@ -83,13 +81,16 @@ namespace Darkages.Network.Game
             ServerTimer = new GameServerTimer(TimeSpan.FromMilliseconds(ServerContext.Config.MinimalLatency));
             ObjectFactory = new ObjectService();
 
-            Components = new Dictionary<Type, GameServerComponent>();
-            Components[typeof(MonolithComponent)] = new MonolithComponent(this);
-            Components[typeof(DaytimeComponent)] = new DaytimeComponent(this);
-            Components[typeof(MundaneComponent)] = new MundaneComponent(this);
-            Components[typeof(MessageComponent)] = new MessageComponent(this);
-            Components[typeof(ObjectComponent)] = new ObjectComponent(this);
-            Components[typeof(PingComponent)] = new PingComponent(this);
+            Components = new Dictionary<Type, GameServerComponent>
+            {
+                [typeof(MonolithComponent)] = new MonolithComponent(this),
+                [typeof(DaytimeComponent)] = new DaytimeComponent(this),
+                [typeof(MundaneComponent)] = new MundaneComponent(this),
+                [typeof(MessageComponent)] = new MessageComponent(this),
+                [typeof(ObjectComponent)] = new ObjectComponent(this),
+                [typeof(PingComponent)] = new PingComponent(this),
+                [typeof(ServerCacheComponent)] = new ServerCacheComponent(this)
+            };
 
             Console.WriteLine(Components.Count + " Server Components loaded.");
         }
@@ -123,20 +124,7 @@ namespace Darkages.Network.Game
             foreach (var area in ServerContext.GlobalMapCache.Values)
             {
                 area.Update(elapsedTime);
-
-                UpdateGroundItems(area);
             }
-        }
-
-        private static void UpdateGroundItems(Area area)
-        {
-            var objects = area?.GetObjects(i => i != null && i.CurrentMapId == area.ID, Get.Items | Get.Money);
-
-            if (objects != null)
-                foreach (var obj in objects)
-                    if (obj != null)
-                        if (obj.AislingsNearby().Length > 0)
-                            obj.CreationDate = DateTime.UtcNow;
         }
 
         private void UpdateClients(TimeSpan elapsedTime)

@@ -3,6 +3,7 @@
     public class SkillTemplate : Template
     {
         public int ID { get; set; }
+
         public byte Icon { get; set; }
 
         public string ScriptName { get; set; }
@@ -21,7 +22,7 @@
 
         public SkillScope Type { get; set; }
 
-        public SkillPane Pane { get; set; }
+        public Pane Pane { get; set; }
 
         public PostQualifer PostQualifers { get; set; }
 
@@ -30,5 +31,11 @@
         public Debuff Debuff { get; set; }
 
         public Buff Buff { get; set; }
+
+        public LearningPredicate Prerequisites { get; set; }
+
+        public string NpcKey { get; set; }
+
+        public Tier TierLevel { get; set; }
     }
 }

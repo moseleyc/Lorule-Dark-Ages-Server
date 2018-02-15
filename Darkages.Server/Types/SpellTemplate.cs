@@ -34,6 +34,13 @@
         public byte Sound { get; set; }
         public ushort Animation { get; set; }
         public double DamageExponent { get; set; }
+        public Pane Pane { get; set; }
         public ElementManager.Element ElementalProperty { get; set; }
+
+        public LearningPredicate Prerequisites { get; set; }
+
+        public string NpcKey { get; set; }
+
+        public Tier TierLevel { get; set; }
     }
 }

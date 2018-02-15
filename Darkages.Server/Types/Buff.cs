@@ -17,6 +17,9 @@ namespace Darkages.Types
         public virtual int Length { get; set; }
         public virtual byte Icon { get; set; }
 
+        public virtual int value  { get; set; }
+
+
         [JsonIgnore] public GameServerTimer Timer { get; set; }
 
         public bool Has(string name)

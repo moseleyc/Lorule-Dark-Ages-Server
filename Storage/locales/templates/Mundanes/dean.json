@@ -1,8 +1,8 @@
 {
   "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
-  "Image": 16395,
+  "Image": 0x43CC,
   "Level": 99,
-  "ScriptKey": "repairsell",
+  "ScriptKey": "Learn Skills",
   "EnableWalking": false,
   "EnableTurning": false,
   "EnableAttacking": false,

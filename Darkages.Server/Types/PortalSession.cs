@@ -2,6 +2,7 @@
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
 using Newtonsoft.Json;
+using System;
 
 namespace Darkages
 {
@@ -14,6 +15,7 @@ namespace Darkages
 
         public bool IsMapOpen { get; set; }
         public int FieldNumber { get; set; }
+        public DateTime DateOpened { get; set; }
 
         [JsonIgnore]
         public WorldMapTemplate Template
@@ -21,16 +23,16 @@ namespace Darkages
 
         public void ShowFieldMap(GameClient client)
         {
-            if (client.Aisling.PortalSession == null)
-                client.Aisling.PortalSession
-                    = new PortalSession
-                    {
-                        FieldNumber = 1,
-                        IsMapOpen = false
-                    };
+            client.Aisling.PortalSession
+                = new PortalSession
+                {
+                    FieldNumber = 1,
+                    IsMapOpen = false,
+                    DateOpened = DateTime.UtcNow
+                };
 
             client.Send(new ServerFormat2E(client.Aisling));
-            IsMapOpen = true;
+            client.Aisling.PortalSession.IsMapOpen = true;
         }
 
         public void TransitionToMap(GameClient client,

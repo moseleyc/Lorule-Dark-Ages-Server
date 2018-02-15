@@ -122,19 +122,22 @@ namespace Darkages.Types
                 }
             }
 
-            if (Template.TurnTimer != null)
+            if (Template.EnableTurning)
             {
-                Template.TurnTimer.Update(update);
-                if (Template.TurnTimer.Elapsed)
+                if (Template.TurnTimer != null)
                 {
-                    lock (Generator.Random)
+                    Template.TurnTimer.Update(update);
+                    if (Template.TurnTimer.Elapsed)
                     {
-                        Direction = (byte) Generator.Random.Next(0, 4);
+                        lock (Generator.Random)
+                        {
+                            Direction = (byte)Generator.Random.Next(0, 4);
+                        }
+
+                        Turn();
+
+                        Template.TurnTimer.Reset();
                     }
-
-                    Turn();
-
-                    Template.TurnTimer.Reset();
                 }
             }
 

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Storage;
 using Darkages.Storage.locales.Scripts.Global;
 using Darkages.Types;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Darkages.Network.Game
 {
@@ -39,11 +38,15 @@ namespace Darkages.Network.Game
         public Aisling Aisling { get; set; }
 
         public bool ShouldUpdateMap { get; set; }
+
         public DateTime LastMessageSent { get; set; }
+
         public DateTime LastPingResponse { get; set; }
+
         public byte LastActivatedLost { get; set; }
 
         public DialogSession DlgSession { get; set; }
+
         public DateTime BoardOpened { get; set; }
 
         public ushort LastBoardActivated { get; set; }
@@ -91,6 +94,87 @@ namespace Darkages.Network.Game
                     Aisling.Y = warps.To.Location.Y;
                     EnterArea();
                     Aisling.Client.CloseDialog();
+                }
+            }
+        }
+
+        public void LearnSkill(Mundane Source, SkillTemplate subject, string message)
+        {
+            if (PayPrerequisites(subject.Prerequisites))
+            {
+                Skill.GiveTo(this, subject.Name);
+                SendOptionsDialog(Source, message);
+
+                Aisling.Show(Scope.NearbyAislings,
+                    new ServerFormat29((uint)Aisling.Serial, (uint)Source.Serial,
+                    subject?.TargetAnimation ?? 124,
+                    subject?.TargetAnimation ?? 124, 100));
+            }
+        }
+
+        public bool PayPrerequisites(LearningPredicate prerequisites)
+        {
+            if (prerequisites == null)
+            {
+                return false;
+            }
+
+            if (prerequisites.Gold_Required > 0)
+            {
+                Aisling.GoldPoints -= prerequisites.Gold_Required;
+                if (Aisling.GoldPoints <= 0)
+                    Aisling.GoldPoints = 0;
+            }
+
+            PayItemPrerequisites(prerequisites);
+            {
+                SendStats(StatusFlags.All);
+                return true;
+            }
+        }
+
+        private void PayItemPrerequisites(LearningPredicate prerequisites)
+        {
+            if (prerequisites.Items_Required != null && prerequisites.Items_Required.Count > 0)
+            {
+                foreach (var retainer in prerequisites.Items_Required)
+                {
+                    var item = Aisling.Inventory.Get(i => i.Template.Name == retainer.Item);
+
+                    if (item.FirstOrDefault().Stacks == retainer.AmountRequired
+                        || item.Length + 1 >= retainer.AmountRequired)
+                    {
+                        var taken       = 0;
+                        var BatchToTake = new List<Item>();
+                        foreach (var i in item)
+                        {
+                            if (taken <= retainer.AmountRequired)
+                            {
+                                if (i.Stacks >= retainer.AmountRequired)
+                                {
+                                    i.Stacks -= (byte)retainer.AmountRequired;
+                                    {
+                                        Send(new ServerFormat0F(i));
+                                    }
+
+                                    if (i.Stacks <= 0)
+                                        BatchToTake.Add(i);
+
+                                    taken = retainer.AmountRequired;
+                                    break;
+                                }
+                                else
+                                {
+                                    taken++;
+                                    BatchToTake.Add(i);
+                                }
+                            }
+                        }
+                        BatchToTake.ForEach(i =>
+                        {
+                            Aisling.EquipmentManager.RemoveFromInventory(i, i.Template.CarryWeight > 0);
+                        });
+                    }
                 }
             }
         }
@@ -149,7 +233,7 @@ namespace Darkages.Network.Game
 
             #endregion
 
-            Server.ObjectPulseController?.OnObjectUpdate(Aisling);
+            Server?.ObjectPulseController?.OnObjectUpdate(Aisling);
 
             UpdateGlobalScripts(elapsedTime);
 
@@ -157,6 +241,22 @@ namespace Darkages.Network.Game
 
             UpdateStatusBar(elapsedTime);
 
+            HandleTimeOuts();
+        }
+
+        private void HandleTimeOuts()
+        {
+            if (Aisling.PortalSession == null)
+                return;
+
+            if (Aisling.PortalSession.IsMapOpen)
+            {
+                if ((DateTime.UtcNow - Aisling.PortalSession.DateOpened).TotalSeconds > 10)
+                {
+                    Aisling.GoHome();
+                    Aisling.PortalSession = null;
+                }
+            }        
         }
 
         private void UpdateStatusBar(TimeSpan elapsedTime)
@@ -255,6 +355,8 @@ namespace Darkages.Network.Game
         {
             LastPingResponse = DateTime.UtcNow;
             BoardOpened = DateTime.UtcNow;
+            Aisling.PortalSession = null;
+            Aisling.LastMapId = short.MaxValue;
 
             if (Aisling == null || Aisling.AreaID == 0)
                 return false;
@@ -308,6 +410,8 @@ namespace Darkages.Network.Game
 
         private void LoadEquipment()
         {
+            var formats = new List<NetworkFormat>();
+
             foreach (var item in Aisling.EquipmentManager.Equipment)
             {
                 var equipment = item.Value;
@@ -315,13 +419,14 @@ namespace Darkages.Network.Game
                 if (equipment == null || equipment.Item == null || equipment.Item.Template == null)
                     continue;
 
-                Send(new ServerFormat37(equipment.Item, (byte) equipment.Slot));
+
                 equipment.Item.Script =
                     ScriptManager.Load<ItemScript>(equipment.Item.Template.ScriptName, equipment.Item);
                 equipment.Item.Script?.Equipped(Aisling, (byte) equipment.Slot);
 
                 if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                 {
+                    formats.Add(new ServerFormat37(equipment.Item, (byte)equipment.Slot));
                     Aisling.CurrentWeight += equipment.Item.Template.CarryWeight;
                 }
                 //for some reason, Aisling is out of Weight!
@@ -345,6 +450,9 @@ namespace Darkages.Network.Game
                             equipment.Item.UpdateSpellSlot(this, spell.Slot);
                     }
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadSpellBook()
@@ -352,16 +460,23 @@ namespace Darkages.Network.Game
             var spells_Available = Aisling.SpellBook.Spells.Values
                 .Where(i => i != null && i.Template != null).ToArray();
 
+            var formats = new List<NetworkFormat>();
+
             for (var i = 0; i < spells_Available.Length; i++)
             {
                 var spell = spells_Available[i];
                 spell.InUse = false;
                 spell.NextAvailableUse = DateTime.UtcNow;
-                Send(new ServerFormat17(spell));
+
                 spell.Lines = spell.Template.BaseLines;
                 spell.Script = ScriptManager.Load<SpellScript>(spell.Template.ScriptKey, spell);
                 Aisling.SpellBook.Set(spell, false);
+
+                formats.Add(new ServerFormat17(spell));
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadSkillBook()
@@ -369,24 +484,34 @@ namespace Darkages.Network.Game
             var skills_Available = Aisling.SkillBook.Skills.Values
                 .Where(i => i != null && i.Template != null).ToArray();
 
+            var formats = new List<NetworkFormat>();
+
             for (var i = 0; i < skills_Available.Length; i++)
             {
                 var skill = skills_Available[i];
                 skill.InUse = false;
                 skill.NextAvailableUse = DateTime.UtcNow;
-                Send(new ServerFormat2C(skill.Slot,
+
+                formats.Add(new ServerFormat2C(skill.Slot,
                     skill.Icon,
                     skill.Name));
+
 
                 skill.Script = ScriptManager.Load<SkillScript>(skill.Template.ScriptName, skill);
                 Aisling.SkillBook.Set(skill, false);
             }
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         private void LoadInventory()
         {
             var items_Available = Aisling.Inventory.Items.Values
                 .Where(i => i != null && i.Template != null).ToArray();
+
+            var formats = new List<NetworkFormat>();
+
 
             for (var i = 0; i < items_Available.Length; i++)
             {
@@ -400,7 +525,7 @@ namespace Darkages.Network.Game
                     if (Aisling.CurrentWeight <= Aisling.MaximumWeight)
                     {
                         var format = new ServerFormat0F(item);
-                        Send(format);
+                        formats.Add(format);
                         Aisling.Inventory.Set(item, false);
                     }
                     //for some reason, Aisling is out of Weight!
@@ -415,6 +540,10 @@ namespace Darkages.Network.Game
                     }
                 }
             }
+
+
+            foreach (var format in formats)
+                Aisling.Client.Send(format);
         }
 
         public void UpdateDisplay()
@@ -447,7 +576,11 @@ namespace Darkages.Network.Game
 
         public void LeaveArea(bool update = false, bool delete = false)
         {
-            Aisling.LastMapId = Aisling.CurrentMapId;
+            if (Aisling.LastMapId == short.MaxValue)
+            {
+                Aisling.LastMapId = Aisling.CurrentMapId;
+            }
+
             Aisling.Remove(update, delete);
         }
 
@@ -492,14 +625,13 @@ namespace Darkages.Network.Game
 
             if (ShouldUpdateMap)
             {
-                Aisling.ViewFrustrum = new List<Sprite>();
+                Aisling.ViewFrustrum.Clear();
                 Send(new ServerFormat15(Aisling.Map));
             }
         }
 
         public void RefreshObjects()
         {
-            //Show Nearby Objects to self.
             var nearbyobjs = GetObjects(i => i.WithinRangeOf(Aisling), Get.All);
             foreach (var obj in nearbyobjs)
             {
@@ -529,7 +661,6 @@ namespace Darkages.Network.Game
                 Aisling.AreaID = Aisling.CurrentMapId;
 
             StorageManager.AislingBucket.Save(Aisling);
-            ServerContext.SaveCommunityAssets();
             LastSave = DateTime.UtcNow;
         }
 
@@ -576,6 +707,13 @@ namespace Darkages.Network.Game
                         obj.Client.SendMessage(type, text);
                 }
                     break;
+                case Scope.All:
+                    {
+                        var nearby = GetObjects<Aisling>(i => i.LoggedIn);
+                        foreach (var obj in nearby)
+                            obj.Client.SendMessage(type, text);
+                    }
+                    break;
             }
         }
 
@@ -593,7 +731,7 @@ namespace Darkages.Network.Game
 
         public void SendAnimation(ushort Animation, Sprite To, Sprite From, byte speed = 100, bool repeat = false)
         {
-            var format = new ServerFormat29((uint) From.Serial, (uint) To.Serial, Animation, 0, speed);
+            var format = new ServerFormat29((uint)From.Serial, (uint)To.Serial, Animation, 0, speed);
 
             if (!repeat)
             {
@@ -601,19 +739,25 @@ namespace Darkages.Network.Game
                 return;
             }
 
-            if (To is Aisling)
-                new TaskFactory().StartNew(() =>
+            new TaskFactory().StartNew(() =>
+            {
+                while (true)
                 {
-                    while (true)
-                    {
-                        if (!Aisling.InsideView(To))
-                            break;
+                    if (To == null)
+                        break;
 
-                        (To as Aisling).Show(Scope.NearbyAislings, format);
+                    if (From == null)
+                        break;
 
-                        Thread.Sleep(1000);
-                    }
-                });
+                    if (!Aisling.WithinRangeOf(To, 6))
+                        break;
+
+
+                    To?.Show(Scope.NearbyAislings, format);
+
+                    Thread.Sleep(1000);
+                }
+            });
         }
 
         public void SendItemShopDialog(Mundane mundane, string text, ushort step, IEnumerable<ItemTemplate> items)

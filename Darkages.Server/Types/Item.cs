@@ -10,6 +10,7 @@ namespace Darkages.Types
 {
     public class Item : Sprite
     {
+
         public ItemTemplate Template { get; set; }
 
         public bool Cursed { get; set; }
@@ -20,8 +21,6 @@ namespace Darkages.Types
 
         public ushort? DisplayImage { get; set; }
 
-        public string DisplayName { get; set; }
-
         public ushort Stacks { get; set; }
 
         [JsonIgnore] public ItemScript Script { get; set; }
@@ -31,6 +30,48 @@ namespace Darkages.Types
         public uint Durability { get; set; }
 
         public byte Color { get; set; }
+
+        public int Upgrades { get; set; }
+
+        public Type Type { get; set; }
+
+        [JsonIgnore]
+        public Sprite[] AuthenticatedAislings { get; set; }
+
+        [JsonIgnore]
+        public string DisplayName
+        {
+            get
+            {
+                if (Upgrades == 4)
+                {
+                    return "{=fRare " + Template.Name;
+                }
+
+                if (Upgrades == 5)
+                {
+                    return "{=pEpic " + Template.Name;
+                }
+
+                if (Upgrades == 6)
+                {
+                    return "{=sLegendary " + Template.Name;
+                }
+
+                if (Upgrades == 7)
+                {
+                    return "{=bGodly " + Template.Name;
+                }
+
+                if (Upgrades == 8)
+                {
+                    return "{=uForsaken " + Template.Name;
+                }
+
+
+                return Template.Name;
+            }
+        }
 
         public bool GiveTo(Sprite sprite, bool checkWeight = true, byte slot = 0)
         {
@@ -612,6 +653,7 @@ namespace Darkages.Types
 
             var obj = new Item
             {
+                AbandonedDate = DateTime.UtcNow,
                 CreationDate = DateTime.UtcNow,
                 Template = itemtemplate,
                 X = Owner.X,
@@ -620,17 +662,17 @@ namespace Darkages.Types
                 DisplayImage = itemtemplate.DisplayImage,
                 CurrentMapId = Owner.CurrentMapId,
                 Cursed = curse,
-                Owner = (uint) Owner.Serial,
-                DisplayName = itemtemplate.Name,
+                Owner = (uint)Owner.Serial,
                 Durability = itemtemplate.MaxDurability,
                 OffenseElement = itemtemplate.OffenseElement,
                 DefenseElement = itemtemplate.DefenseElement
             };
 
+            obj.AuthenticatedAislings = null;
             obj.Map = Owner.Map;
 
             if (obj.Color == 0)
-                obj.Color = (byte) ServerContext.Config.DefaultItemColor;
+                obj.Color = (byte)ServerContext.Config.DefaultItemColor;
 
             if (obj.Template.Flags.HasFlag(ItemFlags.Repairable))
             {
@@ -654,6 +696,92 @@ namespace Darkages.Types
             return obj;
         }
 
+        public static void ApplyQuality(Item obj)
+        {
+            if (obj.Upgrades > 0)
+            {
+                if (obj.Template.AcModifer != null)
+                {
+                    if (obj.Template.AcModifer.Option == StatusOperator.Operator.Remove)
+                    {
+                        obj.Template.AcModifer.Value -= -(obj.Upgrades);
+                    }
+                }
+
+                if (obj.Template.MrModifer != null)
+                {
+                    if (obj.Template.MrModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.MrModifer.Value += (obj.Upgrades * 10);
+                }
+
+                if (obj.Template.HealthModifer != null)
+                {
+                    if (obj.Template.HealthModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.HealthModifer.Value += (500 * obj.Upgrades);
+                }
+
+                if (obj.Template.ManaModifer != null)
+                {
+                    if (obj.Template.ManaModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.ManaModifer.Value += (300 * obj.Upgrades);
+                }
+
+                if (obj.Template.StrModifer != null)
+                {
+                    if (obj.Template.StrModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.StrModifer.Value += obj.Upgrades;
+                }
+
+                if (obj.Template.IntModifer != null)
+                {
+                    if (obj.Template.IntModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.IntModifer.Value += obj.Upgrades;
+                }
+
+                if (obj.Template.WisModifer != null)
+                {
+                    if (obj.Template.WisModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.WisModifer.Value += obj.Upgrades;
+                }
+                if (obj.Template.ConModifer != null)
+                {
+                    if (obj.Template.ConModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.ConModifer.Value += obj.Upgrades;
+                }
+
+                if (obj.Template.DexModifer != null)
+                {
+                    if (obj.Template.DexModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.DexModifer.Value += obj.Upgrades;
+                }
+
+                if (obj.Template.DmgModifer != null)
+                {
+                    if (obj.Template.DmgModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.DmgModifer.Value += obj.Upgrades;
+                }
+
+                if (obj.Template.HitModifer != null)
+                {
+                    if (obj.Template.HitModifer.Option == StatusOperator.Operator.Add)
+                        obj.Template.HitModifer.Value += obj.Upgrades;
+                }
+
+                obj.Template.LevelRequired -= (byte)obj.Upgrades;
+                obj.Template.Value *= (byte)obj.Upgrades;
+                obj.Template.MaxDurability += (byte)(1500 * obj.Upgrades);
+                obj.Template.DmgMax += (100 * obj.Upgrades);
+                obj.Template.DmgMin += ( 20 * obj.Upgrades);
+
+
+                if (obj.Template.LevelRequired <= 0 || obj.Template.LevelRequired > 99)
+                {
+                    obj.Template.LevelRequired = 1;
+                }
+
+            }
+        }
+
         public void Release(Sprite owner, Position position)
         {
             X = position.X;
@@ -665,7 +793,15 @@ namespace Darkages.Types
             }
 
             CurrentMapId = owner.CurrentMapId;
-            CreationDate = DateTime.UtcNow;
+            AbandonedDate = DateTime.UtcNow;
+
+            if (owner is Aisling)
+            {
+                CreationDate = DateTime.UtcNow;
+                AuthenticatedAislings = new Sprite[0];
+                Cursed = false;
+            }
+
             Map = owner.Map;
             AddObject(this);
 

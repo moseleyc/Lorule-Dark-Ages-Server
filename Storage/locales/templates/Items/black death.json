@@ -44,7 +44,7 @@
   "LevelRequired": 45,
   "DmgMin": 34,
   "DmgMax": 60,
-  "DropRate": 1.0,
+  "DropRate": 0.3,
   "StageRequired": 0,
   "HasPants": false,
   "Color": 0,

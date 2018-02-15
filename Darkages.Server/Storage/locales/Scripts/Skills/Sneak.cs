@@ -38,7 +38,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
                     client.Aisling.Flags = client.Aisling.Flags == AislingFlags.Invisible
                         ? AislingFlags.Normal
                         : AislingFlags.Invisible;
-                    client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte)Skill.Template.Pane, Skill.Slot, Skill.Template.Cooldown));
                     client.Refresh();
                 }
             }

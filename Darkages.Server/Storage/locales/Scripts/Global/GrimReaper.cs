@@ -74,13 +74,18 @@ namespace Darkages.Storage.locales.Scripts.Global
 
         private static void SendToHell(GameClient client)
         {
-            if (ServerContext.GlobalMapCache.ContainsKey(ServerContext.Config.DeathMap) ||
-                client.Aisling.ExpLevel <= ServerContext.Config.DeathFreeLevelCap)
+            if (!ServerContext.GlobalMapCache.ContainsKey(ServerContext.Config.DeathMap))
+                return;
+
+
+            if (client.Aisling.ExpLevel >= ServerContext.Config.DeathFreeLevelCap)
             {
                 client.Aisling.Show(Scope.NearbyAislings,
                     new ServerFormat29((uint) client.Aisling.Serial,
                         (uint) client.Aisling.Serial, 0x81, 0x81, 100));
 
+                client.Aisling.Remains.Owner = client.Aisling;
+                client.Aisling.Remains.ReepItems();
                 client.LeaveArea(true, true);
                 client.Aisling.X = 13;
                 client.Aisling.Y = 11;
@@ -105,7 +110,7 @@ namespace Darkages.Storage.locales.Scripts.Global
 
         public override void Update(TimeSpan elapsedTime)
         {
-            if (Client != null)
+            if (Client != null && Client.Aisling.LoggedIn)
                 if (Client.Aisling.CurrentHp <= 0)
                 {
                     Client.Aisling.CurrentHp = 0;

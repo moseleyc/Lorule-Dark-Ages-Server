@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Threading.Tasks;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network.ClientFormats;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Darkages.Types;
 using Newtonsoft.Json;
-using static System.Threading.ThreadPool;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 
 namespace Darkages.Network
 {
@@ -19,10 +16,8 @@ namespace Darkages.Network
         where TClient : NetworkClient<TClient>, new()
     {
         private readonly MethodInfo[] _handlers;
-        private readonly Queue<Action> _recvBuffers = new Queue<Action>();
         private Socket _listener;
         private bool _listening;
-        private bool _receiving;
 
         protected NetworkServer(int capacity)
         {
@@ -58,9 +53,6 @@ namespace Darkages.Network
                 var client = new TClient
                 {
                     Socket = new NetworkSocket(socket)
-                    {
-                        LingerState = new LingerOption(false, ServerContext.Config?.DisposeTimeout ?? 1)
-                    }
                 };
 
 
@@ -139,20 +131,6 @@ namespace Darkages.Network
             }
         }
 
-        protected void HandleFormat(TClient client, NetworkFormat format)
-        {
-            //Sanity check on client.
-            if (client == null)
-                return;
-
-            if (_handlers[format.Command] != null)
-                _handlers[format.Command].Invoke(this, new object[]
-                {
-                    client,
-                    format
-                });
-        }
-
         public bool AddClient(TClient client)
         {
             var index = -1;
@@ -214,51 +192,12 @@ namespace Darkages.Network
 
         public virtual void ClientConnected(TClient client)
         {
-            if (ServerContext.Config?.DebugMode ?? false) Console.WriteLine("[{0}]: Client Connected.", client.Serial);
+            if (ServerContext.Config?.DebugMode ?? false)
+                Console.WriteLine("[{0}]: Client Connected.", client.Serial);
         }
 
-        public void Recv(Action format)
-        {
-            lock (_recvBuffers)
-            {
-                _recvBuffers.Enqueue(format);
-                if (_receiving)
-                    return;
-
-                _receiving = true;
-                QueueUserWorkItem(ConsumeRecvBuffers, _recvBuffers);
-            }
-        }
-
-        private void ConsumeRecvBuffers(object state)
-        {
-            while (true)
-            {
-                Action format;
-
-                lock (state)
-                {
-                    if (_recvBuffers.Count == 0)
-                    {
-                        _receiving = false;
-                        return;
-                    }
-
-                    format = _recvBuffers.Dequeue();
-                }
-
-                Task.Run(format).Wait();
-            }
-        }
 
         public virtual void ClientDataReceived(TClient client, NetworkPacket packet)
-        {
-            Recv(()
-                => ProcessFormat(client, packet));
-        }
-
-
-        public void ProcessFormat(TClient client, NetworkPacket packet)
         {
             var format = NetworkFormatManager.GetClientFormat(packet.Command);
 
@@ -280,11 +219,6 @@ namespace Darkages.Network
                 {
                     //ignore   
                 }
-            }
-            else
-            {
-                if (ServerContext.Config.DebugMode)
-                    Console.WriteLine("Unhandled Client Format: 0x{0}", packet.Command);
             }
         }
 

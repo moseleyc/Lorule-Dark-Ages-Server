@@ -2,6 +2,7 @@
 
 # Lorule-Dark-Ages-Server
 ## Discord- https://discord.gg/PwbFH3T
+## Official Website: http://darkages.creatorlink.net/
 
 out-of-the-box Sand box Server For Dark Ages Client 7.18
 
@@ -86,67 +87,6 @@ Lorule Client Launcher Download:
             -- The rest of the information can be set yourself, IP, port, Ect.
 
 One more thing, run launcher as administrator if it fails, darkages will also need to run as **administrator**.
-
-## Projects
-
-
-# Client Launcher (DarkagesLauncher.csproj)
-    - Used to connect you and your users to a lorule server, by default the client is configured to run on localhost.
-    - Requires Administrator Privlages, 
-    
-# Darkages (Darkages.csproj)
-    - This is the Main Server Interface, It references the main server library and act's as a front-end to (Darkages.Server)
-    
-# Darkages.Server (Darkages.Server.csproj)
-    - This is the Main Server Library, This contains a ServerConext that acts as a wrapper to Server Instance.
-   
-   For instance if one wanted to create a service proxy, an example of creating a new service instance if
-   desired can be done using this pattern:
-   
-```cs   
-        public class ObjectClient : NetworkClient
-        {
-            public Proxy ProxyServer = new Proxy();
-            public class Proxy : ServerContext
-            {
-
-            }
-        }
-
-        public class ObjectServer : NetworkServer<ObjectClient>
-        {
-            public ObjectServer() : base(1000)
-            {
-
-            }
-
-            public override void Abort()
-            {
-
-            }
-
-            public override void ClientDataReceived(ObjectClient client, NetworkPacket packet)
-            {
-                var objs = client.GetObjects<Monster>(i => true);
-
-            }
-
-            public override void ClientDisconnected(ObjectClient client)
-            {
-            }
-
-            public override void ClientConnected(ObjectClient client)
-            {
-                Console.WriteLine("Object Server Connected.");
-            }
-        }  
-```
-
-This would allow you to interface to the object service from an independant server.
-and be able to handle packets send and received from a running lorule server.
-        
-An example use for this would be a messaging proxy, for relaying communication between aislings across different servers.
-Accessing objects Across Multple Servers, ect.
         
         
         

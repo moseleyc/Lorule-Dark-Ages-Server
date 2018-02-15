@@ -25,11 +25,10 @@ namespace Darkages.Network.Game.Components
 
                 var format20 = new ServerFormat20 {Shade = shade};
 
-                lock (Server.Clients)
+                foreach (var client in Server.Clients)
                 {
-                    foreach (var client in Server.Clients)
-                        if (client != null)
-                            client.Send(format20);
+                    if (client != null)
+                        client.Send(format20);
                 }
 
                 shade += 1;

@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Darkages.Common;
+﻿using Darkages.Common;
 using Darkages.Network;
 using Darkages.Network.Game;
 using Darkages.Network.Object;
 using Darkages.Network.ServerFormats;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
     public abstract class Sprite : ObjectManager
     {
-        private static readonly ThreadLocal<Random> _rnd
-            = new ThreadLocal<Random>(() => new Random());
+        public readonly Random rnd = new Random();
 
         [JsonIgnore] public int[][] Directions =
         {
@@ -75,12 +73,11 @@ namespace Darkages.Types
 
         [JsonIgnore] public Sprite Target { get; set; }
 
-        public Random rnd => _rnd.Value;
-
-
         [JsonIgnore] public Position Position => new Position(X, Y);
 
         [JsonIgnore] public bool Attackable => this is Monster || this is Aisling || this is Mundane;
+
+        [JsonIgnore] public DateTime AbandonedDate { get; set; }
 
         [JsonIgnore] public DateTime CreationDate { get; set; }
 
@@ -179,6 +176,7 @@ namespace Darkages.Types
 
             if (this is Monster)
             {
+                (this as Monster)?.AppendTags(Source);
                 (this as Monster)?.Script?.OnAttacked(Source?.Client);
             }
 
@@ -191,7 +189,10 @@ namespace Darkages.Types
                 {
                     var weapon = client.EquipmentManager.Weapon.Item;
 
-                    dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 5) * client.BonusDmg;
+                    lock (rnd)
+                    {
+                        dmg += rnd.Next(weapon.Template.DmgMin + 1, weapon.Template.DmgMax + 5) * client.BonusDmg;
+                    }
                 }
             }
 
@@ -228,7 +229,7 @@ namespace Darkages.Types
                 else
                 {
                     if (HasDebuff("sleep"))
-                        dmg *= 2;
+                        dmg <<= 1;
 
                     RemoveDebuff("sleep");
 
@@ -455,30 +456,27 @@ namespace Darkages.Types
             }
         }
 
-        /// <summary>
-        ///     Formula : =B2 + (B2 * 10 / (B2 * 1 / A2))
-        /// </summary>
         private int ComputeDmgFromAc(int dmg)
         {
-            if (dmg <= 0)
-                dmg = 5;
+            var hi = Ac + 95 - 100;
+            var lo = Ac - 95 - 100;
 
-            var armor = Ac != 0 ? Ac : 1;
-            var dealt = dmg;
-            var newdmg = 0;
+            var accumulator = Math.Abs(hi) + Math.Abs(lo) / 10;
+            dmg = dmg * accumulator / 100;
 
-            checked
-            {
-                newdmg = dealt + (int) (dmg * 1 / (dmg * 0.5 / armor));
-            }
-
-            return newdmg;
+            return dmg;
         }
 
         public Sprite GetSprite(int x, int y)
         {
             return GetObject(i => i.X == x && i.Y == y, Get.All);
         }
+
+        public Sprite[] GetSprites(int x, int y)
+        {
+            return GetObjects(i => i.X == x && i.Y == y, Get.All);
+        }
+
 
         public List<Sprite> GetInfront(Sprite sprite, int tileCount = 1)
         {
@@ -487,30 +485,38 @@ namespace Darkages.Types
 
         public List<Sprite> GetInfront(int tileCount = 1)
         {
-            if (this is Aisling) return _GetInfront(tileCount).Intersect((this as Aisling).ViewFrustrum).ToList();
+            if (this is Aisling)
+                return _GetInfront(tileCount).Intersect(
+                    (this as Aisling).ViewableObjects).ToList();
 
             return _GetInfront(tileCount).ToList();
         }
 
 
-        private IEnumerable<Sprite> _GetInfront(int tileCount = 1)
+        private List<Sprite> _GetInfront(int tileCount = 1)
         {
+            List<Sprite> results = new List<Sprite>();
+
             for (var i = 1; i <= tileCount; i++)
+            {
                 switch (Direction)
                 {
                     case 0:
-                        yield return GetSprite(X, Y - i);
+                        results.AddRange(GetSprites(X, Y - i));
                         break;
                     case 1:
-                        yield return GetSprite(X + i, Y);
+                        results.AddRange(GetSprites(X + i, Y));
                         break;
                     case 2:
-                        yield return GetSprite(X, Y + i);
+                        results.AddRange(GetSprites(X, Y + i));
                         break;
                     case 3:
-                        yield return GetSprite(X - i, Y);
+                        results.AddRange(GetSprites(X - i, Y));
                         break;
                 }
+            }
+
+            return results;
         }
 
 
@@ -529,8 +535,7 @@ namespace Darkages.Types
 
                     _Str = (byte) (int) (obj.Template.Level * ServerContext.Config.MonsterDamageFactor);
 
-                    dmg = obj.Template.Level * _Str *
-                          (int) (ServerContext.Config.MonsterDamageMultipler * obj.Template.Exponent);
+                    dmg = obj.Template.Level * _Str + 5;
                     _obj.ApplyDamage(this, dmg, false, 1, applied => { });
                 }
                 else if (this is Mundane)
@@ -845,14 +850,26 @@ namespace Darkages.Types
             if (!CanUpdate())
                 return;
 
+            var savedDirection = (byte)((object)(Direction));
+            var update         = false;
+
             lock (rnd)
             {
                 Direction = (byte) rnd.Next(0, 4);
+
+                if (Direction != savedDirection)
+                {
+                    update = true;
+                }
             }
 
-            if (Walk())
+            if (!Walk() && update)
             {
-
+                Show(Scope.NearbyAislings, new ServerFormat11()
+                {
+                    Direction = this.Direction,
+                    Serial = this.Serial
+                });
             }
         }
 

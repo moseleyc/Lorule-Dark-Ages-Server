@@ -30,9 +30,6 @@ namespace Darkages.Storage.locales.debuffs
 
         public override void OnEnded(Sprite Affected, Debuff debuff)
         {
-            if (Name == "beag cradh")
-                Affected.BonusAc -= 20;
-
             if (Affected is Aisling)
             {
                 (Affected as Aisling)

@@ -99,7 +99,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         client.Refresh();
                     }
 
-                    client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte)Skill.Template.Pane, Skill.Slot, Skill.Template.Cooldown));
 
                     var success = Skill.RollDice(rand);
 

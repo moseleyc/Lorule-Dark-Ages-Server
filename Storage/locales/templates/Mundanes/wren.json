@@ -1,0 +1,18 @@
+{
+  "$type": "Darkages.Types.MundaneTemplate, Darkages.Server",
+  "Image": 0x43CD,
+  "Level": 99,
+  "ScriptKey": "Learn Skills",
+  "EnableWalking": false,
+  "EnableTurning": false,
+  "EnableAttacking": false,
+  "EnableSpeech": false,
+  "X": 27,
+  "Y": 12,
+  "AreaID": 150,
+  "Direction": 2,
+  "MaximumHp": 0,
+  "MaximumMp": 0,
+  "QuestKey": "Wren",
+  "Name": "Wren"
+}

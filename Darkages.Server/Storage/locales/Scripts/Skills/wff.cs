@@ -88,7 +88,7 @@ namespace Darkages.Storage.locales.Scripts.Skills
 
                 if (client.Aisling != null && !client.Aisling.Dead)
                 {
-                    client.Send(new ServerFormat3F(1, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte)Skill.Template.Pane, Skill.Slot, Skill.Template.Cooldown));
 
                     var success = Skill.RollDice(rand);
 

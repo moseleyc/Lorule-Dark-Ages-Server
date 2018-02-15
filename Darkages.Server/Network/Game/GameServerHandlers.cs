@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Darkages.Common;
 using Darkages.Network.ClientFormats;
 using Darkages.Network.ServerFormats;
 using Darkages.Scripting;
 using Darkages.Security;
 using Darkages.Storage;
+using Darkages.Storage.locales.Scripts.Monsters;
 using Darkages.Storage.locales.Scripts.Mundanes;
 using Darkages.Types;
 
@@ -29,6 +31,7 @@ namespace Darkages.Network.Game
                 return;
 
             #endregion
+
 
             if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
             {
@@ -241,7 +244,7 @@ namespace Darkages.Network.Game
             if (client.IsRefreshing && !ServerContext.Config.LimitWalkingWhenRefreshing)
                 return;
 
-            if (ServerContext.Config.CancelCastingWhenWalking)
+            if (ServerContext.Config.CancelCastingWhenWalking && client.Aisling.IsCastingSpell || client.Aisling.ActiveSpellInfo != null)
                 CancelIfCasting(client);
 
             #endregion
@@ -326,6 +329,8 @@ namespace Darkages.Network.Game
             client.Aisling.PortalSession.TransitionToMap(client,
                 (short)node.Destination.Location.X,
                 (short)node.Destination.Location.Y, node.Destination.AreaID);
+
+            client.Aisling.PortalSession.IsMapOpen = false;
         }
 
         /// <summary>
@@ -356,12 +361,24 @@ namespace Darkages.Network.Game
                     if (obj?.CurrentMapId != client.Aisling.CurrentMapId)
                         continue;
 
+
+
                     if (obj is Money)
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
 
                     if (obj is Item)
+                    {
+                        if ((obj as Item).Cursed)
+                        {
+                            if ((obj as Item).AuthenticatedAislings.FirstOrDefault(i => i.Serial == client.Aisling.Serial) == null)
+                            {
+                                client.SendMessage(0x02, "You reach for it, But something holds you back.");
+                                continue;
+                            }
+                        }
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+                    }
 
                     if (ServerContext.Config.LootSingleMode)
                         break;
@@ -388,8 +405,18 @@ namespace Darkages.Network.Game
                         (obj as Money).GiveTo((obj as Money).Amount, client.Aisling);
 
                     if (obj is Item)
+                    {
+                        if ((obj as Item).Cursed)
+                        {
+                            if ((obj as Item).AuthenticatedAislings.FirstOrDefault(i => i.Serial == client.Aisling.Serial) == null)
+                            {
+                                client.SendMessage(0x02, "You reach for it, But something holds you back.");
+                                continue;
+                            }
+                        }
                         if ((obj as Item).GiveTo(client.Aisling))
                             obj.Remove<Item>();
+                    }
 
                     if (ServerContext.Config.LootSingleMode)
                         break;
@@ -655,56 +682,60 @@ namespace Darkages.Network.Game
 
             #endregion
 
-
-            if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
+            try
             {
-                CancelIfCasting(client);
-                return;
-            }
-
-            if (client.Aisling.ActiveSpellInfo != null)
-            {
-                client.Aisling.ActiveSpellInfo.Slot = format.Index;
-                client.Aisling.ActiveSpellInfo.Target = format.Serial;
-                client.Aisling.ActiveSpellInfo.Position = format.Point;
-                client.Aisling.ActiveSpellInfo.Data = format.Data;
-
-                var spell = client.Aisling.SpellBook.Get(i => i != null &&
-                                                              i.Slot == client.Aisling.ActiveSpellInfo.Slot)
-                    .FirstOrDefault();
-
-                if (spell?.Script != null)
+                if (client.Aisling.IsSleeping || client.Aisling.IsFrozen)
                 {
+                    CancelIfCasting(client);
+                    return;
+                }
+
+                if (client.Aisling.ActiveSpellInfo != null)
+                {
+                    client.Aisling.ActiveSpellInfo.Slot = format.Index;
+                    client.Aisling.ActiveSpellInfo.Target = format.Serial;
+                    client.Aisling.ActiveSpellInfo.Position = format.Point;
+                    client.Aisling.ActiveSpellInfo.Data = format.Data;
+
+                    var spell = client.Aisling.SpellBook.Get(i => i != null &&
+                                                                  i.Slot == client.Aisling.ActiveSpellInfo.Slot)
+                        .FirstOrDefault();
+
+                    if (spell?.Script != null)
+                    {
+                        client.Aisling.IsCastingSpell = true;
+                        client.Aisling.CastSpell(spell);
+                    }
+                }
+                else
+                {
+                    client.Aisling.ActiveSpellInfo = new CastInfo
+                    {
+                        Position = format.Point,
+                        Slot = format.Index,
+                        SpellLines = 0,
+                        Started = DateTime.UtcNow,
+                        Target = format.Serial,
+                        Data = format.Data
+                    };
+
+                    var spell = client.Aisling.SpellBook.Get(i =>
+                        i != null
+                        && i.Slot == format.Index).FirstOrDefault();
+
+                    if (spell?.Script == null)
+                        return;
+                    if (spell.Template == null)
+                        return;
+
                     client.Aisling.IsCastingSpell = true;
                     client.Aisling.CastSpell(spell);
                 }
             }
-            else
+            finally
             {
-                client.Aisling.ActiveSpellInfo = new CastInfo
-                {
-                    Position = format.Point,
-                    Slot = format.Index,
-                    SpellLines = 0,
-                    Started = DateTime.UtcNow,
-                    Target = format.Serial,
-                    Data = format.Data
-                };
-
-                var spell = client.Aisling.SpellBook.Get(i =>
-                    i != null
-                    && i.Slot == format.Index).FirstOrDefault();
-
-                if (spell?.Script == null)
-                    return;
-                if (spell.Template == null)
-                    return;
-
-                client.Aisling.IsCastingSpell = true;
-                client.Aisling.CastSpell(spell);
+                CancelIfCasting(client);
             }
-
-            CancelIfCasting(client);
         }
 
         /// <summary>
@@ -1196,7 +1227,35 @@ namespace Darkages.Network.Game
                 }
                     break;
                 case Pane.Tools:
-                    break;
+                    {
+                        if (format.MovingTo - 1 > client.Aisling.SpellBook.Length)
+                            return;
+                        if (format.MovingFrom - 1 > client.Aisling.SpellBook.Length)
+                            return;
+                        if (format.MovingTo - 1 < 0)
+                            return;
+                        if (format.MovingFrom - 1 < 0)
+                            return;
+
+                        var a = client.Aisling.SpellBook.Remove(format.MovingFrom);
+                        var b = client.Aisling.SpellBook.Remove(format.MovingTo);
+                        client.Send(new ServerFormat18(format.MovingFrom));
+                        client.Send(new ServerFormat18(format.MovingTo));
+
+                        if (a != null)
+                        {
+                            a.Slot = format.MovingTo;
+                            client.Aisling.SpellBook.Set(a, false);
+                            client.Send(new ServerFormat17(a));
+                        }
+
+                        if (b != null)
+                        {
+                            b.Slot = format.MovingFrom;
+                            client.Aisling.SpellBook.Set(b, false);
+                            client.Send(new ServerFormat17(b));
+                        }
+                    } break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -1541,7 +1600,11 @@ namespace Darkages.Network.Game
 
             var lines = format.Lines;
 
-            if (lines <= 0) return;
+            if (lines <= 0)
+            {
+                CancelIfCasting(client);
+                return;
+            }
 
             if (client.Aisling.ActiveSpellInfo != null)
                 client.Aisling.ActiveSpellInfo = null;

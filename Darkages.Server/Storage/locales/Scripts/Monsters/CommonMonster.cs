@@ -190,10 +190,15 @@ namespace Darkages.Storage.locales.Scripts.Monsters
 
                 if (Monster.Template.PathQualifer.HasFlag(PathQualifer.Patrol))
                 {
-                    if (Monster.Template.Waypoints.Count > 0)
-                        Monster.Patrol();
-                    else
+                    if (Monster.Template.Waypoints == null)
                         Monster.Wander();
+                    else
+                    {
+                        if (Monster.Template.Waypoints?.Count > 0)
+                            Monster.Patrol();
+                        else
+                            Monster.Wander();
+                    }
                 }
                 else
                 {

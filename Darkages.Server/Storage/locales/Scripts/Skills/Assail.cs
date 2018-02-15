@@ -50,7 +50,7 @@ namespace Darkages.Scripting.Scripts.Skills
                 {
                     client.Aisling.Show(Scope.VeryNearbyAislings, new ServerFormat13(0, 0, Skill.Template.Sound));
 
-                    foreach (var i in enemy.Cast<Sprite>())
+                    foreach (var i in enemy)
                     {
                         if (i == null)
                             continue;
@@ -62,18 +62,12 @@ namespace Darkages.Scripting.Scripts.Skills
 
                         if (!i.Attackable)
                             continue;
-                        ;
 
                         Target = i;
 
-                        //=INT(F5 * ($D$5 * $D$7 + $D$6 * $D$6) * ($D$7 + 1*F5))
 
-                        var percent = 0;
-
-                        if (Target is Monster)
-                            percent = Math.Abs((Target as Monster).Template.Level - client.Aisling.ExpLevel) * 99 / 100;
-
-                        var dmg = (Skill.Level + client.Aisling.Str) * percent;
+                        var imp = (Skill.Level * 10 / 100);
+                        var dmg = (client.Aisling.Str + client.Aisling.Dex * imp);
 
                         i.ApplyDamage(sprite, dmg);
 
@@ -112,7 +106,7 @@ namespace Darkages.Scripting.Scripts.Skills
                         client.Refresh();
                     }
 
-                    client.Send(new ServerFormat3F((byte) SkillPane.Default, Skill.Slot, Skill.Template.Cooldown));
+                    client.Send(new ServerFormat3F((byte)Skill.Template.Pane, Skill.Slot, Skill.Template.Cooldown));
 
                     OnSuccess(sprite);
                 }

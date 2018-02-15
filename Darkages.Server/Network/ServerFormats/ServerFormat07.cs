@@ -83,7 +83,7 @@ namespace Darkages.Network.ServerFormats
                     writer.Write((byte) 0x02); // Type
                     writer.WriteStringA((sprite as Mundane).Template.Name);
                 }
-            }
+            } 
         }
     }
 }

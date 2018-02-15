@@ -5,6 +5,7 @@ using Darkages.Scripting;
 using Darkages.Systems.Loot;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Darkages.Types
             WaypointIndex = 0;
         }
 
-        [JsonIgnore] public MonsterScript Script { get; private set; }
+        [JsonIgnore] public MonsterScript Script { get; set; }
 
         public GameServerTimer BashTimer { get; set; }
         public GameServerTimer CastTimer { get; set; }
@@ -54,6 +55,13 @@ namespace Darkages.Types
         public LootTable LootTable { get; set; }
 
         [JsonIgnore]
+        public ConcurrentDictionary<int, Sprite> TaggedAislings { get; set; }
+
+        [JsonIgnore]
+        public LootTable UpgradeTable { get; set; }
+
+
+        [JsonIgnore]
         public LootDropper LootManager { get; set; }
 
         public bool NextTo(int x, int y)
@@ -69,7 +77,7 @@ namespace Darkages.Types
             return NextTo(target.X, target.Y);
         }
 
-        public void GenerateRewards(Aisling player)
+        public void GenerateRewards(Aisling player, bool TestingMode = false)
         {
             if (Rewarded)
                 return;
@@ -80,9 +88,13 @@ namespace Darkages.Types
             if (player.Client.Aisling == null)
                 return;
 
-            GenerateExperience(player);
-            GenerateGold();
-            GenerateDrops();
+            if (!TestingMode)
+            {
+                GenerateExperience(player);
+                GenerateGold();
+            }
+
+            GenerateDrops(TestingMode);
 
             Rewarded = true;
             player.UpdateStats();
@@ -128,30 +140,36 @@ namespace Darkages.Types
 
             player.Client.SendMessage(0x02, string.Format("You received {0} Experience!.", (int)expGained));
 
-            if (player.ExpNext <= 0)
+            while (player.ExpNext <= 0)
             {
-                player.ExpNext = player.ExpTotal * (int)(player.ExpLevel * 0.45) / 6;
-                player._MaximumHp += (int)(50 * player.Con * 0.65);
-                player._MaximumMp += (int)(25 * player.Wis * 0.45);
-                player.StatPoints += 2;
-                player.ExpLevel++;
+                player.ExpNext = (int)(player.ExpLevel * (1 + (player.ExpLevel * (3 + 2 * player.ExpLevel)) / 6 + expGained));
 
-                if (player.ExpLevel > 99)
-                {
-                    player.AbpLevel++;
-                    player.ExpLevel = 99;
-                }
-
-                if (player.AbpLevel > 99)
-                {
-                    player.AbpLevel = 99;
-                    player.GamePoints++;
-                }
-
-                player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
-                player.Show(Scope.NearbyAislings,
-                    new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
+                Levelup(player);
             }
+        }
+
+        private static void Levelup(Aisling player)
+        {
+            player._MaximumHp += (int)(50 * player.Con * 0.65);
+            player._MaximumMp += (int)(25 * player.Wis * 0.45);
+            player.StatPoints += 2;
+            player.ExpLevel++;
+
+            if (player.ExpLevel > 99)
+            {
+                player.AbpLevel++;
+                player.ExpLevel = 99;
+            }
+
+            if (player.AbpLevel > 99)
+            {
+                player.AbpLevel = 99;
+                player.GamePoints++;
+            }
+
+            player.Client.SendMessage(0x02, string.Format(ServerContext.Config.LevelUpMessage, player.ExpLevel));
+            player.Show(Scope.NearbyAislings,
+                new ServerFormat29((uint)player.Serial, (uint)player.Serial, 0x004F, 0x004F, 64));
         }
 
         private void GenerateGold()
@@ -174,7 +192,10 @@ namespace Darkages.Types
 
         private List<string> DetermineDrop()
             => LootManager.Drop(LootTable, rnd.Next(ServerContext.Config.LootTableStackSize))
-                .Select(i => i.Name).ToList();
+                .Select(i => i?.Name).ToList();
+
+        private ItemUpgrade DetermineQuality()
+            => (ItemUpgrade)LootManager.Drop(UpgradeTable, 1).FirstOrDefault();
 
         private void DetermineRandomDrop()
         {
@@ -201,17 +222,49 @@ namespace Darkages.Types
             }
         }
 
-        private void GenerateDrops()
+        private void GenerateDrops(bool TestMode = false)
         {
             if (Template.LootType.HasFlag(LootQualifer.Table))
             {
                 if (LootTable == null || LootManager == null)
                     return;
 
-                DetermineDrop().ForEach(i =>
+                lock (rnd)
                 {
-                    Item.Create(this, GlobalItemTemplateCache[i]).Release(this, Position);
-                });
+                    DetermineDrop().ForEach(i =>
+                    {
+                        if (i != null)
+                        {
+
+                            var rolled_item = Item.Create(this, GlobalItemTemplateCache[i]);
+                            var upgrade = DetermineQuality();
+                            rolled_item.Upgrades = upgrade?.Upgrade ?? 0;
+                            Item.ApplyQuality(rolled_item);
+
+#warning  TODO: remove later. testing roll systems.
+                            if (TestMode)
+                                return;
+
+
+                            rolled_item.Cursed = true;
+                            rolled_item.AuthenticatedAislings = GetTaggedAislings();
+                            rolled_item.Release(this, this.Position);
+
+                            if (rolled_item.Upgrades > 3)
+                            {
+                                var users = GetTaggedAislings();
+                                foreach (var user in users)
+                                {
+                                    var msg = string.Format("{0} Drop!!! ({1})", upgrade?.Name, rolled_item.DisplayName);
+                                    user.Client.SendMessage(3, msg);
+
+                                    //TODO: implement more rarity animations to display.
+                                    user.Client.SendAnimation(341, rolled_item, rolled_item, 0x64, true);
+                                }
+                            }
+                        }
+                    });
+                }
                 return;
             }
             else if (Template.LootType.HasFlag(LootQualifer.Random))
@@ -221,6 +274,12 @@ namespace Darkages.Types
             }
         }
 
+        private Sprite[] GetTaggedAislings()
+        {
+            var tagged = TaggedAislings.Select(i => i.Value).ToArray();
+            return tagged;
+        }
+
         public void Attack()
         {
             var target = Target;
@@ -228,7 +287,30 @@ namespace Darkages.Types
             if (target == null)
                 return;
 
+            AppendTags(target);
             Attack(target);
+        }
+
+        public void AppendTags(Sprite target)
+        {
+            TaggedAislings = new ConcurrentDictionary<int, Sprite>();
+
+            if (target is Aisling)
+            {
+                var aisling = target as Aisling;
+
+                if (!TaggedAislings.ContainsKey(aisling.Serial))
+                    TaggedAislings.TryAdd(aisling.Serial, aisling);
+
+                if (aisling.GroupParty.LengthExcludingSelf > 0)
+                {
+                    foreach (var member in aisling.GroupParty.MembersExcludingSelf)
+                    {
+                        if (!TaggedAislings.ContainsKey(member.Serial))
+                            TaggedAislings.TryAdd(member.Serial, member);
+                    }
+                }
+            }
         }
 
         private static T RandomEnumValue<T>()
@@ -261,6 +343,7 @@ namespace Darkages.Types
             obj.BashTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.AttackSpeed));
             obj.WalkTimer = new GameServerTimer(TimeSpan.FromMilliseconds(template.MovementSpeed));
             obj.CastEnabled = template.MaximumMP > 0;
+            obj.TaggedAislings = new ConcurrentDictionary<int, Sprite>();
 
             if (obj.Template.Grow)
                 obj.Template.Level++;
@@ -270,8 +353,8 @@ namespace Darkages.Types
 
 
             //=E4 / 0.1 * E6 
-            obj.Template.MaximumHP = (int)(obj.Template.Level / 0.1 * 32);
-            obj.Template.MaximumMP = (int)(obj.Template.Level / 0.1 * 16);
+            obj.Template.MaximumHP = (int)(obj.Template.Level / 0.1 * 3);
+            obj.Template.MaximumMP = (int)(obj.Template.Level / 0.1 * 2);
 
             //calculate what ac to give depending on level.
             obj.BonusAc = (sbyte)(70 - 101 / 70 * template.Level);
@@ -279,7 +362,11 @@ namespace Darkages.Types
             if (obj.BonusAc > Config.BaseAC)
                 obj.BonusAc = Config.BaseAC;
 
-            if (obj.Template.ElementType == ElementQualifer.Random)
+            obj.DefenseElement = ElementManager.Element.None;
+            obj.OffenseElement = ElementManager.Element.None;
+
+
+            if (obj.Template.ElementType == ElementQualifer.Random && obj.Template.Level > 3)
             {
                 obj.DefenseElement = RandomEnumValue<ElementManager.Element>();
                 obj.OffenseElement = RandomEnumValue<ElementManager.Element>();
@@ -369,7 +456,7 @@ namespace Darkages.Types
             obj.CurrentMp = template.MaximumMP;
             obj._MaximumHp = template.MaximumHP;
             obj._MaximumMp = template.MaximumMP;
-            obj.CreationDate = DateTime.UtcNow;
+            obj.AbandonedDate = DateTime.UtcNow;
 
             lock (Generator.Random)
             {
@@ -385,9 +472,19 @@ namespace Darkages.Types
             {
                 obj.LootManager = new LootDropper();
                 obj.LootTable = new LootTable(template.Name);
+                obj.UpgradeTable = new LootTable("Probabilities");
 
                 foreach (var drop in obj.Template.Drops)
                     obj.LootTable.Add(GlobalItemTemplateCache[drop]);
+
+                obj.UpgradeTable.Add(new Common());
+                obj.UpgradeTable.Add(new Uncommon());
+                obj.UpgradeTable.Add(new Rare());
+                obj.UpgradeTable.Add(new Epic());
+                obj.UpgradeTable.Add(new Legendary());
+                obj.UpgradeTable.Add(new Mythical());
+                obj.UpgradeTable.Add(new Godly());
+                obj.UpgradeTable.Add(new Forsaken());
             }
 
             return obj;

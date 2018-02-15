@@ -3,9 +3,11 @@
 namespace Darkages.Types
 {
     [Flags]
-    public enum SkillPane
+    public enum Pane
     {
-        Default = 1,
-        Secondary = 2
+        Inventory = 0,
+        Spells = 1,
+        Skills = 2,
+        Tools  = 3,
     }
 }

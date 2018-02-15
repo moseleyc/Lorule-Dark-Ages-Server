@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,7 +13,23 @@ namespace Darkages
     {
         [JsonIgnore] public int DamageCounter = 0;
 
-        [JsonIgnore] public List<Sprite> ViewFrustrum = new List<Sprite>();
+        [JsonIgnore]
+        public ConcurrentDictionary<int, Sprite> ViewFrustrum
+            = new ConcurrentDictionary<int, Sprite>();
+
+        [JsonIgnore]
+        public bool HadDeathExperience { get; set; }
+
+        public CursedSachel Remains { get; set; }
+
+        public List<Sprite> ViewableObjects
+        {
+            get
+            {
+                return ViewFrustrum.Select(i => i.Value).ToList();
+            }
+        }
+
 
         public Aisling()
         {
@@ -32,6 +49,7 @@ namespace Darkages
             PartyStatus = GroupStatus.AcceptingRequests;
             InvitePrivleges = true;
             LeaderPrivleges = false;
+            Remains = new CursedSachel(this);
         }
 
         public int CurrentWeight { get; set; }
@@ -125,6 +143,8 @@ namespace Darkages
 
         public PortalSession PortalSession { get; set; }
         public Position LastPosition { get; set; }
+
+        [JsonIgnore]
         public int LastMapId { get; set; }
 
         [JsonIgnore] public bool LeaderPrivleges { get; set; }
@@ -139,37 +159,12 @@ namespace Darkages
             if (ViewFrustrum.Count == 0)
                 return false;
 
-            try
-            {
-                List<Sprite> _view;
-
-                lock (ViewFrustrum)
-                {
-                    _view = new List<Sprite>(ViewFrustrum)
-                        .ToList();
-                }
-
-                if (_view.Where(t => t != null).Any(t => obj.Serial == t.Serial)) return true;
-            }
-            catch (ArgumentException)
-            {
-                obj.Remove<Monster>();
-                return true;
-            }
-
-            return false;
+            return ViewFrustrum.ContainsKey(obj.Serial);
         }
 
         public void RemoveFromView(Sprite obj)
         {
-            lock (ViewFrustrum)
-            {
-                if (ViewFrustrum.Count == 0)
-                    return;
-
-                if (ViewFrustrum.Contains(obj))
-                    ViewFrustrum.Remove(obj);
-            }
+            ViewFrustrum.TryRemove(obj.Serial, out var removed);
         }
 
         public void GoHome()
@@ -193,7 +188,8 @@ namespace Darkages
 
         public void View(Sprite obj)
         {
-            if (!InsideView(obj)) ViewFrustrum.Add(obj);
+            if (!InsideView(obj))
+                ViewFrustrum.TryAdd(obj.Serial, obj);
         }
 
         public void CastSpell(Spell spell)
@@ -204,6 +200,7 @@ namespace Darkages
                 return;
             }
 
+
             if (spell.InUse)
                 return;
 
@@ -211,6 +208,7 @@ namespace Darkages
 
             if (info != null)
             {
+
                 if (!string.IsNullOrEmpty(info.Data))
                     spell.Script.Arguments = info.Data;
 
@@ -236,7 +234,7 @@ namespace Darkages
                 spell.Script.OnUse(this, this);
             }
 
-            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(0.2);
+            spell.NextAvailableUse = DateTime.UtcNow.AddSeconds(info.SpellLines > 0 ? 0.5 : 0.2);
             spell.InUse = false;
         }
 
@@ -300,11 +298,43 @@ namespace Darkages
                 BootColor = 0
             };
 
-            foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
-                Skill.GiveTo(result, skill);
+            Skill.GiveTo(result, "Assail");
 
+            //foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+            //        continue;
+
+            //    Skill.GiveTo(result, skill);
+            //}
+
+
+            //foreach (var skill in ServerContext.GlobalSkillTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSkillTemplateCache[skill].Pane == Pane.Tools)
+            //    {
+            //        Skill.GiveTo(result, skill, (byte)(72 + idx));
+            //        idx++;
+            //    }
+            //}
+
+            //foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
+            //{
+            //    if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
+            //        continue;
+
+            //    Spell.GiveTo(result, spell);
+            //}
+
+            int idx = 1;
             foreach (var spell in ServerContext.GlobalSpellTemplateCache.Keys)
-                Spell.GiveTo(result, spell);
+            {
+                if (ServerContext.GlobalSpellTemplateCache[spell].Pane == Pane.Tools)
+                {
+                    Spell.GiveTo(result, spell, (byte)(72 + idx));
+                    idx++;
+                }
+            }
 
             result.LegendBook.AddLegend(new Legend.LegendItem
             {

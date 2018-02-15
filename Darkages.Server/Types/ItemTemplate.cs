@@ -1,11 +1,66 @@
-﻿using System.Collections.Generic;
-using Darkages.Systems.Loot;
-using Darkages.Systems.Loot.Interfaces;
+﻿using Darkages.Systems.Loot.Interfaces;
 using Newtonsoft.Json;
 using static Darkages.Types.ElementManager;
 
 namespace Darkages.Types
 {
+    public class ItemUpgrade : ILootDefinition
+    {
+        public virtual string Name { get; set; }
+        public virtual double Weight { get; set; }
+        public virtual int Upgrade { get; set; }
+    }
+
+    public class Common : ItemUpgrade
+    {
+        public override string Name => "Upgraded";
+        public override double Weight => 2.5;
+        public override int Upgrade => 1;
+    }
+
+    public class Uncommon : ItemUpgrade
+    {
+        public override string Name => "Enhanced";
+        public override double Weight => 1.5;
+        public override int Upgrade => 2;
+    }
+    public class Rare : ItemUpgrade
+    {
+        public override string Name => "Rare";
+        public override double Weight => 0.5;
+        public override int Upgrade => 3;
+    }
+    public class Epic : ItemUpgrade
+    {
+        public override string Name => "Epic";
+        public override double Weight => 0.1;
+        public override int Upgrade => 4;
+    }
+    public class Legendary : ItemUpgrade
+    {
+        public override string Name => "Legendary";
+        public override double Weight => 0.05;
+        public override int Upgrade => 5;
+    }
+    public class Mythical : ItemUpgrade
+    {
+        public override string Name => "Mythical";
+        public override double Weight => 0.06;
+        public override int Upgrade => 6;
+    }
+    public class Godly : ItemUpgrade
+    {
+        public override string Name => "Godly";
+        public override double Weight => 0.05;
+        public override int Upgrade => 7;
+    }
+    public class Forsaken : ItemUpgrade
+    {
+        public override string Name => "Forsaken";
+        public override double Weight => 0.02;
+        public override int Upgrade => 8;
+    }
+
     public class ItemTemplate : Template, ILootDefinition
     {
         public int ID { get; set; }
@@ -50,8 +105,6 @@ namespace Darkages.Types
 
         public Element DefenseElement { get; set; }
 
-        public int Upgrades { get; set; }
-
         public byte CarryWeight { get; set; }
 
         public ItemFlags Flags { get; set; }
@@ -81,9 +134,9 @@ namespace Darkages.Types
         public ItemColor Color { get; set; }
 
         [JsonIgnore]
-        public int Weight
+        public double Weight
         {
-            get => (int)DropRate; set { }
+            get => DropRate; set { }
         }
     }
 }
